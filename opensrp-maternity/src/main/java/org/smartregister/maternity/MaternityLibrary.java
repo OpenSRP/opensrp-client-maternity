@@ -1,12 +1,22 @@
 package org.smartregister.maternity;
 
+
+import android.support.annotation.NonNull;
+
 import org.smartregister.Context;
+import org.smartregister.maternity.configuration.OpdConfiguration;
+import org.smartregister.maternity.domain.YamlConfig;
+import org.smartregister.maternity.domain.YamlConfigItem;
+import org.smartregister.maternity.helper.OpdRulesEngineHelper;
+import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.repository.Repository;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.view.activity.DrishtiApplication;
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,6 +40,7 @@ public class MaternityLibrary {
     private Compressor compressor;
     private int applicationVersion;
     private int databaseVersion;
+    private OpdConfiguration opdConfiguration;
 
     private Yaml yaml;
 
@@ -50,14 +61,14 @@ public class MaternityLibrary {
     public static void init(Context context, @NonNull Repository repository, @NonNull OpdConfiguration opdConfiguration
             , int applicationVersion, int databaseVersion) {
         if (instance == null) {
-            instance = new OpdLibrary(context, opdConfiguration, repository, applicationVersion, databaseVersion);
+            instance = new MaternityLibrary(context, opdConfiguration, repository, applicationVersion, databaseVersion);
         }
     }
 
-    public static OpdLibrary getInstance() {
+    public static MaternityLibrary getInstance() {
         if (instance == null) {
             throw new IllegalStateException("Instance does not exist!!! Call "
-                    + OpdLibrary.class.getName()
+                    + MaternityLibrary.class.getName()
                     + ".init method in the onCreate method of "
                     + "your Application class");
         }
@@ -78,84 +89,9 @@ public class MaternityLibrary {
     }
 
     @NonNull
-    public OpdCheckInRepository getCheckInRepository() {
-        if (checkInRepository == null) {
-            checkInRepository = new OpdCheckInRepository(getRepository());
-        }
-
-        return checkInRepository;
-    }
-
-    @NonNull
-    public OpdVisitRepository getVisitRepository() {
-        if (visitRepository == null) {
-            visitRepository = new OpdVisitRepository(getRepository());
-        }
-
-        return visitRepository;
-    }
-
-    @NonNull
-    public OpdDetailsRepository getOpdDetailsRepository() {
-        if (opdDetailsRepository == null) {
-            opdDetailsRepository = new OpdDetailsRepository(getRepository());
-        }
-        return opdDetailsRepository;
-    }
-
-    @NonNull
-    public OpdDiagnosisAndTreatmentFormRepository getOpdDiagnosisAndTreatmentFormRepository() {
-        if (opdDiagnosisAndTreatmentFormRepository == null) {
-            opdDiagnosisAndTreatmentFormRepository = new OpdDiagnosisAndTreatmentFormRepository(getRepository());
-        }
-        return opdDiagnosisAndTreatmentFormRepository;
-    }
-
-    @NonNull
-    public OpdDiagnosisRepository getOpdDiagnosisRepository() {
-        if (opdDiagnosisRepository == null) {
-            opdDiagnosisRepository = new OpdDiagnosisRepository(getRepository());
-        }
-        return opdDiagnosisRepository;
-    }
-
-    @NonNull
-    public OpdTestConductedRepository getOpdTestConductedRepository() {
-        if (opdTestConductedRepository == null) {
-            opdTestConductedRepository = new OpdTestConductedRepository(getRepository());
-        }
-        return opdTestConductedRepository;
-    }
-
-    @NonNull
-    public OpdTreatmentRepository getOpdTreatmentRepository() {
-        if (opdTreatmentRepository == null) {
-            opdTreatmentRepository = new OpdTreatmentRepository(getRepository());
-        }
-        return opdTreatmentRepository;
-    }
-
-    @NonNull
-    public OpdServiceDetailRepository getOpdServiceDetailRepository() {
-        if (opdServiceDetailRepository == null) {
-            opdServiceDetailRepository = new OpdServiceDetailRepository(getRepository());
-        }
-        return opdServiceDetailRepository;
-    }
-
-    @NonNull
-    public OpdVisitSummaryRepository getOpdVisitSummaryRepository() {
-        if (opdVisitSummaryRepository == null) {
-            opdVisitSummaryRepository = new OpdVisitSummaryRepository(getRepository());
-        }
-        return opdVisitSummaryRepository;
-    }
-
-    @NonNull
     public Repository getRepository() {
         return repository;
     }
-
 
     @NonNull
     public ECSyncHelper getEcSyncHelper() {

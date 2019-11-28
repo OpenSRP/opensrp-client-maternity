@@ -2,14 +2,11 @@ package org.smartregister.maternity.configuration;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import androidx.annotation.NonNull;
-
-import org.smartregister.opd.pojos.OpdMetadata;
+import org.smartregister.maternity.pojos.OpdMetadata;
 
 /**
  * This is the object used to configure any configurations added to OPD. We mostly use objects that are
- * instantiated using {@link org.smartregister.opd.utils.ConfigurationInstancesHelper} which means
+ * instantiated using {@link org.smartregister.maternity.utils.ConfigurationInstancesHelper} which means
  * that the constructors of any of the classes should not have any parameters
  *
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-09-13
