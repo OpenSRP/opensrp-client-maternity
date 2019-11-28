@@ -6,9 +6,12 @@ import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.view.activity.DrishtiApplication;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import id.zelory.compressor.Compressor;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-27
@@ -20,7 +23,6 @@ public class MaternityLibrary {
     private static MaternityLibrary instance;
     private final Context context;
     private final Repository repository;
-    private OpdConfiguration opdConfiguration;
     private ECSyncHelper syncHelper;
 
     private UniqueIdRepository uniqueIdRepository;
