@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-09-13
+ * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
 public class FooterViewHolder extends RecyclerView.ViewHolder {

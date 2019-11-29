@@ -7,10 +7,10 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.smartregister.AllConstants;
 import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.maternity.repository.OpdCheckInRepository;
-import org.smartregister.maternity.repository.OpdDetailsRepository;
+import org.smartregister.maternity.repository.MaternityDetailsRepository;
 import org.smartregister.maternity.repository.OpdVisitRepository;
 import org.smartregister.maternity.sample.BuildConfig;
-import org.smartregister.maternity.sample.application.OpdSampleApplication;
+import org.smartregister.maternity.sample.application.MaternitySampleApplication;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.repository.SettingsRepository;
@@ -20,7 +20,7 @@ import timber.log.Timber;
 
 /**
  *
- * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-09-18
+ * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  *
  */
 
@@ -34,7 +34,7 @@ public class SampleRepository extends Repository {
 
     public SampleRepository(Context context, org.smartregister.Context openSRPContext) {
         super(context, AllConstants.DATABASE_NAME, BuildConfig.DATABASE_VERSION, openSRPContext.session(),
-                OpdSampleApplication.createCommonFtsObject(), openSRPContext.sharedRepositoriesArray());
+                MaternitySampleApplication.createCommonFtsObject(), openSRPContext.sharedRepositoriesArray());
         this.context = context;
     }
 
@@ -53,7 +53,7 @@ public class SampleRepository extends Repository {
 
         OpdVisitRepository.createTable(database);
         OpdCheckInRepository.createTable(database);
-        OpdDetailsRepository.createTable(database);
+        MaternityDetailsRepository.createTable(database);
     }
 
 

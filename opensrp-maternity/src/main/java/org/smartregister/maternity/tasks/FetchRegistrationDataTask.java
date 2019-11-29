@@ -6,9 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import org.smartregister.CoreLibrary;
-import org.smartregister.maternity.utils.OpdConstants;
-import org.smartregister.maternity.utils.OpdJsonFormUtils;
-import org.smartregister.maternity.utils.OpdReverseJsonFormUtils;
+import org.smartregister.maternity.utils.MaternityConstants;
+import org.smartregister.maternity.utils.MaternityJsonFormUtils;
+import org.smartregister.maternity.utils.MaternityReverseJsonFormUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
@@ -28,9 +28,9 @@ public class FetchRegistrationDataTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         Map<String, String> detailsMap = CoreLibrary.getInstance().context().detailsRepository().getAllDetailsForClient(params[0]);
 
-        detailsMap.put(OpdJsonFormUtils.OPENSRP_ID, detailsMap.get(OpdConstants.KEY.OPENSRP_ID));
+        detailsMap.put(MaternityJsonFormUtils.OPENSRP_ID, detailsMap.get(MaternityConstants.KEY.OPENSRP_ID));
 
-        return OpdReverseJsonFormUtils.prepareJsonEditOpdRegistrationForm(detailsMap, Arrays.asList(OpdJsonFormUtils.OPENSRP_ID, OpdConstants.JSON_FORM_KEY.BHT_ID), contextWeakReference.get());
+        return MaternityReverseJsonFormUtils.prepareJsonEditOpdRegistrationForm(detailsMap, Arrays.asList(MaternityJsonFormUtils.OPENSRP_ID, MaternityConstants.JSON_FORM_KEY.BHT_ID), contextWeakReference.get());
     }
 
     protected void onPostExecute(@Nullable String jsonForm) {

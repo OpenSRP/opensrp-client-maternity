@@ -10,7 +10,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.apache.commons.lang3.NotImplementedException;
 import org.smartregister.maternity.dao.OpdDiagnosisAndTreatmentFormDao;
 import org.smartregister.maternity.pojos.OpdDiagnosisAndTreatmentForm;
-import org.smartregister.maternity.utils.OpdDbConstants;
+import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.Repository;
 
@@ -18,22 +18,22 @@ import java.util.List;
 
 public class OpdDiagnosisAndTreatmentFormRepository extends BaseRepository implements OpdDiagnosisAndTreatmentFormDao {
 
-    private static final String CREATE_TABLE_SQL = "CREATE TABLE " + OpdDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM + "("
-            + OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
-            + OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " VARCHAR NOT NULL, "
-            + OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.FORM + " TEXT NOT NULL, "
-            + OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.CREATED_AT + " INTEGER NOT NULL ," +
-            "UNIQUE(" + OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + ") ON CONFLICT REPLACE)";
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE " + MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM + "("
+            + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
+            + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " VARCHAR NOT NULL, "
+            + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.FORM + " TEXT NOT NULL, "
+            + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.CREATED_AT + " INTEGER NOT NULL ," +
+            "UNIQUE(" + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + ") ON CONFLICT REPLACE)";
 
-    private static final String INDEX_BASE_ENTITY_ID = "CREATE INDEX " + OpdDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM
-            + "_" + OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + "_index ON " + OpdDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM +
-            "(" + OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " COLLATE NOCASE);";
+    private static final String INDEX_BASE_ENTITY_ID = "CREATE INDEX " + MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM
+            + "_" + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + "_index ON " + MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM +
+            "(" + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " COLLATE NOCASE);";
 
     private String[] columns = new String[]{
-            OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.ID,
-            OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID,
-            OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.FORM,
-            OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.CREATED_AT};
+            MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.ID,
+            MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID,
+            MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.FORM,
+            MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.CREATED_AT};
 
     public OpdDiagnosisAndTreatmentFormRepository(@NonNull Repository repository) {
         super(repository);
@@ -47,11 +47,11 @@ public class OpdDiagnosisAndTreatmentFormRepository extends BaseRepository imple
     @Override
     public boolean saveOrUpdate(@NonNull OpdDiagnosisAndTreatmentForm opdDiagnosisAndTreatmentForm) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID, opdDiagnosisAndTreatmentForm.getBaseEntityId());
-        contentValues.put(OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.FORM, opdDiagnosisAndTreatmentForm.getForm());
+        contentValues.put(MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID, opdDiagnosisAndTreatmentForm.getBaseEntityId());
+        contentValues.put(MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.FORM, opdDiagnosisAndTreatmentForm.getForm());
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        contentValues.put(OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.CREATED_AT, opdDiagnosisAndTreatmentForm.getCreatedAt());
-        long rows = sqLiteDatabase.insert(OpdDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM, null, contentValues);
+        contentValues.put(MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.CREATED_AT, opdDiagnosisAndTreatmentForm.getCreatedAt());
+        long rows = sqLiteDatabase.insert(MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM, null, contentValues);
         return rows != -1;
     }
 
@@ -59,9 +59,9 @@ public class OpdDiagnosisAndTreatmentFormRepository extends BaseRepository imple
     @Override
     public OpdDiagnosisAndTreatmentForm findOne(@NonNull OpdDiagnosisAndTreatmentForm opdDiagnosisAndTreatmentForm) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.query(OpdDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM
+        Cursor cursor = sqLiteDatabase.query(MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM
                 , columns
-                , OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " = ? "
+                , MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " = ? "
                 , new String[]{opdDiagnosisAndTreatmentForm.getBaseEntityId()}
                 , null
                 , null
@@ -87,8 +87,8 @@ public class OpdDiagnosisAndTreatmentFormRepository extends BaseRepository imple
     @Override
     public boolean delete(@NonNull OpdDiagnosisAndTreatmentForm opdDiagnosisAndTreatmentForm) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        int rows = sqLiteDatabase.delete(OpdDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM
-                , OpdDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " = ? "
+        int rows = sqLiteDatabase.delete(MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM
+                , MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " = ? "
                 , new String[]{opdDiagnosisAndTreatmentForm.getBaseEntityId()});
 
         return rows > 0;

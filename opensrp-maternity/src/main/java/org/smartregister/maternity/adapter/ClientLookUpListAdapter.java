@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.maternity.R;
-import org.smartregister.maternity.utils.OpdDbConstants;
+import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.util.Utils;
 
 import java.util.List;
@@ -29,16 +29,16 @@ public class ClientLookUpListAdapter extends RecyclerView.Adapter<ClientLookUpLi
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.opd_lookup_item, viewGroup, false);
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.maternity_lookup_item, viewGroup, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int i) {
         CommonPersonObject commonPersonObject = data.get(i);
-        String firstName = Utils.getValue(commonPersonObject.getColumnmaps(), OpdDbConstants.Column.Client.FIRST_NAME, true);
-        String lastName = Utils.getValue(commonPersonObject.getColumnmaps(), OpdDbConstants.Column.Client.LAST_NAME, true);
-        String opensrpId = Utils.getValue(commonPersonObject.getColumnmaps(), OpdDbConstants.KEY.OPENSRP_ID, true);
+        String firstName = Utils.getValue(commonPersonObject.getColumnmaps(), MaternityDbConstants.Column.Client.FIRST_NAME, true);
+        String lastName = Utils.getValue(commonPersonObject.getColumnmaps(), MaternityDbConstants.Column.Client.LAST_NAME, true);
+        String opensrpId = Utils.getValue(commonPersonObject.getColumnmaps(), MaternityDbConstants.KEY.OPENSRP_ID, true);
         String fullName = firstName + " " + lastName;
         String details = context.getString(R.string.opd_opensrp_id_type) + " - " + opensrpId;
 

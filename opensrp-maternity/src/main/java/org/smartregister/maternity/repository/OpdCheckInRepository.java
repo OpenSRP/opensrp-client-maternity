@@ -10,20 +10,20 @@ import net.sqlcipher.database.SQLiteException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.maternity.dao.OpdCheckInDao;
-import org.smartregister.maternity.utils.OpdDbConstants;
-import org.smartregister.maternity.utils.OpdDbConstants.Column.OpdCheckIn;
+import org.smartregister.maternity.utils.MaternityDbConstants;
+import org.smartregister.maternity.utils.MaternityDbConstants.Column.OpdCheckIn;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.Repository;
 
 import timber.log.Timber;
 
 /**
- * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-09-30
+ * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
 public class OpdCheckInRepository extends BaseRepository implements OpdCheckInDao {
 
-    private static final String CREATE_TABLE_SQL = "CREATE TABLE " + OpdDbConstants.Table.OPD_CHECK_IN + "("
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE " + MaternityDbConstants.Table.OPD_CHECK_IN + "("
             + OpdCheckIn.ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
             + OpdCheckIn.FORM_SUBMISSION_ID + " VARCHAR NOT NULL, "
             + OpdCheckIn.VISIT_ID + " VARCHAR NOT NULL, "
@@ -39,12 +39,12 @@ public class OpdCheckInRepository extends BaseRepository implements OpdCheckInDa
             + OpdCheckIn.CREATED_AT + " INTEGER NOT NULL, "
             + OpdCheckIn.UPDATED_AT + " INTEGER NOT NULL, UNIQUE(" + OpdCheckIn.VISIT_ID + ", " + OpdCheckIn.BASE_ENTITY_ID + ") ON CONFLICT REPLACE)";
 
-    private static final String INDEX_BASE_ENTITY_ID = "CREATE INDEX " + OpdDbConstants.Table.OPD_CHECK_IN
-            + "_" + OpdCheckIn.BASE_ENTITY_ID + "_index ON " + OpdDbConstants.Table.OPD_CHECK_IN + "(" + OpdCheckIn.BASE_ENTITY_ID + " COLLATE NOCASE);";
-    private static final String INDEX_VISIT_ID = "CREATE INDEX " + OpdDbConstants.Table.OPD_CHECK_IN
-            + "_" + OpdCheckIn.VISIT_ID + "_index ON " + OpdDbConstants.Table.OPD_CHECK_IN + "(" + OpdCheckIn.VISIT_ID + ");";
-    private static final String INDEX_EVENT_ID = "CREATE INDEX " + OpdDbConstants.Table.OPD_CHECK_IN
-            + "_" + OpdCheckIn.FORM_SUBMISSION_ID + "_index ON " + OpdDbConstants.Table.OPD_CHECK_IN + "(" + OpdCheckIn.FORM_SUBMISSION_ID + " COLLATE NOCASE);";
+    private static final String INDEX_BASE_ENTITY_ID = "CREATE INDEX " + MaternityDbConstants.Table.OPD_CHECK_IN
+            + "_" + OpdCheckIn.BASE_ENTITY_ID + "_index ON " + MaternityDbConstants.Table.OPD_CHECK_IN + "(" + OpdCheckIn.BASE_ENTITY_ID + " COLLATE NOCASE);";
+    private static final String INDEX_VISIT_ID = "CREATE INDEX " + MaternityDbConstants.Table.OPD_CHECK_IN
+            + "_" + OpdCheckIn.VISIT_ID + "_index ON " + MaternityDbConstants.Table.OPD_CHECK_IN + "(" + OpdCheckIn.VISIT_ID + ");";
+    private static final String INDEX_EVENT_ID = "CREATE INDEX " + MaternityDbConstants.Table.OPD_CHECK_IN
+            + "_" + OpdCheckIn.FORM_SUBMISSION_ID + "_index ON " + MaternityDbConstants.Table.OPD_CHECK_IN + "(" + OpdCheckIn.FORM_SUBMISSION_ID + " COLLATE NOCASE);";
 
     private String[] columns = new String[]{OpdCheckIn.ID
             , OpdCheckIn.FORM_SUBMISSION_ID
@@ -106,7 +106,7 @@ public class OpdCheckInRepository extends BaseRepository implements OpdCheckInDa
             SQLiteDatabase db = getWritableDatabase();
 
             if (StringUtils.isNotBlank(clientBaseEntityId)) {
-                mCursor = db.query(OpdDbConstants.Table.OPD_CHECK_IN, columns, OpdCheckIn.BASE_ENTITY_ID + " = ?"
+                mCursor = db.query(MaternityDbConstants.Table.OPD_CHECK_IN, columns, OpdCheckIn.BASE_ENTITY_ID + " = ?"
                         , new String[]{clientBaseEntityId}
                         , null
                         , null
@@ -136,7 +136,7 @@ public class OpdCheckInRepository extends BaseRepository implements OpdCheckInDa
         org.smartregister.maternity.pojos.OpdCheckIn checkIn = null;
         try {
             SQLiteDatabase db = getWritableDatabase();
-            mCursor = db.query(OpdDbConstants.Table.OPD_CHECK_IN, columns, OpdCheckIn.VISIT_ID + " = ?"
+            mCursor = db.query(MaternityDbConstants.Table.OPD_CHECK_IN, columns, OpdCheckIn.VISIT_ID + " = ?"
                     , new String[]{visitId}
                     , null
                     , null
@@ -186,7 +186,7 @@ public class OpdCheckInRepository extends BaseRepository implements OpdCheckInDa
         //TODO: Check for duplicates
 
         SQLiteDatabase database = getWritableDatabase();
-        long recordId = database.insertOrThrow(OpdDbConstants.Table.OPD_CHECK_IN, null, contentValues);
+        long recordId = database.insertOrThrow(MaternityDbConstants.Table.OPD_CHECK_IN, null, contentValues);
 
         return recordId != -1;
     }

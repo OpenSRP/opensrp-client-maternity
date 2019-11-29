@@ -9,9 +9,9 @@ import com.vijay.jsonwizard.fragments.JsonFormFragment;
 
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.event.Listener;
-import org.smartregister.maternity.OpdLibrary;
-import org.smartregister.maternity.fragment.BaseOpdFormFragment;
-import org.smartregister.maternity.utils.OpdLookUpUtils;
+import org.smartregister.maternity.MaternityLibrary;
+import org.smartregister.maternity.fragment.BaseMaternityFormFragment;
+import org.smartregister.maternity.utils.MaternityLookUpUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -60,11 +60,11 @@ public class LookUpTextWatcher implements TextWatcher {
         }
         lookUpFields.put(key, text);
 
-        if (jsonFormFragment instanceof BaseOpdFormFragment) {
-            BaseOpdFormFragment opdFormFragment = (BaseOpdFormFragment) jsonFormFragment;
+        if (jsonFormFragment instanceof BaseMaternityFormFragment) {
+            BaseMaternityFormFragment opdFormFragment = (BaseMaternityFormFragment) jsonFormFragment;
             Listener<List<CommonPersonObject>> listener = opdFormFragment.lookUpListener();
 
-            OpdLookUpUtils.lookUp(OpdLibrary.getInstance().context(), lookUpFields, listener);
+            MaternityLookUpUtils.lookUp(MaternityLibrary.getInstance().context(), lookUpFields, listener);
         }
 
     }

@@ -14,7 +14,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
 import org.smartregister.maternity.pojos.OpdCheckIn;
-import org.smartregister.maternity.utils.OpdDbConstants;
+import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.repository.Repository;
 
 import static org.junit.Assert.assertEquals;
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-10-17
+ * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
 @RunWith(RobolectricTestRunner.class)
@@ -57,18 +57,18 @@ public class OpdCheckInRepositoryTest {
 
         ContentValues contentValues = opdCheckInRepository.createValuesFor(opdCheckIn);
 
-        assertTrue(contentValues.containsKey(OpdDbConstants.Column.OpdCheckIn.ID));
-        assertTrue(contentValues.containsKey(OpdDbConstants.Column.OpdCheckIn.FORM_SUBMISSION_ID));
-        assertTrue(contentValues.containsKey(OpdDbConstants.Column.OpdCheckIn.VISIT_ID));
-        assertTrue(contentValues.containsKey(OpdDbConstants.Column.OpdCheckIn.BASE_ENTITY_ID));
-        assertTrue(contentValues.containsKey(OpdDbConstants.Column.OpdCheckIn.PREGNANCY_STATUS));
-        assertTrue(contentValues.containsKey(OpdDbConstants.Column.OpdCheckIn.HAS_HIV_TEST_PREVIOUSLY));
-        assertTrue(contentValues.containsKey(OpdDbConstants.Column.OpdCheckIn.HIV_RESULTS_PREVIOUSLY));
-        assertTrue(contentValues.containsKey(OpdDbConstants.Column.OpdCheckIn.IS_TAKING_ART));
-        assertTrue(contentValues.containsKey(OpdDbConstants.Column.OpdCheckIn.CURRENT_HIV_RESULT));
-        assertTrue(contentValues.containsKey(OpdDbConstants.Column.OpdCheckIn.VISIT_TYPE));
-        assertTrue(contentValues.containsKey(OpdDbConstants.Column.OpdCheckIn.APPOINTMENT_SCHEDULED_PREVIOUSLY));
-        assertTrue(contentValues.containsKey(OpdDbConstants.Column.OpdCheckIn.APPOINTMENT_DUE_DATE));
+        assertTrue(contentValues.containsKey(MaternityDbConstants.Column.OpdCheckIn.ID));
+        assertTrue(contentValues.containsKey(MaternityDbConstants.Column.OpdCheckIn.FORM_SUBMISSION_ID));
+        assertTrue(contentValues.containsKey(MaternityDbConstants.Column.OpdCheckIn.VISIT_ID));
+        assertTrue(contentValues.containsKey(MaternityDbConstants.Column.OpdCheckIn.BASE_ENTITY_ID));
+        assertTrue(contentValues.containsKey(MaternityDbConstants.Column.OpdCheckIn.PREGNANCY_STATUS));
+        assertTrue(contentValues.containsKey(MaternityDbConstants.Column.OpdCheckIn.HAS_HIV_TEST_PREVIOUSLY));
+        assertTrue(contentValues.containsKey(MaternityDbConstants.Column.OpdCheckIn.HIV_RESULTS_PREVIOUSLY));
+        assertTrue(contentValues.containsKey(MaternityDbConstants.Column.OpdCheckIn.IS_TAKING_ART));
+        assertTrue(contentValues.containsKey(MaternityDbConstants.Column.OpdCheckIn.CURRENT_HIV_RESULT));
+        assertTrue(contentValues.containsKey(MaternityDbConstants.Column.OpdCheckIn.VISIT_TYPE));
+        assertTrue(contentValues.containsKey(MaternityDbConstants.Column.OpdCheckIn.APPOINTMENT_SCHEDULED_PREVIOUSLY));
+        assertTrue(contentValues.containsKey(MaternityDbConstants.Column.OpdCheckIn.APPOINTMENT_DUE_DATE));
     }
 
     @Test
@@ -77,20 +77,20 @@ public class OpdCheckInRepositoryTest {
         SQLiteDatabase database = Mockito.mock(SQLiteDatabase.class);
         Mockito.doReturn(database).when(repository).getWritableDatabase();
 
-        MatrixCursor matrixCursor = new MatrixCursor(new String[]{OpdDbConstants.Column.OpdCheckIn.ID
-                , OpdDbConstants.Column.OpdCheckIn.FORM_SUBMISSION_ID
-                , OpdDbConstants.Column.OpdCheckIn.VISIT_ID
-                , OpdDbConstants.Column.OpdCheckIn.BASE_ENTITY_ID
-                , OpdDbConstants.Column.OpdCheckIn.PREGNANCY_STATUS
-                , OpdDbConstants.Column.OpdCheckIn.HAS_HIV_TEST_PREVIOUSLY
-                , OpdDbConstants.Column.OpdCheckIn.HIV_RESULTS_PREVIOUSLY
-                , OpdDbConstants.Column.OpdCheckIn.IS_TAKING_ART
-                , OpdDbConstants.Column.OpdCheckIn.CURRENT_HIV_RESULT
-                , OpdDbConstants.Column.OpdCheckIn.VISIT_TYPE
-                , OpdDbConstants.Column.OpdCheckIn.APPOINTMENT_SCHEDULED_PREVIOUSLY
-                , OpdDbConstants.Column.OpdCheckIn.APPOINTMENT_DUE_DATE
-                , OpdDbConstants.Column.OpdCheckIn.CREATED_AT
-                , OpdDbConstants.Column.OpdCheckIn.UPDATED_AT});
+        MatrixCursor matrixCursor = new MatrixCursor(new String[]{MaternityDbConstants.Column.OpdCheckIn.ID
+                , MaternityDbConstants.Column.OpdCheckIn.FORM_SUBMISSION_ID
+                , MaternityDbConstants.Column.OpdCheckIn.VISIT_ID
+                , MaternityDbConstants.Column.OpdCheckIn.BASE_ENTITY_ID
+                , MaternityDbConstants.Column.OpdCheckIn.PREGNANCY_STATUS
+                , MaternityDbConstants.Column.OpdCheckIn.HAS_HIV_TEST_PREVIOUSLY
+                , MaternityDbConstants.Column.OpdCheckIn.HIV_RESULTS_PREVIOUSLY
+                , MaternityDbConstants.Column.OpdCheckIn.IS_TAKING_ART
+                , MaternityDbConstants.Column.OpdCheckIn.CURRENT_HIV_RESULT
+                , MaternityDbConstants.Column.OpdCheckIn.VISIT_TYPE
+                , MaternityDbConstants.Column.OpdCheckIn.APPOINTMENT_SCHEDULED_PREVIOUSLY
+                , MaternityDbConstants.Column.OpdCheckIn.APPOINTMENT_DUE_DATE
+                , MaternityDbConstants.Column.OpdCheckIn.CREATED_AT
+                , MaternityDbConstants.Column.OpdCheckIn.UPDATED_AT});
 
         matrixCursor.addRow(new Object[]{
                 1
@@ -140,20 +140,20 @@ public class OpdCheckInRepositoryTest {
         SQLiteDatabase database = Mockito.mock(SQLiteDatabase.class);
         Mockito.doReturn(database).when(repository).getWritableDatabase();
 
-        MatrixCursor matrixCursor = new MatrixCursor(new String[]{OpdDbConstants.Column.OpdCheckIn.ID
-                , OpdDbConstants.Column.OpdCheckIn.FORM_SUBMISSION_ID
-                , OpdDbConstants.Column.OpdCheckIn.VISIT_ID
-                , OpdDbConstants.Column.OpdCheckIn.BASE_ENTITY_ID
-                , OpdDbConstants.Column.OpdCheckIn.PREGNANCY_STATUS
-                , OpdDbConstants.Column.OpdCheckIn.HAS_HIV_TEST_PREVIOUSLY
-                , OpdDbConstants.Column.OpdCheckIn.HIV_RESULTS_PREVIOUSLY
-                , OpdDbConstants.Column.OpdCheckIn.IS_TAKING_ART
-                , OpdDbConstants.Column.OpdCheckIn.CURRENT_HIV_RESULT
-                , OpdDbConstants.Column.OpdCheckIn.VISIT_TYPE
-                , OpdDbConstants.Column.OpdCheckIn.APPOINTMENT_SCHEDULED_PREVIOUSLY
-                , OpdDbConstants.Column.OpdCheckIn.APPOINTMENT_DUE_DATE
-                , OpdDbConstants.Column.OpdCheckIn.CREATED_AT
-                , OpdDbConstants.Column.OpdCheckIn.UPDATED_AT});
+        MatrixCursor matrixCursor = new MatrixCursor(new String[]{MaternityDbConstants.Column.OpdCheckIn.ID
+                , MaternityDbConstants.Column.OpdCheckIn.FORM_SUBMISSION_ID
+                , MaternityDbConstants.Column.OpdCheckIn.VISIT_ID
+                , MaternityDbConstants.Column.OpdCheckIn.BASE_ENTITY_ID
+                , MaternityDbConstants.Column.OpdCheckIn.PREGNANCY_STATUS
+                , MaternityDbConstants.Column.OpdCheckIn.HAS_HIV_TEST_PREVIOUSLY
+                , MaternityDbConstants.Column.OpdCheckIn.HIV_RESULTS_PREVIOUSLY
+                , MaternityDbConstants.Column.OpdCheckIn.IS_TAKING_ART
+                , MaternityDbConstants.Column.OpdCheckIn.CURRENT_HIV_RESULT
+                , MaternityDbConstants.Column.OpdCheckIn.VISIT_TYPE
+                , MaternityDbConstants.Column.OpdCheckIn.APPOINTMENT_SCHEDULED_PREVIOUSLY
+                , MaternityDbConstants.Column.OpdCheckIn.APPOINTMENT_DUE_DATE
+                , MaternityDbConstants.Column.OpdCheckIn.CREATED_AT
+                , MaternityDbConstants.Column.OpdCheckIn.UPDATED_AT});
 
         matrixCursor.addRow(new Object[]{
                 1
@@ -200,20 +200,20 @@ public class OpdCheckInRepositoryTest {
     @Test
     public void getCheckInResultShoudlGenerateValidCheckInObjectFromCursor() {
 
-        MatrixCursor matrixCursor = new MatrixCursor(new String[]{OpdDbConstants.Column.OpdCheckIn.ID
-                , OpdDbConstants.Column.OpdCheckIn.FORM_SUBMISSION_ID
-                , OpdDbConstants.Column.OpdCheckIn.VISIT_ID
-                , OpdDbConstants.Column.OpdCheckIn.BASE_ENTITY_ID
-                , OpdDbConstants.Column.OpdCheckIn.PREGNANCY_STATUS
-                , OpdDbConstants.Column.OpdCheckIn.HAS_HIV_TEST_PREVIOUSLY
-                , OpdDbConstants.Column.OpdCheckIn.HIV_RESULTS_PREVIOUSLY
-                , OpdDbConstants.Column.OpdCheckIn.IS_TAKING_ART
-                , OpdDbConstants.Column.OpdCheckIn.CURRENT_HIV_RESULT
-                , OpdDbConstants.Column.OpdCheckIn.VISIT_TYPE
-                , OpdDbConstants.Column.OpdCheckIn.APPOINTMENT_SCHEDULED_PREVIOUSLY
-                , OpdDbConstants.Column.OpdCheckIn.APPOINTMENT_DUE_DATE
-                , OpdDbConstants.Column.OpdCheckIn.CREATED_AT
-                , OpdDbConstants.Column.OpdCheckIn.UPDATED_AT});
+        MatrixCursor matrixCursor = new MatrixCursor(new String[]{MaternityDbConstants.Column.OpdCheckIn.ID
+                , MaternityDbConstants.Column.OpdCheckIn.FORM_SUBMISSION_ID
+                , MaternityDbConstants.Column.OpdCheckIn.VISIT_ID
+                , MaternityDbConstants.Column.OpdCheckIn.BASE_ENTITY_ID
+                , MaternityDbConstants.Column.OpdCheckIn.PREGNANCY_STATUS
+                , MaternityDbConstants.Column.OpdCheckIn.HAS_HIV_TEST_PREVIOUSLY
+                , MaternityDbConstants.Column.OpdCheckIn.HIV_RESULTS_PREVIOUSLY
+                , MaternityDbConstants.Column.OpdCheckIn.IS_TAKING_ART
+                , MaternityDbConstants.Column.OpdCheckIn.CURRENT_HIV_RESULT
+                , MaternityDbConstants.Column.OpdCheckIn.VISIT_TYPE
+                , MaternityDbConstants.Column.OpdCheckIn.APPOINTMENT_SCHEDULED_PREVIOUSLY
+                , MaternityDbConstants.Column.OpdCheckIn.APPOINTMENT_DUE_DATE
+                , MaternityDbConstants.Column.OpdCheckIn.CREATED_AT
+                , MaternityDbConstants.Column.OpdCheckIn.UPDATED_AT});
 
         String eventId = "event-id";
         String baseEntityId = "base-entity-id";

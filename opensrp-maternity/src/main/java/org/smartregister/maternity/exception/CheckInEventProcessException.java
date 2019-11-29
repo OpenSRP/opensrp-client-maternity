@@ -3,7 +3,7 @@ package org.smartregister.maternity.exception;
 import android.support.annotation.NonNull;
 
 /**
- * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-10-14
+ * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
 public class CheckInEventProcessException extends Exception {

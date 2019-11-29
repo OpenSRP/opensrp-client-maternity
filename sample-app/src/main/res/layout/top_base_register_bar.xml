@@ -87,7 +87,7 @@
         android:layout_centerVertical="true">
 
         <ImageView
-            android:id="@+id/add_child_image_view"
+            android:id="@+id/add_maternity_image_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"

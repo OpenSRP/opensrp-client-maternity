@@ -8,7 +8,7 @@
     <string name="care_giver_initials">CG</string>
 
     <string name="search_name_or_id">Search name or ID</string>
-    <string name="opd_register_title_name">All Clients</string>
+    <string name="maternity_register_title_name">Maternity</string>
 
     <string name="no_matching_record_found_on_this_device">No matching record found on this device.</string>
 

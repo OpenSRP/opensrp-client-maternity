@@ -18,7 +18,7 @@ import org.smartregister.view.activity.BaseRegisterActivity;
 import timber.log.Timber;
 
 /**
- * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-09-13
+ * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
 @SuppressLint("ValidFragment")

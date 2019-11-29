@@ -9,8 +9,8 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.maternity.dao.OpdVisitDao;
-import org.smartregister.maternity.utils.OpdDbConstants;
-import org.smartregister.maternity.utils.OpdDbConstants.Column.OpdVisit;
+import org.smartregister.maternity.utils.MaternityDbConstants;
+import org.smartregister.maternity.utils.MaternityDbConstants.Column.OpdVisit;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.Repository;
 
@@ -20,12 +20,12 @@ import java.util.Date;
 import timber.log.Timber;
 
 /**
- * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-10-01
+ * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
 public class OpdVisitRepository extends BaseRepository implements OpdVisitDao {
 
-    private static final String CREATE_TABLE_SQL = "CREATE TABLE " + OpdDbConstants.Table.OPD_VISIT + "("
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE " + MaternityDbConstants.Table.OPD_VISIT + "("
             + OpdVisit.ID + " VARCHAR NOT NULL PRIMARY KEY,"
             + OpdVisit.VISIT_DATE + " DATETIME NOT NULL,"
             + OpdVisit.PROVIDER_ID + " VARCHAR NOT NULL,"
@@ -33,10 +33,10 @@ public class OpdVisitRepository extends BaseRepository implements OpdVisitDao {
             + OpdVisit.BASE_ENTITY_ID + " VARCHAR NOT NULL,"
             + OpdVisit.CREATED_AT + " INTEGER NOT NULL)";
 
-    private static final String INDEX_BASE_ENTITY_ID = "CREATE INDEX " + OpdDbConstants.Table.OPD_VISIT
-            + "_" + OpdVisit.BASE_ENTITY_ID + "_index ON " + OpdDbConstants.Table.OPD_VISIT + "(" + OpdVisit.BASE_ENTITY_ID + " COLLATE NOCASE);";
-    private static final String INDEX_VISIT_DATE = "CREATE INDEX " + OpdDbConstants.Table.OPD_VISIT
-            + "_" + OpdVisit.VISIT_DATE + "_index ON " + OpdDbConstants.Table.OPD_VISIT + "(" + OpdVisit.VISIT_DATE + " COLLATE NOCASE);";
+    private static final String INDEX_BASE_ENTITY_ID = "CREATE INDEX " + MaternityDbConstants.Table.OPD_VISIT
+            + "_" + OpdVisit.BASE_ENTITY_ID + "_index ON " + MaternityDbConstants.Table.OPD_VISIT + "(" + OpdVisit.BASE_ENTITY_ID + " COLLATE NOCASE);";
+    private static final String INDEX_VISIT_DATE = "CREATE INDEX " + MaternityDbConstants.Table.OPD_VISIT
+            + "_" + OpdVisit.VISIT_DATE + "_index ON " + MaternityDbConstants.Table.OPD_VISIT + "(" + OpdVisit.VISIT_DATE + " COLLATE NOCASE);";
 
     private String[] columns = new String[]{OpdVisit.ID
             , OpdVisit.VISIT_DATE
@@ -98,7 +98,7 @@ public class OpdVisitRepository extends BaseRepository implements OpdVisitDao {
             SQLiteDatabase db = getWritableDatabase();
 
             if (StringUtils.isNotBlank(clientBaseEntityId)) {
-                mCursor = db.query(OpdDbConstants.Table.OPD_VISIT, columns, OpdVisit.BASE_ENTITY_ID + " = ?"
+                mCursor = db.query(MaternityDbConstants.Table.OPD_VISIT, columns, OpdVisit.BASE_ENTITY_ID + " = ?"
                         , new String[]{clientBaseEntityId}
                         , null
                         , null
@@ -127,7 +127,7 @@ public class OpdVisitRepository extends BaseRepository implements OpdVisitDao {
         //TODO: Check for duplicates
 
         SQLiteDatabase database = getWritableDatabase();
-        long recordId = database.insert(OpdDbConstants.Table.OPD_VISIT, null, contentValues);
+        long recordId = database.insert(MaternityDbConstants.Table.OPD_VISIT, null, contentValues);
 
         return recordId != -1;
     }

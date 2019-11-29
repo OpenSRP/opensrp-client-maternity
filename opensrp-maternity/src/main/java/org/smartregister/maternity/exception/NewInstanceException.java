@@ -1,7 +1,7 @@
 package org.smartregister.maternity.exception;
 
 /**
- * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-09-20
+ * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
 public class NewInstanceException extends RuntimeException {

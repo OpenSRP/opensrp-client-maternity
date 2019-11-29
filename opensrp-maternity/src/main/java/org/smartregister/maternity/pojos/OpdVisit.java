@@ -3,7 +3,7 @@ package org.smartregister.maternity.pojos;
 import java.util.Date;
 
 /**
- * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-10-01
+ * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
 public class OpdVisit {

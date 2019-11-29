@@ -3,11 +3,11 @@ package org.smartregister.maternity.sample.configuration;
 import org.smartregister.SyncConfiguration;
 import org.smartregister.SyncFilter;
 import org.smartregister.maternity.sample.BuildConfig;
-import org.smartregister.maternity.sample.application.OpdSampleApplication;
+import org.smartregister.maternity.sample.application.MaternitySampleApplication;
 import org.smartregister.repository.AllSharedPreferences;
 
 /**
- * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-09-18
+ * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
 public class SampleSyncConfiguration extends SyncConfiguration {
@@ -23,7 +23,7 @@ public class SampleSyncConfiguration extends SyncConfiguration {
 
     @Override
     public String getSyncFilterValue() {
-        AllSharedPreferences sharedPreferences = OpdSampleApplication.getInstance().context().userService()
+        AllSharedPreferences sharedPreferences = MaternitySampleApplication.getInstance().context().userService()
                 .getAllSharedPreferences();
         return sharedPreferences.fetchDefaultTeamId(sharedPreferences.fetchRegisteredANM());
     }
