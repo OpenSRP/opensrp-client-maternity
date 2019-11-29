@@ -1,3 +1,71 @@
 <resources>
-    <string name="app_name">Maternity Sample</string>
+    <string name="app_name">OPD</string>
+
+    <string name="abbrv_days">d</string>
+    <string name="abbrv_weeks">w</string>
+    <string name="abbrv_months">m</string>
+    <string name="abbrv_years">y</string>
+    <string name="care_giver_initials">CG</string>
+
+    <string name="search_name_or_id">Search name or ID</string>
+    <string name="opd_register_title_name">All Clients</string>
+
+    <string name="no_matching_record_found_on_this_device">No matching record found on this device.</string>
+
+    <string name="any_changes_you_make">Any Changes You Make</string>
+    <string name="no_unique_id">No unique Id found</string>
+    <string name="error_unable_to_start_form">Unable to start form</string>
+    <string name="saving_dialog_title">Saving</string>
+    <string name="tap_to_view">Tap to view</string>
+    <string name="client_matches">%1$d results found  person.</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="undo_lookup">Undo LookUp</string>
+    <string name="national_id">National Id</string>
+    <string name="opd_opensrp_id_type">Opensrp Id</string>
+
+    <string name="contact_number_due">Contact %1$d &#183; due %2$s</string>
+
+    <string name="overview">OVERVIEW</string>
+    <string name="visits">VISITS</string>
+
+    <string name="all_results">All results</string>
+    <string name="age_details">Age: %s</string>
+    <string name="id_detail">ID: %s</string>
+
+
+    <string name="last_visit">LAST VISIT</string>
+    <string name="previous_visits">PREVIOUS VISITS</string>
+    <string name="recent_test">RECENT TEST: %1$s</string>
+    <string name="all_tests_results">All Tests Results</string>
+
+
+    <string name="no_openmrs_id">No unique ids found. Click on the sync button to get more and if this error persists contact the system admin.</string>
+    <string name="save_form_fill_session">Save session to continue Later</string>
+    <string name="end_session">End Session</string>
+    <string name="dosage">Dosage</string>
+    <string name="duration">Duration</string>
+    <string name="add_treatment_medicine">Add treatments/medicine</string>
+    <string name="drug_picker_dialog_save">SAVE</string>
+    <string name="opd_dosage_duration_text">Dose: %s, Duration: %s</string>
+    <string name="opd">OPD</string>
+    <string name="opd_checked_in">OPD: CHECKED IN</string>
+
+    <string name="diagnose_and_treat"><![CDATA[DIAGNOSE & TREAT]]></string>
+    <string name="check_in">CHECK IN</string>
+    <string name="diagnosis">Diagnosis</string>
+    <string name="diagnosis_type">Diagnosis Type</string>
+    <string name="disease_code">Disease Code</string>
+    <string name="treatment">Treatment</string>
+    <string name="single_medicine_visit_preview_summary"><![CDATA[<b><font color=\'black\'>%s</font><br/></b>]]></string>
+    <string name="medication_dose">Dose: %s</string>
+    <string name="medication_duration">Duration: %s</string>
+    <string name="dose_or_duration_html"><![CDATA[<font color=\'#7f7f7f\'>%s</font>]]></string>
+    <string name="next_page"><![CDATA[NEXT >>]]></string>
+    <string name="current_page_of_total_pages">Page %d of %d</string>
+    <string name="previous_page"><![CDATA[<< Previous]]></string>
+    <string name="unknown">Unknown</string>
+    <string name="positive">positive</string>
+    <string name="switch_register_view">SWITCH REGISTER VIEW</string>
+    <string name="edit_opd_registration_failure_message">You cannot edit this patient using the OPD Registration. Click on the Register Switcher</string>
+
 </resources>

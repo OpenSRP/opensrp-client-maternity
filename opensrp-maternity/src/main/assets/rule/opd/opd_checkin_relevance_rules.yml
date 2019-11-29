@@ -1,0 +1,7 @@
+---
+name: step1_current_hiv_status
+description: opd_client_current_hiv_status
+priority: 1
+condition: "step1_hiv_tested == 'No' || step1_hiv_prev_status == 'Unknown' || step1_hiv_prev_status == 'Negative'"
+actions:
+  - "isRelevant = true"
