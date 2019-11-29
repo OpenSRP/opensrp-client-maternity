@@ -61,7 +61,7 @@ public class OpdLibraryTest extends BaseTest {
     @Test
     public void getInstanceShouldThrowIllegalStateException() throws Throwable {
         expectedException.expect(IllegalStateException.class);
-        expectedException.expectMessage("Instance does not exist!!! Call org.smartregister.opd.OpdLibrary"
+        expectedException.expectMessage("Instance does not exist!!! Call org.smartregister.maternity.OpdLibrary"
                 + ".init method in the onCreate method of "
                 + "your Application class");
 

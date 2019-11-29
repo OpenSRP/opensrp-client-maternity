@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OPD</string>
+    <string name="app_name">Maternity</string>
 
     <string name="abbrv_days">d</string>
     <string name="abbrv_weeks">w</string>
@@ -66,6 +66,6 @@
     <string name="unknown">Unknown</string>
     <string name="positive">positive</string>
     <string name="switch_register_view">SWITCH REGISTER VIEW</string>
-    <string name="edit_opd_registration_failure_message">You cannot edit this patient using the OPD Registration. Click on the Register Switcher</string>
+    <string name="edit_opd_registration_failure_message">You cannot edit this patient using the Maternity Registration. Click on the Register Switcher</string>
 
 </resources>

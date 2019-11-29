@@ -27,54 +27,7 @@ public class OpdRegisterFragmentPresenter implements OpdRegisterFragmentContract
 
     @Override
     public void initializeQueries(String mainCondition) {
-        /*QueryTable childQueryTable = new QueryTable();
-        childQueryTable.setTableName("ec_child");
-        childQueryTable.setColNames(new String[]{
-                "first_name",
-                "last_name",
-                "middle_name",
-                "gender",
-                "home_address",
-                "'Child' AS register_type",
-                "relational_id AS relationalid",
-                "last_interacted_with"
-        });
-
-        QueryTable womanQueryTable = new QueryTable();
-        womanQueryTable.setTableName("ec_mother");
-        womanQueryTable.setColNames(new String[]{
-                "first_name",
-                "last_name",
-                "middle_name",
-                "'Female' AS gender",
-                "home_address",
-                "'ANC' AS register_type",
-                "NULL AS mother_first_name",
-                "NULL AS mother_last_name",
-                "NULL AS mother_middle_name",
-                "relationalid",
-                "last_interacted_with"
-        });
-
-        InnerJoinObject[] innerJoinObjects = new InnerJoinObject[1];
-        InnerJoinObject childTableInnerJoinMotherTable = new InnerJoinObject();
-        childTableInnerJoinMotherTable.setFirstTable(childQueryTable);
-
-        QueryTable innerJoinMotherTable = new QueryTable();
-        innerJoinMotherTable.setTableName("ec_mother");
-        innerJoinMotherTable.setColNames(new String[]{
-                "first_name AS mother_first_name",
-                "last_name AS mother_last_name",
-                "middle_name AS mother_middle_name"
-        });
-
-        childTableInnerJoinMotherTable.innerJoinOn("ec_child.relational_id = ec_mother.base_entity_id");
-        childTableInnerJoinMotherTable.innerJoinTable(innerJoinMotherTable);
-        innerJoinObjects[0] = childTableInnerJoinMotherTable;
-
-        String mainSelect = model.mainSelect(innerJoinObjects, new QueryTable[]{womanQueryTable});*/
-
-        getView().initializeQueryParams("ec_child", null, null);
+        getView().initializeQueryParams("ec_client", null, null);
         getView().initializeAdapter();
 
         getView().countExecute();
