@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.smartregister.opd" >
+    package="org.smartregister.maternity" >
 
     <application>
-        <activity android:name=".activity.BaseOpdFormActivity"></activity>
-        <activity android:name=".activity.BaseOpdProfileActivity"></activity>
+        <activity android:name="org.smartregister.maternity.activity.BaseOpdFormActivity"></activity>
+        <activity android:name="org.smartregister.maternity.activity.BaseOpdProfileActivity"></activity>
     </application>
 
 </manifest>
