@@ -84,7 +84,7 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
             }
         }
 
-        if (MaternityUtils.metadata().getOpdRegistrationFormName().equals(formName)) {
+        if (MaternityUtils.metadata() != null && MaternityUtils.metadata().getOpdRegistrationFormName().equals(formName)) {
             if (StringUtils.isBlank(entityId)) {
                 UniqueIdRepository uniqueIdRepo = MaternityLibrary.getInstance().getUniqueIdRepository();
                 entityId = uniqueIdRepo.getNextUniqueId() != null ? uniqueIdRepo.getNextUniqueId().getOpenmrsId() : "";
@@ -184,7 +184,7 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
             }
 
         } catch (Exception e) {
-            Timber.e(e, "MaternityJsonFormUtils --> addRegLocHierarchyQuestions");
+            Timber.e(e);
         }
     }
 
@@ -231,7 +231,7 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
                 widget.put("tree", new JSONArray(updateString));
             }
         } catch (JSONException e) {
-            Timber.e(e, "MaternityJsonFormUtils --> addLocationTree");
+            Timber.e(e);
         }
     }
 
@@ -322,7 +322,7 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
 
             genderObject.put(MaternityConstants.KEY.VALUE, genderValue);
         } catch (JSONException e) {
-            Timber.e(e, "MaternityJsonFormUtils --> processGender");
+            Timber.e(e);
         }
     }
 
@@ -332,11 +332,13 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
                     fields.getJSONObject(i).getString(JsonFormConstants.TYPE).equals(JsonFormConstants.TREE))
                 try {
                     String rawValue = fields.getJSONObject(i).getString(JsonFormConstants.VALUE);
-                    JSONArray valueArray = new JSONArray(rawValue);
-                    if (valueArray.length() > 0) {
-                        String lastLocationName = valueArray.getString(valueArray.length() - 1);
-                        String lastLocationId = LocationHelper.getInstance().getOpenMrsLocationId(lastLocationName);
-                        fields.getJSONObject(i).put(JsonFormConstants.VALUE, lastLocationId);
+                    if (!TextUtils.isEmpty(rawValue)) {
+                        JSONArray valueArray = new JSONArray(rawValue);
+                        if (valueArray.length() > 0) {
+                            String lastLocationName = valueArray.getString(valueArray.length() - 1);
+                            String lastLocationId = LocationHelper.getInstance().getOpenMrsLocationId(lastLocationName);
+                            fields.getJSONObject(i).put(JsonFormConstants.VALUE, lastLocationId);
+                        }
                     }
                 } catch (NullPointerException e) {
                     Timber.e(e);
@@ -353,7 +355,7 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
             lastInteractedWith.put(MaternityConstants.KEY.VALUE, Calendar.getInstance().getTimeInMillis());
             fields.put(lastInteractedWith);
         } catch (JSONException e) {
-            Timber.e(e, "MaternityJsonFormUtils --> lastInteractedWith");
+            Timber.e(e);
         }
     }
 
@@ -383,7 +385,7 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
                 }
             }
         } catch (JSONException e) {
-            Timber.e(e, "MaternityJsonFormUtils --> dobUnknownUpdateFromAge");
+            Timber.e(e);
         }
     }
 
@@ -443,13 +445,13 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
             }
 
         } catch (FileNotFoundException e) {
-            Timber.e(e, "MaternityJsonFormUtils --> Failed to save static image to disk");
+            Timber.e(e);
         } finally {
             if (os != null) {
                 try {
                     os.close();
                 } catch (IOException e) {
-                    Timber.e(e, "MaternityJsonFormUtils --> Failed to close static images output stream after attempting to write image");
+                    Timber.e(e);
                 }
             }
         }
@@ -492,10 +494,10 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
         }
 
         return getFieldValue(fields, key);
-
     }
 
-    public static MaternityEventClient processOpdDetailsForm(@NonNull String jsonString, @NonNull FormTag formTag) {
+    @Nullable
+    public static MaternityEventClient processMaternityDetailsForm(@NonNull String jsonString, @NonNull FormTag formTag) {
         try {
             Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString);
 
@@ -552,7 +554,7 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
                 reminderObject.put(MaternityConstants.KEY.VALUE, result);
             }
         } catch (JSONException e) {
-            Timber.e(e, "MaternityJsonFormUtils --> processReminder");
+            Timber.e(e);
         }
     }
 }

@@ -98,10 +98,10 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
         CoreLibrary.init(context, new SampleSyncConfiguration());
 
         //Opd Initialization
-        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
+        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.Form.MATERNITY_REGISTRATION
                 , MaternityDbConstants.KEY.TABLE
                 , MaternityConstants.EventType.OPD_REGISTRATION
-                , MaternityConstants.EventType.UPDATE_OPD_REGISTRATION
+                , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , MaternityFormActivity.class
                 ,null
@@ -123,10 +123,18 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
         //init Job Manager
         JobManager.create(this).addJobCreator(new SampleMaternityJobCreator());
         sampleUniqueIds();
+        initializeTestLocationData();
     }
 
     @Override
     public void logoutCurrentUser() {
+    }
+
+    public void initializeTestLocationData(){
+        // this function is for test purposes only
+        String loc = "{\"locationsHierarchy\":{\"map\":{\"5b854508-42c5-4cc5-9bea-77335687a428\":{\"children\":{\"425b0ac3-05e7-4123-ad27-76f510d96a6a\":{\"children\":{\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\":{\"children\":{\"6ca7788c-d995-4431-a8a3-2f030db1aee0\":{\"id\":\"6ca7788c-d995-4431-a8a3-2f030db1aee0\",\"label\":\"The crypts\",\"node\":{\"locationId\":\"6ca7788c-d995-4431-a8a3-2f030db1aee0\",\"name\":\"The crypts\",\"parentLocation\":{\"locationId\":\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\",\"name\":\"Winterfell\",\"parentLocation\":{\"locationId\":\"425b0ac3-05e7-4123-ad27-76f510d96a6a\",\"name\":\"The North\",\"serverVersion\":0,\"voided\":false},\"serverVersion\":0,\"voided\":false},\"tags\":[\"Facility\"],\"serverVersion\":0,\"voided\":false},\"parent\":\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\"}},\"id\":\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\",\"label\":\"Winterfell\",\"node\":{\"locationId\":\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\",\"name\":\"Winterfell\",\"parentLocation\":{\"locationId\":\"425b0ac3-05e7-4123-ad27-76f510d96a6a\",\"name\":\"The North\",\"parentLocation\":{\"locationId\":\"5b854508-42c5-4cc5-9bea-77335687a428\",\"name\":\"Westeros\",\"serverVersion\":0,\"voided\":false},\"serverVersion\":0,\"voided\":false},\"tags\":[\"Department\"],\"serverVersion\":0,\"voided\":false},\"parent\":\"425b0ac3-05e7-4123-ad27-76f510d96a6a\"}},\"id\":\"425b0ac3-05e7-4123-ad27-76f510d96a6a\",\"label\":\"The North\",\"node\":{\"locationId\":\"425b0ac3-05e7-4123-ad27-76f510d96a6a\",\"name\":\"The North\",\"parentLocation\":{\"locationId\":\"5b854508-42c5-4cc5-9bea-77335687a428\",\"name\":\"Westeros\",\"serverVersion\":0,\"voided\":false},\"tags\":[\"Province\"],\"serverVersion\":0,\"voided\":false},\"parent\":\"5b854508-42c5-4cc5-9bea-77335687a428\"}},\"id\":\"5b854508-42c5-4cc5-9bea-77335687a428\",\"label\":\"Westeros\",\"node\":{\"locationId\":\"5b854508-42c5-4cc5-9bea-77335687a428\",\"name\":\"Westeros\",\"tags\":[\"Country\"],\"serverVersion\":0,\"voided\":false}}},\"parentChildren\":{\"425b0ac3-05e7-4123-ad27-76f510d96a6a\":[\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\"],\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\":[\"6ca7788c-d995-4431-a8a3-2f030db1aee0\"],\"5b854508-42c5-4cc5-9bea-77335687a428\":[\"425b0ac3-05e7-4123-ad27-76f510d96a6a\"]}}}";
+        context.allSettings().saveANMLocation(loc);
+        context.allSettings().put("dfltLoc-", "6ca7788c-d995-4431-a8a3-2f030db1aee0");
     }
 
     @Override
@@ -142,7 +150,7 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
     }
 
     private void sampleUniqueIds() {
-        List<String> ids = generateIds(20);
+        List<String> ids = generateIds(250);
         MaternityLibrary.getInstance().getUniqueIdRepository().bulkInserOpenmrsIds(ids);
     }
 
@@ -166,5 +174,10 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
 
     public Context context() {
         return context;
+    }
+
+    @Override
+    public String getPassword() {
+        return SampleRepository.PASSWORD;
     }
 }

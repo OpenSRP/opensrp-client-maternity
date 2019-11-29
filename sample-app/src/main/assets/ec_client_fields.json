@@ -49,7 +49,7 @@
           "column_name": "reg_number",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.annual_serial_number"
+            "field": "attributes.reg_number"
           }
         },
         {

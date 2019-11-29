@@ -51,7 +51,7 @@ public class MaternityRegisterActivityModel implements MaternityRegisterActivity
     @Override
     public List<MaternityEventClient> processRegistration(String jsonString, FormTag formTag) {
         List<MaternityEventClient> maternityEventClientList = new ArrayList<>();
-        MaternityEventClient maternityEventClient = MaternityJsonFormUtils.processOpdDetailsForm(jsonString, formTag);
+        MaternityEventClient maternityEventClient = MaternityJsonFormUtils.processMaternityDetailsForm(jsonString, formTag);
 
         if (maternityEventClient == null) {
             return null;

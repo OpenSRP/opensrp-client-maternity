@@ -229,7 +229,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     @Nullable
     @Override
     public MaternityEventClient processRegistration(@NonNull String jsonString, @NonNull FormTag formTag) {
-        MaternityEventClient maternityEventClient = MaternityJsonFormUtils.processOpdDetailsForm(jsonString, formTag);
+        MaternityEventClient maternityEventClient = MaternityJsonFormUtils.processMaternityDetailsForm(jsonString, formTag);
         //TODO: Show the user this error toast
         //showErrorToast();
 

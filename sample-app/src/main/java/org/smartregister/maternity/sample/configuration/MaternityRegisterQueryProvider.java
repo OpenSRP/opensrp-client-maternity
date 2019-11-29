@@ -31,7 +31,6 @@ public class MaternityRegisterQueryProvider extends MaternityRegisterQueryProvid
     @Override
     public String[] countExecuteQueries(@Nullable String filters, @Nullable String mainCondition) {
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder();
-
         return new String[] {
                 sqb.countQueryFts("ec_client", null, null, filters)
         };

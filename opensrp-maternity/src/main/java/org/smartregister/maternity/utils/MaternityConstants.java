@@ -103,7 +103,6 @@ public class MaternityConstants extends AllConstants {
         public static final String AGE_ENTERED = "age_entered";
         public static final String DOB_ENTERED = "dob_entered";
         public static final String ADDRESS_WIDGET_KEY = "home_address";
-        public static final String NAME = "opd_registration";
         public static final String REMINDERS = "reminders";
 
         public static final String SERVICE_FEE = "service_fee";
@@ -197,8 +196,8 @@ public class MaternityConstants extends AllConstants {
     }
 
     public static final class EventType {
-        public static final String OPD_REGISTRATION = "Opd Registration";
-        public static final String UPDATE_OPD_REGISTRATION = "Update Opd Registration";
+        public static final String OPD_REGISTRATION = "Maternity Registration";
+        public static final String UPDATE_MATERNITY_REGISTRATION = "Update Maternity Registration";
         public static final String CHECK_IN = "OPD Check-In";
         public static final String DIAGNOSIS_AND_TREAT = "OPD Diagnosis and Treatment";
         public static final String DIAGNOSIS = "OPD Diagnosis";
@@ -223,6 +222,7 @@ public class MaternityConstants extends AllConstants {
     public interface Form {
         String OPD_DIAGNOSIS_AND_TREAT = "opd_diagnose_and_treat";
         String OPD_CHECK_IN = "opd_checkin";
+        String MATERNITY_REGISTRATION = "maternity_registration";
     }
 
     public interface FormValue {
@@ -238,4 +238,5 @@ public class MaternityConstants extends AllConstants {
     public interface ClientMapKey {
         String GENDER = "gender";
     }
+
 }

@@ -24,10 +24,6 @@ import timber.log.Timber;
 
 public class MaternityRegisterActivityPresenter extends BaseMaternityRegisterActivityPresenter implements MaternityRegisterActivityContract.InteractorCallBack {
 
-    private WeakReference<MaternityRegisterActivityContract.View> viewReference;
-    private MaternityRegisterActivityContract.Interactor interactor;
-    private MaternityRegisterActivityContract.Model model;
-
     public MaternityRegisterActivityPresenter(MaternityRegisterActivityContract.View view, MaternityRegisterActivityContract.Model model) {
         super(view, model);
         viewReference = new WeakReference<>(view);

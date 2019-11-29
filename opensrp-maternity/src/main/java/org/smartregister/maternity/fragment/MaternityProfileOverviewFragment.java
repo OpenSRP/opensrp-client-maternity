@@ -74,7 +74,7 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
                 @Override
                 public void onFinished(@Nullable Facts facts, @Nullable List<YamlConfigWrapper> yamlConfigListGlobal) {
                     if (getActivity() != null && facts != null && yamlConfigListGlobal != null) {
-                        Boolean isPendingDiagnoseAndTreat = facts.get(MaternityDbConstants.Column.OpdDetails.PENDING_DIAGNOSE_AND_TREAT);
+                        Boolean isPendingDiagnoseAndTreat = facts.get(MaternityDbConstants.Column.MaternityDetails.PENDING_DIAGNOSE_AND_TREAT);
                         isPendingDiagnoseAndTreat = isPendingDiagnoseAndTreat == null ? Boolean.FALSE : isPendingDiagnoseAndTreat;
 
                         if (isPendingDiagnoseAndTreat) {

@@ -81,16 +81,16 @@ public class MaternityRegisterFragment extends BaseMaternityRegisterFragment {
         Map<String, String> clientColumnMaps = commonPersonObjectClient.getColumnmaps();
 
         MaternityRegisterActivity opdRegisterActivity = (MaternityRegisterActivity) getActivity();
-        if (opdRegisterActivity != null && clientColumnMaps.containsKey(MaternityDbConstants.Column.OpdDetails.PENDING_DIAGNOSE_AND_TREAT)) {
+        if (opdRegisterActivity != null && clientColumnMaps.containsKey(MaternityDbConstants.Column.MaternityDetails.PENDING_DIAGNOSE_AND_TREAT)) {
             HashMap<String, String> injectedValues = new HashMap<String, String>();
             injectedValues.put("patient_gender", clientColumnMaps.get("gender"));
 
-            String diagnoseSchedule = clientColumnMaps.get(MaternityDbConstants.Column.OpdDetails.PENDING_DIAGNOSE_AND_TREAT);
+            String diagnoseSchedule = clientColumnMaps.get(MaternityDbConstants.Column.MaternityDetails.PENDING_DIAGNOSE_AND_TREAT);
             String entityTable = clientColumnMaps.get(MaternityConstants.IntentKey.ENTITY_TABLE);
 
             boolean isDiagnoseScheduled = !TextUtils.isEmpty(diagnoseSchedule) && "1".equals(diagnoseSchedule);
 
-            String strVisitEndDate = clientColumnMaps.get(MaternityDbConstants.Column.OpdDetails.CURRENT_VISIT_END_DATE);
+            String strVisitEndDate = clientColumnMaps.get(MaternityDbConstants.Column.MaternityDetails.CURRENT_VISIT_END_DATE);
 
             if (strVisitEndDate != null && MaternityLibrary.getInstance().isPatientInTreatedState(strVisitEndDate)) {
                 return;

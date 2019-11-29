@@ -13,7 +13,6 @@ import org.smartregister.maternity.domain.YamlConfig;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.model.MaternityProfileOverviewFragmentModel;
-import org.smartregister.maternity.pojos.MaternityDetails;
 import org.smartregister.maternity.pojos.OpdCheckIn;
 import org.smartregister.maternity.pojos.OpdVisit;
 import org.smartregister.maternity.utils.FilePath;
@@ -50,14 +49,14 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
     public void loadOverviewFacts(@NonNull String baseEntityId, @NonNull final OnFinishedCallback onFinishedCallback) {
         model.fetchLastCheckAndVisit(baseEntityId, new MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback() {
             @Override
-            public void onFetched(@Nullable OpdCheckIn opdCheckIn, @Nullable OpdVisit opdVisit, @Nullable MaternityDetails maternityDetails) {
+            public void onFetched(@Nullable OpdCheckIn opdCheckIn, @Nullable OpdVisit opdVisit, @Nullable org.smartregister.maternity.pojos.MaternityDetails maternityDetails) {
                 loadOverviewDataAndDisplay(opdCheckIn, opdVisit, maternityDetails, onFinishedCallback);
             }
         });
     }
 
     @Override
-    public void loadOverviewDataAndDisplay(@Nullable OpdCheckIn opdCheckIn, @Nullable OpdVisit opdVisit, @Nullable MaternityDetails maternityDetails, @NonNull final OnFinishedCallback onFinishedCallback) {
+    public void loadOverviewDataAndDisplay(@Nullable OpdCheckIn opdCheckIn, @Nullable OpdVisit opdVisit, @Nullable org.smartregister.maternity.pojos.MaternityDetails maternityDetails, @NonNull final OnFinishedCallback onFinishedCallback) {
         List<YamlConfigWrapper> yamlConfigListGlobal = new ArrayList<>(); //This makes sure no data duplication happens
         Facts facts = new Facts();
         setDataFromCheckIn(opdCheckIn, opdVisit, maternityDetails, facts);
@@ -108,7 +107,7 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
     }
 
     @Override
-    public void setDataFromCheckIn(@Nullable OpdCheckIn checkIn, @Nullable OpdVisit visit, @Nullable MaternityDetails maternityDetails, @NonNull Facts facts) {
+    public void setDataFromCheckIn(@Nullable OpdCheckIn checkIn, @Nullable OpdVisit visit, @Nullable org.smartregister.maternity.pojos.MaternityDetails maternityDetails, @NonNull Facts facts) {
         String unknownString = getString(R.string.unknown);
         if (checkIn != null) {
             if (client != null && AllConstants.FEMALE_GENDER.equalsIgnoreCase(client.getColumnmaps().get(MaternityConstants.ClientMapKey.GENDER))) {
@@ -144,7 +143,7 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
         }
 
         boolean shouldCheckIn = MaternityLibrary.getInstance().canPatientCheckInInsteadOfDiagnoseAndTreat(visit, maternityDetails);
-        facts.put(MaternityDbConstants.Column.OpdDetails.PENDING_DIAGNOSE_AND_TREAT, !shouldCheckIn);
+        facts.put(MaternityDbConstants.Column.MaternityDetails.PENDING_DIAGNOSE_AND_TREAT, !shouldCheckIn);
 
         if (visit != null && visit.getVisitDate() != null && checkIn != null && checkIn.getAppointmentDueDate() != null) {
             facts.put(MaternityConstants.FactKey.VISIT_TO_APPOINTMENT_DATE, getVisitToAppointmentDateDuration(visit.getVisitDate(), checkIn.getAppointmentDueDate()));

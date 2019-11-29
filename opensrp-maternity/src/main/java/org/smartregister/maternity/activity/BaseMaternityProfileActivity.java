@@ -235,7 +235,7 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
                 } else if (encounterType.equals(MaternityConstants.EventType.DIAGNOSIS_AND_TREAT)) {
                     showProgressDialog(R.string.saving_dialog_title);
                     ((MaternityProfileActivityPresenter) presenter).saveVisitOrDiagnosisForm(encounterType, data);
-                } else if (encounterType.equals(MaternityConstants.EventType.UPDATE_OPD_REGISTRATION)) {
+                } else if (encounterType.equals(MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION)) {
                     showProgressDialog(R.string.saving_dialog_title);
 
                     RegisterParams registerParam = new RegisterParams();

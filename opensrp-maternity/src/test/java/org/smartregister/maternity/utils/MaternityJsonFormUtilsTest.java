@@ -48,7 +48,7 @@ public class MaternityJsonFormUtilsTest {
         MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
                 , MaternityDbConstants.KEY.TABLE
                 , MaternityConstants.EventType.OPD_REGISTRATION
-                , MaternityConstants.EventType.UPDATE_OPD_REGISTRATION
+                , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , Class.class
                 , Class.class
@@ -70,7 +70,7 @@ public class MaternityJsonFormUtilsTest {
         MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
                 , MaternityDbConstants.KEY.TABLE
                 , MaternityConstants.EventType.OPD_REGISTRATION
-                , MaternityConstants.EventType.UPDATE_OPD_REGISTRATION
+                , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , Class.class
                 , Class.class
@@ -105,7 +105,7 @@ public class MaternityJsonFormUtilsTest {
         MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
                 , MaternityDbConstants.KEY.TABLE
                 , MaternityConstants.EventType.OPD_REGISTRATION
-                , MaternityConstants.EventType.UPDATE_OPD_REGISTRATION
+                , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , Class.class
                 , Class.class
@@ -179,7 +179,7 @@ public class MaternityJsonFormUtilsTest {
         MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
                 , MaternityDbConstants.KEY.TABLE
                 , MaternityConstants.EventType.OPD_REGISTRATION
-                , MaternityConstants.EventType.UPDATE_OPD_REGISTRATION
+                , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , Class.class
                 , Class.class
@@ -203,7 +203,7 @@ public class MaternityJsonFormUtilsTest {
         MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
                 , MaternityDbConstants.KEY.TABLE
                 , MaternityConstants.EventType.OPD_REGISTRATION
-                , MaternityConstants.EventType.UPDATE_OPD_REGISTRATION
+                , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , Class.class
                 , Class.class
@@ -449,7 +449,7 @@ public class MaternityJsonFormUtilsTest {
 
     @Test
     public void testProcessOpdDetailsFormShouldReturnNullJsonFormNull() {
-        Assert.assertNull(MaternityJsonFormUtils.processOpdDetailsForm("", Mockito.mock(FormTag.class)));
+        Assert.assertNull(MaternityJsonFormUtils.processMaternityDetailsForm("", Mockito.mock(FormTag.class)));
     }
 
 }

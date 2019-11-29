@@ -2,8 +2,8 @@
     package="org.smartregister.maternity" >
 
     <application>
-        <activity android:name="activity.BaseMaternityFormActivity"/>
-        <activity android:name="activity.BaseMaternityProfileActivity"/>
+        <activity android:name=".activity.BaseMaternityFormActivity"/>
+        <activity android:name=".activity.BaseMaternityProfileActivity"/>
     </application>
 
 </manifest>

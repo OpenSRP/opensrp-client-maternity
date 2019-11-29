@@ -89,7 +89,7 @@ public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
     public void startFormActivity(@NonNull String formName, @Nullable String entityId, @Nullable String metaData) {
         if (mBaseFragment instanceof BaseMaternityRegisterFragment) {
             String locationId = MaternityUtils.context().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID);
-            presenter().startForm(formName, entityId, metaData, locationId, null, null);
+            presenter().startForm(formName, entityId, metaData, locationId, null, "ec_client");
         }
     }
 

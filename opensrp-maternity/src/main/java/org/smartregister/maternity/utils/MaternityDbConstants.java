@@ -83,7 +83,7 @@ public interface MaternityDbConstants {
             String GENDER = "gender";
         }
 
-        interface OpdDetails {
+        interface MaternityDetails {
             String ID = "_id";
             String BASE_ENTITY_ID = "base_entity_id";
             String PENDING_DIAGNOSE_AND_TREAT = "pending_diagnose_and_treat";
@@ -154,7 +154,7 @@ public interface MaternityDbConstants {
         String EC_CLIENT = "ec_client";
         String OPD_CHECK_IN = "opd_check_in";
         String OPD_VISIT = "opd_visit";
-        String OPD_DETAILS = "opd_details";
+        String MATERNITY_DETAILS = "maternity_details";
         String OPD_DIAGNOSIS_AND_TREATMENT_FORM = "opd_diagnosis_and_treatment_form";
         String OPD_DIAGNOSIS = "opd_diagnosis";
         String OPD_TREATMENT = "opd_treatment";
