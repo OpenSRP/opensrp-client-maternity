@@ -12,15 +12,6 @@ import java.util.Map;
 public interface MaternityRegisterProviderMetadata {
 
     @NonNull
-    String getGuardianFirstName(@NonNull Map<String, String> columnMaps);
-
-    @NonNull
-    String getGuardianMiddleName(@NonNull Map<String, String> columnMaps);
-
-    @NonNull
-    String getGuardianLastName(@NonNull Map<String, String> columnMaps);
-
-    @NonNull
     String getClientFirstName(@NonNull Map<String, String> columnMaps);
 
     @NonNull
@@ -32,14 +23,9 @@ public interface MaternityRegisterProviderMetadata {
     @NonNull
     String getDob(@NonNull Map<String, String> columnMaps);
 
-    boolean isClientHaveGuardianDetails(@NonNull Map<String, String> columnMaps);
-
-    @Nullable
-    String getRegisterType(@NonNull Map<String, String> columnMaps);
+    @NonNull
+    String getGA(@NonNull Map<String, String> columnMaps);
 
     @NonNull
-    String getHomeAddress(@NonNull Map<String, String> columnMaps);
-
-    @NonNull
-    String getGender(@NonNull Map<String, String> columnMaps);
+    String getPatientID(@NonNull Map<String, String> columnMaps);
 }

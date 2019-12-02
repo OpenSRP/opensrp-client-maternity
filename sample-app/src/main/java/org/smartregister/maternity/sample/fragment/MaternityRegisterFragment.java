@@ -1,5 +1,7 @@
 package org.smartregister.maternity.sample.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import com.google.gson.Gson;
 
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.MaternityLibrary;
@@ -22,8 +22,6 @@ import org.smartregister.maternity.utils.MaternityConstants;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import timber.log.Timber;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
@@ -67,7 +65,7 @@ public class MaternityRegisterFragment extends BaseMaternityRegisterFragment {
     @Override
     protected void startRegistration() {
         MaternityRegisterActivity opdRegisterActivity = (MaternityRegisterActivity) getActivity();
-        MaternityMetadata maternityMetadata = MaternityLibrary.getInstance().getMaternityConfiguration().getOpdMetadata();
+        MaternityMetadata maternityMetadata = MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata();
 
         if (maternityMetadata != null && opdRegisterActivity != null) {
             opdRegisterActivity.startFormActivity(maternityMetadata.getOpdRegistrationFormName()
@@ -80,8 +78,8 @@ public class MaternityRegisterFragment extends BaseMaternityRegisterFragment {
     protected void performPatientAction(@NonNull CommonPersonObjectClient commonPersonObjectClient) {
         Map<String, String> clientColumnMaps = commonPersonObjectClient.getColumnmaps();
 
-        MaternityRegisterActivity opdRegisterActivity = (MaternityRegisterActivity) getActivity();
-        if (opdRegisterActivity != null && clientColumnMaps.containsKey(MaternityDbConstants.Column.MaternityDetails.PENDING_DIAGNOSE_AND_TREAT)) {
+        MaternityRegisterActivity maternityRegisterActivity = (MaternityRegisterActivity) getActivity();
+        if (maternityRegisterActivity != null && clientColumnMaps.containsKey(MaternityDbConstants.Column.MaternityDetails.PENDING_DIAGNOSE_AND_TREAT)) {
             HashMap<String, String> injectedValues = new HashMap<String, String>();
             injectedValues.put("patient_gender", clientColumnMaps.get("gender"));
 
@@ -97,16 +95,22 @@ public class MaternityRegisterFragment extends BaseMaternityRegisterFragment {
             }
 
             if (!isDiagnoseScheduled) {
-                opdRegisterActivity.startFormActivity(MaternityConstants.Form.OPD_CHECK_IN, commonPersonObjectClient.getCaseId(), null, injectedValues, entityTable);
+                maternityRegisterActivity.startFormActivity(MaternityConstants.Form.OPD_CHECK_IN, commonPersonObjectClient.getCaseId(), null, injectedValues, entityTable);
             } else {
-                opdRegisterActivity.startFormActivity(MaternityConstants.Form.OPD_DIAGNOSIS_AND_TREAT, commonPersonObjectClient.getCaseId(), null, injectedValues, entityTable);
+                maternityRegisterActivity.startFormActivity(MaternityConstants.Form.OPD_DIAGNOSIS_AND_TREAT, commonPersonObjectClient.getCaseId(), null, injectedValues, entityTable);
             }
         }
     }
 
     @Override
     protected void goToClientDetailActivity(@NonNull CommonPersonObjectClient commonPersonObjectClient) {
-        // Do nothing
-        Timber.i("Client was clicked on OPD Register: %s", new Gson().toJson(commonPersonObjectClient));
+        final Context context = getActivity();
+        MaternityMetadata maternityMetadata = MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata();
+
+        if (context != null && maternityMetadata != null) {
+            Intent intent = new Intent(getActivity(), maternityMetadata.getProfileActivity());
+            intent.putExtra(MaternityConstants.IntentKey.CLIENT_OBJECT, commonPersonObjectClient);
+            startActivity(intent);
+        }
     }
 }

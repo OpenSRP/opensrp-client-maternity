@@ -10,22 +10,14 @@ public interface MaternityDbConstants {
 
     interface KEY {
         String ID = "_id";
-        String MOTHER_FIRST_NAME = "mother_first_name";
-        String MOTHER_MIDDLE_NAME = "mother_middle_name";
-        String MOTHER_LAST_NAME = "mother_last_name";
-        String HOME_ADDRESS = "home_address";
-
-        String REGISTER_TYPE = "register_type";
-
         String FIRST_NAME = "first_name";
         String MIDDLE_NAME = "middle_name";
         String LAST_NAME = "last_name";
         String DOB = "dob";
 
-        String GENDER = "gender";
-
         String REGISTER_ID = "register_id";
         String BASE_ENTITY_ID = "base_entity_id";
+        String GA = "ga";
 
         String TABLE = "ec_client";
         String OPENSRP_ID = "opensrp_id";

@@ -7,6 +7,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.commonregistry.CommonFtsObject;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.maternity.MaternityLibrary;
+import org.smartregister.maternity.activity.BaseMaternityProfileActivity;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.pojos.MaternityMetadata;
 import org.smartregister.maternity.sample.BuildConfig;
@@ -102,7 +103,7 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
                 , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , MaternityFormActivity.class
-                ,null
+                , BaseMaternityProfileActivity.class
                 ,true);
         MaternityConfiguration maternityConfiguration = new MaternityConfiguration
                 .Builder(MaternityRegisterQueryProvider.class)

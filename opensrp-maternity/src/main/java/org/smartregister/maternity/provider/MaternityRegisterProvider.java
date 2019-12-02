@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,11 +60,11 @@ public class MaternityRegisterProvider implements RecyclerViewProvider<Maternity
         this.maternityRegisterProviderMetadata = ConfigurationInstancesHelper
                 .newInstance(MaternityLibrary.getInstance()
                         .getMaternityConfiguration()
-                        .getOpdRegisterProviderMetadata());
+                        .getMaternityRegisterProviderMetadata());
 
         Class<? extends MaternityRegisterRowOptions> opdRegisterRowOptionsClass = MaternityLibrary.getInstance()
                 .getMaternityConfiguration()
-                .getOpdRegisterRowOptions();
+                .getMaternityRegisterRowOptions();
         if (opdRegisterRowOptionsClass != null) {
             this.maternityRegisterRowOptions = ConfigurationInstancesHelper.newInstance(opdRegisterRowOptionsClass);
         }
@@ -158,61 +157,28 @@ public class MaternityRegisterProvider implements RecyclerViewProvider<Maternity
     public void populatePatientColumn(CommonPersonObjectClient commonPersonObjectClient, MaternityRegisterViewHolder viewHolder) {
         Map<String, String> patientColumnMaps = commonPersonObjectClient.getColumnmaps();
 
-        if (maternityRegisterProviderMetadata.isClientHaveGuardianDetails(patientColumnMaps)) {
-            viewHolder.showCareGiverName();
-
-            String parentFirstName = maternityRegisterProviderMetadata.getGuardianFirstName(patientColumnMaps);
-            String parentLastName = maternityRegisterProviderMetadata.getGuardianLastName(patientColumnMaps);
-            String parentMiddleName = maternityRegisterProviderMetadata.getGuardianMiddleName(patientColumnMaps);
-
-            String parentName = context.getResources().getString(R.string.care_giver_initials)
-                    + ": "
-                    + org.smartregister.util.Utils.getName(parentFirstName, parentMiddleName + " " + parentLastName);
-            fillValue(viewHolder.textViewParentName, WordUtils.capitalize(parentName));
-        } else {
-            viewHolder.removeCareGiverName();
-        }
-
         String firstName = maternityRegisterProviderMetadata.getClientFirstName(patientColumnMaps);
         String middleName = maternityRegisterProviderMetadata.getClientMiddleName(patientColumnMaps);
         String lastName = maternityRegisterProviderMetadata.getClientLastName(patientColumnMaps);
-        String childName = org.smartregister.util.Utils.getName(firstName, middleName + " " + lastName);
+        String patientName = org.smartregister.util.Utils.getName(firstName, middleName + " " + lastName);
 
         String dobString = Utils.getDuration(maternityRegisterProviderMetadata.getDob(patientColumnMaps));
         String translatedYearInitial = context.getResources().getString(R.string.abbrv_years);
-        fillValue(viewHolder.textViewChildName, WordUtils.capitalize(childName) + ", " +
-                WordUtils.capitalize(MaternityUtils.getClientAge(dobString, translatedYearInitial)));
-        String registerType = maternityRegisterProviderMetadata.getRegisterType(patientColumnMaps);
+        fillValue(viewHolder.textViewPatientName, WordUtils.capitalize(patientName));
 
-        if (!TextUtils.isEmpty(registerType)) {
-            viewHolder.showRegisterType();
-            fillValue(viewHolder.tvRegisterType, registerType);
-        } else {
-            viewHolder.hideRegisterType();
-        }
+        fillValue(viewHolder.tvAge, String.format(context.getString(R.string.patient_age_holder), WordUtils.capitalize(MaternityUtils.getClientAge(dobString, translatedYearInitial))));
+        String ga = maternityRegisterProviderMetadata.getGA(patientColumnMaps);
+        fillValue(viewHolder.textViewGa, String.format(context.getString(R.string.patient_ga_holder), ga));
 
-        setAddressAndGender(commonPersonObjectClient, viewHolder);
+        String patientId = maternityRegisterProviderMetadata.getPatientID(patientColumnMaps);
+        fillValue(viewHolder.tvPatientId, String.format(context.getString(R.string.patient_id_holder), patientId));
+
         addButtonClickListeners(commonPersonObjectClient, viewHolder);
     }
 
-    public void setAddressAndGender(CommonPersonObjectClient pc, MaternityRegisterViewHolder viewHolder) {
-        Map<String, String> patientColumnMaps = pc.getColumnmaps();
-        String address = maternityRegisterProviderMetadata.getHomeAddress(patientColumnMaps);
-        String gender = maternityRegisterProviderMetadata.getGender(patientColumnMaps);
-
-        fillValue(viewHolder.textViewGender, gender);
-
-        if (TextUtils.isEmpty(address)) {
-            viewHolder.removePersonLocation();
-        } else {
-            viewHolder.showPersonLocation();
-            fillValue(viewHolder.tvLocation, address);
-        }
-    }
-
     public void addButtonClickListeners(@NonNull CommonPersonObjectClient client, MaternityRegisterViewHolder viewHolder) {
-        View patient = viewHolder.childColumn;
-        attachPatientOnclickListener(MaternityViewConstants.Provider.CHILD_COLUMN, patient, client);
+        View patient = viewHolder.patientColumn;
+        attachPatientOnclickListener(MaternityViewConstants.Provider.PATIENT_COLUMN, patient, client);
         attachPatientOnclickListener(MaternityViewConstants.Provider.ACTION_BUTTON_COLUMN, viewHolder.dueButton, client);
     }
 

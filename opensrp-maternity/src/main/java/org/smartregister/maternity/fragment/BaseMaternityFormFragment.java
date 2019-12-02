@@ -76,7 +76,7 @@ public class BaseMaternityFormFragment extends JsonWizardFormFragment implements
     public void updateVisibilityOfNextAndSave(boolean next, boolean save) {
         super.updateVisibilityOfNextAndSave(next, save);
         Form form = getForm();
-        MaternityMetadata maternityMetadata = MaternityLibrary.getInstance().getMaternityConfiguration().getOpdMetadata();
+        MaternityMetadata maternityMetadata = MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata();
 
         if (form != null && form.isWizard() && maternityMetadata != null
                 && !maternityMetadata.isFormWizardValidateRequiredFieldsBefore()) {
@@ -203,7 +203,7 @@ public class BaseMaternityFormFragment extends JsonWizardFormFragment implements
     }
 
     protected void startActivityOnLookUp(@NonNull CommonPersonObjectClient client) {
-        Intent intent = new Intent(getActivity(), MaternityLibrary.getInstance().getMaternityConfiguration().getOpdMetadata().getProfileActivity());
+        Intent intent = new Intent(getActivity(), MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata().getProfileActivity());
 
         // Add register_id FROM opensrp_id
         String opensrpId = client.getColumnmaps().get(MaternityDbConstants.Column.Client.OPENSRP_ID);

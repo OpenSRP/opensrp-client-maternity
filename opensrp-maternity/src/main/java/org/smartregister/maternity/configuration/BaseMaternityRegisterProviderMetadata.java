@@ -18,25 +18,6 @@ import java.util.Map;
 
 public class BaseMaternityRegisterProviderMetadata implements MaternityRegisterProviderMetadata {
 
-
-    @NonNull
-    @Override
-    public String getGuardianFirstName(@NonNull Map<String, String> columnMaps) {
-        return Utils.getValue(columnMaps, MaternityDbConstants.KEY.MOTHER_FIRST_NAME, true);
-    }
-
-    @NonNull
-    @Override
-    public String getGuardianMiddleName(@NonNull Map<String, String> columnMaps) {
-        return Utils.getValue(columnMaps, MaternityDbConstants.KEY.MOTHER_LAST_NAME, true);
-    }
-
-    @NonNull
-    @Override
-    public String getGuardianLastName(@NonNull Map<String, String> columnMaps) {
-        return Utils.getValue(columnMaps, MaternityDbConstants.KEY.MOTHER_MIDDLE_NAME, true);
-    }
-
     @NonNull
     @Override
     public String getClientFirstName(@NonNull Map<String, String> columnMaps) {
@@ -61,28 +42,16 @@ public class BaseMaternityRegisterProviderMetadata implements MaternityRegisterP
         return Utils.getValue(columnMaps, MaternityDbConstants.KEY.DOB, false);
     }
 
+    @NonNull
     @Override
-    public boolean isClientHaveGuardianDetails(@NonNull Map<String, String> columnMaps) {
-        String registerType = getRegisterType(columnMaps);
-        return registerType != null && registerType.contains("Child");
-    }
-
-    @Nullable
-    @Override
-    public String getRegisterType(@NonNull Map<String, String> columnMaps) {
-        return Utils.getValue(columnMaps, MaternityDbConstants.KEY.REGISTER_TYPE, true);
+    public String getGA(@NonNull Map<String, String> columnMaps) {
+        return Utils.getValue(columnMaps, MaternityDbConstants.KEY.GA, true);
     }
 
     @NonNull
     @Override
-    public String getHomeAddress(@NonNull Map<String, String> columnMaps) {
-        return Utils.getValue(columnMaps, MaternityDbConstants.KEY.HOME_ADDRESS, true);
-    }
-
-    @NonNull
-    @Override
-    public String getGender(@NonNull Map<String, String> columnMaps) {
-        return Utils.getValue(columnMaps, MaternityDbConstants.KEY.GENDER, true);
+    public String getPatientID(@NonNull Map<String, String> columnMaps) {
+        return Utils.getValue(columnMaps, MaternityDbConstants.KEY.REGISTER_ID, true);
     }
 
     @NonNull

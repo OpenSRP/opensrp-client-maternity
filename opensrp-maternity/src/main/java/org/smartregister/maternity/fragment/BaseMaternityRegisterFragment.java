@@ -53,7 +53,7 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
     public BaseMaternityRegisterFragment() {
         super();
 
-        opdRegisterQueryProvider = ConfigurationInstancesHelper.newInstance(MaternityLibrary.getInstance().getMaternityConfiguration().getOpdRegisterQueryProvider());
+        opdRegisterQueryProvider = ConfigurationInstancesHelper.newInstance(MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityRegisterQueryProvider());
     }
 
     @Override
@@ -185,7 +185,7 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
 
             if (viewClient != null) {
                 if (viewClient instanceof CommonPersonObjectClient) {
-                    if (view.getTag(R.id.VIEW_TYPE).equals(MaternityViewConstants.Provider.CHILD_COLUMN)) {
+                    if (view.getTag(R.id.VIEW_TYPE).equals(MaternityViewConstants.Provider.PATIENT_COLUMN)) {
 
                         goToClientDetailActivity((CommonPersonObjectClient) viewClient);
                     } else if (view.getTag(R.id.VIEW_TYPE).equals(MaternityViewConstants.Provider.ACTION_BUTTON_COLUMN)) {

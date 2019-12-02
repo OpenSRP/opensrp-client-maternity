@@ -92,7 +92,7 @@ public class MaternityProfileInteractor implements MaternityProfileActivityContr
     @Nullable
     @Override
     public CommonPersonObjectClient retrieveUpdatedClient(@NonNull String baseEntityId) {
-        MaternityRegisterQueryProviderContract queryProviderContract = ConfigurationInstancesHelper.newInstance(MaternityLibrary.getInstance().getMaternityConfiguration().getOpdRegisterQueryProvider());
+        MaternityRegisterQueryProviderContract queryProviderContract = ConfigurationInstancesHelper.newInstance(MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityRegisterQueryProvider());
         String query = queryProviderContract.mainSelectWhereIDsIn();
 
 

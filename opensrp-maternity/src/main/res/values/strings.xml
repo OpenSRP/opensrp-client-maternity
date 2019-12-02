@@ -67,5 +67,8 @@
     <string name="positive">positive</string>
     <string name="switch_register_view">SWITCH REGISTER VIEW</string>
     <string name="edit_opd_registration_failure_message">You cannot edit this patient using the Maternity Registration. Click on the Register Switcher</string>
+    <string name="patient_id_holder">ID: %s</string>
+    <string name="patient_age_holder">Age: %s</string>
+    <string name="patient_ga_holder">GA: %s</string>
 
 </resources>

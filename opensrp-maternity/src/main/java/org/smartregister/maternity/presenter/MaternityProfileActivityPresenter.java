@@ -138,13 +138,6 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
                 profileView.setProfileAge(clientAge);
             }
 
-            try {
-                profileView.setProfileGender(Utils.getValue(client, MaternityDbConstants.KEY.GENDER, true));
-            } catch (Exception e) {
-                Timber.e(e);
-                profileView.setProfileGender("");
-            }
-
             profileView.setProfileID(Utils.getValue(client, MaternityDbConstants.KEY.REGISTER_ID, false));
             profileView.setProfileImage(Utils.getValue(client, MaternityDbConstants.KEY.ID, false));
         }

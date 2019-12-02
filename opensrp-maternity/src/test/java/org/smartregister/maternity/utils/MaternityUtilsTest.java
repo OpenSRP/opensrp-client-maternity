@@ -101,7 +101,7 @@ public class MaternityUtilsTest {
     public void metadata() {
         ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
         Mockito.doReturn(maternityConfiguration).when(maternityLibrary).getMaternityConfiguration();
-        Mockito.doReturn(maternityMetadata).when(maternityConfiguration).getOpdMetadata();
+        Mockito.doReturn(maternityMetadata).when(maternityConfiguration).getMaternityMetadata();
 
         assertEquals(maternityMetadata, MaternityUtils.metadata());
 
@@ -134,7 +134,7 @@ public class MaternityUtilsTest {
         // Mock calls to MaternityLibrary
         ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
         Mockito.doReturn(maternityConfiguration).when(maternityLibrary).getMaternityConfiguration();
-        Mockito.doReturn(maternityMetadata).when(maternityConfiguration).getOpdMetadata();
+        Mockito.doReturn(maternityMetadata).when(maternityConfiguration).getMaternityMetadata();
         Mockito.doReturn(BaseMaternityFormActivity.class).when(maternityMetadata).getOpdFormActivity();
 
         JSONObject jsonForm = new JSONObject();

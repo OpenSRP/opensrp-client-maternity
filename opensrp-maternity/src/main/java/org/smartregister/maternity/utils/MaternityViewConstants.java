@@ -7,7 +7,7 @@ package org.smartregister.maternity.utils;
 public interface MaternityViewConstants {
 
     interface Provider {
-        String CHILD_COLUMN = "child_column";
+        String PATIENT_COLUMN = "patient_column";
         String ACTION_BUTTON_COLUMN = "action_button_column";
     }
 }

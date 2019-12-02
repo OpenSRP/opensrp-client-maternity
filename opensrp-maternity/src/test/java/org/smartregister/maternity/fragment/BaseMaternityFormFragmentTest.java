@@ -42,7 +42,7 @@ public class BaseMaternityFormFragmentTest {
     @Test
     public void startActivityOnLookUpShouldCallStartActivity() {
         MaternityConfiguration maternityConfiguration = new MaternityConfiguration.Builder(MaternityRegisterQueryProvider.class)
-                .setOpdRegisterProviderMetadata(BaseMaternityRegisterProviderMetadata.class)
+                .setMaternityRegisterProviderMetadata(BaseMaternityRegisterProviderMetadata.class)
                 .setMaternityMetadata(new MaternityMetadata("form-name"
                         , "table-name"
                         , "register-event-type"

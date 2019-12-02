@@ -119,7 +119,7 @@ public abstract class BaseMaternityRegisterActivity extends BaseRegisterActivity
 
     @Override
     public void startFormActivity(@NonNull JSONObject jsonForm, @Nullable HashMap<String, String> parcelableData) {
-        MaternityMetadata maternityMetadata = MaternityLibrary.getInstance().getMaternityConfiguration().getOpdMetadata();
+        MaternityMetadata maternityMetadata = MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata();
         if (maternityMetadata != null) {
             Intent intent = new Intent(this, maternityMetadata.getOpdFormActivity());
             intent.putExtra(MaternityConstants.JSON_FORM_EXTRA.JSON, jsonForm.toString());

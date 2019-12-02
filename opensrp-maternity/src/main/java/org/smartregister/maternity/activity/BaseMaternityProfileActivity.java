@@ -135,7 +135,7 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     }
 
     private void configureRegisterSwitcher() {
-        Class<? extends MaternityRegisterSwitcher> opdRegisterSwitcherClass = MaternityLibrary.getInstance().getMaternityConfiguration().getOpdRegisterSwitcher();
+        Class<? extends MaternityRegisterSwitcher> opdRegisterSwitcherClass = MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityRegisterSwitcher();
         if (opdRegisterSwitcherClass != null) {
             final MaternityRegisterSwitcher maternityRegisterSwitcher = ConfigurationInstancesHelper.newInstance(opdRegisterSwitcherClass);
 

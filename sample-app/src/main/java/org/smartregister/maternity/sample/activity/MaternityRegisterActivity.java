@@ -89,7 +89,7 @@ public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {
-        Intent intent = new Intent(this, MaternityLibrary.getInstance().getMaternityConfiguration().getOpdMetadata().getOpdFormActivity());
+        Intent intent = new Intent(this, MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata().getOpdFormActivity());
         if (jsonForm.has(SampleConstants.KEY.ENCOUNTER_TYPE) && jsonForm.optString(SampleConstants.KEY.ENCOUNTER_TYPE).equals(
                 SampleConstants.KEY.OPD_REGISTRATION)) {
 //            MaternityJsonFormUtils.addRegLocHierarchyQuestions(jsonForm, GizConstants.KEY.REGISTRATION_HOME_ADDRESS, LocationHierarchy.ENTIRE_TREE);

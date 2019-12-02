@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import org.smartregister.maternity.pojos.MaternityMetadata;
 
 /**
- * This is the object used to configure any configurations added to OPD. We mostly use objects that are
+ * This is the object used to configure any configurations added to Maternity. We mostly use objects that are
  * instantiated using {@link org.smartregister.maternity.utils.ConfigurationInstancesHelper} which means
  * that the constructors of any of the classes should not have any parameters
  *
@@ -24,34 +24,34 @@ public class MaternityConfiguration {
     }
 
     private void setDefaults() {
-        if (builder.opdRegisterProviderMetadata == null) {
-            builder.opdRegisterProviderMetadata = BaseMaternityRegisterProviderMetadata.class;
+        if (builder.maternityRegisterProviderMetadata == null) {
+            builder.maternityRegisterProviderMetadata = BaseMaternityRegisterProviderMetadata.class;
         }
     }
 
     @Nullable
-    public MaternityMetadata getOpdMetadata() {
+    public MaternityMetadata getMaternityMetadata() {
         return builder.maternityMetadata;
     }
 
     @NonNull
-    public Class<? extends MaternityRegisterProviderMetadata> getOpdRegisterProviderMetadata() {
-        return builder.opdRegisterProviderMetadata;
+    public Class<? extends MaternityRegisterProviderMetadata> getMaternityRegisterProviderMetadata() {
+        return builder.maternityRegisterProviderMetadata;
     }
 
     @Nullable
-    public Class<? extends MaternityRegisterRowOptions> getOpdRegisterRowOptions() {
-        return builder.opdRegisterRowOptions;
+    public Class<? extends MaternityRegisterRowOptions> getMaternityRegisterRowOptions() {
+        return builder.maternityRegisterRowOptions;
     }
 
     @NonNull
-    public Class<? extends MaternityRegisterQueryProviderContract> getOpdRegisterQueryProvider() {
-        return builder.opdRegisterQueryProvider;
+    public Class<? extends MaternityRegisterQueryProviderContract> getMaternityRegisterQueryProvider() {
+        return builder.maternityRegisterQueryProvider;
     }
 
     @Nullable
-    public Class<? extends MaternityRegisterSwitcher> getOpdRegisterSwitcher() {
-        return builder.opdRegisterSwitcher;
+    public Class<? extends MaternityRegisterSwitcher> getMaternityRegisterSwitcher() {
+        return builder.maternityRegisterSwitcher;
     }
 
     public int getMaxCheckInDurationInMinutes() {
@@ -65,38 +65,38 @@ public class MaternityConfiguration {
     public static class Builder {
 
         @Nullable
-        private Class<? extends MaternityRegisterProviderMetadata> opdRegisterProviderMetadata;
+        private Class<? extends MaternityRegisterProviderMetadata> maternityRegisterProviderMetadata;
 
         @Nullable
-        private Class<? extends MaternityRegisterRowOptions> opdRegisterRowOptions;
+        private Class<? extends MaternityRegisterRowOptions> maternityRegisterRowOptions;
 
         @NonNull
-        private Class<? extends MaternityRegisterQueryProviderContract> opdRegisterQueryProvider;
+        private Class<? extends MaternityRegisterQueryProviderContract> maternityRegisterQueryProvider;
 
         @Nullable
-        private Class<? extends MaternityRegisterSwitcher> opdRegisterSwitcher;
+        private Class<? extends MaternityRegisterSwitcher> maternityRegisterSwitcher;
 
         private boolean isBottomNavigationEnabled;
 
         private MaternityMetadata maternityMetadata;
         private int maxCheckInDurationInMinutes = 24 * 60;
 
-        public Builder(@NonNull Class<? extends MaternityRegisterQueryProviderContract> opdRegisterQueryProvider) {
-            this.opdRegisterQueryProvider = opdRegisterQueryProvider;
+        public Builder(@NonNull Class<? extends MaternityRegisterQueryProviderContract> maternityRegisterQueryProvider) {
+            this.maternityRegisterQueryProvider = maternityRegisterQueryProvider;
         }
 
-        public Builder setOpdRegisterProviderMetadata(@Nullable Class<? extends MaternityRegisterProviderMetadata> opdRegisterProviderMetadata) {
-            this.opdRegisterProviderMetadata = opdRegisterProviderMetadata;
+        public Builder setMaternityRegisterProviderMetadata(@Nullable Class<? extends MaternityRegisterProviderMetadata> maternityRegisterProviderMetadata) {
+            this.maternityRegisterProviderMetadata = maternityRegisterProviderMetadata;
             return this;
         }
 
-        public Builder setOpdRegisterRowOptions(@Nullable Class<? extends MaternityRegisterRowOptions> opdRegisterRowOptions) {
-            this.opdRegisterRowOptions = opdRegisterRowOptions;
+        public Builder setMaternityRegisterRowOptions(@Nullable Class<? extends MaternityRegisterRowOptions> maternityRegisterRowOptions) {
+            this.maternityRegisterRowOptions = maternityRegisterRowOptions;
             return this;
         }
 
-        public Builder setOpdRegisterSwitcher(@Nullable Class<? extends MaternityRegisterSwitcher> opdRegisterSwitcher) {
-            this.opdRegisterSwitcher = opdRegisterSwitcher;
+        public Builder setMaternityRegisterSwitcher(@Nullable Class<? extends MaternityRegisterSwitcher> maternityRegisterSwitcher) {
+            this.maternityRegisterSwitcher = maternityRegisterSwitcher;
             return this;
         }
 

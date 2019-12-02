@@ -71,7 +71,7 @@ public class MaternityRegisterProviderTest extends BaseTest {
         Mockito.doReturn(inflator).when(context).getSystemService(Mockito.eq(Context.LAYOUT_INFLATER_SERVICE));
 
         MaternityConfiguration maternityConfiguration = new MaternityConfiguration.Builder(MaternityRegisterQueryProvider.class)
-                .setOpdRegisterProviderMetadata(BaseMaternityRegisterProviderMetadata.class)
+                .setMaternityRegisterProviderMetadata(BaseMaternityRegisterProviderMetadata.class)
                 .build();
 
         MaternityLibrary.init(Mockito.mock(org.smartregister.Context.class), Mockito.mock(Repository.class), maternityConfiguration, BuildConfig.VERSION_CODE, 1);
@@ -105,7 +105,7 @@ public class MaternityRegisterProviderTest extends BaseTest {
         Mockito.doReturn("y").when(resources).getString(R.string.abbrv_years);
 
         MaternityRegisterViewHolder viewHolder = Mockito.mock(MaternityRegisterViewHolder.class);
-        viewHolder.childColumn = Mockito.mock(View.class);
+        viewHolder.patientColumn = Mockito.mock(View.class);
         viewHolder.dueButton = Mockito.mock(Button.class);
 
         maternityRegisterProvider.populatePatientColumn(client, viewHolder);
@@ -127,9 +127,9 @@ public class MaternityRegisterProviderTest extends BaseTest {
         Mockito.verify(opdRegisterProviderMetadata, Mockito.times(1))
                 .getRegisterType(Mockito.eq(client.getColumnmaps()));
         Mockito.verify(opdRegisterProviderMetadata, Mockito.times(1))
-                .getHomeAddress(Mockito.eq(client.getColumnmaps()));
+                .getGA(Mockito.eq(client.getColumnmaps()));
         Mockito.verify(opdRegisterProviderMetadata, Mockito.times(1))
-                .getGender(Mockito.eq(client.getColumnmaps()));
+                .getPatientID(Mockito.eq(client.getColumnmaps()));
     }
 
     @Test
