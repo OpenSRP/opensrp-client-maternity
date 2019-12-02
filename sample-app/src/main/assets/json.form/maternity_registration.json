@@ -271,9 +271,9 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "gender",
         "type": "edit_text",
-        "read_only": true,
         "hint": "Gender",
-        "values": "Female"
+        "read_only": true,
+        "value": "Female"
       },
       {
         "key": "home_address",

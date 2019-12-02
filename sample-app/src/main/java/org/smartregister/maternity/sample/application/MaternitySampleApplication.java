@@ -34,9 +34,7 @@ import timber.log.Timber;
 
 public class MaternitySampleApplication extends org.smartregister.view.activity.DrishtiApplication {
 
-    private static final String TAG = MaternitySampleApplication.class.getCanonicalName();
     private static CommonFtsObject commonFtsObject;
-    private boolean lastModified;
 
     public static CommonFtsObject createCommonFtsObject() {
         if (commonFtsObject == null) {

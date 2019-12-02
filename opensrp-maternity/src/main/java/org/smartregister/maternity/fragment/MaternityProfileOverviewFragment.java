@@ -101,7 +101,7 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
     private void showCheckInBtn() {
         if (getActivity() != null) {
             opdCheckinSectionLayout.setVisibility(View.VISIBLE);
-            checkInDiagnoseAndTreatBtn.setText(R.string.check_in);
+            checkInDiagnoseAndTreatBtn.setText(R.string.outcome);
             checkInDiagnoseAndTreatBtn.setBackgroundResource(R.drawable.check_in_btn_overview_bg);
             checkInDiagnoseAndTreatBtn.setTextColor(getActivity().getResources().getColorStateList(R.color.check_in_btn_overview_text_color));
             checkInDiagnoseAndTreatBtn.setOnClickListener(new View.OnClickListener() {

@@ -55,12 +55,6 @@ public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
         return new MaternityRegisterFragment();
     }
 
-
-    @Override
-    protected void onResumption() {
-        super.onResumption();
-    }
-
     @Override
     protected void onActivityResultExtended(int requestCode, int resultCode, Intent data) {
         if (requestCode == MaternityJsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {

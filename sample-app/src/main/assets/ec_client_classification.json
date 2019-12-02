@@ -7,14 +7,7 @@
         "fields": [
           {
             "field": "eventType",
-            "field_value": "Visit",
-            "creates_case": [
-              "ec_mother"
-            ]
-          },
-          {
-            "field": "eventType",
-            "field_value": "Opd Registration",
+            "field_value": "Maternity Registration",
             "creates_case": [
               "ec_client"
             ]
