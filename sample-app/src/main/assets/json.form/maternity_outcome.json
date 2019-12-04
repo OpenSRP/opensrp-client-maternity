@@ -1,0 +1,322 @@
+{
+  "count": "1",
+  "encounter_type": "Maternity Outcome",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": "",
+    "look_up": {
+      "entity_id": "",
+      "value": ""
+    }
+  },
+  "step1": {
+    "title": "Complications",
+    "fields": [
+      {
+        "key": "obstetric_complications",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "1541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "spinner",
+        "hint": "Obstetric Complications",
+        "values": [
+          "None",
+          "Anter part haem",
+          "Post part heam",
+          "Obstr. Prod Labour",
+          "pre-Eclampsia",
+          "Sepsis",
+          "Ruptured Uterus",
+          "Retained placenta",
+          "Premature labour",
+          "Fatal distress",
+          "Other"
+        ],
+        "keys": [
+          "None",
+          "Anter part haem",
+          "Post part heam",
+          "Obstr. Prod Labour",
+          "pre-Eclampsia",
+          "Sepsis",
+          "Ruptured Uterus",
+          "Retained placenta",
+          "Premature labour",
+          "Fatal distress",
+          "Other"
+        ]
+      },
+      {
+        "key": "emergency_obstetric_care",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "160427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "spinner",
+        "hint": "Emergency Obstretic Care",
+        "values": [
+          "Oxytocin",
+          "Anticonvulsants",
+          "Antibiotics",
+          "Antenatal corticosieroid",
+          "Blood Transfusion",
+          "MRP",
+          "NASG",
+          "ERP"
+        ],
+        "keys": [
+          "Oxytocin",
+          "Anticonvulsants",
+          "Antibiotics",
+          "Antenatal corticosieroid",
+          "Blood Transfusion",
+          "MRP",
+          "NASG",
+          "ERP"
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "maternity/outcome_relevance_rules.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "referred_out",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Referred out?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "keys": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "key": "delivery_person",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Staff conduction delivery",
+        "values": [
+          "MD/CO/MA/NURSE/MIDWIFE/CMA",
+          "PA/WA/HSA /Other"
+        ],
+        "keys": [
+          "MD/CO/MA/NURSE/MIDWIFE/CMA",
+          "PA/WA/HSA /Other"
+        ]
+      },
+      {
+        "key": "vit_a",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Vit A given",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "keys": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "key": "mother_status",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Mother's Status",
+        "values": [
+          "New",
+          "Referral",
+          "Re-Visit"
+        ],
+        "keys": [
+          "New",
+          "Referral",
+          "Re-Visit"
+        ]
+      }
+    ]
+  },
+  "step2": {
+    "title": "Delivery Details",
+    "fields": [
+      {
+        "key": "delivery_location",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Delivery Location details",
+        "values": [
+          "This Facility",
+          "In-Transit (BBA)",
+          "Other Facility"
+        ],
+        "keys": [
+          "This Facility",
+          "In-Transit (BBA)",
+          "Other Facility"
+        ]
+      },
+      {
+        "key": "delivery_mode",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Delivery Mode",
+        "values": [
+          "Spontan Vertex",
+          "Vacuum Extraction",
+          "Breach",
+          "Caesar Section"
+        ],
+        "keys": [
+          "Spontan Vertex",
+          "Vacuum Extraction",
+          "Breach",
+          "Caesar Section"
+        ]
+      },
+      {
+        "key": "baby_multiples",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Number of babies born",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid no"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Enter the number of babies born"
+        }
+      }
+    ]
+  },
+  "step3": {
+    "title": "Babies born",
+    "fields": [
+      {
+        "key": "birth_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "date_picker",
+        "hint": "Birth date and time",
+        "expanded": false,
+        "v_required": {
+          "value": "true",
+          "err": "Enter the birth time and date of the child"
+        }
+      },
+      {
+        "key": "gender",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Child Sex",
+        "values": [
+          "Male",
+          "Female"
+        ],
+        "keys": [
+          "Male",
+          "Female"
+        ],
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the child's gender"
+        }
+      },
+      {
+        "key": "birth_weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Birth Weight(gm)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid no"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Enter the number of babies born"
+        }
+      },
+      {
+        "key": "agpar",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "APGAR",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid no"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Enter the number of babies born"
+        }
+      }
+    ]
+  }
+}
