@@ -17,7 +17,6 @@ public class MaternityConstants extends AllConstants {
     }
 
     public interface Event {
-
         interface Visit {
             interface Detail {
                 String VISIT_ID = "visitId";
@@ -211,6 +210,7 @@ public class MaternityConstants extends AllConstants {
     public interface ColumnMapKey {
         String REGISTER_ID = "register_id";
         String REGISTER_TYPE = "register_type";
+        String PENDING_OUTCOME = "pending_outcome";
     }
 
     public interface DateFormat {
@@ -223,6 +223,7 @@ public class MaternityConstants extends AllConstants {
         String OPD_DIAGNOSIS_AND_TREAT = "opd_diagnose_and_treat";
         String OPD_CHECK_IN = "opd_checkin";
         String MATERNITY_REGISTRATION = "maternity_registration";
+        String MATERNITY_OUTCOME = "maternity_outcome";
     }
 
     public interface FormValue {

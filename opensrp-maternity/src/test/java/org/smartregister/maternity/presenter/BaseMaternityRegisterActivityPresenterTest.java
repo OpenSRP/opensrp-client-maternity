@@ -57,6 +57,6 @@ public class BaseMaternityRegisterActivityPresenterTest {
         baseMaternityRegisterActivityPresenter.startForm("check_in.json", "90923-dsfds", "meta", "location-id", null, "ec_child");
 
         Mockito.verify(view, Mockito.times(1))
-                .startFormActivity(Mockito.any(JSONObject.class), Mockito.any(HashMap.class));
+                .startFormActivityFromFormJson(Mockito.any(JSONObject.class), Mockito.any(HashMap.class));
     }
 }

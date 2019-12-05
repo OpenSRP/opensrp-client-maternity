@@ -132,9 +132,13 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
     }
 
     @Override
-    public void startForm(@NonNull String formName, @NonNull String entityId, String metaData
+    public void startForm(@NonNull String formName, @Nullable String entityId, String metaData
             , @NonNull String locationId, @Nullable HashMap<String, String> injectedFieldValues, @Nullable String entityTable) {
+
+        // Todo: Refactor this method to only start the form and move the logic for getting a unique id to another method
+        // We are also sure
         if (StringUtils.isBlank(entityId)) {
+            //Todo: Check if this metadata is usually null OR can be null at
             Triple<String, String, String> triple = Triple.of(formName, metaData, locationId);
             interactor.getNextUniqueId(triple, this);
             return;
@@ -143,6 +147,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
         form = null;
         try {
             form = model.getFormAsJson(formName, entityId, locationId, injectedFieldValues);
+            // Todo: Enquire if we have to save a session of the outcome form to be continued later
             if (formName.equals(MaternityConstants.Form.OPD_DIAGNOSIS_AND_TREAT)) {
                 interactor.fetchSavedDiagnosisAndTreatmentForm(entityId, entityTable, this);
                 return;
@@ -152,7 +157,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
             Timber.e(e);
         }
 
-        // The form will be started for forms that are not OPD Diagnosis And Treatment Forms
+        // The form will be started directly for forms that do not have saved sessions
         startFormActivity(entityId, entityTable, form);
     }
 
@@ -175,7 +180,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
             intentKeys.put(MaternityConstants.IntentKey.BASE_ENTITY_ID, entityId);
             intentKeys.put(MaternityConstants.IntentKey.ENTITY_TABLE, entityTable);
 
-            getView().startFormActivity(form, intentKeys);
+            getView().startFormActivityFromFormJson(form, intentKeys);
         }
     }
 

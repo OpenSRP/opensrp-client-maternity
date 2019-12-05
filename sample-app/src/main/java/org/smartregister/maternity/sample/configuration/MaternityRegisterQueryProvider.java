@@ -39,7 +39,7 @@ public class MaternityRegisterQueryProvider extends MaternityRegisterQueryProvid
     @NonNull
     @Override
     public String mainSelectWhereIDsIn() {
-        return "Select id as _id , first_name , last_name , '' AS middle_name , gender , dob , '' AS home_address, '50 weeks' as ga, relationalid , opensrp_id AS register_id , last_interacted_with , 'ec_client' as entity_table FROM ec_client " +
+        return "SELECT id AS _id , first_name , last_name , '' AS middle_name , gender , dob , '' AS home_address, '50 weeks' AS ga, relationalid , opensrp_id AS register_id , last_interacted_with, 1 AS pending_outcome , 'ec_client' as entity_table FROM ec_client " +
                 "WHERE id IN (%s)\n" +
                 "ORDER BY last_interacted_with DESC";
     }

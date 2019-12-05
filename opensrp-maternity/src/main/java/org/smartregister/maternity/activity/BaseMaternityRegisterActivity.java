@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -27,6 +28,7 @@ import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.view.activity.BaseRegisterActivity;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import timber.log.Timber;
@@ -108,7 +110,7 @@ public abstract class BaseMaternityRegisterActivity extends BaseRegisterActivity
     }
 
     @Override
-    public void startFormActivity(String formName, String entityId, String metaData, @Nullable HashMap<String, String> injectedFieldValues, @Nullable String entityTable) {
+    public void startFormActivityFromFormName(@NonNull String formName, @Nullable String entityId, String metaData, @Nullable HashMap<String, String> injectedFieldValues, @Nullable String entityTable) {
         if (mBaseFragment instanceof BaseMaternityRegisterFragment) {
             String locationId = MaternityUtils.context().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID);
             presenter().startForm(formName, entityId, metaData, locationId, injectedFieldValues, entityTable);
@@ -118,7 +120,7 @@ public abstract class BaseMaternityRegisterActivity extends BaseRegisterActivity
     }
 
     @Override
-    public void startFormActivity(@NonNull JSONObject jsonForm, @Nullable HashMap<String, String> parcelableData) {
+    public void startFormActivityFromFormJson(@NonNull JSONObject jsonForm, @Nullable HashMap<String, String> parcelableData) {
         MaternityMetadata maternityMetadata = MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata();
         if (maternityMetadata != null) {
             Intent intent = new Intent(this, maternityMetadata.getOpdFormActivity());
@@ -127,11 +129,15 @@ public abstract class BaseMaternityRegisterActivity extends BaseRegisterActivity
             form.setWizard(false);
             form.setName("");
 
-            String encounterType = jsonForm.optString(MaternityJsonFormUtils.ENCOUNTER_TYPE);
+            for (Iterator<String> objectKeys = jsonForm.keys(); objectKeys.hasNext();) {
+                String key = objectKeys.next();
+                if (!TextUtils.isEmpty(key) && key.contains("step") && !"step1".equalsIgnoreCase(key)) {
+                    String encounterType = jsonForm.optString(MaternityConstants.JSON_FORM_KEY.ENCOUNTER_TYPE);
 
-            if (encounterType.equals(MaternityConstants.EventType.DIAGNOSIS_AND_TREAT)) {
-                form.setName(MaternityConstants.EventType.DIAGNOSIS_AND_TREAT);
-                form.setWizard(true);
+                    form.setName(encounterType);
+                    form.setWizard(true);
+                    break;
+                }
             }
 
             form.setHideSaveLabel(true);

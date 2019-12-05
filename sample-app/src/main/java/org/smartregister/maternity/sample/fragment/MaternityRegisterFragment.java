@@ -17,10 +17,8 @@ import org.smartregister.maternity.fragment.BaseMaternityRegisterFragment;
 import org.smartregister.maternity.pojos.MaternityMetadata;
 import org.smartregister.maternity.sample.R;
 import org.smartregister.maternity.sample.activity.MaternityRegisterActivity;
-import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityConstants;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -79,25 +77,15 @@ public class MaternityRegisterFragment extends BaseMaternityRegisterFragment {
         Map<String, String> clientColumnMaps = commonPersonObjectClient.getColumnmaps();
 
         MaternityRegisterActivity maternityRegisterActivity = (MaternityRegisterActivity) getActivity();
-        if (maternityRegisterActivity != null && clientColumnMaps.containsKey(MaternityDbConstants.Column.MaternityDetails.PENDING_DIAGNOSE_AND_TREAT)) {
-            HashMap<String, String> injectedValues = new HashMap<String, String>();
-            injectedValues.put("patient_gender", clientColumnMaps.get("gender"));
 
-            String diagnoseSchedule = clientColumnMaps.get(MaternityDbConstants.Column.MaternityDetails.PENDING_DIAGNOSE_AND_TREAT);
+        if (maternityRegisterActivity != null && clientColumnMaps.containsKey(MaternityConstants.ColumnMapKey.PENDING_OUTCOME)) {
+            String pendingOutcome = clientColumnMaps.get(MaternityConstants.ColumnMapKey.PENDING_OUTCOME);
             String entityTable = clientColumnMaps.get(MaternityConstants.IntentKey.ENTITY_TABLE);
 
-            boolean isDiagnoseScheduled = !TextUtils.isEmpty(diagnoseSchedule) && "1".equals(diagnoseSchedule);
+            boolean isPendingOutcome = !TextUtils.isEmpty(pendingOutcome) && "1".equals(pendingOutcome);
 
-            String strVisitEndDate = clientColumnMaps.get(MaternityDbConstants.Column.MaternityDetails.CURRENT_VISIT_END_DATE);
-
-            if (strVisitEndDate != null && MaternityLibrary.getInstance().isPatientInTreatedState(strVisitEndDate)) {
-                return;
-            }
-
-            if (!isDiagnoseScheduled) {
-                maternityRegisterActivity.startFormActivity(MaternityConstants.Form.OPD_CHECK_IN, commonPersonObjectClient.getCaseId(), null, injectedValues, entityTable);
-            } else {
-                maternityRegisterActivity.startFormActivity(MaternityConstants.Form.OPD_DIAGNOSIS_AND_TREAT, commonPersonObjectClient.getCaseId(), null, injectedValues, entityTable);
+            if (isPendingOutcome) {
+                maternityRegisterActivity.startFormActivityFromFormName(MaternityConstants.Form.MATERNITY_OUTCOME, commonPersonObjectClient.getCaseId(), null, null, entityTable);
             }
         }
     }

@@ -57,7 +57,9 @@ public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
 
     @Override
     protected void onActivityResultExtended(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MaternityJsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
+        //TODO: Continue fixing maternity outcome form from here
+        // After filling in the form, we need to process it, create event(s) and process the event(s) (probably)
+        if (requestCode == Materils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
             try {
                 String jsonString = data.getStringExtra(MaternityConstants.JSON_FORM_EXTRA.JSON);
                 Timber.d("JSONResult : %s", jsonString);

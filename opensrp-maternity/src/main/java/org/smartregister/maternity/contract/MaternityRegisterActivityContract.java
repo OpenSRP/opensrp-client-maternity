@@ -27,9 +27,9 @@ public interface MaternityRegisterActivityContract {
 
         MaternityRegisterActivityContract.Presenter presenter();
 
-        void startFormActivity(String formName, String entityId, String metaData, @Nullable HashMap<String, String> injectedFieldValues, @Nullable String clientTable);
+        void startFormActivityFromFormName(String formName, String entityId, String metaData, @Nullable HashMap<String, String> injectedFieldValues, @Nullable String clientTable);
 
-        void startFormActivity(@NonNull JSONObject jsonForm, @Nullable HashMap<String, String> parcelableData);
+        void startFormActivityFromFormJson(@NonNull JSONObject jsonForm, @Nullable HashMap<String, String> parcelableData);
     }
 
     interface Presenter extends BaseRegisterContract.Presenter {
@@ -40,7 +40,7 @@ public interface MaternityRegisterActivityContract {
 
         void saveVisitOrDiagnosisForm(@NonNull String eventType, @Nullable Intent data);
 
-        void startForm(String formName, String entityId, String metaData, String locationId, @Nullable HashMap<String, String> injectedFieldValues, @Nullable String entityTable);
+        void startForm(@NonNull String formName, @Nullable String entityId, String metaData, @NonNull String locationId, @Nullable HashMap<String, String> injectedFieldValues, @Nullable String entityTable);
 
         @NonNull
         MaternityRegisterActivityContract.Interactor createInteractor();

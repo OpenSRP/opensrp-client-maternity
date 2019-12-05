@@ -52,6 +52,7 @@
   },
   "step1": {
     "title": "Complications",
+    "next": "step2",
     "fields": [
       {
         "key": "obstetric_complications",
@@ -192,6 +193,7 @@
   },
   "step2": {
     "title": "Delivery Details",
+    "next": "step3",
     "fields": [
       {
         "key": "delivery_location",
@@ -251,6 +253,7 @@
   },
   "step3": {
     "title": "Babies born",
+    "next": "step4",
     "fields": [
       {
         "key": "birth_date",
@@ -311,16 +314,13 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid no"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Enter the number of babies born"
         }
       }
     ]
   },
   "step4": {
     "title": "Newborn Care",
+    "next": "step5",
     "fields": [
       {
         "key": "baby_complications",
