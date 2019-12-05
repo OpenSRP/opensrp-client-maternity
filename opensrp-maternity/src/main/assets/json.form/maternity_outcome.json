@@ -318,5 +318,193 @@
         }
       }
     ]
+  },
+  "step4": {
+    "title": "Newborn Care",
+    "fields": [
+      {
+        "key": "baby_complications",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Newborn Care Complications",
+        "values": [
+          "None",
+          "Weight less 2500g",
+          "Prematurity",
+          "Asphyxia",
+          "Sepsis",
+          "Other"
+        ],
+        "keys": [
+          "None",
+          "Weight less 2500g",
+          "Prematurity",
+          "Asphyxia",
+          "Sepsis",
+          "Other"
+        ]
+      },
+      {
+        "key": "baby_care_mgt",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Newborn Care Management",
+        "values": [
+          "KMC",
+          "Rescuscition",
+          "Antibiotics",
+          "Other"
+        ],
+        "keys": [
+          "KMC",
+          "Rescuscition",
+          "Antibiotics",
+          "Other"
+        ]
+      }
+    ]
+  },
+  "step5": {
+    "title": "Newborn Survical and HIV Management",
+    "fields": [
+      {
+        "key": "discharged_alive",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Was the baby discharged alive?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "keys": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "key": "discharged_alive",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "How many babies discharged alive?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid no"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Enter the number of babies born"
+        }
+      },
+      {
+        "key": "discharged_dead",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hidden": true,
+        "hint": "How many babies discharged alive?",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "maternity/opd_checkin_calculations.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "mother_hiv_status",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Mother's HIV status",
+        "values": [
+          "Mother HIV -ve",
+          "Mother HIV +ve",
+          "Mother HIV Unknown"
+        ],
+        "keys": [
+          "Mother HIV -ve",
+          "Mother HIV +ve",
+          "Mother HIV Unknown"
+        ]
+      },
+      {
+        "key": "still_births",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Still births",
+        "values": [
+          "Fresh",
+          "Macerated"
+        ],
+        "keys": [
+          "Fresh",
+          "Macerated"
+        ]
+      },
+      {
+        "key": "neonatal_death",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Neonatal death",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "keys": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "key": "bf_first_hour",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Breastfeeding initiated within 60mins",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "keys": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "key": "baby_routine_care",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Baby Routine Care",
+        "values": [
+          "TEO",
+          "Chlorohexidine",
+          "Vitamin K",
+          "ITN"
+        ],
+        "keys": [
+          "TEO",
+          "Chlorohexidine",
+          "Vitamin K",
+          "ITN"
+        ]
+      }
+    ]
   }
 }
