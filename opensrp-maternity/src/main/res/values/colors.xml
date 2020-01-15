@@ -10,7 +10,7 @@
     <color name="overview_font_right">#212121</color>
     <color name="overview_font_left">#757575</color>
 
-    <color name="profile_contact_section_bg">#3F3F4F</color>
+    <color name="maternity_profile_contact_section_bg">#3F3F4F</color>
 
     <color name="vaccine_blue_bg_stk">#267ea5</color>
     <color name="vaccine_blue_bg_end">#3495bf</color>
@@ -23,5 +23,7 @@
     <color name="overview_check_in_btn_border_color">#4390CF</color>
 
     <color name="register_switch_btn_bg_color">#191919</color>
+
+    <color name="maternity_check_in_bg_grey">#f4f4f4</color>
 
 </resources>

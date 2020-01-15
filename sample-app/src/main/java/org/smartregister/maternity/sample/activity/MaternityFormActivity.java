@@ -4,6 +4,7 @@ package org.smartregister.maternity.sample.activity;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 
 import org.smartregister.maternity.activity.BaseMaternityFormActivity;
+import org.smartregister.maternity.sample.R;
 import org.smartregister.maternity.sample.fragment.MaternityFormFragment;
 
 public class MaternityFormActivity extends BaseMaternityFormActivity {
@@ -15,6 +16,6 @@ public class MaternityFormActivity extends BaseMaternityFormActivity {
 
     protected void initializeFormFragmentCore() {
         MaternityFormFragment opdFormFragment = MaternityFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME);
-        getSupportFragmentManager().beginTransaction().add(com.vijay.jsonwizard.R.id.container, opdFormFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container, opdFormFragment).commit();
     }
 }

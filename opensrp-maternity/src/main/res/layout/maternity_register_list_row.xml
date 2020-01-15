@@ -124,6 +124,7 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:textAppearance="?android:textAppearanceSmall"
             android:textSize="15sp"
+            android:background="@drawable/maternity_outcome_bg"
             android:typeface="normal" />
 
     </LinearLayout>
