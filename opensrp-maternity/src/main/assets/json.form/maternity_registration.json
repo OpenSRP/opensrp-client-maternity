@@ -1,5 +1,5 @@
 {
-  "count": "1",
+  "count": "3",
   "encounter_type": "Maternity Registration",
   "entity_id": "",
   "relational_id": "",
@@ -53,6 +53,7 @@
   },
   "step1": {
     "title": "Maternity Registration",
+    "next": "step2",
     "fields": [
       {
         "key": "photo",
@@ -316,6 +317,200 @@
             "value": "false"
           }
         ]
+      }
+    ]
+  },
+  "step2": {
+    "title": "Pregnancy Data",
+    "next": "step3",
+    "fields": [
+      {
+        "key": "gravidity",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Gravida",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter valid Gravida"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Enter valid Gravida"
+        }
+      },
+      {
+        "key": "parity",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Para",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter valid Para"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Enter valid Para"
+        },
+        "relevance": {
+          "step2:gravidity": {
+            "type": "string",
+            "ex": "greaterThan(., \"1\")"
+          }
+        },
+        "constraints": [
+          {
+            "type": "number",
+            "ex": "lessThan(., step3:gravidity)",
+            "err": "Para needs to be less than gravidity"
+          }
+        ]
+      },
+      {
+        "key": "gestation_age",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Gestation Week",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid no for Gestation Weeks"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Enter a valid no for Gestation Weeks"
+        }
+      },
+      {
+        "key": "conception_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "maternity/registration_calculation_rules.yml"
+            }
+          }
+        },
+        "read_only": true
+      }
+    ]
+  },
+  "step3": {
+    "title": "HIV Treatment",
+    "fields": [
+      {
+        "key": "hiv_status_previous",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Previous HIV Status",
+        "values": [
+          "Positive",
+          "Negative",
+          "Unknown",
+          "Not Done"
+        ],
+        "keys": [
+          "Positive",
+          "Negative",
+          "Unknown",
+          "Not Done"
+        ]
+      },
+      {
+        "key": "hiv_status_current",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Current HIV Status",
+        "values": [
+          "Positive",
+          "Negative",
+          "Unknown",
+          "Not Done"
+        ],
+        "keys": [
+          "Positive",
+          "Negative",
+          "Unknown",
+          "Not Done"
+        ]
+      },
+      {
+        "key": "on_art_treatment",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Is mother on ART treatment?",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "maternity/registration_relevance_rules.yml"
+            }
+          }
+        },
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "keys": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "key": "art_clinic_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "ART Clinic Number",
+        "relevance": {
+          "step3:on_art_treatment": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "hiv_treatment_start",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "ART Mother treatment start period",
+        "values": [
+          "On ART before pregnancy",
+          "1st and 2nd Trimester(0-27w ART)",
+          "3rd Trimester(28+w ART)",
+          "During Labour (Lab ART)"
+        ],
+        "keys": [
+          "On ART before pregnancy",
+          "1st and 2nd Trimester(0-27w ART)",
+          "3rd Trimester(28+w ART)",
+          "During Labour (Lab ART)"
+        ],
+        "relevance": {
+          "step3:on_art_treatment": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Kindly select one of the options provided"
+        }
       }
     ]
   }

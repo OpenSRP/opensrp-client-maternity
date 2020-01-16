@@ -47,7 +47,7 @@ public class MaternityJsonFormUtilsTest {
     public void testGetFormAsJsonWithNonEmptyJsonObjectAndEntityIdBlank() throws Exception {
         MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
                 , MaternityDbConstants.KEY.TABLE
-                , MaternityConstants.EventType.OPD_REGISTRATION
+                , MaternityConstants.EventType.MATERNITY_REGISTRATION
                 , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , Class.class
@@ -69,7 +69,7 @@ public class MaternityJsonFormUtilsTest {
     public void testGetFormAsJsonWithNonEmptyJsonObjectAndEntityIdNonEmpty() throws Exception {
         MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
                 , MaternityDbConstants.KEY.TABLE
-                , MaternityConstants.EventType.OPD_REGISTRATION
+                , MaternityConstants.EventType.MATERNITY_REGISTRATION
                 , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , Class.class
@@ -104,7 +104,7 @@ public class MaternityJsonFormUtilsTest {
     public void testGetFormAsJsonWithNonEmptyJsonObjectAndInjectableFields() throws Exception {
         MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
                 , MaternityDbConstants.KEY.TABLE
-                , MaternityConstants.EventType.OPD_REGISTRATION
+                , MaternityConstants.EventType.MATERNITY_REGISTRATION
                 , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , Class.class
@@ -178,7 +178,7 @@ public class MaternityJsonFormUtilsTest {
     public void testTagSyncMetadataWithEmptyEvent() throws Exception {
         MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
                 , MaternityDbConstants.KEY.TABLE
-                , MaternityConstants.EventType.OPD_REGISTRATION
+                , MaternityConstants.EventType.MATERNITY_REGISTRATION
                 , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , Class.class
@@ -202,7 +202,7 @@ public class MaternityJsonFormUtilsTest {
     public void testGetLocationIdWithCurrentLocalityIsNotNull() throws Exception {
         MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
                 , MaternityDbConstants.KEY.TABLE
-                , MaternityConstants.EventType.OPD_REGISTRATION
+                , MaternityConstants.EventType.MATERNITY_REGISTRATION
                 , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , Class.class

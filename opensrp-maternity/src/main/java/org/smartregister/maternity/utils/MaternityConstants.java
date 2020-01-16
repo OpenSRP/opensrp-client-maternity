@@ -195,7 +195,7 @@ public class MaternityConstants extends AllConstants {
     }
 
     public static final class EventType {
-        public static final String OPD_REGISTRATION = "Maternity Registration";
+        public static final String MATERNITY_REGISTRATION = "Maternity Registration";
         public static final String UPDATE_MATERNITY_REGISTRATION = "Update Maternity Registration";
         public static final String CHECK_IN = "OPD Check-In";
         public static final String DIAGNOSIS_AND_TREAT = "OPD Diagnosis and Treatment";

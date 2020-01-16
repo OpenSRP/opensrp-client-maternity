@@ -86,7 +86,7 @@ public class MaternityRegisterActivityInteractor extends BaseMaternityRegisterAc
                             try {
                                 MaternityJsonFormUtils.mergeAndSaveClient(baseClient);
                             } catch (Exception e) {
-                                Timber.e(e, "OpdRegisterInteractor --> mergeAndSaveClient");
+                                Timber.e(e);
                             }
                         } else {
                             getSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
@@ -97,7 +97,7 @@ public class MaternityRegisterActivityInteractor extends BaseMaternityRegisterAc
                     updateOpenSRPId(jsonString, params, baseClient);
                     addImageLocation(jsonString, i, baseClient, baseEvent);
                 } catch (Exception e) {
-                    Timber.e(e, "OpdRegisterInteractor --> saveRegistration loop");
+                    Timber.e(e);
                 }
             }
 
@@ -106,7 +106,7 @@ public class MaternityRegisterActivityInteractor extends BaseMaternityRegisterAc
             getClientProcessorForJava().processClient(getSyncHelper().getEvents(currentFormSubmissionIds));
             getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
         } catch (Exception e) {
-            Timber.e(e, "OpdRegisterInteractor --> saveRegistration");
+            Timber.e(e);
         }
     }
     private void addImageLocation(String jsonString, int i, Client baseClient, Event baseEvent) {

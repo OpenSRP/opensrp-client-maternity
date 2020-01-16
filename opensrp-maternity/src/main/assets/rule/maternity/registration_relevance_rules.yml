@@ -1,0 +1,7 @@
+---
+name: step3_on_art_treatment
+description: on_art_treatment
+priority: 1
+condition: "(step3_hiv_status_previous != null && step3_hiv_status_previous != '' && step3_hiv_status_previous == 'Positive') || (step3_hiv_status_current != null && step3_hiv_status_current != '' && step3_hiv_status_current == 'Positive')"
+actions:
+  - "isRelevant = true"

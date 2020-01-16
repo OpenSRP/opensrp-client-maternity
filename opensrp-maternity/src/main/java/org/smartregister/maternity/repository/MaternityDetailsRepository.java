@@ -28,6 +28,8 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
             MaternityDetails.ID,
             MaternityDetails.BASE_ENTITY_ID,
             MaternityDetails.PENDING_DIAGNOSE_AND_TREAT,
+            MaternityDetails.PENDING_OUTCOME,
+            MaternityDetails.CONCEPTION_DATE,
             MaternityDetails.CURRENT_VISIT_START_DATE,
             MaternityDetails.CURRENT_VISIT_END_DATE,
             MaternityDetails.CURRENT_VISIT_ID,
@@ -38,6 +40,9 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
             + MaternityDetails.ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
             + MaternityDetails.BASE_ENTITY_ID + " VARCHAR NOT NULL, "
             + MaternityDetails.PENDING_DIAGNOSE_AND_TREAT + " BOOLEAN NOT NULL, "
+            + MaternityDetails.PENDING_OUTCOME + " BOOLEAN NOT NULL, "
+            // TODO: Make conception_date NOT NULL
+            + MaternityDetails.CONCEPTION_DATE + " VARCHAR, "
             + MaternityDetails.CURRENT_VISIT_START_DATE + " DATETIME, "
             + MaternityDetails.CURRENT_VISIT_END_DATE + " DATETIME, "
             + MaternityDetails.CURRENT_VISIT_ID + " VARCHAR NOT NULL, "
@@ -61,6 +66,8 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
 
         contentValues.put(MaternityDetails.BASE_ENTITY_ID, maternityDetails.getBaseEntityId());
         contentValues.put(MaternityDetails.PENDING_DIAGNOSE_AND_TREAT, maternityDetails.isPendingDiagnoseAndTreat());
+        contentValues.put(MaternityDetails.PENDING_OUTCOME, maternityDetails.isPendingOutcome());
+        contentValues.put(MaternityDetails.CONCEPTION_DATE, maternityDetails.getConceptionDate());
 
         if (maternityDetails.getCurrentVisitStartDate() != null) {
             contentValues.put(MaternityDetails.CURRENT_VISIT_START_DATE, MaternityUtils.convertDate(maternityDetails.getCurrentVisitStartDate(), MaternityDbConstants.DATE_FORMAT));
@@ -70,7 +77,7 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
             contentValues.put(MaternityDetails.CURRENT_VISIT_END_DATE, MaternityUtils.convertDate(maternityDetails.getCurrentVisitEndDate(), MaternityDbConstants.DATE_FORMAT));
         }
 
-        contentValues.put(MaternityDetails.CURRENT_VISIT_ID, maternityDetails.getCurrentVisitId());
+        //contentValues.put(MaternityDetails.CURRENT_VISIT_ID, maternityDetails.getCurrentVisitId());
         return contentValues;
     }
 

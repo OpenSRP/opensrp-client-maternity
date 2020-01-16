@@ -1,5 +1,6 @@
 package org.smartregister.maternity.pojos;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.Date;
@@ -13,6 +14,8 @@ public class MaternityDetails {
     private int id;
     private String baseEntityId;
     private boolean pendingDiagnoseAndTreat;
+    private boolean pendingOutcome = true;
+    private String conceptionDate;
 
     @Nullable
     private Date currentVisitStartDate;
@@ -88,5 +91,21 @@ public class MaternityDetails {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public boolean isPendingOutcome() {
+        return pendingOutcome;
+    }
+
+    public void setPendingOutcome(boolean pendingOutcome) {
+        this.pendingOutcome = pendingOutcome;
+    }
+
+    public String getConceptionDate() {
+        return conceptionDate;
+    }
+
+    public void setConceptionDate(@NonNull String conceptionDate) {
+        this.conceptionDate = conceptionDate;
     }
 }

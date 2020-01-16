@@ -1,7 +1,10 @@
 package org.smartregister.maternity.sample.application;
 
+import android.support.annotation.NonNull;
+
 import com.evernote.android.job.JobManager;
 
+import org.jetbrains.annotations.NotNull;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
 import org.smartregister.commonregistry.CommonFtsObject;
@@ -10,11 +13,13 @@ import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.activity.BaseMaternityProfileActivity;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.pojos.MaternityMetadata;
+import org.smartregister.maternity.processor.MaternityMiniClientProcessorForJava;
 import org.smartregister.maternity.sample.BuildConfig;
 import org.smartregister.maternity.sample.activity.MaternityFormActivity;
 import org.smartregister.maternity.sample.configuration.MaternityRegisterQueryProvider;
 import org.smartregister.maternity.sample.job.SampleMaternityJobCreator;
 import org.smartregister.maternity.sample.configuration.SampleSyncConfiguration;
+import org.smartregister.maternity.sample.processor.MaternitySampleClientProcessorForJava;
 import org.smartregister.maternity.sample.repository.SampleRepository;
 import org.smartregister.maternity.sample.utils.Constants;
 import org.smartregister.maternity.sample.utils.Utils;
@@ -22,6 +27,7 @@ import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.repository.Repository;
+import org.smartregister.sync.ClientProcessorForJava;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +105,7 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
         //Opd Initialization
         MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.Form.MATERNITY_REGISTRATION
                 , MaternityDbConstants.KEY.TABLE
-                , MaternityConstants.EventType.OPD_REGISTRATION
+                , MaternityConstants.EventType.MATERNITY_REGISTRATION
                 , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
                 , MaternityConstants.CONFIG
                 , MaternityFormActivity.class
@@ -169,6 +175,12 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
         int lastIndex = openmrsId.length() - 1;
         String tail = openmrsId.substring(lastIndex);
         return openmrsId.substring(0, lastIndex) + "-" + tail;
+    }
+
+    @NonNull
+    @Override
+    public ClientProcessorForJava getClientProcessor() {
+        return MaternitySampleClientProcessorForJava.getInstance(this);
     }
 
     public Context context() {

@@ -34,14 +34,17 @@ import org.smartregister.maternity.pojos.OpdServiceDetail;
 import org.smartregister.maternity.pojos.OpdTestConducted;
 import org.smartregister.maternity.pojos.OpdTreatment;
 import org.smartregister.maternity.pojos.OpdVisit;
+import org.smartregister.maternity.repository.MaternityDetailsRepository;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.util.Utils;
+import org.smartregister.view.activity.DrishtiApplication;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -57,8 +60,6 @@ import timber.log.Timber;
 
 public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava implements MiniClientProcessorForJava {
 
-    private static MaternityMiniClientProcessorForJava instance;
-
     private HashSet<String> eventTypes = null;
     private SimpleDateFormat dateFormat = new SimpleDateFormat(MaternityDbConstants.DATE_FORMAT, Locale.US);
 
@@ -66,19 +67,13 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
         super(context);
     }
 
-    public static MaternityMiniClientProcessorForJava getInstance(Context context) {
-        if (instance == null) {
-            instance = new MaternityMiniClientProcessorForJava(context);
-        }
-
-        return instance;
-    }
-
     @NonNull
     @Override
     public HashSet<String> getEventTypes() {
         if (eventTypes == null) {
             eventTypes = new HashSet<>();
+            eventTypes.add(MaternityConstants.EventType.MATERNITY_REGISTRATION);
+            eventTypes.add(MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION);
             eventTypes.add(MaternityConstants.EventType.CHECK_IN);
             eventTypes.add(MaternityConstants.EventType.TEST_CONDUCTED);
             eventTypes.add(MaternityConstants.EventType.DIAGNOSIS);
@@ -99,42 +94,60 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
     public void processEventClient(@NonNull EventClient eventClient, @NonNull List<Event> unsyncEvents, @Nullable ClientClassification clientClassification) throws Exception {
         Event event = eventClient.getEvent();
 
-        if (event.getEventType().equals(MaternityConstants.EventType.CHECK_IN)) {
+        String eventType = event.getEventType();
+
+        if (eventType.equals(MaternityConstants.EventType.MATERNITY_REGISTRATION)
+                || eventType.equals(MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION)) {
+            ArrayList<EventClient> eventClients = new ArrayList<>();
+            eventClients.add(eventClient);
+            processClient(eventClients);
+
+            for (Obs obs: event.getObs()) {
+                if (obs.getFieldCode().equals("conception_date")) {
+                    MaternityDetails maternityDetails = new MaternityDetails();
+                    maternityDetails.setBaseEntityId(eventClient.getClient().getBaseEntityId());
+                    maternityDetails.setConceptionDate((String) obs.getValues().get(0));
+
+                    //TODO: Figure out how to reuse the already created repository
+                    MaternityLibrary.getInstance().getMaternityDetailsRepository().saveOrUpdate(maternityDetails);
+                }
+            }
+        } else if (eventType.equals(MaternityConstants.EventType.CHECK_IN)) {
             if (eventClient.getClient() == null) {
                 throw new CheckInEventProcessException(String.format("Client %s referenced by %s event does not exist", event.getBaseEntityId(), MaternityConstants.EventType.CHECK_IN));
             }
 
             processCheckIn(event, eventClient.getClient());
             CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
-        } else if (event.getEventType().equals(MaternityConstants.EventType.TEST_CONDUCTED)) {
+        } else if (eventType.equals(MaternityConstants.EventType.TEST_CONDUCTED)) {
             try {
                 processTestConducted(event);
                 CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
             } catch (Exception ex) {
                 Timber.e(ex);
             }
-        } else if (event.getEventType().equals(MaternityConstants.EventType.DIAGNOSIS)) {
+        } else if (eventType.equals(MaternityConstants.EventType.DIAGNOSIS)) {
             try {
                 processDiagnosis(event);
                 CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
             } catch (Exception ex) {
                 Timber.e(ex);
             }
-        } else if (event.getEventType().equals(MaternityConstants.EventType.TREATMENT)) {
+        } else if (eventType.equals(MaternityConstants.EventType.TREATMENT)) {
             try {
                 processTreatment(event);
                 CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
             } catch (Exception ex) {
                 Timber.e(ex);
             }
-        } else if (event.getEventType().equals(MaternityConstants.EventType.SERVICE_DETAIL)) {
+        } else if (eventType.equals(MaternityConstants.EventType.SERVICE_DETAIL)) {
             try {
                 processServiceDetail(event);
                 CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
             } catch (Exception ex) {
                 Timber.e(ex);
             }
-        } else if (event.getEventType().equals(MaternityConstants.EventType.CLOSE_OPD_VISIT)) {
+        } else if (eventType.equals(MaternityConstants.EventType.CLOSE_OPD_VISIT)) {
             try {
                 processOpdCloseVisitEvent(event);
             } catch (Exception e) {
