@@ -18,6 +18,7 @@ public interface MaternityDbConstants {
         String REGISTER_ID = "register_id";
         String BASE_ENTITY_ID = "base_entity_id";
         String GA = "ga";
+        String CONCEPTION_DATE = "conception_date";
 
         String TABLE = "ec_client";
         String OPENSRP_ID = "opensrp_id";

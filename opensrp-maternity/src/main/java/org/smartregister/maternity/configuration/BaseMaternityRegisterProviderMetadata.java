@@ -2,11 +2,21 @@ package org.smartregister.maternity.configuration;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.text.TextUtils;
 
+import org.joda.time.LocalDate;
+import org.joda.time.Weeks;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.smartregister.anc.library.util.ConstantsUtils;
+import org.smartregister.maternity.MaternityLibrary;
+import org.smartregister.maternity.R;
 import org.smartregister.maternity.provider.MaternityRegisterProvider;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.util.Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -45,7 +55,26 @@ public class BaseMaternityRegisterProviderMetadata implements MaternityRegisterP
     @NonNull
     @Override
     public String getGA(@NonNull Map<String, String> columnMaps) {
-        return Utils.getValue(columnMaps, MaternityDbConstants.KEY.GA, true);
+        String gaInWeeks = getString(R.string.zero_weeks);
+        String conceptionDateString = Utils.getValue(columnMaps, MaternityDbConstants.KEY.CONCEPTION_DATE, false);
+
+        if (!TextUtils.isEmpty(conceptionDateString)) {
+            DateTimeFormatter SQLITE_DATE_DF = DateTimeFormat.forPattern("dd-MM-yyyy");
+            LocalDate conceptionDate = SQLITE_DATE_DF.withOffsetParsed().parseLocalDate(conceptionDateString);
+            Weeks weeks = Weeks.weeksBetween(conceptionDate, LocalDate.now());
+            int intWeeks = weeks.getWeeks();
+            String weekString;
+
+            if (intWeeks != 1) {
+                weekString = getString(R.string.weeks);
+            } else {
+                weekString = getString(R.string.week);
+            }
+
+            gaInWeeks =  intWeeks + " " + weekString;
+        }
+
+        return gaInWeeks;
     }
 
     @NonNull
@@ -57,5 +86,10 @@ public class BaseMaternityRegisterProviderMetadata implements MaternityRegisterP
     @NonNull
     public String getSafeValue(@Nullable String nullableString) {
         return nullableString == null ? "" : nullableString;
+    }
+
+    @NonNull
+    private String getString(@StringRes int stringResId) {
+        return MaternityLibrary.getInstance().context().applicationContext().getString(stringResId);
     }
 }

@@ -107,6 +107,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
                     MaternityDetails maternityDetails = new MaternityDetails();
                     maternityDetails.setBaseEntityId(eventClient.getClient().getBaseEntityId());
                     maternityDetails.setConceptionDate((String) obs.getValues().get(0));
+                    maternityDetails.setCreatedAt(new Date());
 
                     //TODO: Figure out how to reuse the already created repository
                     MaternityLibrary.getInstance().getMaternityDetailsRepository().saveOrUpdate(maternityDetails);

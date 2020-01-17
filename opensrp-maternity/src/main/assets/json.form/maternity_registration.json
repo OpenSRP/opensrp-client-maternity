@@ -361,13 +361,13 @@
             "ex": "greaterThan(., \"1\")"
           }
         },
-        "constraints": [
-          {
-            "type": "number",
-            "ex": "lessThan(., step3:gravidity)",
-            "err": "Para needs to be less than gravidity"
+        "constraints": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "sample-constraint-rules.yml"
+            }
           }
-        ]
+        }
       },
       {
         "key": "gestation_age",
