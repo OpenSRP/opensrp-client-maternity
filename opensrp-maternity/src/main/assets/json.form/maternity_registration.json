@@ -357,17 +357,17 @@
         },
         "relevance": {
           "step2:gravidity": {
-            "type": "string",
+            "type": "numeric",
             "ex": "greaterThan(., \"1\")"
           }
         },
-        "constraints": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "sample-constraint-rules.yml"
-            }
+        "constraints": [
+          {
+            "type": "numeric",
+            "ex": "lessThan(., step2:gravidity)",
+            "err": "Para needs to be less than gravidity"
           }
-        }
+        ]
       },
       {
         "key": "gestation_age",
