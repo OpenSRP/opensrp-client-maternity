@@ -88,7 +88,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="30dp"
-        android:background="@drawable/multiselectsearchview_bg"
+        android:background="@drawable/multi_select_search_view_bg"
         android:padding="10dp">
 
         <EditText
@@ -119,7 +119,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
-        android:background="@drawable/multiselectsearchview_bg"
+        android:background="@drawable/multi_select_search_view_bg"
         android:padding="10dp">
 
         <EditText

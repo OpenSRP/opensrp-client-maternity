@@ -11,7 +11,6 @@ import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.repository.BaseRepository;
-import org.smartregister.repository.Repository;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,10 +25,6 @@ import timber.log.Timber;
  */
 
 public class OpdVisitSummaryRepository extends BaseRepository {
-
-    public OpdVisitSummaryRepository(Repository repository) {
-        super(repository);
-    }
 
     @NonNull
     public List<OpdVisitSummary> getOpdVisitSummaries(@NonNull String baseEntityId, int pageNo) {

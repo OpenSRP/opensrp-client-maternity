@@ -9,7 +9,6 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.smartregister.maternity.dao.OpdTestConductedDao;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.repository.BaseRepository;
-import org.smartregister.repository.Repository;
 
 import java.util.List;
 
@@ -42,12 +41,6 @@ public class OpdTestConductedRepository extends BaseRepository implements OpdTes
 //            MaternityDbConstants.Column.OpdTestConducted.UPDATED_AT,
 //            MaternityDbConstants.Column.OpdTestConducted.CREATED_AT
 //    };
-
-
-    public OpdTestConductedRepository(@NonNull Repository repository) {
-        super(repository);
-    }
-
 
     public static void createTable(@NonNull SQLiteDatabase database) {
         database.execSQL(CREATE_TABLE_SQL);

@@ -74,4 +74,6 @@
     <string name="weeks">Weeks</string>
     <string name="week">Week</string>
 
+    <string name="creating_repeating_group_title">Creating Repeating Group title</string>
+
 </resources>

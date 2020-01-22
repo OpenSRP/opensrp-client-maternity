@@ -10,7 +10,6 @@ import org.smartregister.maternity.dao.OpdTreatmentDao;
 import org.smartregister.maternity.pojos.OpdTreatment;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.repository.BaseRepository;
-import org.smartregister.repository.Repository;
 
 import java.util.List;
 
@@ -48,11 +47,6 @@ public class OpdTreatmentRepository extends BaseRepository implements OpdTreatme
 //            MaternityDbConstants.Column.OpdTreatment.UPDATED_AT,
 //            MaternityDbConstants.Column.OpdTreatment.CREATED_AT
 //    };
-
-    public OpdTreatmentRepository(@NonNull Repository repository) {
-        super(repository);
-    }
-
 
     public static void createTable(@NonNull SQLiteDatabase database) {
         database.execSQL(CREATE_TABLE_SQL);

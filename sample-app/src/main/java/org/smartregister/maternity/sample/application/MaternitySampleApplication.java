@@ -156,7 +156,7 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
 
     private void sampleUniqueIds() {
         List<String> ids = generateIds(250);
-        MaternityLibrary.getInstance().getUniqueIdRepository().bulkInserOpenmrsIds(ids);
+        MaternityLibrary.getInstance().getUniqueIdRepository().bulkInsertOpenmrsIds(ids);
     }
 
     private List<String> generateIds(int size) {

@@ -132,25 +132,4 @@ public class MaternityMultiSelectDrugPicker extends MultiSelectListFactory imple
         }
     }
 
-    @Override
-    public List<MultiSelectItem> fetchData() {
-        Setting setting = MaternityLibrary.getInstance().context().allSettings().getSetting(MaternityConstants.SettingsConfig.OPD_MEDICINE);
-        try {
-            JSONObject jsonValObject = setting != null ? new JSONObject(setting.getValue()) : null;
-            if (jsonValObject != null) {
-                JSONArray jsonOptionsArray = jsonValObject.optJSONArray(AllConstants.SETTINGS);
-                if (jsonOptionsArray != null) {
-                    JSONArray jsonValuesArray = jsonOptionsArray.optJSONObject(0)
-                            .optJSONArray(JsonFormConstants.VALUES);
-                    if (jsonValuesArray != null) {
-                        return MultiSelectListUtils.processOptionsJsonArray(jsonValuesArray);
-                    }
-                }
-            }
-            return null;
-        } catch (JSONException e) {
-            Timber.e(e);
-            return null;
-        }
-    }
 }

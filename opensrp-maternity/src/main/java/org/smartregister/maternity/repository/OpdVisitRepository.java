@@ -12,7 +12,6 @@ import org.smartregister.maternity.dao.OpdVisitDao;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants.Column.OpdVisit;
 import org.smartregister.repository.BaseRepository;
-import org.smartregister.repository.Repository;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -45,11 +44,7 @@ public class OpdVisitRepository extends BaseRepository implements OpdVisitDao {
             , OpdVisit.BASE_ENTITY_ID
             , OpdVisit.CREATED_AT};
 
-    public OpdVisitRepository(Repository repository) {
-        super(repository);
-    }
-
-    public static void createTable(@NonNull SQLiteDatabase database) {
+   public static void createTable(@NonNull SQLiteDatabase database) {
         database.execSQL(CREATE_TABLE_SQL);
         database.execSQL(INDEX_BASE_ENTITY_ID);
         database.execSQL(INDEX_VISIT_DATE);

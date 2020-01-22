@@ -129,7 +129,7 @@ public class MaternityLibrary {
     @NonNull
     public UniqueIdRepository getUniqueIdRepository() {
         if (uniqueIdRepository == null) {
-            uniqueIdRepository = new UniqueIdRepository(getRepository());
+            uniqueIdRepository = new UniqueIdRepository();
         }
         return uniqueIdRepository;
     }
@@ -137,7 +137,7 @@ public class MaternityLibrary {
     @NonNull
     public OpdCheckInRepository getCheckInRepository() {
         if (checkInRepository == null) {
-            checkInRepository = new OpdCheckInRepository(getRepository());
+            checkInRepository = new OpdCheckInRepository();
         }
 
         return checkInRepository;
@@ -146,7 +146,7 @@ public class MaternityLibrary {
     @NonNull
     public OpdVisitRepository getVisitRepository() {
         if (visitRepository == null) {
-            visitRepository = new OpdVisitRepository(getRepository());
+            visitRepository = new OpdVisitRepository();
         }
 
         return visitRepository;
@@ -155,7 +155,7 @@ public class MaternityLibrary {
     @NonNull
     public MaternityDetailsRepository getMaternityDetailsRepository() {
         if (maternityDetailsRepository == null) {
-            maternityDetailsRepository = new MaternityDetailsRepository(getRepository());
+            maternityDetailsRepository = new MaternityDetailsRepository();
         }
         return maternityDetailsRepository;
     }
@@ -163,7 +163,7 @@ public class MaternityLibrary {
     @NonNull
     public OpdDiagnosisAndTreatmentFormRepository getOpdDiagnosisAndTreatmentFormRepository() {
         if (opdDiagnosisAndTreatmentFormRepository == null) {
-            opdDiagnosisAndTreatmentFormRepository = new OpdDiagnosisAndTreatmentFormRepository(getRepository());
+            opdDiagnosisAndTreatmentFormRepository = new OpdDiagnosisAndTreatmentFormRepository();
         }
         return opdDiagnosisAndTreatmentFormRepository;
     }
@@ -171,7 +171,7 @@ public class MaternityLibrary {
     @NonNull
     public OpdDiagnosisRepository getOpdDiagnosisRepository() {
         if (opdDiagnosisRepository == null) {
-            opdDiagnosisRepository = new OpdDiagnosisRepository(getRepository());
+            opdDiagnosisRepository = new OpdDiagnosisRepository();
         }
         return opdDiagnosisRepository;
     }
@@ -179,7 +179,7 @@ public class MaternityLibrary {
     @NonNull
     public OpdTestConductedRepository getOpdTestConductedRepository() {
         if (opdTestConductedRepository == null) {
-            opdTestConductedRepository = new OpdTestConductedRepository(getRepository());
+            opdTestConductedRepository = new OpdTestConductedRepository();
         }
         return opdTestConductedRepository;
     }
@@ -187,7 +187,7 @@ public class MaternityLibrary {
     @NonNull
     public OpdTreatmentRepository getOpdTreatmentRepository() {
         if (opdTreatmentRepository == null) {
-            opdTreatmentRepository = new OpdTreatmentRepository(getRepository());
+            opdTreatmentRepository = new OpdTreatmentRepository();
         }
         return opdTreatmentRepository;
     }
@@ -195,7 +195,7 @@ public class MaternityLibrary {
     @NonNull
     public OpdServiceDetailRepository getOpdServiceDetailRepository() {
         if (opdServiceDetailRepository == null) {
-            opdServiceDetailRepository = new OpdServiceDetailRepository(getRepository());
+            opdServiceDetailRepository = new OpdServiceDetailRepository();
         }
         return opdServiceDetailRepository;
     }
@@ -203,7 +203,7 @@ public class MaternityLibrary {
     @NonNull
     public OpdVisitSummaryRepository getOpdVisitSummaryRepository() {
         if (opdVisitSummaryRepository == null) {
-            opdVisitSummaryRepository = new OpdVisitSummaryRepository(getRepository());
+            opdVisitSummaryRepository = new OpdVisitSummaryRepository();
         }
         return opdVisitSummaryRepository;
     }

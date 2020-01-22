@@ -14,7 +14,6 @@ import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants.Column.MaternityDetails;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.repository.BaseRepository;
-import org.smartregister.repository.Repository;
 
 import java.util.List;
 
@@ -39,10 +38,6 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
             // TODO: Make conception_date NOT NULL
             + MaternityDetails.CONCEPTION_DATE + " VARCHAR, "
             + MaternityDetails.CREATED_AT + " DATETIME NOT NULL DEFAULT (DATETIME('now')), UNIQUE(" + MaternityDetails.BASE_ENTITY_ID + ") ON CONFLICT REPLACE)";
-
-    public MaternityDetailsRepository(@NonNull Repository repository) {
-        super(repository);
-    }
 
     public static void createTable(@NonNull SQLiteDatabase database) {
         database.execSQL(CREATE_TABLE_SQL);

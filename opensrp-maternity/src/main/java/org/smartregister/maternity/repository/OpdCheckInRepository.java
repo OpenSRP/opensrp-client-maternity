@@ -13,7 +13,6 @@ import org.smartregister.maternity.dao.OpdCheckInDao;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants.Column.OpdCheckIn;
 import org.smartregister.repository.BaseRepository;
-import org.smartregister.repository.Repository;
 
 import timber.log.Timber;
 
@@ -61,10 +60,6 @@ public class OpdCheckInRepository extends BaseRepository implements OpdCheckInDa
             , OpdCheckIn.CREATED_AT
             , OpdCheckIn.UPDATED_AT
     };
-
-    public OpdCheckInRepository(Repository repository) {
-        super(repository);
-    }
 
     public static void createTable(@NonNull SQLiteDatabase database) {
         database.execSQL(CREATE_TABLE_SQL);

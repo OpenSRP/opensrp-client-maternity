@@ -10,7 +10,6 @@ import org.smartregister.maternity.dao.OpdDiagnosisDao;
 import org.smartregister.maternity.pojos.OpdDiagnosis;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.repository.BaseRepository;
-import org.smartregister.repository.Repository;
 
 import java.util.List;
 
@@ -51,10 +50,6 @@ public class OpdDiagnosisRepository extends BaseRepository implements OpdDiagnos
 //            MaternityDbConstants.Column.OpdDiagnosis.CREATED_AT,
 //            MaternityDbConstants.Column.OpdDiagnosis.UPDATED_AT
 //    };
-
-    public OpdDiagnosisRepository(@NonNull Repository repository) {
-        super(repository);
-    }
 
     public static void createTable(@NonNull SQLiteDatabase database) {
         database.execSQL(CREATE_TABLE_SQL);
