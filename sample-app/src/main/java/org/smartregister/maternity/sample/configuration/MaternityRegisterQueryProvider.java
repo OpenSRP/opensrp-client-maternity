@@ -17,10 +17,10 @@ public class MaternityRegisterQueryProvider extends MaternityRegisterQueryProvid
     @Override
     public String getObjectIdsQuery(@Nullable String filters, @Nullable String mainCondition) {
         if (TextUtils.isEmpty(filters)) {
-            return "SELECT object_id, last_interacted_with FROM ec_client_search " +
+            return "SELECT object_id, last_interacted_with FROM ec_client_search WHERE register_type = 'maternity'" +
                     "ORDER BY last_interacted_with DESC";
         } else {
-            String sql = "SELECT object_id FROM ec_client_search WHERE date_removed IS NULL AND phrase MATCH '%s*' " +
+            String sql = "SELECT object_id FROM ec_client_search WHERE date_removed IS NULL AND register_type = 'maternity' AND phrase MATCH '%s*'" +
                     "ORDER BY last_interacted_with DESC";
             sql = sql.replace("%s", filters);
             return sql;
@@ -32,7 +32,7 @@ public class MaternityRegisterQueryProvider extends MaternityRegisterQueryProvid
     public String[] countExecuteQueries(@Nullable String filters, @Nullable String mainCondition) {
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder();
         return new String[] {
-                sqb.countQueryFts("ec_client", null, null, filters)
+                sqb.countQueryFts("ec_client", null, "register_type = 'maternity'", filters)
         };
     }
 

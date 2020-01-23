@@ -30,6 +30,20 @@ public class MaternityConstants extends AllConstants {
                 String VISIT_DATE = "visitDate";
             }
         }
+
+        interface MaternityRegistration {
+
+            String CONCEPTION_DATE = "conception_date";
+            String PARA = "parity";
+            String GRAVIDA = "gravidity";
+            String PREVIOUS_HIV_STATUS = "previous_hiv_status";
+            String CURRENT_HIV_STATUS = "current_hiv_status";
+
+            interface Detail {
+                String VISIT_ID = "visitId";
+                String VISIT_DATE = "visitDate";
+            }
+        }
     }
 
     public interface FactKey {
@@ -197,6 +211,9 @@ public class MaternityConstants extends AllConstants {
     public static final class EventType {
         public static final String MATERNITY_REGISTRATION = "Maternity Registration";
         public static final String UPDATE_MATERNITY_REGISTRATION = "Update Maternity Registration";
+        public static final String MATERNITY_OUTCOME = "Maternity Outcome";
+        public static final String MATERNITY_PNC_CHILD_REGISTRATION = "Maternity-PNC Child Registration";
+        public static final String MATERNITY_CLOSE = "Maternity Close";
         public static final String CHECK_IN = "OPD Check-In";
         public static final String DIAGNOSIS_AND_TREAT = "OPD Diagnosis and Treatment";
         public static final String DIAGNOSIS = "OPD Diagnosis";

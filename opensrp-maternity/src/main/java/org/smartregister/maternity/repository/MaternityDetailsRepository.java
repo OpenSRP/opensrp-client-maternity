@@ -108,6 +108,13 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
         throw new NotImplementedException("Not Implemented");
     }
 
+    public boolean delete(@NonNull String baseEntityId) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        int rowsDeleted = sqLiteDatabase.delete(MaternityDbConstants.Table.MATERNITY_DETAILS, MaternityDetails.BASE_ENTITY_ID + " = ?", new String[]{baseEntityId});
+
+        return rowsDeleted > 0;
+    }
+
     @Override
     public List<org.smartregister.maternity.pojos.MaternityDetails> findAll() {
         throw new NotImplementedException("Not Implemented");

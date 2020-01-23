@@ -74,6 +74,7 @@ public interface MaternityDbConstants {
             String RELATIONALID = "relationalid";
             String NATIONAL_ID = "national_id";
             String GENDER = "gender";
+            String REGISTER_TYPE = "register_type";
         }
 
         interface MaternityDetails {

@@ -146,6 +146,10 @@ public abstract class BaseMaternityRegisterActivity extends BaseRegisterActivity
             form.setHideNextButton(false);
             form.setHidePreviousButton(false);
 
+            if (MaternityConstants.EventType.MATERNITY_OUTCOME.equals(jsonForm.optString(MaternityConstants.JSON_FORM_KEY.ENCOUNTER_TYPE))) {
+                form.setSaveLabel(getString(R.string.submit_and_close_maternity));
+            }
+
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             if (parcelableData != null) {
                 for (String intentKey : parcelableData.keySet()) {

@@ -93,6 +93,13 @@
           "json_mapping": {
             "field": "attributes.dateRemoved"
           }
+        },
+        {
+          "column_name": "register_type",
+          "type": "Client",
+          "json_mapping": {
+            "field": "register_type"
+          }
         }
       ]
     }

@@ -13,26 +13,20 @@ public class MaternityDetails {
 
     private int id;
     private String baseEntityId;
-    private boolean pendingDiagnoseAndTreat;
+    private String gravida;
+    private String para;
+    private String hivStatus;
     private boolean pendingOutcome = true;
     private String conceptionDate;
-
-    @Nullable
-    private Date currentVisitStartDate;
-
-    @Nullable
-    private Date currentVisitEndDate;
-
-    private String currentVisitId;
-
     private Date createdAt;
 
     public MaternityDetails() {
     }
 
-    public MaternityDetails(String baseEntityId, String currentVisitId) {
+    public MaternityDetails(@NonNull String baseEntityId, @NonNull String gravida, @NonNull String conceptionDate) {
         this.baseEntityId = baseEntityId;
-        this.currentVisitId = currentVisitId;
+        this.gravida = gravida;
+        this.conceptionDate = conceptionDate;
     }
 
     public int getId() {
@@ -49,40 +43,6 @@ public class MaternityDetails {
 
     public void setBaseEntityId(String baseEntityId) {
         this.baseEntityId = baseEntityId;
-    }
-
-    public boolean isPendingDiagnoseAndTreat() {
-        return pendingDiagnoseAndTreat;
-    }
-
-    public void setPendingDiagnoseAndTreat(boolean pendingDiagnoseAndTreat) {
-        this.pendingDiagnoseAndTreat = pendingDiagnoseAndTreat;
-    }
-
-    @Nullable
-    public Date getCurrentVisitStartDate() {
-        return currentVisitStartDate;
-    }
-
-    public void setCurrentVisitStartDate(@Nullable Date currentVisitStartDate) {
-        this.currentVisitStartDate = currentVisitStartDate;
-    }
-
-    @Nullable
-    public Date getCurrentVisitEndDate() {
-        return currentVisitEndDate;
-    }
-
-    public void setCurrentVisitEndDate(@Nullable Date currentVisitEndDate) {
-        this.currentVisitEndDate = currentVisitEndDate;
-    }
-
-    public String getCurrentVisitId() {
-        return currentVisitId;
-    }
-
-    public void setCurrentVisitId(String currentVisitId) {
-        this.currentVisitId = currentVisitId;
     }
 
     public Date getCreatedAt() {
@@ -107,5 +67,29 @@ public class MaternityDetails {
 
     public void setConceptionDate(@NonNull String conceptionDate) {
         this.conceptionDate = conceptionDate;
+    }
+
+    public String getGravida() {
+        return gravida;
+    }
+
+    public void setGravida(@NonNull String gravida) {
+        this.gravida = gravida;
+    }
+
+    public String getPara() {
+        return para;
+    }
+
+    public void setPara(@Nullable String para) {
+        this.para = para;
+    }
+
+    public String getHivStatus() {
+        return hivStatus;
+    }
+
+    public void setHivStatus(@Nullable String hivStatus) {
+        this.hivStatus = hivStatus;
     }
 }
