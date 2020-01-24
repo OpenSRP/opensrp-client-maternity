@@ -120,7 +120,7 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
             MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.PATIENT_ON_ART, checkIn.getIsTakingArt());
 
             // Client is currently checked-in, show the current check-in details
-            if (MaternityLibrary.getInstance().isClientCurrentlyCheckedIn(visit, maternityDetails)) {
+            /*if (MaternityLibrary.getInstance().isClientCurrentlyCheckedIn(visit, maternityDetails)) {
                 MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.IS_PREVIOUSLY_TESTED_HIV, checkIn.getHasHivTestPreviously());
                 MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.PREVIOUSLY_HIV_STATUS_RESULTS, checkIn.getHivResultsPreviously());
 
@@ -131,7 +131,7 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
                 MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.DATE_OF_APPOINTMENT, checkIn.getAppointmentDueDate());
             } else {
                 MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.HIV_STATUS, currentHivResult);
-            }
+            }*/
         } else {
             if (client != null && unknownString != null) {
                 if (AllConstants.FEMALE_GENDER.equalsIgnoreCase(client.getColumnmaps().get(MaternityConstants.ClientMapKey.GENDER))) {
@@ -142,12 +142,12 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
             }
         }
 
-        boolean shouldCheckIn = MaternityLibrary.getInstance().canPatientCheckInInsteadOfDiagnoseAndTreat(visit, maternityDetails);
+        /*boolean shouldCheckIn = MaternityLibrary.getInstance().canPatientCheckInInsteadOfDiagnoseAndTreat(visit, maternityDetails);
         facts.put(MaternityDbConstants.Column.MaternityDetails.PENDING_DIAGNOSE_AND_TREAT, !shouldCheckIn);
 
         if (visit != null && visit.getVisitDate() != null && checkIn != null && checkIn.getAppointmentDueDate() != null) {
             facts.put(MaternityConstants.FactKey.VISIT_TO_APPOINTMENT_DATE, getVisitToAppointmentDateDuration(visit.getVisitDate(), checkIn.getAppointmentDueDate()));
-        }
+        }*/
     }
 
     private Iterable<Object> loadFile(@NonNull String filename) throws IOException {

@@ -469,25 +469,4 @@ public class MaternityLibrary {
     protected Date getDateNow() {
         return new Date();
     }
-
-    /**
-     * This checks if the patient can perform a Check-In evaluated based on their latest visit details & opd details. This however does not consider the TREATED status
-     * which appears after a visit is completed within the same day. If you need to consider the TREATED status, you should first call {@link #isPatientInTreatedState(Date)}
-     * and then call this method if the result is false.
-     *
-     * @param visit
-     * @param maternityDetails
-     * @return
-     */
-    public boolean canPatientCheckInInsteadOfDiagnoseAndTreat(@Nullable OpdVisit visit, @Nullable MaternityDetails maternityDetails) {
-        Date latestValidCheckInDate = MaternityLibrary.getInstance().getLatestValidCheckInDate();
-
-        // If we are past the 24 hours or so, then the status should be check-in
-        // If your opd
-        return visit == null || visit.getVisitDate().before(latestValidCheckInDate) || (maternityDetails != null && maternityDetails.getCurrentVisitEndDate() != null);
-    }
-
-    public boolean isClientCurrentlyCheckedIn(@Nullable OpdVisit opdVisit, @Nullable MaternityDetails maternityDetails) {
-        return !canPatientCheckInInsteadOfDiagnoseAndTreat(opdVisit, maternityDetails);
-    }
 }

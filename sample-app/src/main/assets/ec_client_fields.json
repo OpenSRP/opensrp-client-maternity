@@ -100,6 +100,13 @@
           "json_mapping": {
             "field": "version"
           }
+        },
+        {
+          "column_name": "register_type",
+          "type": "Client",
+          "json_mapping": {
+            "field": "register_type"
+          }
         }
       ]
     }

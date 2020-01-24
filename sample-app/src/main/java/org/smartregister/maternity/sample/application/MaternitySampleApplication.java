@@ -64,7 +64,7 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
         } else if (tableName.equals(Constants.Table.MOTHER)) {
             return new String[]{Constants.Columns.FIRST_NAME, Constants.Columns.MIDDLE_NAME, Constants.Columns.LAST_NAME, Constants.Columns.DOB, Constants.Columns.LAST_INTERACTED_WITH};
         } else if (tableName.equals(MaternityDbConstants.KEY.TABLE)) {
-            return new String[]{Constants.Columns.FIRST_NAME, Constants.Columns.LAST_NAME, Constants.Columns.DOB, Constants.Columns.LAST_INTERACTED_WITH};
+            return new String[]{Constants.Columns.FIRST_NAME, Constants.Columns.LAST_NAME, Constants.Columns.DOB, Constants.Columns.LAST_INTERACTED_WITH, MaternityDbConstants.Column.Client.REGISTER_TYPE};
         }
 
         return null;
@@ -82,7 +82,7 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
         } else if (tableName.equals(MaternityDbConstants.KEY.TABLE)){
 
             return new String[]{MaternityDbConstants.KEY.BASE_ENTITY_ID, MaternityDbConstants.KEY.FIRST_NAME, MaternityDbConstants.KEY.LAST_NAME,
-                    MaternityDbConstants.KEY.LAST_INTERACTED_WITH, MaternityDbConstants.KEY.DATE_REMOVED};
+                    MaternityDbConstants.KEY.LAST_INTERACTED_WITH, MaternityDbConstants.KEY.DATE_REMOVED, MaternityDbConstants.Column.Client.REGISTER_TYPE};
         }
         return null;
     }

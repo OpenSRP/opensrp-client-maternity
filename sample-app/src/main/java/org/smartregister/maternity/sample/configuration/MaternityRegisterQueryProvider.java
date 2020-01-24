@@ -17,7 +17,7 @@ public class MaternityRegisterQueryProvider extends MaternityRegisterQueryProvid
     @Override
     public String getObjectIdsQuery(@Nullable String filters, @Nullable String mainCondition) {
         if (TextUtils.isEmpty(filters)) {
-            return "SELECT object_id, last_interacted_with FROM ec_client_search WHERE register_type = 'maternity'" +
+            return "SELECT object_id, last_interacted_with FROM ec_client_search WHERE register_type = 'maternity' " +
                     "ORDER BY last_interacted_with DESC";
         } else {
             String sql = "SELECT object_id FROM ec_client_search WHERE date_removed IS NULL AND register_type = 'maternity' AND phrase MATCH '%s*'" +

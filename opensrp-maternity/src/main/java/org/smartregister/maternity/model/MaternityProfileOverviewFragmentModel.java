@@ -28,7 +28,7 @@ public class MaternityProfileOverviewFragmentModel implements MaternityProfileOv
 
             @Override
             public void run() {
-                final OpdVisit visit = MaternityLibrary.getInstance().getVisitRepository().getLatestVisit(baseEntityId);
+                /*final OpdVisit visit = MaternityLibrary.getInstance().getVisitRepository().getLatestVisit(baseEntityId);
                 final OpdCheckIn checkIn = visit != null ? MaternityLibrary.getInstance().getCheckInRepository().getCheckInByVisit(visit.getId()) : null;
 
                 maternityDetails = null;
@@ -44,7 +44,7 @@ public class MaternityProfileOverviewFragmentModel implements MaternityProfileOv
                     public void run() {
                         onFetchedCallback.onFetched(checkIn, visit, maternityDetails);
                     }
-                });
+                });*/
             }
         });
     }

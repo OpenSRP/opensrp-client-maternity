@@ -249,5 +249,9 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
 
         MaternityLibrary.getInstance().context().commonrepository(MaternityDbConstants.Table.EC_CLIENT)
                 .updateColumn(MaternityDbConstants.Table.EC_CLIENT, contentValues, event.getBaseEntityId());
+
+        MaternityLibrary.getInstance().getRepository().getWritableDatabase()
+                .update(CommonFtsObject.searchTableName(MaternityDbConstants.Table.EC_CLIENT)
+                        , contentValues, MaternityDbConstants.Column.Client.BASE_ENTITY_ID + " = ?", new String[]{event.getBaseEntityId()});
     }
 }

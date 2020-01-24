@@ -72,7 +72,7 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
     @Override
     public org.smartregister.maternity.pojos.MaternityDetails findOne(@NonNull org.smartregister.maternity.pojos.MaternityDetails maternityDetails) {
         org.smartregister.maternity.pojos.MaternityDetails details = null;
-        if (maternityDetails.getCurrentVisitId() != null && maternityDetails.getBaseEntityId() != null) {
+       /* if (maternityDetails.getCurrentVisitId() != null && maternityDetails.getBaseEntityId() != null) {
             SQLiteDatabase sqLiteDatabase = getReadableDatabase();
             Cursor cursor = sqLiteDatabase.query(MaternityDbConstants.Table.MATERNITY_DETAILS, columns, MaternityDetails.BASE_ENTITY_ID + "=? and " + MaternityDetails.CURRENT_VISIT_ID + "=?",
                     new String[]{maternityDetails.getBaseEntityId(), maternityDetails.getCurrentVisitId()}, null, null, null, "1");
@@ -99,7 +99,7 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
                 cursor.close();
             }
 
-        }
+        }*/
         return details;
     }
 
