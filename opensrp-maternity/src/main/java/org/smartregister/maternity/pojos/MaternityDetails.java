@@ -19,6 +19,7 @@ public class MaternityDetails {
     private boolean pendingOutcome = true;
     private String conceptionDate;
     private Date createdAt;
+    private String recordedAt;
 
     public MaternityDetails() {
     }
@@ -91,5 +92,13 @@ public class MaternityDetails {
 
     public void setHivStatus(@Nullable String hivStatus) {
         this.hivStatus = hivStatus;
+    }
+
+    public String getRecordedAt() {
+        return recordedAt;
+    }
+
+    public void setRecordedAt(String recordedAt) {
+        this.recordedAt = recordedAt;
     }
 }

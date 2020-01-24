@@ -80,12 +80,12 @@ public interface MaternityDbConstants {
         interface MaternityDetails {
             String ID = "_id";
             String BASE_ENTITY_ID = "base_entity_id";
-            String PENDING_DIAGNOSE_AND_TREAT = "pending_diagnose_and_treat";
             String PENDING_OUTCOME = "pending_outcome";
+            String PARA = "para";
+            String GRAVIDA = "gravida";
+            String RECORDED_AT = "recorded_at";
             String CONCEPTION_DATE = "conception_date";
-            String CURRENT_VISIT_START_DATE = "current_visit_start_date";
-            String CURRENT_VISIT_END_DATE = "current_visit_end_date";
-            String CURRENT_VISIT_ID = "visit_id";
+            String HIV_STATUS = "hiv_status";
             String CREATED_AT = "created_at";
         }
 

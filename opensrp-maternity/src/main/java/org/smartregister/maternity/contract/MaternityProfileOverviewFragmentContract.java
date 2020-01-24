@@ -30,9 +30,9 @@ public interface MaternityProfileOverviewFragmentContract {
 
         void loadOverviewFacts(@NonNull String baseEntityId, @NonNull OnFinishedCallback onFinishedCallback);
 
-        void loadOverviewDataAndDisplay(@Nullable OpdCheckIn opdCheckIn, @Nullable OpdVisit opdVisit, @Nullable MaternityDetails maternityDetails, @NonNull final OnFinishedCallback onFinishedCallback);
+        void loadOverviewDataAndDisplay(@NonNull MaternityDetails maternityDetails, @NonNull final OnFinishedCallback onFinishedCallback);
 
-        void setDataFromCheckIn(@Nullable OpdCheckIn checkIn, @Nullable OpdVisit visit, @Nullable MaternityDetails maternityDetails, @NonNull Facts facts);
+        void setDataFromRegistration(@NonNull MaternityDetails maternityDetails, @NonNull Facts facts);
 
         void setClient(@NonNull CommonPersonObjectClient client);
 
@@ -50,11 +50,11 @@ public interface MaternityProfileOverviewFragmentContract {
 
     interface Model {
 
-        void fetchLastCheckAndVisit(@NonNull String baseEntityId, @NonNull OnFetchedCallback onFetchedCallback);
+        void fetchPregnancyDataAndHivStatus(@NonNull String baseEntityId, @NonNull OnFetchedCallback onFetchedCallback);
 
         interface OnFetchedCallback {
 
-            void onFetched(@Nullable OpdCheckIn opdCheckIn, @Nullable OpdVisit opdVisit, @Nullable MaternityDetails maternityDetails);
+            void onFetched(@NonNull MaternityDetails maternityDetails);
         }
     }
 }

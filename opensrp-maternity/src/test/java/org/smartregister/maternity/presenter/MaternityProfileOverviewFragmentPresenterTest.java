@@ -67,11 +67,11 @@ public class MaternityProfileOverviewFragmentPresenterTest extends BaseTest {
 
     @Test
     public void loadOverviewFactsShouldCallModelFetchLastCheckAndVisit() {
-        Mockito.doNothing().when(model).fetchLastCheckAndVisit(Mockito.eq("bei"), Mockito.any(MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback.class));
+        Mockito.doNothing().when(model).fetchPregnancyDataAndHivStatus(Mockito.eq("bei"), Mockito.any(MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback.class));
 
         presenter.loadOverviewFacts("bei", Mockito.mock(MaternityProfileOverviewFragmentContract.Presenter.OnFinishedCallback.class));
         Mockito.verify(model, Mockito.times(1))
-                .fetchLastCheckAndVisit(Mockito.eq("bei"), Mockito.any(MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback.class));
+                .fetchPregnancyDataAndHivStatus(Mockito.eq("bei"), Mockito.any(MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback.class));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class MaternityProfileOverviewFragmentPresenterTest extends BaseTest {
                 onFetchedCallback.onFetched(Mockito.mock(OpdCheckIn.class), Mockito.mock(OpdVisit.class), Mockito.mock(MaternityDetails.class));
                 return null;
             }
-        }).when(model).fetchLastCheckAndVisit(Mockito.eq("bei"), Mockito.any(MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback.class));
+        }).when(model).fetchPregnancyDataAndHivStatus(Mockito.eq("bei"), Mockito.any(MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback.class));
         Mockito.doNothing().when(presenter).loadOverviewDataAndDisplay(Mockito.any(OpdCheckIn.class), Mockito.any(OpdVisit.class), Mockito.any(MaternityDetails.class), Mockito.any(MaternityProfileOverviewFragmentContract.Presenter.OnFinishedCallback.class));
 
         presenter.loadOverviewFacts("bei", Mockito.mock(MaternityProfileOverviewFragmentContract.Presenter.OnFinishedCallback.class));
@@ -248,8 +248,8 @@ public class MaternityProfileOverviewFragmentPresenterTest extends BaseTest {
         assertEquals(7, callbackArgumentCaptor.getValue().asMap().size());
         assertEquals(true, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.PENDING_DIAGNOSE_AND_TREAT));
         assertEquals(negative, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.PREGNANCY_STATUS));
-        assertEquals(negative, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.PREVIOUSLY_HIV_STATUS_RESULTS));
-        assertEquals(negative, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.PREVIOUSLY_HIV_STATUS_RESULTS));
+        assertEquals(negative, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.GRAVIDA));
+        assertEquals(negative, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.GRAVIDA));
         assertEquals(hivResult, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.CURRENT_HIV_STATUS));
         assertEquals(visitType, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.VISIT_TYPE));
         assertEquals(appointmentScheduled, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.APPOINTMENT_SCHEDULED_PREVIOUSLY));
@@ -306,8 +306,8 @@ public class MaternityProfileOverviewFragmentPresenterTest extends BaseTest {
 
         assertEquals(6, callbackArgumentCaptor.getValue().asMap().size());
         assertEquals(true, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.PENDING_DIAGNOSE_AND_TREAT));
-        assertEquals(negative, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.PREVIOUSLY_HIV_STATUS_RESULTS));
-        assertEquals(negative, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.PREVIOUSLY_HIV_STATUS_RESULTS));
+        assertEquals(negative, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.GRAVIDA));
+        assertEquals(negative, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.GRAVIDA));
         assertEquals(hivResult, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.CURRENT_HIV_STATUS));
         assertEquals(visitType, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.VISIT_TYPE));
         assertEquals(appointmentScheduled, callbackArgumentCaptor.getValue().get(MaternityConstants.FactKey.ProfileOverview.APPOINTMENT_SCHEDULED_PREVIOUSLY));

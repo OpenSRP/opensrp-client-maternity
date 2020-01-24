@@ -36,8 +36,8 @@ public class MaternityConstants extends AllConstants {
             String CONCEPTION_DATE = "conception_date";
             String PARA = "parity";
             String GRAVIDA = "gravidity";
-            String PREVIOUS_HIV_STATUS = "previous_hiv_status";
-            String CURRENT_HIV_STATUS = "current_hiv_status";
+            String PREVIOUS_HIV_STATUS = "hiv_status_previous";
+            String CURRENT_HIV_STATUS = "hiv_status_current";
 
             interface Detail {
                 String VISIT_ID = "visitId";
@@ -53,8 +53,10 @@ public class MaternityConstants extends AllConstants {
         interface ProfileOverview {
             String PREGNANCY_STATUS = "pregnancy_status";
             String IS_PREVIOUSLY_TESTED_HIV = "is_previously_tested_hiv";
-            String PREVIOUSLY_HIV_STATUS_RESULTS = "previous_hiv_status";
-            String PATIENT_ON_ART = "patient_on_art";
+            String GRAVIDA = "gravida";
+            String PARA = "para";
+            String GESTATION_WEEK = "gestation_week";
+            String INTAKE_TIME = "intake_time";
             String HIV_STATUS = "hiv_status";
             String CURRENT_HIV_STATUS = "current_hiv_status";
             String VISIT_TYPE = "visit_type";

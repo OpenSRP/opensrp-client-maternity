@@ -8,6 +8,10 @@ import android.support.annotation.VisibleForTesting;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDate;
+import org.joda.time.Weeks;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -119,6 +123,14 @@ public class MaternityLibrary {
                     + "your Application class");
         }
         return instance;
+    }
+
+
+    public static int getGestationAgeInWeeks(@NonNull String conceptionDateString) {
+        DateTimeFormatter SQLITE_DATE_DF = DateTimeFormat.forPattern("dd-MM-yyyy");
+        LocalDate conceptionDate = SQLITE_DATE_DF.withOffsetParsed().parseLocalDate(conceptionDateString);
+        Weeks weeks = Weeks.weeksBetween(conceptionDate, LocalDate.now());
+        return weeks.getWeeks();
     }
 
     @NonNull

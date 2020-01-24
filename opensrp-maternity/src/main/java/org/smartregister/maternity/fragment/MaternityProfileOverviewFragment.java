@@ -74,16 +74,8 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
                 @Override
                 public void onFinished(@Nullable Facts facts, @Nullable List<YamlConfigWrapper> yamlConfigListGlobal) {
                     if (getActivity() != null && facts != null && yamlConfigListGlobal != null) {
-                        Boolean isPendingDiagnoseAndTreat = facts.get(MaternityDbConstants.Column.MaternityDetails.PENDING_DIAGNOSE_AND_TREAT);
-                        isPendingDiagnoseAndTreat = isPendingDiagnoseAndTreat == null ? Boolean.FALSE : isPendingDiagnoseAndTreat;
-
-                        if (isPendingDiagnoseAndTreat) {
-                            opdCheckedInTv.setText(R.string.opd_checked_in);
-                            showDiagnoseAndTreatBtn();
-                        } else {
-                            opdCheckedInTv.setText(R.string.opd);
-                            showCheckInBtn();
-                        }
+                        opdCheckedInTv.setText(R.string.opd);
+                        showCheckInBtn();
 
                         MaternityProfileOverviewAdapter adapter = new MaternityProfileOverviewAdapter(getActivity(), yamlConfigListGlobal, facts);
                         adapter.notifyDataSetChanged();
@@ -111,25 +103,6 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
 
                     if (activity instanceof BaseMaternityProfileActivity) {
                         ((BaseMaternityProfileActivity) activity).openCheckInForm();
-                    }
-                }
-            });
-        }
-    }
-
-    private void showDiagnoseAndTreatBtn() {
-        if (getActivity() != null) {
-            opdCheckinSectionLayout.setVisibility(View.VISIBLE);
-            checkInDiagnoseAndTreatBtn.setText(R.string.diagnose_and_treat);
-            checkInDiagnoseAndTreatBtn.setBackgroundResource(R.drawable.diagnose_treat_bg);
-            checkInDiagnoseAndTreatBtn.setTextColor(getActivity().getResources().getColor(R.color.diagnose_treat_txt_color));
-            checkInDiagnoseAndTreatBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentActivity activity = getActivity();
-
-                    if (activity instanceof BaseMaternityProfileActivity) {
-                        ((BaseMaternityProfileActivity) activity).openDiagnoseAndTreatForm();
                     }
                 }
             });

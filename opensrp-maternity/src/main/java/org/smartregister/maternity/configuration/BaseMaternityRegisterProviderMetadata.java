@@ -5,18 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
 
-import org.joda.time.LocalDate;
-import org.joda.time.Weeks;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.smartregister.anc.library.util.ConstantsUtils;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.provider.MaternityRegisterProvider;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.util.Utils;
 
-import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -59,10 +53,7 @@ public class BaseMaternityRegisterProviderMetadata implements MaternityRegisterP
         String conceptionDateString = Utils.getValue(columnMaps, MaternityDbConstants.KEY.CONCEPTION_DATE, false);
 
         if (!TextUtils.isEmpty(conceptionDateString)) {
-            DateTimeFormatter SQLITE_DATE_DF = DateTimeFormat.forPattern("dd-MM-yyyy");
-            LocalDate conceptionDate = SQLITE_DATE_DF.withOffsetParsed().parseLocalDate(conceptionDateString);
-            Weeks weeks = Weeks.weeksBetween(conceptionDate, LocalDate.now());
-            int intWeeks = weeks.getWeeks();
+            int intWeeks = MaternityLibrary.getGestationAgeInWeeks(conceptionDateString);
             String weekString;
 
             if (intWeeks != 1) {

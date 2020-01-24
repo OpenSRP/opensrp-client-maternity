@@ -27,6 +27,10 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
             MaternityDetails.ID,
             MaternityDetails.BASE_ENTITY_ID,
             MaternityDetails.PENDING_OUTCOME,
+            MaternityDetails.PARA,
+            MaternityDetails.GRAVIDA,
+            MaternityDetails.HIV_STATUS,
+            MaternityDetails.RECORDED_AT,
             MaternityDetails.CONCEPTION_DATE,
             MaternityDetails.CREATED_AT
     };
@@ -37,6 +41,10 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
             + MaternityDetails.PENDING_OUTCOME + " BOOLEAN NOT NULL, "
             // TODO: Make conception_date NOT NULL
             + MaternityDetails.CONCEPTION_DATE + " VARCHAR, "
+            + MaternityDetails.PARA + " VARCHAR, "
+            + MaternityDetails.GRAVIDA + " VARCHAR, "
+            + MaternityDetails.HIV_STATUS + " VARCHAR, "
+            + MaternityDetails.RECORDED_AT + " VARCHAR, "
             + MaternityDetails.CREATED_AT + " DATETIME NOT NULL DEFAULT (DATETIME('now')), UNIQUE(" + MaternityDetails.BASE_ENTITY_ID + ") ON CONFLICT REPLACE)";
 
     public static void createTable(@NonNull SQLiteDatabase database) {
@@ -52,8 +60,16 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
         }
 
         contentValues.put(MaternityDetails.BASE_ENTITY_ID, maternityDetails.getBaseEntityId());
+        contentValues.put(MaternityDetails.GRAVIDA, maternityDetails.getGravida());
+        contentValues.put(MaternityDetails.PARA, maternityDetails.getPara());
+        contentValues.put(MaternityDetails.HIV_STATUS, maternityDetails.getHivStatus());
         contentValues.put(MaternityDetails.PENDING_OUTCOME, maternityDetails.isPendingOutcome());
+        contentValues.put(MaternityDetails.RECORDED_AT, maternityDetails.getRecordedAt());
         contentValues.put(MaternityDetails.CONCEPTION_DATE, maternityDetails.getConceptionDate());
+
+        if (maternityDetails.getCreatedAt() != null) {
+            contentValues.put(MaternityDetails.CREATED_AT, MaternityUtils.convertDate(maternityDetails.getCreatedAt(), MaternityDbConstants.DATE_FORMAT));
+        }
 
         return contentValues;
     }
@@ -72,10 +88,10 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
     @Override
     public org.smartregister.maternity.pojos.MaternityDetails findOne(@NonNull org.smartregister.maternity.pojos.MaternityDetails maternityDetails) {
         org.smartregister.maternity.pojos.MaternityDetails details = null;
-       /* if (maternityDetails.getCurrentVisitId() != null && maternityDetails.getBaseEntityId() != null) {
+        if (maternityDetails.getBaseEntityId() != null) {
             SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-            Cursor cursor = sqLiteDatabase.query(MaternityDbConstants.Table.MATERNITY_DETAILS, columns, MaternityDetails.BASE_ENTITY_ID + "=? and " + MaternityDetails.CURRENT_VISIT_ID + "=?",
-                    new String[]{maternityDetails.getBaseEntityId(), maternityDetails.getCurrentVisitId()}, null, null, null, "1");
+            Cursor cursor = sqLiteDatabase.query(MaternityDbConstants.Table.MATERNITY_DETAILS, columns, MaternityDetails.BASE_ENTITY_ID + " = ?",
+                    new String[]{maternityDetails.getBaseEntityId()}, null, null, null, "1");
             if (cursor.getCount() == 0) {
                 return null;
             }
@@ -84,22 +100,20 @@ public class MaternityDetailsRepository extends BaseRepository implements OpdDet
                 details = new org.smartregister.maternity.pojos.MaternityDetails();
                 details.setId(cursor.getInt(0));
                 details.setBaseEntityId(cursor.getString(1));
-                details.setPendingDiagnoseAndTreat((cursor.getInt(2) == 1));
+                details.setPendingOutcome((cursor.getInt(2) == 1));
+                details.setPara(cursor.getString(3));
+                details.setGravida(cursor.getString(4));
+                details.setHivStatus(cursor.getString(5));
+                details.setRecordedAt(cursor.getString(6));
+                details.setConceptionDate(cursor.getString(7));
 
-                details.setCurrentVisitStartDate(MaternityUtils
-                        .convertStringToDate(MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS,
-                                cursor.getString(3)));
-                details.setCurrentVisitEndDate(MaternityUtils
-                        .convertStringToDate(MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS,
-                                cursor.getString(4)));
-                details.setCurrentVisitId(cursor.getString(5));
                 details.setCreatedAt(MaternityUtils
                         .convertStringToDate(MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS,
-                                cursor.getString(6)));
+                                cursor.getString(8)));
                 cursor.close();
             }
 
-        }*/
+        }
         return details;
     }
 
