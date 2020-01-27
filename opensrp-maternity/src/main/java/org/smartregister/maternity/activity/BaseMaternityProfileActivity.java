@@ -228,10 +228,7 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
                 JSONObject form = new JSONObject(jsonString);
                 String encounterType = form.getString(MaternityJsonFormUtils.ENCOUNTER_TYPE);
 
-                if (encounterType.equals(MaternityConstants.EventType.CHECK_IN)) {
-                    showProgressDialog(R.string.saving_dialog_title);
-                    ((MaternityProfileActivityPresenter) presenter).saveVisitOrDiagnosisForm(encounterType, data);
-                } else if (encounterType.equals(MaternityConstants.EventType.DIAGNOSIS_AND_TREAT)) {
+                if (encounterType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
                     showProgressDialog(R.string.saving_dialog_title);
                     ((MaternityProfileActivityPresenter) presenter).saveVisitOrDiagnosisForm(encounterType, data);
                 } else if (encounterType.equals(MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION)) {

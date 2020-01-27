@@ -192,14 +192,14 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
                 return null;
             }
-        }).when(maternityLibrary).processOpdCheckInForm(Mockito.anyString(), Mockito.eq(jsonString), Mockito.nullable(Intent.class));
+        }).when(maternityLibrary).processMaternityOutcomeForm(Mockito.anyString(), Mockito.eq(jsonString), Mockito.nullable(Intent.class));
 
         Intent intent = new Intent();
         intent.putExtra(MaternityConstants.JSON_FORM_EXTRA.JSON, jsonString);
 
         presenter.saveVisitOrDiagnosisForm(MaternityConstants.EventType.CHECK_IN, intent);
 
-        Mockito.verify(maternityLibrary, Mockito.times(1)).processOpdCheckInForm(Mockito.eq(
+        Mockito.verify(maternityLibrary, Mockito.times(1)).processMaternityOutcomeForm(Mockito.eq(
                 MaternityConstants.EventType.CHECK_IN)
                 , Mockito.eq(jsonString)
                 , Mockito.any(Intent.class));

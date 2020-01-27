@@ -129,7 +129,7 @@ public class MaternityLibraryTest extends BaseTest {
         intentData.putExtra(MaternityConstants.IntentKey.ENTITY_TABLE, "ec_clients");
 
         String jsonString = opdForm.toString();
-        Event opdCheckInEvent = MaternityLibrary.getInstance().processOpdCheckInForm(MaternityConstants.EventType.CHECK_IN, jsonString, intentData);
+        Event opdCheckInEvent = MaternityLibrary.getInstance().processMaternityOutcomeForm(MaternityConstants.EventType.CHECK_IN, jsonString, intentData);
 
         assertNotNull(opdCheckInEvent.getDetails().get(MaternityConstants.Event.CheckIn.Detail.VISIT_DATE));
         assertNotNull(opdCheckInEvent.getDetails().get(MaternityConstants.Event.CheckIn.Detail.VISIT_ID));

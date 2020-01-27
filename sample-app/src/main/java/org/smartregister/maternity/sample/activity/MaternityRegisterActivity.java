@@ -19,6 +19,7 @@ import org.smartregister.maternity.fragment.BaseMaternityRegisterFragment;
 import org.smartregister.maternity.model.MaternityRegisterActivityModel;
 import org.smartregister.maternity.pojos.RegisterParams;
 import org.smartregister.maternity.presenter.BaseMaternityRegisterActivityPresenter;
+import org.smartregister.maternity.sample.R;
 import org.smartregister.maternity.sample.fragment.MaternityRegisterFragment;
 import org.smartregister.maternity.sample.presenter.MaternityRegisterActivityPresenter;
 import org.smartregister.maternity.sample.utils.SampleConstants;
@@ -65,13 +66,17 @@ public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
                 Timber.d("JSONResult : %s", jsonString);
 
                 JSONObject form = new JSONObject(jsonString);
-                if (form.getString(MaternityJsonFormUtils.ENCOUNTER_TYPE).equals(MaternityUtils.metadata().getRegisterEventType())) {
+                String encounterType = form.getString(MaternityJsonFormUtils.ENCOUNTER_TYPE);
+                if (MaternityUtils.metadata() != null && encounterType.equals(MaternityUtils.metadata().getRegisterEventType())) {
                     RegisterParams registerParam = new RegisterParams();
                     registerParam.setEditMode(false);
                     registerParam.setFormTag(MaternityJsonFormUtils.formTag(MaternityUtils.context().allSharedPreferences()));
 
-                    // showProgressDialog(R.string.saving_dialog_title);
+                    showProgressDialog(R.string.saving_dialog_title);
                     presenter().saveForm(jsonString, registerParam);
+                } else if (encounterType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
+                    showProgressDialog(R.string.saving_dialog_title);
+                    presenter().saveOutcomeForm(encounterType, data);
                 }
 
             } catch (JSONException e) {

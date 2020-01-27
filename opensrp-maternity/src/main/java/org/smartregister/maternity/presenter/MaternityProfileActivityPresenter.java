@@ -184,10 +184,10 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
             return;
         }
 
-        if (eventType.equals(MaternityConstants.EventType.CHECK_IN)) {
+        if (eventType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
             try {
-                Event opdVisitEvent = MaternityLibrary.getInstance().processOpdCheckInForm(eventType, jsonString, data);
-                maternityEventUtils.saveEvents(Collections.singletonList(opdVisitEvent), this);
+                List<Event> maternityOutcomeAndCloseEvents = MaternityLibrary.getInstance().processMaternityOutcomeForm(eventType, jsonString, data);
+                maternityEventUtils.saveEvents(maternityOutcomeAndCloseEvents, this);
             } catch (JSONException e) {
                 Timber.e(e);
             }

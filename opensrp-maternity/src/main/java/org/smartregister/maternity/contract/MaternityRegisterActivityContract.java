@@ -38,7 +38,7 @@ public interface MaternityRegisterActivityContract {
 
         void saveForm(String jsonString, @NonNull RegisterParams registerParams);
 
-        void saveVisitOrDiagnosisForm(@NonNull String eventType, @Nullable Intent data);
+        void saveOutcomeForm(@NonNull String eventType, @Nullable Intent data);
 
         void startForm(@NonNull String formName, @Nullable String entityId, String metaData, @NonNull String locationId, @Nullable HashMap<String, String> injectedFieldValues, @Nullable String entityTable);
 

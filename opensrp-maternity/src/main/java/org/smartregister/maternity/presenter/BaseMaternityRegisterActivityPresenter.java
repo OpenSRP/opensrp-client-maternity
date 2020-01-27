@@ -96,7 +96,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
     }
 
     @Override
-    public void saveVisitOrDiagnosisForm(@NonNull String eventType, @Nullable Intent data) {
+    public void saveOutcomeForm(@NonNull String eventType, @Nullable Intent data) {
         String jsonString = null;
         if (data != null) {
             jsonString = data.getStringExtra(MaternityConstants.JSON_FORM_EXTRA.JSON);
@@ -106,17 +106,10 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
             return;
         }
 
-        if (eventType.equals(MaternityConstants.EventType.CHECK_IN)) {
+        if (eventType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
             try {
-                Event opdVisitEvent = MaternityLibrary.getInstance().processOpdCheckInForm(eventType, jsonString, data);
-                interactor.saveEvents(Collections.singletonList(opdVisitEvent), this);
-            } catch (JSONException e) {
-                Timber.e(e);
-            }
-        } else if (eventType.equals(MaternityConstants.EventType.DIAGNOSIS_AND_TREAT)) {
-            try {
-                List<Event> opdDiagnosisAndTreatment = MaternityLibrary.getInstance().processOpdDiagnosisAndTreatmentForm(jsonString, data);
-                interactor.saveEvents(opdDiagnosisAndTreatment, this);
+                List<Event> maternityOutcomeAndCloseEvent = MaternityLibrary.getInstance().processMaternityOutcomeForm(eventType, jsonString, data);
+                interactor.saveEvents(maternityOutcomeAndCloseEvent, this);
             } catch (JSONException e) {
                 Timber.e(e);
             }

@@ -419,7 +419,7 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
         OutputStream os = null;
         try {
 
-            if (entityId != null && !entityId.isEmpty()) {
+            if (!entityId.isEmpty()) {
                 final String absoluteFileName = DrishtiApplication.getAppDir() + File.separator + entityId + ".JPEG";
 
                 File outputFile = new File(absoluteFileName);

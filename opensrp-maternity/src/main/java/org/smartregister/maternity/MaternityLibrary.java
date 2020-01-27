@@ -287,7 +287,8 @@ public class MaternityLibrary {
     }
 
     @NonNull
-    public Event processOpdCheckInForm(@NonNull String eventType, String jsonString, @Nullable Intent data) throws JSONException {
+    public List<Event> processMaternityOutcomeForm(@NonNull String eventType, String jsonString, @Nullable Intent data) throws JSONException {
+        ArrayList<Event> eventList = new ArrayList<>();
         JSONObject jsonFormObject = new JSONObject(jsonString);
 
         JSONObject stepOne = jsonFormObject.getJSONObject(MaternityJsonFormUtils.STEP1);
@@ -299,24 +300,15 @@ public class MaternityLibrary {
         String entityTable = MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.ENTITY_TABLE);
         Event opdCheckinEvent = MaternityJsonFormUtils.createEvent(fieldsArray, jsonFormObject.getJSONObject(METADATA)
                 , formTag, baseEntityId, eventType, entityTable);
+        eventList.add(opdCheckinEvent);
 
-        AllSharedPreferences allSharedPreferences = MaternityUtils.getAllSharedPreferences();
-        String providerId = allSharedPreferences.fetchRegisteredANM();
-        opdCheckinEvent.setProviderId(providerId);
-        opdCheckinEvent.setLocationId(MaternityJsonFormUtils.locationId(allSharedPreferences));
-        opdCheckinEvent.setFormSubmissionId(opdCheckinEvent.getFormSubmissionId());
+        Event closeOpdVisit = JsonFormUtils.createEvent(new JSONArray(), new JSONObject(),
+                formTag, baseEntityId, MaternityConstants.EventType.MATERNITY_CLOSE, "");
+        MaternityJsonFormUtils.tagSyncMetadata(closeOpdVisit);
+        closeOpdVisit.addDetails(MaternityConstants.JSON_FORM_KEY.VISIT_END_DATE, MaternityUtils.convertDate(new Date(), MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS));
+        eventList.add(closeOpdVisit);
 
-        opdCheckinEvent.setTeam(allSharedPreferences.fetchDefaultTeam(providerId));
-        opdCheckinEvent.setTeamId(allSharedPreferences.fetchDefaultTeamId(providerId));
-
-        opdCheckinEvent.setClientDatabaseVersion(MaternityLibrary.getInstance().getDatabaseVersion());
-        opdCheckinEvent.setClientApplicationVersion(MaternityLibrary.getInstance().getApplicationVersion());
-
-        // Create the visit Id
-        opdCheckinEvent.addDetails(MaternityConstants.Event.CheckIn.Detail.VISIT_ID, JsonFormUtils.generateRandomUUIDString());
-        opdCheckinEvent.addDetails(MaternityConstants.Event.CheckIn.Detail.VISIT_DATE, MaternityUtils.convertDate(new Date(), MaternityDbConstants.DATE_FORMAT));
-
-        return opdCheckinEvent;
+        return eventList;
     }
 
     public List<Event> processOpdDiagnosisAndTreatmentForm(@NonNull String jsonString, @NonNull Intent data) throws JSONException {
