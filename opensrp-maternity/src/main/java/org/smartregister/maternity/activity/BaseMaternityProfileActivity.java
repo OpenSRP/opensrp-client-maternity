@@ -83,7 +83,7 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
         setSendActionListenerToVisitsFragment(profileVisitsFragment);
 
         adapter.addFragment(profileOverviewFragment, this.getString(R.string.overview));
-        adapter.addFragment(profileVisitsFragment, this.getString(R.string.visits));
+        adapter.addFragment(profileVisitsFragment, this.getString(R.string.anc_history));
 
         viewPager.setAdapter(adapter);
         return viewPager;
@@ -182,7 +182,7 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
 
     @Override
     public void setProfileImage(@NonNull String baseEntityId) {
-        imageRenderHelper.refreshProfileImage(baseEntityId, imageView, R.drawable.avatar_woman);
+        imageRenderHelper.refreshProfileImage(baseEntityId, imageView, R.drawable.gender_insensitive_avatar);
     }
 
     @Override
@@ -200,11 +200,10 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
         return sendActionListenerForProfileOverview;
     }
 
-
     @Override
     public void openCheckInForm() {
         if (commonPersonObjectClient != null) {
-            ((MaternityProfileActivityPresenter) presenter).startForm(MaternityConstants.Form.OPD_CHECK_IN, commonPersonObjectClient);
+            ((MaternityProfileActivityPresenter) presenter).startForm(MaternityConstants.Form.MATERNITY_OUTCOME, commonPersonObjectClient);
         }
     }
 

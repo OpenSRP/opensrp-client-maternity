@@ -27,6 +27,8 @@
 
     <string name="overview">OVERVIEW</string>
     <string name="visits">VISITS</string>
+    <string name="anc_history">ANC HISTORY</string>
+    <string name="maternity">MATERNITY</string>
 
     <string name="all_results">All results</string>
     <string name="age_details">Age: %s</string>

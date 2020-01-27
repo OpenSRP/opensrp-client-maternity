@@ -74,11 +74,12 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
                 @Override
                 public void onFinished(@Nullable Facts facts, @Nullable List<YamlConfigWrapper> yamlConfigListGlobal) {
                     if (getActivity() != null && facts != null && yamlConfigListGlobal != null) {
-                        opdCheckedInTv.setText(R.string.opd);
+                        opdCheckedInTv.setText(R.string.maternity);
                         showCheckInBtn();
 
                         MaternityProfileOverviewAdapter adapter = new MaternityProfileOverviewAdapter(getActivity(), yamlConfigListGlobal, facts);
                         adapter.notifyDataSetChanged();
+
                         // set up the RecyclerView
                         RecyclerView recyclerView = getActivity().findViewById(R.id.profile_overview_recycler);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
