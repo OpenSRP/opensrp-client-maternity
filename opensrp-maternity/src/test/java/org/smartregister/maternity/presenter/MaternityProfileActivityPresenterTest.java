@@ -24,9 +24,9 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.BaseTest;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityProfileActivityContract;
-import org.smartregister.maternity.pojos.OpdDiagnosisAndTreatmentForm;
-import org.smartregister.maternity.utils.MaternityDbConstants;
+import org.smartregister.maternity.pojos.MaternityOutcomeForm;
 import org.smartregister.maternity.utils.MaternityConstants;
+import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.repository.AllSharedPreferences;
 
 import java.util.HashMap;
@@ -103,7 +103,7 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
         prefilledForm.put("question", "What is happening?");
 
         presenter.onFetchedSavedDiagnosisAndTreatmentForm(
-                new OpdDiagnosisAndTreatmentForm(8923, "bei", prefilledForm.toString(), "2019-05-01 11:11:11")
+                new MaternityOutcomeForm(8923, "bei", prefilledForm.toString(), "2019-05-01 11:11:11")
                 , "caseId"
                 , "ec_child");
         Mockito.verify(presenter, Mockito.times(1)).startFormActivity(formCaptor.capture(), Mockito.anyString(), Mockito.nullable(String.class));

@@ -12,8 +12,8 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
-import org.smartregister.maternity.pojos.OpdDiagnosisAndTreatmentForm;
 import org.smartregister.maternity.pojos.MaternityEventClient;
+import org.smartregister.maternity.pojos.MaternityOutcomeForm;
 import org.smartregister.maternity.pojos.RegisterParams;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.repository.AllSharedPreferences;
@@ -51,10 +51,10 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
         appExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                final OpdDiagnosisAndTreatmentForm diagnosisAndTreatmentForm = MaternityLibrary
+                final MaternityOutcomeForm diagnosisAndTreatmentForm = MaternityLibrary
                         .getInstance()
-                        .getOpdDiagnosisAndTreatmentFormRepository()
-                        .findOne(new OpdDiagnosisAndTreatmentForm(baseEntityId));
+                        .getMaternityOutcomeFormRepository()
+                        .findOne(new MaternityOutcomeForm(baseEntityId));
 
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override

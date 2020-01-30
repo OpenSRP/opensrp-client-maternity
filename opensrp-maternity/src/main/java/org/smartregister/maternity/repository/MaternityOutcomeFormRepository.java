@@ -8,14 +8,14 @@ import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.smartregister.maternity.dao.OpdDiagnosisAndTreatmentFormDao;
-import org.smartregister.maternity.pojos.OpdDiagnosisAndTreatmentForm;
+import org.smartregister.maternity.dao.MaternityOutcomeFormDao;
+import org.smartregister.maternity.pojos.MaternityOutcomeForm;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.repository.BaseRepository;
 
 import java.util.List;
 
-public class OpdDiagnosisAndTreatmentFormRepository extends BaseRepository implements OpdDiagnosisAndTreatmentFormDao {
+public class MaternityOutcomeFormRepository extends BaseRepository implements MaternityOutcomeFormDao {
 
     private static final String CREATE_TABLE_SQL = "CREATE TABLE " + MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM + "("
             + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
@@ -40,24 +40,24 @@ public class OpdDiagnosisAndTreatmentFormRepository extends BaseRepository imple
     }
 
     @Override
-    public boolean saveOrUpdate(@NonNull OpdDiagnosisAndTreatmentForm opdDiagnosisAndTreatmentForm) {
+    public boolean saveOrUpdate(@NonNull MaternityOutcomeForm maternityOutcomeForm) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID, opdDiagnosisAndTreatmentForm.getBaseEntityId());
-        contentValues.put(MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.FORM, opdDiagnosisAndTreatmentForm.getForm());
+        contentValues.put(MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID, maternityOutcomeForm.getBaseEntityId());
+        contentValues.put(MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.FORM, maternityOutcomeForm.getForm());
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        contentValues.put(MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.CREATED_AT, opdDiagnosisAndTreatmentForm.getCreatedAt());
+        contentValues.put(MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.CREATED_AT, maternityOutcomeForm.getCreatedAt());
         long rows = sqLiteDatabase.insert(MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM, null, contentValues);
         return rows != -1;
     }
 
     @Nullable
     @Override
-    public OpdDiagnosisAndTreatmentForm findOne(@NonNull OpdDiagnosisAndTreatmentForm opdDiagnosisAndTreatmentForm) {
+    public MaternityOutcomeForm findOne(@NonNull MaternityOutcomeForm maternityOutcomeForm) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query(MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM
                 , columns
                 , MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " = ? "
-                , new String[]{opdDiagnosisAndTreatmentForm.getBaseEntityId()}
+                , new String[]{maternityOutcomeForm.getBaseEntityId()}
                 , null
                 , null
                 , null);
@@ -66,9 +66,9 @@ public class OpdDiagnosisAndTreatmentFormRepository extends BaseRepository imple
             return null;
         }
 
-        OpdDiagnosisAndTreatmentForm diagnosisAndTreatmentForm = null;
+        MaternityOutcomeForm diagnosisAndTreatmentForm = null;
         if (cursor.moveToNext()) {
-            diagnosisAndTreatmentForm = new OpdDiagnosisAndTreatmentForm(
+            diagnosisAndTreatmentForm = new MaternityOutcomeForm(
                     cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getString(2),
@@ -80,17 +80,17 @@ public class OpdDiagnosisAndTreatmentFormRepository extends BaseRepository imple
     }
 
     @Override
-    public boolean delete(@NonNull OpdDiagnosisAndTreatmentForm opdDiagnosisAndTreatmentForm) {
+    public boolean delete(@NonNull MaternityOutcomeForm maternityOutcomeForm) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         int rows = sqLiteDatabase.delete(MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM
                 , MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " = ? "
-                , new String[]{opdDiagnosisAndTreatmentForm.getBaseEntityId()});
+                , new String[]{maternityOutcomeForm.getBaseEntityId()});
 
         return rows > 0;
     }
 
     @Override
-    public List<OpdDiagnosisAndTreatmentForm> findAll() {
+    public List<MaternityOutcomeForm> findAll() {
         throw new NotImplementedException("Not Implemented");
     }
 }

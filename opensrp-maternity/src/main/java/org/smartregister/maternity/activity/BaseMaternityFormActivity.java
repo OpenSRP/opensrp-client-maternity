@@ -16,9 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
-import org.smartregister.maternity.dao.OpdDiagnosisAndTreatmentFormDao;
+import org.smartregister.maternity.dao.MaternityOutcomeFormDao;
 import org.smartregister.maternity.fragment.BaseMaternityFormFragment;
-import org.smartregister.maternity.pojos.OpdDiagnosisAndTreatmentForm;
+import org.smartregister.maternity.pojos.MaternityOutcomeForm;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;
@@ -140,7 +140,7 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
     @Override
     public void onBackPressed() {
         if (enableOnCloseDialog) {
-            if (form.optString(MaternityJsonFormUtils.ENCOUNTER_TYPE).equals(MaternityConstants.EventType.DIAGNOSIS_AND_TREAT)) {
+            if (form.optString(MaternityJsonFormUtils.ENCOUNTER_TYPE).equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
                 AlertDialog dialog = new AlertDialog.Builder(this, R.style.AppThemeAlertDialog).setTitle(confirmCloseTitle)
                         .setMessage(getString(R.string.save_form_fill_session))
                         .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -173,13 +173,13 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
 
     private void saveFormFillSession() {
         JSONObject jsonObject = getmJSONObject();
-        final OpdDiagnosisAndTreatmentForm opdDiagnosisAndTreatmentForm = new OpdDiagnosisAndTreatmentForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
+        final MaternityOutcomeForm maternityOutcomeForm = new MaternityOutcomeForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
                 jsonObject.toString(), Utils.convertDateFormat(new DateTime()));
-        final OpdDiagnosisAndTreatmentFormDao opdDiagnosisAndTreatmentFormDao = MaternityLibrary.getInstance().getOpdDiagnosisAndTreatmentFormRepository();
+        final MaternityOutcomeFormDao maternityOutcomeFormDao = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository();
         new AppExecutors().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                opdDiagnosisAndTreatmentFormDao.saveOrUpdate(opdDiagnosisAndTreatmentForm);
+                maternityOutcomeFormDao.saveOrUpdate(maternityOutcomeForm);
             }
         });
     }

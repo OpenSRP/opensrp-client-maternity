@@ -14,11 +14,10 @@ import org.smartregister.domain.FetchStatus;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.interactor.BaseMaternityRegisterActivityInteractor;
-import org.smartregister.maternity.pojos.OpdDiagnosisAndTreatmentForm;
+import org.smartregister.maternity.pojos.MaternityOutcomeForm;
 import org.smartregister.maternity.utils.MaternityConstants;
 
 import java.lang.ref.WeakReference;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -155,7 +154,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
     }
 
     @Override
-    public void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable OpdDiagnosisAndTreatmentForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable) {
+    public void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityOutcomeForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable) {
         try {
             if (diagnosisAndTreatmentForm != null) {
                 form = new JSONObject(diagnosisAndTreatmentForm.getForm());

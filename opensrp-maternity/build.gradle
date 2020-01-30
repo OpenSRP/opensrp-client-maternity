@@ -79,14 +79,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.android.support:multidex:1.0.0'
 
-    implementation('org.smartregister:opensrp-client-anc:0.0.9-SNAPSHOT@aar') {
-        transitive = true
-        exclude group: 'org.smartregister', module: 'opensrp-client-core'
-        exclude group: 'org.smartregister', module: 'opensrp-client-native-form'
-        exclude group: 'org.smartregister', module: 'opensrp-client-configurable-views'
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-    }
-
     api ('org.smartregister:opensrp-client-core:1.8.21-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'com.github.bmelnychuk', module: 'atv'

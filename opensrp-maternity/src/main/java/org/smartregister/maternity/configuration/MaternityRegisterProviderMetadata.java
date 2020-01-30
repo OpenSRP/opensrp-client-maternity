@@ -1,7 +1,6 @@
 package org.smartregister.maternity.configuration;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.util.Map;
 

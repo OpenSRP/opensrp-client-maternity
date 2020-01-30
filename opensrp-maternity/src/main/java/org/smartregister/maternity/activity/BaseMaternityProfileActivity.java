@@ -262,7 +262,7 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
                     ((MaternityProfileActivityContract.Presenter) presenter).onUpdateRegistrationBtnCLicked(baseEntityId);
                 }
             } else {
-                showToast(getString(R.string.edit_opd_registration_failure_message));
+                showToast(getString(R.string.edit_maternity_registration_failure_message));
             }
         } else {
             super.onClick(view);

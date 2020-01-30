@@ -10,8 +10,8 @@ import org.json.JSONObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.maternity.listener.OnSendActionToFragment;
-import org.smartregister.maternity.pojos.OpdDiagnosisAndTreatmentForm;
 import org.smartregister.maternity.pojos.MaternityEventClient;
+import org.smartregister.maternity.pojos.MaternityOutcomeForm;
 import org.smartregister.maternity.pojos.RegisterParams;
 import org.smartregister.view.contract.BaseProfileContract;
 
@@ -100,7 +100,7 @@ public interface MaternityProfileActivityContract {
 
         void onRegistrationSaved(@Nullable CommonPersonObjectClient client, boolean isEdit);
 
-        void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable OpdDiagnosisAndTreatmentForm diagnosisAndTreatmentForm, @NonNull String caseId, @NonNull String entityTable);
+        void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityOutcomeForm diagnosisAndTreatmentForm, @NonNull String caseId, @NonNull String entityTable);
 
     }
 }

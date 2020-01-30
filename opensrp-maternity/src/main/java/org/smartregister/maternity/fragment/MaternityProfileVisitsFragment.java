@@ -19,7 +19,6 @@ import org.smartregister.maternity.adapter.MaternityProfileVisitsAdapter;
 import org.smartregister.maternity.contract.MaternityProfileVisitsFragmentContract;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.listener.OnSendActionToFragment;
-import org.smartregister.maternity.pojos.OpdVisitSummary;
 import org.smartregister.maternity.presenter.MaternityProfileVisitsFragmentPresenter;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.view.fragment.BaseProfileFragment;
@@ -75,7 +74,7 @@ public class MaternityProfileVisitsFragment extends BaseProfileFragment implemen
         presenter.loadPageCounter(baseEntityId);
         presenter.loadVisits(baseEntityId, new MaternityProfileVisitsFragmentContract.Presenter.OnFinishedCallback() {
             @Override
-            public void onFinished(@NonNull List<OpdVisitSummary> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
+            public void onFinished(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
                 displayVisits(opdVisitSummaries, items);
             }
         });
@@ -135,7 +134,7 @@ public class MaternityProfileVisitsFragment extends BaseProfileFragment implemen
     }
 
     @Override
-    public void displayVisits(@NonNull List<OpdVisitSummary> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
+    public void displayVisits(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
         if (getActivity() != null) {
             MaternityProfileVisitsAdapter adapter = new MaternityProfileVisitsAdapter(getActivity(), items);
             adapter.notifyDataSetChanged();

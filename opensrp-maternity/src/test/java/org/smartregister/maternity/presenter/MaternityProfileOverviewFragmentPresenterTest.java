@@ -24,9 +24,7 @@ import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.contract.MaternityProfileOverviewFragmentContract;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
-import org.smartregister.maternity.pojos.OpdCheckIn;
 import org.smartregister.maternity.pojos.MaternityDetails;
-import org.smartregister.maternity.pojos.OpdVisit;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.repository.Repository;
 

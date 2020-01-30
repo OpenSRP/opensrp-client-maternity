@@ -2,20 +2,20 @@ package org.smartregister.maternity.pojos;
 
 import android.support.annotation.NonNull;
 
-public class OpdDiagnosisAndTreatmentForm {
+public class MaternityOutcomeForm {
     private int id;
     private String baseEntityId;
     private String form;
     private String createdAt;
 
-    public OpdDiagnosisAndTreatmentForm() {
+    public MaternityOutcomeForm() {
     }
 
-    public OpdDiagnosisAndTreatmentForm(String baseEntityId) {
+    public MaternityOutcomeForm(String baseEntityId) {
         this.baseEntityId = baseEntityId;
     }
 
-    public OpdDiagnosisAndTreatmentForm(int id, @NonNull String baseEntityId, @NonNull String form, @NonNull String createdAt) {
+    public MaternityOutcomeForm(int id, @NonNull String baseEntityId, @NonNull String form, @NonNull String createdAt) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.form = form;

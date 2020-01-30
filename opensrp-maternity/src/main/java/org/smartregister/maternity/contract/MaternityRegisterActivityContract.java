@@ -9,8 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.tag.FormTag;
-import org.smartregister.maternity.pojos.OpdDiagnosisAndTreatmentForm;
 import org.smartregister.maternity.pojos.MaternityEventClient;
+import org.smartregister.maternity.pojos.MaternityOutcomeForm;
 import org.smartregister.maternity.pojos.RegisterParams;
 import org.smartregister.view.contract.BaseRegisterContract;
 
@@ -93,7 +93,7 @@ public interface MaternityRegisterActivityContract {
 
         void onEventSaved();
 
-        void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable OpdDiagnosisAndTreatmentForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable);
+        void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityOutcomeForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable);
 
     }
 }

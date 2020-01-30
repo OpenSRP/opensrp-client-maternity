@@ -8,7 +8,7 @@ import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.smartregister.maternity.dao.OpdDetailsDao;
+import org.smartregister.maternity.dao.MaternityDetailsDao;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants.Column.MaternityDetails;
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
-public class MaternityDetailsRepository extends BaseRepository implements OpdDetailsDao {
+public class MaternityDetailsRepository extends BaseRepository implements MaternityDetailsDao {
 
     private String[] columns = new String[]{
             MaternityDetails.ID,

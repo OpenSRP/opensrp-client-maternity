@@ -13,19 +13,12 @@ import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.MultiSelectItem;
-import com.vijay.jsonwizard.utils.MultiSelectListUtils;
 import com.vijay.jsonwizard.widgets.MultiSelectListFactory;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.AllConstants;
-import org.smartregister.domain.Setting;
-import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.utils.MaternityConstants;
-
-import java.util.List;
 
 import timber.log.Timber;
 
@@ -91,7 +84,7 @@ public class MaternityMultiSelectDrugPicker extends MultiSelectListFactory imple
 
     private void writeAdditionalDetails(@NonNull String duration, @NonNull String dosage, @NonNull MultiSelectItem multiSelectItem) {
         String multiSelectValue = multiSelectItem.getValue();
-        String msg = String.format(context.getString(R.string.opd_dosage_duration_text), dosage, duration);
+        String msg = String.format(context.getString(R.string.maternity_dosage_duration_text), dosage, duration);
         JSONObject jsonObject = new JSONObject();
 
         try {

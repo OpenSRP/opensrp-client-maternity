@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityProfileVisitsFragmentContract;
-import org.smartregister.maternity.pojos.OpdVisitSummary;
 import org.smartregister.maternity.utils.AppExecutors;
 
 import java.util.List;
@@ -40,14 +39,14 @@ public class MaternityProfileVisitsFragmentInteractor implements MaternityProfil
         appExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                final List<OpdVisitSummary> summaries = MaternityLibrary.getInstance().getOpdVisitSummaryRepository().getOpdVisitSummaries(baseEntityId, pageNo);
+                /*final List<OpdVisitSummary> summaries = MaternityLibrary.getInstance().getOpdVisitSummaryRepository().getOpdVisitSummaries(baseEntityId, pageNo);
 
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
                         onVisitsLoadedCallback.onVisitsLoaded(summaries);
                     }
-                });
+                });*/
             }
         });
     }
@@ -57,14 +56,14 @@ public class MaternityProfileVisitsFragmentInteractor implements MaternityProfil
         appExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                final int visitsPageCount = MaternityLibrary.getInstance().getOpdVisitSummaryRepository().getVisitPageCount(baseEntityId);
+                /*final int visitsPageCount = MaternityLibrary.getInstance().getOpdVisitSummaryRepository().getVisitPageCount(baseEntityId);
 
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
                         onFetchVisitsPageCountCallback.onFetchVisitsPageCount(visitsPageCount);
                     }
-                });
+                });*/
             }
         });
     }

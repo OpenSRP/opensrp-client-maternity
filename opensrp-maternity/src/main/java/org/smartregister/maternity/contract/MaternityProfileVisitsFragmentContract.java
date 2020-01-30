@@ -7,8 +7,6 @@ import android.support.v4.util.Pair;
 
 import org.jeasy.rules.api.Facts;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
-import org.smartregister.maternity.pojos.OpdVisitSummary;
-import org.smartregister.maternity.pojos.OpdVisitSummaryResultModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,26 +31,21 @@ public interface MaternityProfileVisitsFragmentContract {
 
         void loadPageCounter(@NonNull String baseEntityId);
 
-        void populateWrapperDataAndFacts(@NonNull List<OpdVisitSummary> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items);
+        void populateWrapperDataAndFacts(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items);
 
         void onNextPageClicked();
 
         void onPreviousPageClicked();
 
-        @NonNull
-        String generateMedicationText(@NonNull HashMap<String, OpdVisitSummaryResultModel.Treatment> treatments);
-
-        @NonNull
-        String generateDiseasesText(@NonNull OpdVisitSummary opdVisitSummary);
 
         interface OnFinishedCallback {
 
-            void onFinished(@NonNull List<OpdVisitSummary> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items);
+            void onFinished(@NonNull List<Object> maternityVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items);
         }
 
         interface OnVisitsLoadedCallback {
 
-            void onVisitsLoaded(@NonNull List<OpdVisitSummary> opdVisitSummaries);
+            void onVisitsLoaded(@NonNull List<Object> maternityVisitSummaries);
         }
     }
 
@@ -66,7 +59,7 @@ public interface MaternityProfileVisitsFragmentContract {
 
         void showPreviousPageBtn(boolean show);
 
-        void displayVisits(@NonNull List<OpdVisitSummary> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items);
+        void displayVisits(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items);
 
         @Nullable
         String getClientBaseEntityId();

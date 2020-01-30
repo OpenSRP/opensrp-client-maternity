@@ -15,8 +15,8 @@ import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.configuration.MaternityRegisterQueryProviderContract;
 import org.smartregister.maternity.contract.MaternityProfileActivityContract;
-import org.smartregister.maternity.pojos.OpdDiagnosisAndTreatmentForm;
 import org.smartregister.maternity.pojos.MaternityEventClient;
+import org.smartregister.maternity.pojos.MaternityOutcomeForm;
 import org.smartregister.maternity.pojos.RegisterParams;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.ConfigurationInstancesHelper;
@@ -49,10 +49,10 @@ public class MaternityProfileInteractor implements MaternityProfileActivityContr
         appExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                final OpdDiagnosisAndTreatmentForm diagnosisAndTreatmentForm = MaternityLibrary
+                final MaternityOutcomeForm diagnosisAndTreatmentForm = MaternityLibrary
                         .getInstance()
-                        .getOpdDiagnosisAndTreatmentFormRepository()
-                        .findOne(new OpdDiagnosisAndTreatmentForm(baseEntityId));
+                        .getMaternityOutcomeFormRepository()
+                        .findOne(new MaternityOutcomeForm(baseEntityId));
 
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override

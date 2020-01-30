@@ -26,7 +26,7 @@
             android:singleLine="true"
             android:textAllCaps="true"
             android:textAppearance="?android:textAppearanceMedium"
-            android:text="@string/opd_checked_in"
+            android:text="@string/maternity_checked_in"
             android:textColor="@color/overview_font_right"/>
 
         <Button

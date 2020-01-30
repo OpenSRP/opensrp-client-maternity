@@ -5,9 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
-import com.vijay.jsonwizard.constants.JsonFormConstants;
-
-import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.Weeks;
 import org.joda.time.format.DateTimeFormat;
@@ -15,7 +12,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.tag.FormTag;
@@ -23,25 +19,13 @@ import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.domain.YamlConfig;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.helper.MaternityRulesEngineHelper;
-import org.smartregister.maternity.pojos.MaternityDetails;
-import org.smartregister.maternity.pojos.OpdCheckIn;
-import org.smartregister.maternity.pojos.OpdDiagnosisAndTreatmentForm;
-import org.smartregister.maternity.pojos.OpdVisit;
 import org.smartregister.maternity.repository.MaternityDetailsRepository;
-import org.smartregister.maternity.repository.OpdCheckInRepository;
-import org.smartregister.maternity.repository.OpdDiagnosisAndTreatmentFormRepository;
-import org.smartregister.maternity.repository.OpdDiagnosisRepository;
-import org.smartregister.maternity.repository.OpdServiceDetailRepository;
-import org.smartregister.maternity.repository.OpdTestConductedRepository;
-import org.smartregister.maternity.repository.OpdTreatmentRepository;
-import org.smartregister.maternity.repository.OpdVisitRepository;
-import org.smartregister.maternity.repository.OpdVisitSummaryRepository;
+import org.smartregister.maternity.repository.MaternityOutcomeFormRepository;
 import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;
 import org.smartregister.maternity.utils.MaternityUtils;
-import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.sync.ClientProcessorForJava;
@@ -55,13 +39,11 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import id.zelory.compressor.Compressor;
-import timber.log.Timber;
 
 import static org.smartregister.maternity.utils.MaternityJsonFormUtils.METADATA;
 
@@ -78,15 +60,8 @@ public class MaternityLibrary {
     private ECSyncHelper syncHelper;
 
     private UniqueIdRepository uniqueIdRepository;
-    private OpdCheckInRepository checkInRepository;
-    private OpdVisitRepository visitRepository;
     private MaternityDetailsRepository maternityDetailsRepository;
-    private OpdDiagnosisAndTreatmentFormRepository opdDiagnosisAndTreatmentFormRepository;
-    private OpdServiceDetailRepository opdServiceDetailRepository;
-    private OpdDiagnosisRepository opdDiagnosisRepository;
-    private OpdTreatmentRepository opdTreatmentRepository;
-    private OpdTestConductedRepository opdTestConductedRepository;
-    private OpdVisitSummaryRepository opdVisitSummaryRepository;
+    private MaternityOutcomeFormRepository maternityOutcomeFormRepository;
 
     private Compressor compressor;
     private int applicationVersion;
@@ -147,24 +122,6 @@ public class MaternityLibrary {
     }
 
     @NonNull
-    public OpdCheckInRepository getCheckInRepository() {
-        if (checkInRepository == null) {
-            checkInRepository = new OpdCheckInRepository();
-        }
-
-        return checkInRepository;
-    }
-
-    @NonNull
-    public OpdVisitRepository getVisitRepository() {
-        if (visitRepository == null) {
-            visitRepository = new OpdVisitRepository();
-        }
-
-        return visitRepository;
-    }
-
-    @NonNull
     public MaternityDetailsRepository getMaternityDetailsRepository() {
         if (maternityDetailsRepository == null) {
             maternityDetailsRepository = new MaternityDetailsRepository();
@@ -173,51 +130,11 @@ public class MaternityLibrary {
     }
 
     @NonNull
-    public OpdDiagnosisAndTreatmentFormRepository getOpdDiagnosisAndTreatmentFormRepository() {
-        if (opdDiagnosisAndTreatmentFormRepository == null) {
-            opdDiagnosisAndTreatmentFormRepository = new OpdDiagnosisAndTreatmentFormRepository();
+    public MaternityOutcomeFormRepository getMaternityOutcomeFormRepository() {
+        if (maternityOutcomeFormRepository == null) {
+            maternityOutcomeFormRepository = new MaternityOutcomeFormRepository();
         }
-        return opdDiagnosisAndTreatmentFormRepository;
-    }
-
-    @NonNull
-    public OpdDiagnosisRepository getOpdDiagnosisRepository() {
-        if (opdDiagnosisRepository == null) {
-            opdDiagnosisRepository = new OpdDiagnosisRepository();
-        }
-        return opdDiagnosisRepository;
-    }
-
-    @NonNull
-    public OpdTestConductedRepository getOpdTestConductedRepository() {
-        if (opdTestConductedRepository == null) {
-            opdTestConductedRepository = new OpdTestConductedRepository();
-        }
-        return opdTestConductedRepository;
-    }
-
-    @NonNull
-    public OpdTreatmentRepository getOpdTreatmentRepository() {
-        if (opdTreatmentRepository == null) {
-            opdTreatmentRepository = new OpdTreatmentRepository();
-        }
-        return opdTreatmentRepository;
-    }
-
-    @NonNull
-    public OpdServiceDetailRepository getOpdServiceDetailRepository() {
-        if (opdServiceDetailRepository == null) {
-            opdServiceDetailRepository = new OpdServiceDetailRepository();
-        }
-        return opdServiceDetailRepository;
-    }
-
-    @NonNull
-    public OpdVisitSummaryRepository getOpdVisitSummaryRepository() {
-        if (opdVisitSummaryRepository == null) {
-            opdVisitSummaryRepository = new OpdVisitSummaryRepository();
-        }
-        return opdVisitSummaryRepository;
+        return maternityOutcomeFormRepository;
     }
 
     @NonNull
@@ -309,111 +226,6 @@ public class MaternityLibrary {
         eventList.add(closeOpdVisit);
 
         return eventList;
-    }
-
-    public List<Event> processOpdDiagnosisAndTreatmentForm(@NonNull String jsonString, @NonNull Intent data) throws JSONException {
-        JSONObject jsonFormObject = new JSONObject(jsonString);
-        JSONObject step1JsonObject = jsonFormObject.optJSONObject(MaternityConstants.JSON_FORM_EXTRA.STEP1);
-
-        JSONObject step2JsonObject = jsonFormObject.optJSONObject(MaternityConstants.JSON_FORM_EXTRA.STEP2);
-
-        JSONObject step3JsonObject = jsonFormObject.optJSONObject(MaternityConstants.JSON_FORM_EXTRA.STEP3);
-
-        JSONObject step4JsonObject = jsonFormObject.optJSONObject(MaternityConstants.JSON_FORM_EXTRA.STEP4);
-
-        String entityId = MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID);
-
-        OpdCheckIn opdCheckIn = MaternityLibrary.getInstance().getCheckInRepository().getLatestCheckIn(entityId);
-
-        String visitId = opdCheckIn.getVisitId();
-
-        List<JSONObject> steps = Arrays.asList(step1JsonObject, step2JsonObject, step3JsonObject, step4JsonObject);
-
-        FormTag formTag = MaternityJsonFormUtils.formTag(MaternityUtils.getAllSharedPreferences());
-
-        List<Event> eventList = new ArrayList<>();
-
-        for (int i = 0; i < steps.size(); i++) {
-            JSONObject step = steps.get(i);
-            JSONArray fields = step.getJSONArray(MaternityJsonFormUtils.FIELDS);
-            String valueIds = null;
-            JSONObject jsonObject;
-            JSONArray valueJsonArray = null;
-            if (i == 0 || i == 3) {
-                valueIds = MaternityUtils.generateNIds(1);
-            } else if (i == 1) {
-                jsonObject = JsonFormUtils.getFieldJSONObject(fields, MaternityConstants.JSON_FORM_KEY.DISEASE_CODE);
-                JSONObject jsonDiagnosisType = JsonFormUtils.getFieldJSONObject(fields, MaternityConstants.JSON_FORM_KEY.DIAGNOSIS_TYPE);
-                String diagnosisType = jsonDiagnosisType.optString(MaternityConstants.KEY.VALUE);
-                String value = jsonObject.optString(MaternityConstants.KEY.VALUE);
-                if (StringUtils.isBlank(value) || (new JSONArray(value).length() == 0)) {
-                    valueIds = MaternityUtils.generateNIds(1);
-                } else {
-                    valueJsonArray = new JSONArray(value);
-                    JSONArray jsonArrayWithOpenMrsIds = addOpenMrsEntityId(diagnosisType.toLowerCase(), valueJsonArray);
-                    jsonObject.put(MaternityConstants.KEY.VALUE, jsonArrayWithOpenMrsIds);
-                    valueIds = MaternityUtils.generateNIds(valueJsonArray.length());
-                }
-            } else if (i == 2) {
-                jsonObject = JsonFormUtils.getFieldJSONObject(fields, MaternityConstants.JSON_FORM_KEY.MEDICINE);
-                jsonObject.put(AllConstants.TYPE, AllConstants.MULTI_SELECT_LIST);
-                String value = jsonObject.optString(MaternityConstants.KEY.VALUE);
-                if (StringUtils.isBlank(value) || (new JSONArray(value).length() == 0)) {
-                    valueIds = MaternityUtils.generateNIds(1);
-                } else {
-                    valueJsonArray = new JSONArray(value);
-                    valueIds = MaternityUtils.generateNIds(valueJsonArray.length());
-                }
-            }
-            Event baseEvent = JsonFormUtils.createEvent(fields, jsonFormObject.getJSONObject(METADATA),
-                    formTag, entityId, getDiagnosisAndTreatmentEventArray()[i], getDiagnosisAndTreatmentTableArray()[i]);
-            MaternityJsonFormUtils.tagSyncMetadata(baseEvent);
-            baseEvent.addDetails(MaternityConstants.JSON_FORM_KEY.VISIT_ID, visitId);
-            baseEvent.addDetails(MaternityConstants.JSON_FORM_KEY.ID, valueIds);
-            if (valueJsonArray != null) {
-                baseEvent.addDetails(MaternityConstants.KEY.VALUE, valueJsonArray.toString());
-            }
-
-            eventList.add(baseEvent);
-        }
-
-        //remove any saved sessions
-        OpdDiagnosisAndTreatmentForm opdDiagnosisAndTreatmentForm = new OpdDiagnosisAndTreatmentForm(entityId);
-        MaternityLibrary.getInstance().getOpdDiagnosisAndTreatmentFormRepository().delete(opdDiagnosisAndTreatmentForm);
-
-        Event closeOpdVisit = JsonFormUtils.createEvent(new JSONArray(), new JSONObject(),
-                formTag, entityId, MaternityConstants.EventType.CLOSE_OPD_VISIT, "");
-        MaternityJsonFormUtils.tagSyncMetadata(closeOpdVisit);
-        closeOpdVisit.addDetails(MaternityConstants.JSON_FORM_KEY.VISIT_ID, visitId);
-        closeOpdVisit.addDetails(MaternityConstants.JSON_FORM_KEY.VISIT_END_DATE, MaternityUtils.convertDate(new Date(), MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS));
-        eventList.add(closeOpdVisit);
-
-        return eventList;
-    }
-
-    private JSONArray addOpenMrsEntityId(String diagnosisType, JSONArray jsonArray) {
-        try {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.optJSONObject(i);
-                jsonObject.put(JsonFormConstants.OPENMRS_ENTITY_ID, jsonObject.optJSONObject(JsonFormConstants.MultiSelectUtils.PROPERTY)
-                        .optString(diagnosisType.concat("-id")));
-            }
-
-            return jsonArray;
-        } catch (JSONException e) {
-            Timber.e(e);
-        }
-        return jsonArray;
-    }
-
-    protected String[] getDiagnosisAndTreatmentEventArray() {
-        return new String[]{MaternityConstants.EventType.TEST_CONDUCTED, MaternityConstants.EventType.DIAGNOSIS,
-                MaternityConstants.EventType.TREATMENT, MaternityConstants.EventType.SERVICE_DETAIL};
-    }
-
-    protected String[] getDiagnosisAndTreatmentTableArray() {
-        return new String[]{MaternityDbConstants.Table.OPD_TEST_CONDUCTED, MaternityDbConstants.Table.OPD_DIAGNOSIS,
-                MaternityDbConstants.Table.OPD_TREATMENT, MaternityDbConstants.Table.OPD_SERVICE_DETAIL};
     }
 
     public String opdLookUpQuery() {

@@ -20,9 +20,9 @@ import org.smartregister.maternity.contract.MaternityProfileActivityContract;
 import org.smartregister.maternity.interactor.MaternityProfileInteractor;
 import org.smartregister.maternity.listener.MaternityEventActionCallBack;
 import org.smartregister.maternity.model.MaternityProfileActivityModel;
-import org.smartregister.maternity.pojos.MaternityMetadata;
-import org.smartregister.maternity.pojos.OpdDiagnosisAndTreatmentForm;
 import org.smartregister.maternity.pojos.MaternityEventClient;
+import org.smartregister.maternity.pojos.MaternityMetadata;
+import org.smartregister.maternity.pojos.MaternityOutcomeForm;
 import org.smartregister.maternity.pojos.RegisterParams;
 import org.smartregister.maternity.tasks.FetchRegistrationDataTask;
 import org.smartregister.maternity.utils.AppExecutors;
@@ -34,7 +34,6 @@ import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.util.Utils;
 
 import java.lang.ref.WeakReference;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +102,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     }
 
     @Override
-    public void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable OpdDiagnosisAndTreatmentForm diagnosisAndTreatmentForm, @NonNull String caseId, @NonNull String entityTable) {
+    public void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityOutcomeForm diagnosisAndTreatmentForm, @NonNull String caseId, @NonNull String entityTable) {
         try {
             if (diagnosisAndTreatmentForm != null) {
                 form = new JSONObject(diagnosisAndTreatmentForm.getForm());
@@ -161,7 +160,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
                 form = model.getFormAsJson(formName, caseId, locationId, injectedValues);
 
                 // Fetch saved form & continue editing
-                if (formName.equals(MaternityConstants.Form.OPD_DIAGNOSIS_AND_TREAT)) {
+                if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME)) {
                     mProfileInteractor.fetchSavedDiagnosisAndTreatmentForm(caseId, entityTable);
                 } else {
                     startFormActivity(form, caseId, entityTable);
@@ -188,13 +187,6 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
             try {
                 List<Event> maternityOutcomeAndCloseEvents = MaternityLibrary.getInstance().processMaternityOutcomeForm(eventType, jsonString, data);
                 maternityEventUtils.saveEvents(maternityOutcomeAndCloseEvents, this);
-            } catch (JSONException e) {
-                Timber.e(e);
-            }
-        } else if (eventType.equals(MaternityConstants.EventType.DIAGNOSIS_AND_TREAT)) {
-            try {
-                List<Event> opdDiagnosisAndTreatment = MaternityLibrary.getInstance().processOpdDiagnosisAndTreatmentForm(jsonString, data);
-                maternityEventUtils.saveEvents(opdDiagnosisAndTreatment, this);
             } catch (JSONException e) {
                 Timber.e(e);
             }

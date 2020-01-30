@@ -151,7 +151,7 @@ public interface MaternityDbConstants {
         String OPD_CHECK_IN = "opd_check_in";
         String OPD_VISIT = "opd_visit";
         String MATERNITY_DETAILS = "maternity_details";
-        String OPD_DIAGNOSIS_AND_TREATMENT_FORM = "opd_diagnosis_and_treatment_form";
+        String OPD_DIAGNOSIS_AND_TREATMENT_FORM = "maternity_diagnosis_and_treatment_form";
         String OPD_DIAGNOSIS = "opd_diagnosis";
         String OPD_TREATMENT = "opd_treatment";
         String OPD_SERVICE_DETAIL = "opd_service_detail";

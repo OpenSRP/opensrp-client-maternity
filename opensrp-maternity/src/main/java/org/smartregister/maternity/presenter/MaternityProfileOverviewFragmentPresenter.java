@@ -17,13 +17,10 @@ import org.smartregister.maternity.pojos.MaternityDetails;
 import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityFactsUtil;
-import org.smartregister.maternity.utils.MaternityUtils;
-import org.smartregister.util.DateUtil;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
@@ -69,7 +66,7 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
     }
 
     private void generateYamlConfigList(@NonNull Facts facts, @NonNull List<YamlConfigWrapper> yamlConfigListGlobal) throws IOException {
-        Iterable<Object> ruleObjects = loadFile(FilePath.FILE.OPD_PROFILE_OVERVIEW);
+        Iterable<Object> ruleObjects = loadFile(FilePath.FILE.MATERNITY_PROFILE_OVERVIEW);
 
         for (Object ruleObject : ruleObjects) {
             List<YamlConfigWrapper> yamlConfigList = new ArrayList<>();

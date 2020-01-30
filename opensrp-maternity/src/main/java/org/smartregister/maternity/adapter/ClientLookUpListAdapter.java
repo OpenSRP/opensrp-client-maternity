@@ -40,7 +40,7 @@ public class ClientLookUpListAdapter extends RecyclerView.Adapter<ClientLookUpLi
         String lastName = Utils.getValue(commonPersonObject.getColumnmaps(), MaternityDbConstants.Column.Client.LAST_NAME, true);
         String opensrpId = Utils.getValue(commonPersonObject.getColumnmaps(), MaternityDbConstants.KEY.OPENSRP_ID, true);
         String fullName = firstName + " " + lastName;
-        String details = context.getString(R.string.opd_opensrp_id_type) + " - " + opensrpId;
+        String details = context.getString(R.string.maternity_opensrp_id_type) + " - " + opensrpId;
 
         holder.txtName.setText(fullName);
         holder.itemView.setTag(Utils.convert(commonPersonObject));

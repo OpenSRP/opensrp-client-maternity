@@ -15,8 +15,6 @@ import org.smartregister.maternity.domain.YamlConfig;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.interactor.MaternityProfileVisitsFragmentInteractor;
-import org.smartregister.maternity.pojos.OpdVisitSummary;
-import org.smartregister.maternity.pojos.OpdVisitSummaryResultModel;
 import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityFactsUtil;
@@ -68,7 +66,7 @@ public class MaternityProfileVisitsFragmentPresenter implements MaternityProfile
             mProfileInteractor.fetchVisits(baseEntityId, currentPageNo, new OnVisitsLoadedCallback() {
 
                 @Override
-                public void onVisitsLoaded(@NonNull List<OpdVisitSummary> opdVisitSummaries) {
+                public void onVisitsLoaded(@NonNull List<Object> opdVisitSummaries) {
                     updatePageCounter();
 
                     ArrayList<Pair<YamlConfigWrapper, Facts>> items = new ArrayList<>();
@@ -106,13 +104,13 @@ public class MaternityProfileVisitsFragmentPresenter implements MaternityProfile
     }
 
     @Override
-    public void populateWrapperDataAndFacts(@NonNull List<OpdVisitSummary> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
-        for (OpdVisitSummary opdVisitSummary: opdVisitSummaries) {
+    public void populateWrapperDataAndFacts(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
+        /*for (OpdVisitSummary opdVisitSummary: opdVisitSummaries) {
             Facts facts = generateOpdVisitSummaryFact(opdVisitSummary);
             Iterable<Object> ruleObjects = null;
 
             try {
-                ruleObjects = MaternityLibrary.getInstance().readYaml(FilePath.FILE.OPD_VISIT_ROW);
+                ruleObjects = MaternityLibrary.getInstance().readYaml(FilePath.FILE.MATERNITY_VISIT_ROW);
             } catch (IOException e) {
                 Timber.e(e);
             }
@@ -142,7 +140,7 @@ public class MaternityProfileVisitsFragmentPresenter implements MaternityProfile
                     }
                 }
             }
-        }
+        }*/
     }
 
     @Override
@@ -152,7 +150,7 @@ public class MaternityProfileVisitsFragmentPresenter implements MaternityProfile
 
             loadVisits(getProfileView().getClientBaseEntityId(), new OnFinishedCallback() {
                 @Override
-                public void onFinished(@NonNull List<OpdVisitSummary> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
+                public void onFinished(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
                     if (getProfileView() != null) {
                         getProfileView().displayVisits(opdVisitSummaries, items);
                     }
@@ -168,117 +166,13 @@ public class MaternityProfileVisitsFragmentPresenter implements MaternityProfile
 
             loadVisits(getProfileView().getClientBaseEntityId(), new OnFinishedCallback() {
                 @Override
-                public void onFinished(@NonNull List<OpdVisitSummary> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
+                public void onFinished(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
                     if (getProfileView() != null) {
                         getProfileView().displayVisits(opdVisitSummaries, items);
                     }
                 }
             });
         }
-    }
-
-    @NonNull
-    private Facts generateOpdVisitSummaryFact(@NonNull OpdVisitSummary opdVisitSummary) {
-        Facts facts = new Facts();
-
-        if (opdVisitSummary.getVisitDate() != null) {
-            MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.OpdVisit.VISIT_DATE, MaternityUtils.convertDate(opdVisitSummary.getVisitDate(), MaternityConstants.DateFormat.d_MMM_yyyy));
-        }
-
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.OpdVisit.TEST_NAME, opdVisitSummary.getTestName());
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.OpdVisit.TEST_RESULT, opdVisitSummary.getTestResult());
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.OpdVisit.DIAGNOSIS, opdVisitSummary.getDiagnosis());
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.OpdVisit.DIAGNOSIS_TYPE, opdVisitSummary.getDiagnosisType());
-
-        // Put the diseases text
-        String diseasesText = generateDiseasesText(opdVisitSummary);
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.OpdVisit.DISEASE_CODE, diseasesText);
-
-        // Put the treatment text
-        HashMap<String, OpdVisitSummaryResultModel.Treatment> treatments = opdVisitSummary.getTreatments();
-        String medicationText = generateMedicationText(treatments);
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.OpdVisit.TREATMENT, medicationText);
-
-        // Add translate-able labels
-        setLabelsInFacts(facts);
-
-        return facts;
-    }
-
-    @Override
-    @NonNull
-    public String generateMedicationText(@NonNull HashMap<String, OpdVisitSummaryResultModel.Treatment> treatments) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (OpdVisitSummaryResultModel.Treatment treatment : treatments.values()) {
-            if (treatment != null && treatment.getMedicine() != null) {
-                String medicine = treatment.getMedicine();
-                if (stringBuilder.length() > 1) {
-                    stringBuilder.append("<br/>");
-                }
-
-                String medicationTemplate = getString(R.string.single_medicine_visit_preview_summary);
-                String doseOrDurationHtml = getString(R.string.dose_or_duration_html);
-
-                if (medicationTemplate != null && !TextUtils.isEmpty(medicine)) {
-                    stringBuilder.append(String.format(medicationTemplate
-                            , medicine));
-
-                    StringBuilder doseAndDurationText = new StringBuilder();
-                    String dosage = treatment.getDosage();
-                    if (!TextUtils.isEmpty(dosage)) {
-                        String medicationDoseTemplate = getString(R.string.medication_dose);
-                        if (medicationDoseTemplate != null) {
-                            doseAndDurationText.append(String.format(medicationDoseTemplate, dosage));
-
-                            if (!TextUtils.isEmpty(treatment.getDuration())) {
-                                doseAndDurationText.append(". ");
-                            }
-                        }
-                    }
-
-                    String duration = treatment.getDuration();
-                    if (!TextUtils.isEmpty(duration)) {
-                        String medicationDurationTemplate = getString(R.string.medication_duration);
-                        if (medicationDurationTemplate != null) {
-                            doseAndDurationText.append(String.format(medicationDurationTemplate, duration));
-                        }
-                    }
-
-                    if (doseAndDurationText.length() > 0 && doseOrDurationHtml != null) {
-                        stringBuilder.append(String.format(doseOrDurationHtml, doseAndDurationText.toString()));
-                    }
-                }
-            }
-        }
-        return stringBuilder.toString();
-    }
-
-    @Override
-    @NonNull
-    public String generateDiseasesText(@NonNull OpdVisitSummary opdVisitSummary) {
-        HashSet<String> diseases = opdVisitSummary.getDiseases();
-        Iterator<String> diseaseIterator = diseases.iterator();
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        while (diseaseIterator.hasNext()) {
-            String disease = diseaseIterator.next();
-            if (!TextUtils.isEmpty(disease)) {
-                stringBuilder.append(disease);
-
-                if (diseaseIterator.hasNext()) {
-                    stringBuilder.append("\n");
-                }
-            }
-        }
-        return stringBuilder.toString();
-    }
-
-    private void setLabelsInFacts(@NonNull Facts facts) {
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.OpdVisit.DIAGNOSIS_LABEL, getString(R.string.diagnosis));
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.OpdVisit.DIAGNOSIS_TYPE_LABEL, getString(R.string.diagnosis_type));
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.OpdVisit.DISEASE_CODE_LABEL, getString(R.string.disease_code));
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.OpdVisit.TREATMENT_LABEL, getString(R.string.treatment));
     }
 
     @Nullable

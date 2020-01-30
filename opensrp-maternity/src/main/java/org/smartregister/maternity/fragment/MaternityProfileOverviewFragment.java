@@ -23,7 +23,6 @@ import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.listener.OnSendActionToFragment;
 import org.smartregister.maternity.presenter.MaternityProfileOverviewFragmentPresenter;
 import org.smartregister.maternity.utils.MaternityConstants;
-import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.view.fragment.BaseProfileFragment;
 
 import java.util.List;

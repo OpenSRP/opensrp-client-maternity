@@ -21,7 +21,7 @@
     <string name="dismiss">Dismiss</string>
     <string name="undo_lookup">Undo LookUp</string>
     <string name="national_id">National Id</string>
-    <string name="opd_opensrp_id_type">Opensrp Id</string>
+    <string name="maternity_opensrp_id_type">Opensrp Id</string>
 
     <string name="contact_number_due">Contact %1$d &#183; due %2$s</string>
 
@@ -48,9 +48,8 @@
     <string name="duration">Duration</string>
     <string name="add_treatment_medicine">Add treatments/medicine</string>
     <string name="drug_picker_dialog_save">SAVE</string>
-    <string name="opd_dosage_duration_text">Dose: %s, Duration: %s</string>
-    <string name="opd">OPD</string>
-    <string name="opd_checked_in">OPD: CHECKED IN</string>
+    <string name="maternity_dosage_duration_text">Dose: %s, Duration: %s</string>
+    <string name="maternity_checked_in">OPD: CHECKED IN</string>
 
     <string name="diagnose_and_treat"><![CDATA[DIAGNOSE & TREAT]]></string>
     <string name="outcome">OUTCOME</string>
@@ -68,7 +67,7 @@
     <string name="unknown">Unknown</string>
     <string name="positive">positive</string>
     <string name="switch_register_view">SWITCH REGISTER VIEW</string>
-    <string name="edit_opd_registration_failure_message">You cannot edit this patient using the Maternity Registration. Click on the Register Switcher</string>
+    <string name="edit_maternity_registration_failure_message">You cannot edit this patient using the Maternity Registration. Click on the Register Switcher</string>
     <string name="patient_id_holder">ID: %s</string>
     <string name="patient_age_holder">Age: %s</string>
     <string name="patient_ga_holder">GA: %s</string>
