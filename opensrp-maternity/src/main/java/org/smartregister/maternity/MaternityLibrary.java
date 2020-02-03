@@ -215,30 +215,30 @@ public class MaternityLibrary {
 
         String baseEntityId = MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID);
         String entityTable = MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.ENTITY_TABLE);
-        Event opdCheckinEvent = MaternityJsonFormUtils.createEvent(fieldsArray, jsonFormObject.getJSONObject(METADATA)
+        Event maternityOutcomeEvent = MaternityJsonFormUtils.createEvent(fieldsArray, jsonFormObject.getJSONObject(METADATA)
                 , formTag, baseEntityId, eventType, entityTable);
-        eventList.add(opdCheckinEvent);
+        eventList.add(maternityOutcomeEvent);
 
-        Event closeOpdVisit = JsonFormUtils.createEvent(new JSONArray(), new JSONObject(),
+        Event closeMaternityEvent = JsonFormUtils.createEvent(new JSONArray(), new JSONObject(),
                 formTag, baseEntityId, MaternityConstants.EventType.MATERNITY_CLOSE, "");
-        MaternityJsonFormUtils.tagSyncMetadata(closeOpdVisit);
-        closeOpdVisit.addDetails(MaternityConstants.JSON_FORM_KEY.VISIT_END_DATE, MaternityUtils.convertDate(new Date(), MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS));
-        eventList.add(closeOpdVisit);
+        MaternityJsonFormUtils.tagSyncMetadata(closeMaternityEvent);
+        closeMaternityEvent.addDetails(MaternityConstants.JSON_FORM_KEY.VISIT_END_DATE, MaternityUtils.convertDate(new Date(), MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS));
+        eventList.add(closeMaternityEvent);
 
         return eventList;
     }
 
-    public String opdLookUpQuery() {
+    public String maternityLookUpQuery() {
         String lookUpQueryForChild = "select id as _id, %s, %s, %s, %s, %s, %s, zeir_id as %s, null as national_id from ec_child where [condition] ";
         lookUpQueryForChild = String.format(lookUpQueryForChild, MaternityConstants.KEY.RELATIONALID, MaternityConstants.KEY.FIRST_NAME,
                 MaternityConstants.KEY.LAST_NAME, MaternityConstants.KEY.GENDER, MaternityConstants.KEY.DOB, MaternityConstants.KEY.BASE_ENTITY_ID, MaternityDbConstants.KEY.OPENSRP_ID);
         String lookUpQueryForMother = "select id as _id, %s, %s, %s, %s, %s, %s, register_id as %s, nrc_number as national_id from ec_mother where [condition] ";
         lookUpQueryForMother = String.format(lookUpQueryForMother, MaternityConstants.KEY.RELATIONALID, MaternityConstants.KEY.FIRST_NAME,
                 MaternityConstants.KEY.LAST_NAME, MaternityConstants.KEY.GENDER, MaternityConstants.KEY.DOB, MaternityConstants.KEY.BASE_ENTITY_ID, MaternityDbConstants.KEY.OPENSRP_ID);
-        String lookUpQueryForOpdClient = "select id as _id, %s, %s, %s, %s, %s, %s, %s, national_id from ec_client where [condition] ";
-        lookUpQueryForOpdClient = String.format(lookUpQueryForOpdClient, MaternityConstants.KEY.RELATIONALID, MaternityConstants.KEY.FIRST_NAME,
+        String lookUpQueryForOpdOrMaternityClient = "select id as _id, %s, %s, %s, %s, %s, %s, %s, national_id from ec_client where [condition] ";
+        lookUpQueryForOpdOrMaternityClient = String.format(lookUpQueryForOpdOrMaternityClient, MaternityConstants.KEY.RELATIONALID, MaternityConstants.KEY.FIRST_NAME,
                 MaternityConstants.KEY.LAST_NAME, MaternityConstants.KEY.GENDER, MaternityConstants.KEY.DOB, MaternityConstants.KEY.BASE_ENTITY_ID, MaternityDbConstants.KEY.OPENSRP_ID);
-        return lookUpQueryForChild + " union all " + lookUpQueryForMother + " union all " + lookUpQueryForOpdClient;
+        return lookUpQueryForChild + " union all " + lookUpQueryForMother + " union all " + lookUpQueryForOpdOrMaternityClient;
     }
 
     /**

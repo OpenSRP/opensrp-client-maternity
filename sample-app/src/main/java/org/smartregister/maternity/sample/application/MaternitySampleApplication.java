@@ -102,7 +102,7 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
         //Initialize Modules
         CoreLibrary.init(context, new SampleSyncConfiguration());
 
-        //Opd Initialization
+        //Maternity Initialization
         MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.Form.MATERNITY_REGISTRATION
                 , MaternityDbConstants.KEY.TABLE
                 , MaternityConstants.EventType.MATERNITY_REGISTRATION

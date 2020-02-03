@@ -122,7 +122,7 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
 
         client.put(MaternityDbConstants.KEY.FIRST_NAME, firstName);
         client.put(MaternityDbConstants.KEY.LAST_NAME, lastName);
-        client.put(MaternityDbConstants.KEY.GENDER, gender);
+        client.put("gender", gender);
         client.put(MaternityDbConstants.KEY.REGISTER_ID, registerId);
         client.put(MaternityDbConstants.KEY.ID, clientId);
 
@@ -141,7 +141,6 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
         String entityTable = "ec_client";
 
         HashMap<String, String> details = new HashMap<>();
-        details.put(MaternityDbConstants.KEY.GENDER, AllConstants.FEMALE_GENDER);
         details.put(MaternityConstants.IntentKey.ENTITY_TABLE, entityTable);
 
         ArgumentCaptor<HashMap<String, String>> hashMapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
@@ -197,35 +196,11 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
         Intent intent = new Intent();
         intent.putExtra(MaternityConstants.JSON_FORM_EXTRA.JSON, jsonString);
 
-        presenter.saveVisitOrDiagnosisForm(MaternityConstants.EventType.CHECK_IN, intent);
+        presenter.saveOutcomeForm(MaternityConstants.EventType.CHECK_IN, intent);
 
         Mockito.verify(maternityLibrary, Mockito.times(1)).processMaternityOutcomeForm(Mockito.eq(
                 MaternityConstants.EventType.CHECK_IN)
                 , Mockito.eq(jsonString)
-                , Mockito.any(Intent.class));
-        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", null);
-    }
-
-    @Test
-    public void saveVisitOrDiagnosisFormShouldCallOpdLibraryProcessDiagnosisFormWhenEventTypeIsDiagnosisAndTreat() throws JSONException {
-        String jsonString = "{}";
-
-        MaternityLibrary maternityLibrary = Mockito.mock(MaternityLibrary.class);
-        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
-
-        Mockito.doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return null;
-            }
-        }).when(maternityLibrary).processOpdDiagnosisAndTreatmentForm(Mockito.anyString(), Mockito.nullable(Intent.class));
-
-        Intent intent = new Intent();
-        intent.putExtra(MaternityConstants.JSON_FORM_EXTRA.JSON, jsonString);
-
-        presenter.saveVisitOrDiagnosisForm(MaternityConstants.EventType.DIAGNOSIS_AND_TREAT, intent);
-
-        Mockito.verify(maternityLibrary, Mockito.times(1)).processOpdDiagnosisAndTreatmentForm(Mockito.eq(jsonString)
                 , Mockito.any(Intent.class));
         ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", null);
     }

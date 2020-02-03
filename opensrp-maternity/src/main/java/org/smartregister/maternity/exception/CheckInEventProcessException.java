@@ -9,11 +9,11 @@ import android.support.annotation.NonNull;
 public class CheckInEventProcessException extends Exception {
 
     public CheckInEventProcessException() {
-        super("Could not process this OPD Check-In Event");
+        super("Could not process this MATERNITY Check-In Event");
     }
 
     public CheckInEventProcessException(@NonNull String message) {
-        super("Could not process this OPD Check-In Event because " + message);
+        super("Could not process this MATERNITY Check-In Event because " + message);
     }
 
 }

@@ -172,7 +172,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     }
 
     @Override
-    public void saveVisitOrDiagnosisForm(@NonNull String eventType, @Nullable Intent data) {
+    public void saveOutcomeForm(@NonNull String eventType, @Nullable Intent data) {
         String jsonString = null;
         MaternityEventUtils maternityEventUtils = new MaternityEventUtils(new AppExecutors());
         if (data != null) {
@@ -226,7 +226,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     }
 
     @Override
-    public void onOpdEventSaved() {
+    public void onMaternityEventSaved() {
         MaternityProfileActivityContract.View view = getProfileView();
         if (view != null) {
             view.getActionListenerForProfileOverview().onActionReceive();
@@ -246,7 +246,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
                     MaternityProfileActivityContract.View profileView = getProfileView();
                     if (profileView != null && metadata != null && jsonForm != null) {
                         Context context = profileView.getContext();
-                        Intent intent = new Intent(context, metadata.getOpdFormActivity());
+                        Intent intent = new Intent(context, metadata.getMaternityFormActivity());
                         Form formParam = new Form();
                         formParam.setWizard(false);
                         formParam.setHideSaveLabel(true);

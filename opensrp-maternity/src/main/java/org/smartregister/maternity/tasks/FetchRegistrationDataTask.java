@@ -27,10 +27,8 @@ public class FetchRegistrationDataTask extends AsyncTask<String, Void, String> {
     @Nullable
     protected String doInBackground(String... params) {
         Map<String, String> detailsMap = CoreLibrary.getInstance().context().detailsRepository().getAllDetailsForClient(params[0]);
-
         detailsMap.put(MaternityJsonFormUtils.OPENSRP_ID, detailsMap.get(MaternityConstants.KEY.OPENSRP_ID));
-
-        return MaternityReverseJsonFormUtils.prepareJsonEditOpdRegistrationForm(detailsMap, Arrays.asList(MaternityJsonFormUtils.OPENSRP_ID, MaternityConstants.JSON_FORM_KEY.BHT_ID), contextWeakReference.get());
+        return MaternityReverseJsonFormUtils.prepareJsonEditMaternityRegistrationForm(detailsMap, Arrays.asList(MaternityJsonFormUtils.OPENSRP_ID, MaternityConstants.JSON_FORM_KEY.BHT_ID), contextWeakReference.get());
     }
 
     protected void onPostExecute(@Nullable String jsonForm) {

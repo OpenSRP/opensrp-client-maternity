@@ -62,11 +62,11 @@ public class MaternityRegisterProvider implements RecyclerViewProvider<Maternity
                         .getMaternityConfiguration()
                         .getMaternityRegisterProviderMetadata());
 
-        Class<? extends MaternityRegisterRowOptions> opdRegisterRowOptionsClass = MaternityLibrary.getInstance()
+        Class<? extends MaternityRegisterRowOptions> maternityRegisterRowOptionsClass = MaternityLibrary.getInstance()
                 .getMaternityConfiguration()
                 .getMaternityRegisterRowOptions();
-        if (opdRegisterRowOptionsClass != null) {
-            this.maternityRegisterRowOptions = ConfigurationInstancesHelper.newInstance(opdRegisterRowOptionsClass);
+        if (maternityRegisterRowOptionsClass != null) {
+            this.maternityRegisterRowOptions = ConfigurationInstancesHelper.newInstance(maternityRegisterRowOptionsClass);
         }
     }
 

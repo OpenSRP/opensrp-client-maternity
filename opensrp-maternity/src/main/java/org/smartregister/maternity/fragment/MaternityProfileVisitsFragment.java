@@ -74,8 +74,8 @@ public class MaternityProfileVisitsFragment extends BaseProfileFragment implemen
         presenter.loadPageCounter(baseEntityId);
         presenter.loadVisits(baseEntityId, new MaternityProfileVisitsFragmentContract.Presenter.OnFinishedCallback() {
             @Override
-            public void onFinished(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
-                displayVisits(opdVisitSummaries, items);
+            public void onFinished(@NonNull List<Object> ancVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
+                displayVisits(ancVisitSummaries, items);
             }
         });
     }
@@ -90,10 +90,10 @@ public class MaternityProfileVisitsFragment extends BaseProfileFragment implemen
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.maternity_fragment_profile_visits, container, false);
 
-        recyclerView = fragmentView.findViewById(R.id.rv_opdFragmentProfileVisit_recyclerView);
-        nextPageBtn = fragmentView.findViewById(R.id.btn_opdFragmentProfileVisit_nextPageBtn);
-        previousPageBtn = fragmentView.findViewById(R.id.btn_opdFragmentProfileVisit_previousPageBtn);
-        pageCounter = fragmentView.findViewById(R.id.tv_opdFragmentProfileVisit_pageCounter);
+        recyclerView = fragmentView.findViewById(R.id.rv_maternityFragmentProfileVisit_recyclerView);
+        nextPageBtn = fragmentView.findViewById(R.id.btn_maternityFragmentProfileVisit_nextPageBtn);
+        previousPageBtn = fragmentView.findViewById(R.id.btn_maternityFragmentProfileVisit_previousPageBtn);
+        pageCounter = fragmentView.findViewById(R.id.tv_maternityFragmentProfileVisit_pageCounter);
 
         nextPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +134,7 @@ public class MaternityProfileVisitsFragment extends BaseProfileFragment implemen
     }
 
     @Override
-    public void displayVisits(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
+    public void displayVisits(@NonNull List<Object> ancVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
         if (getActivity() != null) {
             MaternityProfileVisitsAdapter adapter = new MaternityProfileVisitsAdapter(getActivity(), items);
             adapter.notifyDataSetChanged();

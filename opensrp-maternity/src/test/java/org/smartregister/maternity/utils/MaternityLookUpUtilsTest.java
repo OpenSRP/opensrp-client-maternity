@@ -41,7 +41,7 @@ public class MaternityLookUpUtilsTest {
     public void testLookUpQuery() throws Exception {
         PowerMockito.mockStatic(MaternityLibrary.class);
         PowerMockito.when(MaternityLibrary.getInstance()).thenReturn(maternityLibrary);
-        PowerMockito.when(maternityLibrary.opdLookUpQuery()).thenReturn("");
+        PowerMockito.when(maternityLibrary.maternityLookUpQuery()).thenReturn("");
 
         Map<String, String> entityMap = new HashMap<>();
         String result = Whitebox.invokeMethod(MaternityLookUpUtils.class, "lookUpQuery", entityMap);

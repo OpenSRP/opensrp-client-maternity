@@ -30,12 +30,12 @@ import timber.log.Timber;
 public class MaternityReverseJsonFormUtils {
 
     @Nullable
-    public static String prepareJsonEditOpdRegistrationForm(@NonNull Map<String, String> detailsMap, @NonNull List<String> nonEditableFields, @NonNull Context context) {
+    public static String prepareJsonEditMaternityRegistrationForm(@NonNull Map<String, String> detailsMap, @NonNull List<String> nonEditableFields, @NonNull Context context) {
         try {
             MaternityMetadata maternityMetadata = MaternityUtils.metadata();
 
             if (maternityMetadata != null) {
-                JSONObject form = new FormUtils(context).getFormJson(maternityMetadata.getOpdRegistrationFormName());
+                JSONObject form = new FormUtils(context).getFormJson(maternityMetadata.getMaternityRegistrationFormName());
                 Timber.d("Original Form %s", form);
                 if (form != null) {
                     MaternityJsonFormUtils.addRegLocHierarchyQuestions(form, MaternityConstants.JSON_FORM_KEY.ADDRESS_WIDGET_KEY, LocationHierarchy.ENTIRE_TREE);
@@ -44,7 +44,7 @@ public class MaternityReverseJsonFormUtils {
                     form.put(MaternityConstants.JSON_FORM_KEY.ENCOUNTER_TYPE, maternityMetadata.getUpdateEventType());
                     form.put(MaternityJsonFormUtils.CURRENT_ZEIR_ID, Utils.getValue(detailsMap, MaternityConstants.KEY.OPENSRP_ID, true).replace("-", ""));
 
-                    form.getJSONObject(MaternityJsonFormUtils.STEP1).put(MaternityConstants.JSON_FORM_KEY.FORM_TITLE, MaternityConstants.JSON_FORM_KEY.OPD_EDIT_FORM_TITLE);
+                    form.getJSONObject(MaternityJsonFormUtils.STEP1).put(MaternityConstants.JSON_FORM_KEY.FORM_TITLE, MaternityConstants.JSON_FORM_KEY.MATERNITY_EDIT_FORM_TITLE);
 
                     JSONObject metadata = form.getJSONObject(MaternityJsonFormUtils.METADATA);
                     metadata.put(MaternityJsonFormUtils.ENCOUNTER_LOCATION, MaternityUtils.getAllSharedPreferences().fetchCurrentLocality());
@@ -61,7 +61,7 @@ public class MaternityReverseJsonFormUtils {
                     Timber.e("Form cannot be found");
                 }
             } else {
-                Timber.e(new Exception(), "Could not start OPD Edit Registration Form because MaternityMetadata is null");
+                Timber.e(new Exception(), "Could not start MATERNITY Edit Registration Form because MaternityMetadata is null");
             }
         } catch (Exception e) {
             Timber.e(e, "MaternityJsonFormUtils --> getMetadataForEditForm");
@@ -69,34 +69,34 @@ public class MaternityReverseJsonFormUtils {
         return null;
     }
 
-    private static void setFormFieldValues(@NonNull Map<String, String> opdDetails, @NonNull List<String> nonEditableFields, @NonNull JSONObject jsonObject) throws JSONException {
+    private static void setFormFieldValues(@NonNull Map<String, String> maternityDetails, @NonNull List<String> nonEditableFields, @NonNull JSONObject jsonObject) throws JSONException {
         if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.KEY.PHOTO)) {
-            reversePhoto(opdDetails.get(MaternityConstants.KEY.BASE_ENTITY_ID), jsonObject);
+            reversePhoto(maternityDetails.get(MaternityConstants.KEY.BASE_ENTITY_ID), jsonObject);
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.DOB_UNKNOWN)) {
-            reverseDobUnknown(opdDetails, jsonObject);
+            reverseDobUnknown(maternityDetails, jsonObject);
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.AGE_ENTERED)) {
-            reverseAge(Utils.getValue(opdDetails, MaternityConstants.JSON_FORM_KEY.AGE, false), jsonObject);
+            reverseAge(Utils.getValue(maternityDetails, MaternityConstants.JSON_FORM_KEY.AGE, false), jsonObject);
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.DOB_ENTERED)) {
-            reverseDobEntered(opdDetails, jsonObject);
+            reverseDobEntered(maternityDetails, jsonObject);
         } else if (jsonObject.getString(MaternityJsonFormUtils.OPENMRS_ENTITY).equalsIgnoreCase(MaternityJsonFormUtils.PERSON_IDENTIFIER)) {
             if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityJsonFormUtils.OPENSRP_ID)) {
-                jsonObject.put(MaternityJsonFormUtils.VALUE, opdDetails.get(MaternityConstants.KEY.OPENSRP_ID));
+                jsonObject.put(MaternityJsonFormUtils.VALUE, maternityDetails.get(MaternityConstants.KEY.OPENSRP_ID));
             } else {
-                jsonObject.put(MaternityJsonFormUtils.VALUE, Utils.getValue(opdDetails, jsonObject.getString(MaternityJsonFormUtils.OPENMRS_ENTITY_ID)
+                jsonObject.put(MaternityJsonFormUtils.VALUE, Utils.getValue(maternityDetails, jsonObject.getString(MaternityJsonFormUtils.OPENMRS_ENTITY_ID)
                         .toLowerCase(), false).replace("-", ""));
             }
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS)) {
-            reverseHomeAddress(jsonObject, opdDetails.get(MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS));
+            reverseHomeAddress(jsonObject, maternityDetails.get(MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS));
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.REMINDERS)) {
-            reverseReminders(opdDetails, jsonObject);
+            reverseReminders(maternityDetails, jsonObject);
         } else {
-            jsonObject.put(MaternityJsonFormUtils.VALUE, getMappedValue(jsonObject.getString(MaternityJsonFormUtils.OPENMRS_ENTITY_ID), opdDetails));
+            jsonObject.put(MaternityJsonFormUtils.VALUE, getMappedValue(jsonObject.getString(MaternityJsonFormUtils.OPENMRS_ENTITY_ID), maternityDetails));
         }
         jsonObject.put(MaternityJsonFormUtils.READ_ONLY, nonEditableFields.contains(jsonObject.getString(MaternityJsonFormUtils.KEY)));
     }
 
-    private static void reverseReminders(@NonNull Map<String, String> opdDetails, @NonNull JSONObject jsonObject) throws JSONException {
-        if (Boolean.valueOf(opdDetails.get(MaternityConstants.JSON_FORM_KEY.REMINDERS))) {
+    private static void reverseReminders(@NonNull Map<String, String> maternityDetails, @NonNull JSONObject jsonObject) throws JSONException {
+        if (Boolean.valueOf(maternityDetails.get(MaternityConstants.JSON_FORM_KEY.REMINDERS))) {
             JSONArray jsonArray = new JSONArray();
             jsonArray.put(MaternityConstants.FormValue.IS_ENROLLED_IN_MESSAGES);
             jsonObject.put(MaternityJsonFormUtils.VALUE, jsonArray);
@@ -114,17 +114,17 @@ public class MaternityReverseJsonFormUtils {
         }
     }
 
-    private static void reverseDobUnknown(@NonNull Map<String, String> opdDetails, @NonNull JSONObject jsonObject) throws JSONException {
-        String value = Utils.getValue(opdDetails, MaternityConstants.JSON_FORM_KEY.DOB_UNKNOWN, false);
-        if (!value.isEmpty() && Boolean.valueOf(opdDetails.get(MaternityConstants.JSON_FORM_KEY.DOB_UNKNOWN))) {
+    private static void reverseDobUnknown(@NonNull Map<String, String> maternityDetails, @NonNull JSONObject jsonObject) throws JSONException {
+        String value = Utils.getValue(maternityDetails, MaternityConstants.JSON_FORM_KEY.DOB_UNKNOWN, false);
+        if (!value.isEmpty() && Boolean.valueOf(maternityDetails.get(MaternityConstants.JSON_FORM_KEY.DOB_UNKNOWN))) {
             JSONArray jsonArray = new JSONArray();
             jsonArray.put(MaternityConstants.FormValue.IS_DOB_UNKNOWN);
             jsonObject.put(MaternityJsonFormUtils.VALUE, jsonArray);
         }
     }
 
-    private static void reverseDobEntered(@NonNull Map<String, String> opdDetails, @NonNull JSONObject jsonObject) throws JSONException {
-        String dateString = opdDetails.get(MaternityConstants.JSON_FORM_KEY.DOB);
+    private static void reverseDobEntered(@NonNull Map<String, String> maternityDetails, @NonNull JSONObject jsonObject) throws JSONException {
+        String dateString = maternityDetails.get(MaternityConstants.JSON_FORM_KEY.DOB);
         Date date = Utils.dobStringToDate(dateString);
         if (StringUtils.isNotBlank(dateString) && date != null) {
             jsonObject.put(MaternityJsonFormUtils.VALUE, com.vijay.jsonwizard.widgets.DatePickerFactory.DATE_FORMAT.format(date));
@@ -149,9 +149,9 @@ public class MaternityReverseJsonFormUtils {
         }
     }
 
-    protected static String getMappedValue(@NonNull String key, @NonNull Map<String, String> opdDetails) {
-        String value = Utils.getValue(opdDetails, key, false);
-        return !TextUtils.isEmpty(value) ? value : Utils.getValue(opdDetails, key.toLowerCase(), false);
+    protected static String getMappedValue(@NonNull String key, @NonNull Map<String, String> maternityDetails) {
+        String value = Utils.getValue(maternityDetails, key, false);
+        return !TextUtils.isEmpty(value) ? value : Utils.getValue(maternityDetails, key.toLowerCase(), false);
     }
 
     private static void reverseAge(@NonNull String value, @NonNull JSONObject jsonObject) throws JSONException {

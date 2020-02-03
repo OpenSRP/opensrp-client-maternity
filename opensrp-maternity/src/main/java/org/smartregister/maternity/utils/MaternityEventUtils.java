@@ -38,7 +38,7 @@ public class MaternityEventUtils {
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-                        callBack.onOpdEventSaved();
+                        callBack.onMaternityEventSaved();
                     }
                 });
             }

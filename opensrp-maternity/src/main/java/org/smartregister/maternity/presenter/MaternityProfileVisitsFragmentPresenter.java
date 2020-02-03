@@ -66,12 +66,12 @@ public class MaternityProfileVisitsFragmentPresenter implements MaternityProfile
             mProfileInteractor.fetchVisits(baseEntityId, currentPageNo, new OnVisitsLoadedCallback() {
 
                 @Override
-                public void onVisitsLoaded(@NonNull List<Object> opdVisitSummaries) {
+                public void onVisitsLoaded(@NonNull List<Object> ancVisitSummaries) {
                     updatePageCounter();
 
                     ArrayList<Pair<YamlConfigWrapper, Facts>> items = new ArrayList<>();
-                    populateWrapperDataAndFacts(opdVisitSummaries, items);
-                    onFinishedCallback.onFinished(opdVisitSummaries, items);
+                    populateWrapperDataAndFacts(ancVisitSummaries, items);
+                    onFinishedCallback.onFinished(ancVisitSummaries, items);
                 }
             });
 
@@ -104,7 +104,7 @@ public class MaternityProfileVisitsFragmentPresenter implements MaternityProfile
     }
 
     @Override
-    public void populateWrapperDataAndFacts(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
+    public void populateWrapperDataAndFacts(@NonNull List<Object> ancVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
         /*for (OpdVisitSummary opdVisitSummary: opdVisitSummaries) {
             Facts facts = generateOpdVisitSummaryFact(opdVisitSummary);
             Iterable<Object> ruleObjects = null;
@@ -150,9 +150,9 @@ public class MaternityProfileVisitsFragmentPresenter implements MaternityProfile
 
             loadVisits(getProfileView().getClientBaseEntityId(), new OnFinishedCallback() {
                 @Override
-                public void onFinished(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
+                public void onFinished(@NonNull List<Object> ancVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
                     if (getProfileView() != null) {
-                        getProfileView().displayVisits(opdVisitSummaries, items);
+                        getProfileView().displayVisits(ancVisitSummaries, items);
                     }
                 }
             });
@@ -166,9 +166,9 @@ public class MaternityProfileVisitsFragmentPresenter implements MaternityProfile
 
             loadVisits(getProfileView().getClientBaseEntityId(), new OnFinishedCallback() {
                 @Override
-                public void onFinished(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
+                public void onFinished(@NonNull List<Object> ancVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
                     if (getProfileView() != null) {
-                        getProfileView().displayVisits(opdVisitSummaries, items);
+                        getProfileView().displayVisits(ancVisitSummaries, items);
                     }
                 }
             });

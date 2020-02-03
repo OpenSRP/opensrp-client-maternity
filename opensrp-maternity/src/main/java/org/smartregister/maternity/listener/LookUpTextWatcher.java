@@ -61,8 +61,8 @@ public class LookUpTextWatcher implements TextWatcher {
         lookUpFields.put(key, text);
 
         if (jsonFormFragment instanceof BaseMaternityFormFragment) {
-            BaseMaternityFormFragment opdFormFragment = (BaseMaternityFormFragment) jsonFormFragment;
-            Listener<List<CommonPersonObject>> listener = opdFormFragment.lookUpListener();
+            BaseMaternityFormFragment maternityFormFragment = (BaseMaternityFormFragment) jsonFormFragment;
+            Listener<List<CommonPersonObject>> listener = maternityFormFragment.lookUpListener();
 
             MaternityLookUpUtils.lookUp(MaternityLibrary.getInstance().context(), lookUpFields, listener);
         }

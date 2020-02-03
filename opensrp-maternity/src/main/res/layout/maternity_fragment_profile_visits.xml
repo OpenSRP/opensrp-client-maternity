@@ -7,18 +7,18 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <ScrollView
-        android:id="@+id/sv_opdFragmentProfileVisit_scrollView"
+        android:id="@+id/sv_maternityFragmentProfileVisit_scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constrainedHeight="true"
 
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintBottom_toTopOf="@id/btn_opdFragmentProfileVisit_previousPageBtn"
+        app:layout_constraintBottom_toTopOf="@id/btn_maternityFragmentProfileVisit_previousPageBtn"
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_opdFragmentProfileVisit_recyclerView"
+            android:id="@+id/rv_maternityFragmentProfileVisit_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:foregroundGravity="top" />
@@ -26,7 +26,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/btn_opdFragmentProfileVisit_previousPageBtn"
+        android:id="@+id/btn_maternityFragmentProfileVisit_previousPageBtn"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,20 +38,20 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
-        android:id="@+id/tv_opdFragmentProfileVisit_pageCounter"
+        android:id="@+id/tv_maternityFragmentProfileVisit_pageCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:gravity="center_horizontal|bottom"
         android:text="@string/current_page_of_total_pages"
         android:textSize="17sp"
-        app:layout_constraintBaseline_toBaselineOf="@id/btn_opdFragmentProfileVisit_nextPageBtn"
+        app:layout_constraintBaseline_toBaselineOf="@id/btn_maternityFragmentProfileVisit_nextPageBtn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
-        android:id="@+id/btn_opdFragmentProfileVisit_nextPageBtn"
+        android:id="@+id/btn_maternityFragmentProfileVisit_nextPageBtn"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

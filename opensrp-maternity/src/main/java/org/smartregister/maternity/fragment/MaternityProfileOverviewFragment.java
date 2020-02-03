@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.jeasy.rules.api.Facts;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -36,9 +35,8 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
     private String baseEntityId;
     private MaternityProfileOverviewFragmentContract.Presenter presenter;
 
-    private LinearLayout opdCheckinSectionLayout;
-    private Button checkInDiagnoseAndTreatBtn;
-    private TextView opdCheckedInTv;
+    private LinearLayout maternityOutcomeSectionLayout;
+    private Button recordOutcomeBtn;
 
     public static MaternityProfileOverviewFragment newInstance(Bundle bundle) {
         Bundle args = bundle;
@@ -73,8 +71,7 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
                 @Override
                 public void onFinished(@Nullable Facts facts, @Nullable List<YamlConfigWrapper> yamlConfigListGlobal) {
                     if (getActivity() != null && facts != null && yamlConfigListGlobal != null) {
-                        opdCheckedInTv.setText(R.string.maternity);
-                        showCheckInBtn();
+                        showOutcomeBtn();
 
                         MaternityProfileOverviewAdapter adapter = new MaternityProfileOverviewAdapter(getActivity(), yamlConfigListGlobal, facts);
                         adapter.notifyDataSetChanged();
@@ -90,19 +87,19 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
         }
     }
 
-    private void showCheckInBtn() {
+    private void showOutcomeBtn() {
         if (getActivity() != null) {
-            opdCheckinSectionLayout.setVisibility(View.VISIBLE);
-            checkInDiagnoseAndTreatBtn.setText(R.string.outcome);
-            checkInDiagnoseAndTreatBtn.setBackgroundResource(R.drawable.check_in_btn_overview_bg);
-            checkInDiagnoseAndTreatBtn.setTextColor(getActivity().getResources().getColorStateList(R.color.check_in_btn_overview_text_color));
-            checkInDiagnoseAndTreatBtn.setOnClickListener(new View.OnClickListener() {
+            maternityOutcomeSectionLayout.setVisibility(View.VISIBLE);
+            recordOutcomeBtn.setText(R.string.outcome);
+            recordOutcomeBtn.setBackgroundResource(R.drawable.outcome_btn_overview_bg);
+            recordOutcomeBtn.setTextColor(getActivity().getResources().getColorStateList(R.color.check_in_btn_overview_text_color));
+            recordOutcomeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     FragmentActivity activity = getActivity();
 
                     if (activity instanceof BaseMaternityProfileActivity) {
-                        ((BaseMaternityProfileActivity) activity).openCheckInForm();
+                        ((BaseMaternityProfileActivity) activity).openMaternityOutcomeForm();
                     }
                 }
             });
@@ -113,9 +110,8 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.maternity_fragment_profile_overview, container, false);
 
-        opdCheckinSectionLayout = view.findViewById(R.id.ll_opdFragmentProfileOverview_checkinLayout);
-        opdCheckedInTv = view.findViewById(R.id.tv_opdFragmentProfileOverview_checkedInTitle);
-        checkInDiagnoseAndTreatBtn = view.findViewById(R.id.btn_opdFragmentProfileOverview_diagnoseAndTreat);
+        maternityOutcomeSectionLayout = view.findViewById(R.id.ll_maternityFragmentProfileOverview_checkinLayout);
+        recordOutcomeBtn = view.findViewById(R.id.btn_maternityFragmentProfileOverview_outcome);
 
         return view;
     }

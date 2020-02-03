@@ -47,7 +47,7 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
     }
 
     @Override
-    public void fetchSavedDiagnosisAndTreatmentForm(final @NonNull String baseEntityId, final @Nullable String entityTable, @NonNull final MaternityRegisterActivityContract.InteractorCallBack interactorCallBack) {
+    public void fetchSavedMaternityOutcomeForm(final @NonNull String baseEntityId, final @Nullable String entityTable, @NonNull final MaternityRegisterActivityContract.InteractorCallBack interactorCallBack) {
         appExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {

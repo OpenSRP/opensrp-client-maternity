@@ -24,7 +24,7 @@ import timber.log.Timber;
 
 public class MaternityMultiSelectDrugPicker extends MultiSelectListFactory implements TextWatcher {
 
-    private Button opd_btn_save_drug;
+    private Button saveDrugMaternityBtn;
 
     @Override
     protected void handleClickEventOnListData(@NonNull MultiSelectItem multiSelectItem) {
@@ -35,7 +35,7 @@ public class MaternityMultiSelectDrugPicker extends MultiSelectListFactory imple
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.dosage_and_duration_layout, null);
         ImageView imgClose = view.findViewById(R.id.multiSelectListCloseDialog);
-        opd_btn_save_drug = view.findViewById(R.id.opd_btn_save_drug);
+        saveDrugMaternityBtn = view.findViewById(R.id.maternity_btn_save_drug);
 
         TextView txtSelectedItemInMultiSelectList = view.findViewById(R.id.txtSelectedItemInMultiSelectList);
         txtSelectedItemInMultiSelectList.setText(multiSelectItem.getText());
@@ -55,7 +55,7 @@ public class MaternityMultiSelectDrugPicker extends MultiSelectListFactory imple
         });
         alertDialog.show();
 
-        opd_btn_save_drug.setOnClickListener(new View.OnClickListener() {
+        saveDrugMaternityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Editable editableTreatmentDuration = edtTreatmentDuration.getText();
@@ -115,12 +115,12 @@ public class MaternityMultiSelectDrugPicker extends MultiSelectListFactory imple
     @Override
     public void afterTextChanged(Editable s) {
         if (!s.toString().isEmpty()) {
-            if (opd_btn_save_drug != null) {
-                opd_btn_save_drug.setTextColor(context.getResources().getColor(R.color.primary_text));
+            if (saveDrugMaternityBtn != null) {
+                saveDrugMaternityBtn.setTextColor(context.getResources().getColor(R.color.primary_text));
             }
         } else {
-            if (opd_btn_save_drug != null) {
-                opd_btn_save_drug.setTextColor(context.getResources().getColor(R.color.light_grey));
+            if (saveDrugMaternityBtn != null) {
+                saveDrugMaternityBtn.setTextColor(context.getResources().getColor(R.color.light_grey));
             }
         }
     }

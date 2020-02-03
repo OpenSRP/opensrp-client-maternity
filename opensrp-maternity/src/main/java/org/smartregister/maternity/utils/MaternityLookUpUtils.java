@@ -89,7 +89,7 @@ public class MaternityLookUpUtils {
     protected static String lookUpQuery(@NonNull Map<String, String> entityMap) {
         String mainCondition = getMainConditionString(entityMap);
         if (!TextUtils.isEmpty(mainCondition)) {
-            return MaternityLibrary.getInstance().opdLookUpQuery().replace("[condition]", mainCondition) + ";";
+            return MaternityLibrary.getInstance().maternityLookUpQuery().replace("[condition]", mainCondition) + ";";
         }
         return null;
     }

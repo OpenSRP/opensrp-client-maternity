@@ -33,7 +33,7 @@ import timber.log.Timber;
 
 public class BaseMaternityFormActivity extends JsonWizardFormActivity {
 
-    private BaseMaternityFormFragment opdFormFragment;
+    private BaseMaternityFormFragment maternityFormFragment;
     private boolean enableOnCloseDialog = true;
     private JSONObject form;
 
@@ -95,8 +95,8 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
     }
 
     protected void initializeFormFragmentCore() {
-        opdFormFragment = (BaseMaternityFormFragment) BaseMaternityFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME);
-        getSupportFragmentManager().beginTransaction().add(com.vijay.jsonwizard.R.id.container, opdFormFragment).commit();
+        maternityFormFragment = (BaseMaternityFormFragment) BaseMaternityFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME);
+        getSupportFragmentManager().beginTransaction().add(com.vijay.jsonwizard.R.id.container, maternityFormFragment).commit();
     }
 
     @Override

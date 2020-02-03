@@ -20,7 +20,7 @@ public abstract class MaternityRegisterQueryProviderContract {
     public abstract String getObjectIdsQuery(@Nullable String filters, @Nullable String mainCondition);
 
     /**
-     * Return query(s) to be used to perform the total count of register clients eg. If OPD combines records
+     * Return query(s) to be used to perform the total count of register clients eg. If MATERNITY combines records
      * in multiple tables then you can provide multiple queries with the result having a single row+column
      * and the counts will be summed up. Kindly try to use the search tables wherever possible.
      *

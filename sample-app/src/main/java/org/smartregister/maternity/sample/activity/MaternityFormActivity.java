@@ -15,7 +15,7 @@ public class MaternityFormActivity extends BaseMaternityFormActivity {
     }
 
     protected void initializeFormFragmentCore() {
-        MaternityFormFragment opdFormFragment = MaternityFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME);
-        getSupportFragmentManager().beginTransaction().add(R.id.container, opdFormFragment).commit();
+        MaternityFormFragment maternityFormFragment = MaternityFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME);
+        getSupportFragmentManager().beginTransaction().add(R.id.container, maternityFormFragment).commit();
     }
 }

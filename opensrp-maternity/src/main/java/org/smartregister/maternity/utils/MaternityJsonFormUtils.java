@@ -84,7 +84,7 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
             }
         }
 
-        if (MaternityUtils.metadata() != null && MaternityUtils.metadata().getOpdRegistrationFormName().equals(formName)) {
+        if (MaternityUtils.metadata() != null && MaternityUtils.metadata().getMaternityRegistrationFormName().equals(formName)) {
             if (StringUtils.isBlank(entityId)) {
                 UniqueIdRepository uniqueIdRepo = MaternityLibrary.getInstance().getUniqueIdRepository();
                 entityId = uniqueIdRepo.getNextUniqueId() != null ? uniqueIdRepo.getNextUniqueId().getOpenmrsId() : "";

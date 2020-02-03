@@ -140,8 +140,8 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
         try {
             form = model.getFormAsJson(formName, entityId, locationId, injectedFieldValues);
             // Todo: Enquire if we have to save a session of the outcome form to be continued later
-            if (formName.equals(MaternityConstants.Form.OPD_DIAGNOSIS_AND_TREAT)) {
-                interactor.fetchSavedDiagnosisAndTreatmentForm(entityId, entityTable, this);
+            if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME)) {
+                interactor.fetchSavedMaternityOutcomeForm(entityId, entityTable, this);
                 return;
             }
 

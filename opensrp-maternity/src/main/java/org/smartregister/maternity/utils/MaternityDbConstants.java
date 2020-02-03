@@ -28,41 +28,6 @@ public interface MaternityDbConstants {
 
     interface Column {
 
-        interface OpdCheckIn {
-            String ID = "_id";
-            String FORM_SUBMISSION_ID = "form_submission_id";
-            String VISIT_ID = "visit_id";
-            String BASE_ENTITY_ID = "base_entity_id";
-            String PREGNANCY_STATUS = "pregnancy_status";
-            String HAS_HIV_TEST_PREVIOUSLY = "has_hiv_test_previously";
-            String HIV_RESULTS_PREVIOUSLY = "hiv_results_previously";
-            String IS_TAKING_ART = "is_taking_art";
-            String CURRENT_HIV_RESULT = "current_hiv_result";
-            String VISIT_TYPE = "visit_type";
-            String APPOINTMENT_SCHEDULED_PREVIOUSLY = "appointment_scheduled_previously";
-            String APPOINTMENT_DUE_DATE = "appointment_due_date";
-            String CREATED_AT = "created_at";
-            String UPDATED_AT = "updated_at";
-        }
-
-        interface OpdMultiSelectOptions {
-            String ID = "_id";
-            String JSON = "json";
-            String TYPE = "type";
-            String VERSION = "version";
-            String CREATED_AT = "created_at";
-            String APP_VERSION = "app_version";
-        }
-
-        interface OpdVisit {
-            String ID = "_id";
-            String VISIT_DATE = "visit_date";
-            String PROVIDER_ID = "provider_id";
-            String LOCATION_ID = "location_id";
-            String BASE_ENTITY_ID = "base_entity_id";
-            String CREATED_AT = "created_at";
-        }
-
         interface Client {
             String ID = "_id";
             String PHOTO = "photo";
@@ -89,74 +54,17 @@ public interface MaternityDbConstants {
             String CREATED_AT = "created_at";
         }
 
-        interface OpdDiagnosisAndTreatmentForm {
+        interface MaternityOutcomeForm {
             String ID = "id";
             String BASE_ENTITY_ID = "base_entity_id";
             String FORM = "form";
             String CREATED_AT = "created_at";
         }
-
-        interface OpdDiagnosis {
-            String ID = "id";
-            String BASE_ENTITY_ID = "base_entity_id";
-            String DIAGNOSIS = "diagnosis";
-            String TYPE = "type";
-            String DISEASE = "disease";
-            String ICD10_CODE = "icd10_code";
-            String CODE = "code";
-            String DETAILS = "details";
-            String CREATED_AT = "created_at";
-            String UPDATED_AT = "updated_at";
-            String VISIT_ID = "visit_id";
-        }
-
-        interface OpdTreatment {
-            String ID = "id";
-            String BASE_ENTITY_ID = "base_entity_id";
-            String MEDICINE = "medicine";
-            String TYPE = "type";
-            String DOSAGE = "dosage";
-            String DURATION = "duration";
-            String NOTE = "note";
-            String CREATED_AT = "created_at";
-            String UPDATED_AT = "updated_at";
-            String VISIT_ID = "visit_id";
-            String PROPERTY = "property";
-        }
-
-        interface OpdServiceDetail {
-            String ID = "id";
-            String BASE_ENTITY_ID = "base_entity_id";
-            String FEE = "fee";
-            String VISIT_ID = "visit_id";
-            String DETAILS = "details";
-            String CREATED_AT = "created_at";
-            String UPDATED_AT = "updated_at";
-        }
-
-        interface OpdTestConducted {
-            String ID = "id";
-            String BASE_ENTITY_ID = "base_entity_id";
-            String TEST = "test";
-            String RESULT = "result";
-            String CREATED_AT = "created_at";
-            String UPDATED_AT = "updated_at";
-            String VISIT_ID = "visit_id";
-        }
     }
 
     interface Table {
-
         String EC_CLIENT = "ec_client";
-        String OPD_CHECK_IN = "opd_check_in";
-        String OPD_VISIT = "opd_visit";
         String MATERNITY_DETAILS = "maternity_details";
-        String OPD_DIAGNOSIS_AND_TREATMENT_FORM = "maternity_diagnosis_and_treatment_form";
-        String OPD_DIAGNOSIS = "opd_diagnosis";
-        String OPD_TREATMENT = "opd_treatment";
-        String OPD_SERVICE_DETAIL = "opd_service_detail";
-        String OPD_TEST_CONDUCTED = "opd_test_conducted";
-        String OPD_MULTI_SELECT_LIST_OPTION = "opd_multi_select_list_option";
-
+        String MATERNITY_OUTCOME_FORM = "maternity_outcome_form";
     }
 }

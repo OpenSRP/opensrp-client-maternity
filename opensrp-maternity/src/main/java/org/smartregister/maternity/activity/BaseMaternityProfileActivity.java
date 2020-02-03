@@ -67,7 +67,7 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
         ancIdView = findViewById(R.id.textview_detail_one);
         nameView = findViewById(R.id.textview_name);
         imageView = findViewById(R.id.imageview_profile);
-        switchRegBtn = findViewById(R.id.btn_opdActivityBaseProfile_switchRegView);
+        switchRegBtn = findViewById(R.id.btn_maternityActivityBaseProfile_switchRegView);
 
         setTitle("");
     }
@@ -126,24 +126,24 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
         // Enable switcher
         configureRegisterSwitcher();
 
-        // Disable the registration info button if the client is not in OPD
+        // Disable the registration info button if the client is not in Maternity
         if (commonPersonObjectClient != null) {
             String register_type = commonPersonObjectClient.getDetails().get(MaternityConstants.ColumnMapKey.REGISTER_TYPE);
             View view = findViewById(R.id.btn_profile_registration_info);
-            view.setEnabled(MaternityConstants.RegisterType.OPD.equalsIgnoreCase(register_type));
+            view.setEnabled(MaternityConstants.RegisterType.MATERNITY.equalsIgnoreCase(register_type));
         }
     }
 
     private void configureRegisterSwitcher() {
-        Class<? extends MaternityRegisterSwitcher> opdRegisterSwitcherClass = MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityRegisterSwitcher();
-        if (opdRegisterSwitcherClass != null) {
-            final MaternityRegisterSwitcher maternityRegisterSwitcher = ConfigurationInstancesHelper.newInstance(opdRegisterSwitcherClass);
+        Class<? extends MaternityRegisterSwitcher> maternityRegisterSwitcherClass = MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityRegisterSwitcher();
+        if (maternityRegisterSwitcherClass != null) {
+            final MaternityRegisterSwitcher maternityRegisterSwitcher = ConfigurationInstancesHelper.newInstance(maternityRegisterSwitcherClass);
 
             switchRegBtn.setVisibility(maternityRegisterSwitcher.showRegisterSwitcher(commonPersonObjectClient) ? View.VISIBLE : View.GONE);
             switchRegBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    maternityRegisterSwitcher.switchFromOpdRegister(commonPersonObjectClient, BaseMaternityProfileActivity.this);
+                    maternityRegisterSwitcher.switchFromMaternityRegister(commonPersonObjectClient, BaseMaternityProfileActivity.this);
                 }
             });
         } else {
@@ -185,13 +185,6 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
         imageRenderHelper.refreshProfileImage(baseEntityId, imageView, R.drawable.gender_insensitive_avatar);
     }
 
-    @Override
-    public void openDiagnoseAndTreatForm() {
-        if (commonPersonObjectClient != null) {
-            ((MaternityProfileActivityPresenter) presenter).startForm(MaternityConstants.Form.OPD_DIAGNOSIS_AND_TREAT, commonPersonObjectClient);
-        }
-    }
-
     public OnSendActionToFragment getActionListenerForVisitFragment() {
         return sendActionListenerToVisitsFragment;
     }
@@ -201,7 +194,7 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     }
 
     @Override
-    public void openCheckInForm() {
+    public void openMaternityOutcomeForm() {
         if (commonPersonObjectClient != null) {
             ((MaternityProfileActivityPresenter) presenter).startForm(MaternityConstants.Form.MATERNITY_OUTCOME, commonPersonObjectClient);
         }
@@ -230,7 +223,7 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
 
                 if (encounterType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
                     showProgressDialog(R.string.saving_dialog_title);
-                    ((MaternityProfileActivityPresenter) presenter).saveVisitOrDiagnosisForm(encounterType, data);
+                    ((MaternityProfileActivityPresenter) presenter).saveOutcomeForm(encounterType, data);
                 } else if (encounterType.equals(MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION)) {
                     showProgressDialog(R.string.saving_dialog_title);
 
@@ -257,7 +250,7 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     public void onClick(View view) {
         String register_type = commonPersonObjectClient.getDetails().get(MaternityConstants.ColumnMapKey.REGISTER_TYPE);
         if (view.getId() == R.id.btn_profile_registration_info) {
-            if (MaternityConstants.RegisterType.OPD.equalsIgnoreCase(register_type)) {
+            if (MaternityConstants.RegisterType.MATERNITY.equalsIgnoreCase(register_type)) {
                 if (presenter instanceof MaternityProfileActivityContract.Presenter) {
                     ((MaternityProfileActivityContract.Presenter) presenter).onUpdateRegistrationBtnCLicked(baseEntityId);
                 }

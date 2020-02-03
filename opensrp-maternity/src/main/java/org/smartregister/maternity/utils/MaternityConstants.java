@@ -6,7 +6,7 @@ public class MaternityConstants extends AllConstants {
 
     public static final String SEX = "Sex";
     public static final String CLIENT_TYPE = "client";
-    public static final String CONFIG = "opd_register";
+    public static final String CONFIG = "maternity_register";
 
     public interface IntentKey {
         String BASE_ENTITY_ID = "base-entity-id";
@@ -62,22 +62,6 @@ public class MaternityConstants extends AllConstants {
             String VISIT_TYPE = "visit_type";
             String APPOINTMENT_SCHEDULED_PREVIOUSLY = "previous_appointment";
             String DATE_OF_APPOINTMENT = "date_of_appointment";
-            String PENDING_DIAGNOSE_AND_TREAT = "pending_diagnose_and_treat";
-        }
-
-        interface OpdVisit {
-            String VISIT_DATE = "visit_date";
-            String TEST_NAME = "test_name";
-            String TEST_RESULT = "test_result";
-            String DIAGNOSIS = "diagnosis";
-            String DIAGNOSIS_TYPE = "diagnosis_type";
-            String DISEASE_CODE = "disease_code";
-            String TREATMENT = "treatment";
-
-            String DIAGNOSIS_LABEL = "diagnosis_label";
-            String DIAGNOSIS_TYPE_LABEL = "diagnosis_type_label";
-            String DISEASE_CODE_LABEL = "disease_code_label";
-            String TREATMENT_LABEL = "treatment_label";
         }
 
     }
@@ -100,11 +84,11 @@ public class MaternityConstants extends AllConstants {
     }
 
     public interface SettingsConfig {
-        String OPD_MEDICINE = "opd_medicine";
-        String OPD_DISEASE_CODES = "opd_disease_codes";
+        String MATERNITY_MEDICINE = "opd_medicine";
+        String MATERNITY_DISEASE_CODES = "opd_disease_codes";
     }
 
-    public interface OpdMultiDrugPicker {
+    public interface MaternityMultiDrugPicker {
         String CONFIRMED_ID = "consumed-id";
         String PRESUMED_ID = "presumed-id";
     }
@@ -153,16 +137,12 @@ public class MaternityConstants extends AllConstants {
         public static final String ENCOUNTER_LOCATION = "encounter_location";
         public static final String UNIQUE_ID = "unique_id";
         public static final String AGE = "age";
-        public static final String OPD_EDIT_FORM_TITLE = "Update Opd Registration";
+        public static final String MATERNITY_EDIT_FORM_TITLE = "Update Maternity Registration";
         public static final String FORM_TITLE = "title";
         public static final String OPENSRP_ID = "opensrp_id";
 
         public static final String DIAGNOSTIC_TEST_RESULT_GLUCOSE = "diagnostic_test_result_glucose";
         public static final String DIAGNOSTIC_TEST_RESULT_SPINNER_BLOOD_TYPE = "diagnostic_test_result_spinner_blood_type";
-    }
-
-    public static class JsonFormNameUtils {
-        public static final String CHECK_IN = "opd_checkin";
     }
 
     public static class JSON_FORM_EXTRA {
@@ -216,14 +196,13 @@ public class MaternityConstants extends AllConstants {
         public static final String MATERNITY_OUTCOME = "Maternity Outcome";
         public static final String MATERNITY_PNC_CHILD_REGISTRATION = "Maternity-PNC Child Registration";
         public static final String MATERNITY_CLOSE = "Maternity Close";
-        public static final String CHECK_IN = "OPD Check-In";
-        public static final String DIAGNOSIS_AND_TREAT = "OPD Diagnosis and Treatment";
-        public static final String DIAGNOSIS = "OPD Diagnosis";
-        public static final String TREATMENT = "OPD Treatment";
-        public static final String TEST_CONDUCTED = "OPD Test Conducted";
-        public static final String SERVICE_DETAIL = "OPD Service Detail";
-        public static final String VISIT = "OPD Visit";
-        public static final String CLOSE_OPD_VISIT = "OPD Close Visit";
+        public static final String CHECK_IN = "MATERNITY Check-In";
+        public static final String DIAGNOSIS_AND_TREAT = "MATERNITY Diagnosis and Treatment";
+        public static final String DIAGNOSIS = "MATERNITY Diagnosis";
+        public static final String TREATMENT = "MATERNITY Treatment";
+        public static final String TEST_CONDUCTED = "MATERNITY Test Conducted";
+        public static final String SERVICE_DETAIL = "MATERNITY Service Detail";
+        public static final String VISIT = "MATERNITY Visit";
     }
 
     public interface ColumnMapKey {
@@ -239,8 +218,6 @@ public class MaternityConstants extends AllConstants {
     }
 
     public interface Form {
-        String OPD_DIAGNOSIS_AND_TREAT = "opd_diagnose_and_treat";
-        String OPD_CHECK_IN = "opd_checkin";
         String MATERNITY_REGISTRATION = "maternity_registration";
         String MATERNITY_OUTCOME = "maternity_outcome";
     }
@@ -252,7 +229,7 @@ public class MaternityConstants extends AllConstants {
     }
 
     public interface RegisterType {
-        String OPD = "opd";
+        String MATERNITY = "maternity";
     }
 
     public interface ClientMapKey {

@@ -28,7 +28,7 @@
             android:textSize="23sp" />
 
         <Button
-            android:id="@+id/opd_btn_save_drug"
+            android:id="@+id/maternity_btn_save_drug"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_gravity="center"

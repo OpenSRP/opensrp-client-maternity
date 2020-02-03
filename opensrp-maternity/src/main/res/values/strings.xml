@@ -49,7 +49,6 @@
     <string name="add_treatment_medicine">Add treatments/medicine</string>
     <string name="drug_picker_dialog_save">SAVE</string>
     <string name="maternity_dosage_duration_text">Dose: %s, Duration: %s</string>
-    <string name="maternity_checked_in">OPD: CHECKED IN</string>
 
     <string name="diagnose_and_treat"><![CDATA[DIAGNOSE & TREAT]]></string>
     <string name="outcome">OUTCOME</string>

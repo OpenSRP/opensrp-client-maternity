@@ -135,7 +135,7 @@ public class MaternityUtilsTest {
         ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
         Mockito.doReturn(maternityConfiguration).when(maternityLibrary).getMaternityConfiguration();
         Mockito.doReturn(maternityMetadata).when(maternityConfiguration).getMaternityMetadata();
-        Mockito.doReturn(BaseMaternityFormActivity.class).when(maternityMetadata).getOpdFormActivity();
+        Mockito.doReturn(BaseMaternityFormActivity.class).when(maternityMetadata).getMaternityFormActivity();
 
         JSONObject jsonForm = new JSONObject();
         jsonForm.put(MaternityJsonFormUtils.ENCOUNTER_TYPE, MaternityConstants.EventType.DIAGNOSIS_AND_TREAT);

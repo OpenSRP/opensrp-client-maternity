@@ -9,7 +9,6 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.smartregister.maternity.dao.MaternityOutcomeFormDao;
-import org.smartregister.maternity.pojos.MaternityOutcomeForm;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.repository.BaseRepository;
 
@@ -17,22 +16,22 @@ import java.util.List;
 
 public class MaternityOutcomeFormRepository extends BaseRepository implements MaternityOutcomeFormDao {
 
-    private static final String CREATE_TABLE_SQL = "CREATE TABLE " + MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM + "("
-            + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
-            + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " VARCHAR NOT NULL, "
-            + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.FORM + " TEXT NOT NULL, "
-            + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.CREATED_AT + " INTEGER NOT NULL ," +
-            "UNIQUE(" + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + ") ON CONFLICT REPLACE)";
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE " + MaternityDbConstants.Table.MATERNITY_OUTCOME_FORM + "("
+            + MaternityDbConstants.Column.MaternityOutcomeForm.ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
+            + MaternityDbConstants.Column.MaternityOutcomeForm.BASE_ENTITY_ID + " VARCHAR NOT NULL, "
+            + MaternityDbConstants.Column.MaternityOutcomeForm.FORM + " TEXT NOT NULL, "
+            + MaternityDbConstants.Column.MaternityOutcomeForm.CREATED_AT + " INTEGER NOT NULL ," +
+            "UNIQUE(" + MaternityDbConstants.Column.MaternityOutcomeForm.BASE_ENTITY_ID + ") ON CONFLICT REPLACE)";
 
-    private static final String INDEX_BASE_ENTITY_ID = "CREATE INDEX " + MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM
-            + "_" + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + "_index ON " + MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM +
-            "(" + MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " COLLATE NOCASE);";
+    private static final String INDEX_BASE_ENTITY_ID = "CREATE INDEX " + MaternityDbConstants.Table.MATERNITY_OUTCOME_FORM
+            + "_" + MaternityDbConstants.Column.MaternityOutcomeForm.BASE_ENTITY_ID + "_index ON " + MaternityDbConstants.Table.MATERNITY_OUTCOME_FORM +
+            "(" + MaternityDbConstants.Column.MaternityOutcomeForm.BASE_ENTITY_ID + " COLLATE NOCASE);";
 
     private String[] columns = new String[]{
-            MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.ID,
-            MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID,
-            MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.FORM,
-            MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.CREATED_AT};
+            MaternityDbConstants.Column.MaternityOutcomeForm.ID,
+            MaternityDbConstants.Column.MaternityOutcomeForm.BASE_ENTITY_ID,
+            MaternityDbConstants.Column.MaternityOutcomeForm.FORM,
+            MaternityDbConstants.Column.MaternityOutcomeForm.CREATED_AT};
 
     public static void createTable(@NonNull SQLiteDatabase database) {
         database.execSQL(CREATE_TABLE_SQL);
@@ -40,23 +39,23 @@ public class MaternityOutcomeFormRepository extends BaseRepository implements Ma
     }
 
     @Override
-    public boolean saveOrUpdate(@NonNull MaternityOutcomeForm maternityOutcomeForm) {
+    public boolean saveOrUpdate(@NonNull org.smartregister.maternity.pojos.MaternityOutcomeForm maternityOutcomeForm) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID, maternityOutcomeForm.getBaseEntityId());
-        contentValues.put(MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.FORM, maternityOutcomeForm.getForm());
+        contentValues.put(MaternityDbConstants.Column.MaternityOutcomeForm.BASE_ENTITY_ID, maternityOutcomeForm.getBaseEntityId());
+        contentValues.put(MaternityDbConstants.Column.MaternityOutcomeForm.FORM, maternityOutcomeForm.getForm());
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        contentValues.put(MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.CREATED_AT, maternityOutcomeForm.getCreatedAt());
-        long rows = sqLiteDatabase.insert(MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM, null, contentValues);
+        contentValues.put(MaternityDbConstants.Column.MaternityOutcomeForm.CREATED_AT, maternityOutcomeForm.getCreatedAt());
+        long rows = sqLiteDatabase.insert(MaternityDbConstants.Table.MATERNITY_OUTCOME_FORM, null, contentValues);
         return rows != -1;
     }
 
     @Nullable
     @Override
-    public MaternityOutcomeForm findOne(@NonNull MaternityOutcomeForm maternityOutcomeForm) {
+    public org.smartregister.maternity.pojos.MaternityOutcomeForm findOne(@NonNull org.smartregister.maternity.pojos.MaternityOutcomeForm maternityOutcomeForm) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.query(MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM
+        Cursor cursor = sqLiteDatabase.query(MaternityDbConstants.Table.MATERNITY_OUTCOME_FORM
                 , columns
-                , MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " = ? "
+                , MaternityDbConstants.Column.MaternityOutcomeForm.BASE_ENTITY_ID + " = ? "
                 , new String[]{maternityOutcomeForm.getBaseEntityId()}
                 , null
                 , null
@@ -66,9 +65,9 @@ public class MaternityOutcomeFormRepository extends BaseRepository implements Ma
             return null;
         }
 
-        MaternityOutcomeForm diagnosisAndTreatmentForm = null;
+        org.smartregister.maternity.pojos.MaternityOutcomeForm diagnosisAndTreatmentForm = null;
         if (cursor.moveToNext()) {
-            diagnosisAndTreatmentForm = new MaternityOutcomeForm(
+            diagnosisAndTreatmentForm = new org.smartregister.maternity.pojos.MaternityOutcomeForm(
                     cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getString(2),
@@ -80,17 +79,17 @@ public class MaternityOutcomeFormRepository extends BaseRepository implements Ma
     }
 
     @Override
-    public boolean delete(@NonNull MaternityOutcomeForm maternityOutcomeForm) {
+    public boolean delete(@NonNull org.smartregister.maternity.pojos.MaternityOutcomeForm maternityOutcomeForm) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        int rows = sqLiteDatabase.delete(MaternityDbConstants.Table.OPD_DIAGNOSIS_AND_TREATMENT_FORM
-                , MaternityDbConstants.Column.OpdDiagnosisAndTreatmentForm.BASE_ENTITY_ID + " = ? "
+        int rows = sqLiteDatabase.delete(MaternityDbConstants.Table.MATERNITY_OUTCOME_FORM
+                , MaternityDbConstants.Column.MaternityOutcomeForm.BASE_ENTITY_ID + " = ? "
                 , new String[]{maternityOutcomeForm.getBaseEntityId()});
 
         return rows > 0;
     }
 
     @Override
-    public List<MaternityOutcomeForm> findAll() {
+    public List<org.smartregister.maternity.pojos.MaternityOutcomeForm> findAll() {
         throw new NotImplementedException("Not Implemented");
     }
 }

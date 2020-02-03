@@ -79,14 +79,14 @@ public class MaternityMiniClientProcessorForJavaTest extends BaseTest {
 
         Assert.assertTrue(eventTypes.size() >= 6);
         for (String eventType: eventTypes) {
-            Assert.assertTrue(eventType.startsWith("OPD"));
+            Assert.assertTrue(eventType.startsWith("MATERNITY"));
         }
     }
 
     @Test
     public void processEventClientShouldThrowExceptionWhenClientIsNull() throws Exception {
         expectedException.expect(CheckInEventProcessException.class);
-        expectedException.expectMessage("Could not process this OPD Check-In Event because Client bei referenced by OPD Check-In event does not exist");
+        expectedException.expectMessage("Could not process this MATERNITY Check-In Event because Client bei referenced by MATERNITY Check-In event does not exist");
 
         Event event = new Event().withEventType(MaternityConstants.EventType.CHECK_IN).withBaseEntityId("bei");
         event.addDetails("d", "d");

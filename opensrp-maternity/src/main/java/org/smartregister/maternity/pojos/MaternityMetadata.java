@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class MaternityMetadata {
 
-    private String opdRegistrationFormName;
+    private String maternityRegistrationFormName;
 
     private String tableName;
 
@@ -19,7 +19,7 @@ public class MaternityMetadata {
 
     private String config;
 
-    private Class opdFormActivity;
+    private Class maternityFormActivity;
 
     private Class profileActivity;
 
@@ -29,24 +29,24 @@ public class MaternityMetadata {
 
     private ArrayList<String> healthFacilityLevels;
 
-    public MaternityMetadata(@NonNull String opdRegistrationFormName, @NonNull String tableName, @NonNull String registerEventType, @NonNull String updateEventType,
-                             @NonNull String config, @NonNull Class opdFormActivity, @Nullable Class profileActivity, boolean formWizardValidateRequiredFieldsBefore) {
-        this.opdRegistrationFormName = opdRegistrationFormName;
+    public MaternityMetadata(@NonNull String maternityRegistrationFormName, @NonNull String tableName, @NonNull String registerEventType, @NonNull String updateEventType,
+                             @NonNull String config, @NonNull Class maternityFormActivity, @Nullable Class profileActivity, boolean formWizardValidateRequiredFieldsBefore) {
+        this.maternityRegistrationFormName = maternityRegistrationFormName;
         this.tableName = tableName;
         this.registerEventType = registerEventType;
         this.updateEventType = updateEventType;
         this.config = config;
-        this.opdFormActivity = opdFormActivity;
+        this.maternityFormActivity = maternityFormActivity;
         this.profileActivity = profileActivity;
         this.formWizardValidateRequiredFieldsBefore = formWizardValidateRequiredFieldsBefore;
     }
 
-    public String getOpdRegistrationFormName() {
-        return opdRegistrationFormName;
+    public String getMaternityRegistrationFormName() {
+        return maternityRegistrationFormName;
     }
 
-    public void setOpdRegistrationFormName(String opdRegistrationFormName) {
-        this.opdRegistrationFormName = opdRegistrationFormName;
+    public void setMaternityRegistrationFormName(String maternityRegistrationFormName) {
+        this.maternityRegistrationFormName = maternityRegistrationFormName;
     }
 
     public String getTableName() {
@@ -81,12 +81,12 @@ public class MaternityMetadata {
         this.config = config;
     }
 
-    public Class getOpdFormActivity() {
-        return opdFormActivity;
+    public Class getMaternityFormActivity() {
+        return maternityFormActivity;
     }
 
-    public void setOpdFormActivity(Class opdFormActivity) {
-        this.opdFormActivity = opdFormActivity;
+    public void setMaternityFormActivity(Class maternityFormActivity) {
+        this.maternityFormActivity = maternityFormActivity;
     }
 
     public Class getProfileActivity() {

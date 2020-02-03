@@ -53,7 +53,7 @@ public class MaternityRegisterFragment extends BaseMaternityRegisterFragment {
                 });
             }
 
-            // Disable go-back on clicking the OPD Register title
+            // Disable go-back on clicking the Maternity Register title
             view.findViewById(R.id.title_layout).setOnClickListener(null);
         }
 
@@ -62,11 +62,11 @@ public class MaternityRegisterFragment extends BaseMaternityRegisterFragment {
 
     @Override
     protected void startRegistration() {
-        MaternityRegisterActivity opdRegisterActivity = (MaternityRegisterActivity) getActivity();
+        MaternityRegisterActivity maternityRegisterActivity = (MaternityRegisterActivity) getActivity();
         MaternityMetadata maternityMetadata = MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata();
 
-        if (maternityMetadata != null && opdRegisterActivity != null) {
-            opdRegisterActivity.startFormActivity(maternityMetadata.getOpdRegistrationFormName()
+        if (maternityMetadata != null && maternityRegisterActivity != null) {
+            maternityRegisterActivity.startFormActivity(maternityMetadata.getMaternityRegistrationFormName()
                     , null
                     , null);
         }

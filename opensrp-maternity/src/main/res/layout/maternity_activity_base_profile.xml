@@ -155,13 +155,13 @@
             android:textAlignment="center"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constrainedHeight="true"
-            app:layout_constraintBottom_toTopOf="@id/btn_opdActivityBaseProfile_switchRegView"
+            app:layout_constraintBottom_toTopOf="@id/btn_maternityActivityBaseProfile_switchRegView"
             app:layout_constraintTop_toBottomOf="@id/collapsing_toolbar_appbarlayout"
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <Button
-            android:id="@+id/btn_opdActivityBaseProfile_switchRegView"
+            android:id="@+id/btn_maternityActivityBaseProfile_switchRegView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"

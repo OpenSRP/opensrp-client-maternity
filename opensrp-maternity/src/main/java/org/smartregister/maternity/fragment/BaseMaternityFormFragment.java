@@ -109,7 +109,7 @@ public class BaseMaternityFormFragment extends JsonWizardFormFragment implements
     private void updateResultDialog(final List<CommonPersonObject> data) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.maternity_lookup_results, null);
-        RecyclerView recyclerView = view.findViewById(R.id.opd_lookup_recyclerview);
+        RecyclerView recyclerView = view.findViewById(R.id.maternity_lookup_recyclerview);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MaternityDialog);
         builder.setView(view).setNegativeButton(R.string.dismiss, null);
         builder.setCancelable(true);
@@ -219,9 +219,9 @@ public class BaseMaternityFormFragment extends JsonWizardFormFragment implements
         Activity activity = getActivity();
 
         if (activity instanceof BaseMaternityFormActivity) {
-            BaseMaternityFormActivity opdFormActivity = (BaseMaternityFormActivity) activity;
+            BaseMaternityFormActivity maternityFormActivity = (BaseMaternityFormActivity) activity;
 
-            HashMap<String, String> parcelableData = opdFormActivity.getParcelableData();
+            HashMap<String, String> parcelableData = maternityFormActivity.getParcelableData();
 
             for (String key : parcelableData.keySet()) {
                 String value = parcelableData.get(key);

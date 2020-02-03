@@ -11,7 +11,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 
 public interface MaternityRegisterSwitcher {
 
-    void switchFromOpdRegister(@NonNull CommonPersonObjectClient client, @NonNull Context context);
+    void switchFromMaternityRegister(@NonNull CommonPersonObjectClient client, @NonNull Context context);
 
     boolean showRegisterSwitcher(@NonNull CommonPersonObjectClient client);
 }

@@ -36,7 +36,7 @@ public interface MaternityProfileActivityContract {
 
         void startFormActivity(@Nullable JSONObject form, @NonNull String caseId, @NonNull String entityTable);
 
-        void saveVisitOrDiagnosisForm(@NonNull String eventType, @Nullable Intent data);
+        void saveOutcomeForm(@NonNull String eventType, @Nullable Intent data);
 
         void saveUpdateRegistrationForm(@NonNull String jsonString, @NonNull RegisterParams registerParams);
 
@@ -58,9 +58,7 @@ public interface MaternityProfileActivityContract {
 
         void setProfileImage(@NonNull String baseEntityId);
 
-        void openDiagnoseAndTreatForm();
-
-        void openCheckInForm();
+        void openMaternityOutcomeForm();
 
         void startFormActivity(@NonNull JSONObject form, @NonNull HashMap<String, String> intentKeys);
 

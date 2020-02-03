@@ -48,12 +48,12 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
     private View view;
     private View dueOnlyLayout;
     private boolean dueFilterActive = false;
-    private MaternityRegisterQueryProviderContract opdRegisterQueryProvider;
+    private MaternityRegisterQueryProviderContract maternityRegisterQueryProvider;
 
     public BaseMaternityRegisterFragment() {
         super();
 
-        opdRegisterQueryProvider = ConfigurationInstancesHelper.newInstance(MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityRegisterQueryProvider());
+        maternityRegisterQueryProvider = ConfigurationInstancesHelper.newInstance(MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityRegisterQueryProvider());
     }
 
     @Override
@@ -338,11 +338,11 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
         String query = "";
         try {
             if (isValidFilterForFts(commonRepository())) {
-                String sql = opdRegisterQueryProvider.getObjectIdsQuery(filters, mainCondition);
+                String sql = maternityRegisterQueryProvider.getObjectIdsQuery(filters, mainCondition);
                 sql = sqb.addlimitandOffset(sql, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset());
 
                 List<String> ids = commonRepository().findSearchIds(sql);
-                query = opdRegisterQueryProvider.mainSelectWhereIDsIn();
+                query = maternityRegisterQueryProvider.mainSelectWhereIDsIn();
 
                 String joinedIds = "'" + StringUtils.join(ids, "','") + "'";
                 return query.replace("%s", joinedIds);
@@ -367,7 +367,7 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
     public void countExecute() {
         try {
             int totalCount = 0;
-            for (String sql : opdRegisterQueryProvider.countExecuteQueries(filters, mainCondition)) {
+            for (String sql : maternityRegisterQueryProvider.countExecuteQueries(filters, mainCondition)) {
                 Timber.i(sql);
                 totalCount += commonRepository().countSearchIds(sql);
             }

@@ -182,7 +182,7 @@ public class MaternityUtils extends org.smartregister.util.Utils {
 
     @NonNull
     public static Intent buildFormActivityIntent(JSONObject jsonForm, HashMap<String, String> parcelableData, Context context) {
-        Intent intent = new Intent(context, MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata().getOpdFormActivity());
+        Intent intent = new Intent(context, MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata().getMaternityFormActivity());
         intent.putExtra(MaternityConstants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
         Form form = new Form();
         form.setWizard(false);

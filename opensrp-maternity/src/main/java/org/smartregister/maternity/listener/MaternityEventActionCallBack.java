@@ -1,5 +1,7 @@
 package org.smartregister.maternity.listener;
 
 public interface MaternityEventActionCallBack {
-    void onOpdEventSaved();
+
+    void onMaternityEventSaved();
+
 }

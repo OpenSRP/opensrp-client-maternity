@@ -31,7 +31,7 @@ public interface MaternityProfileVisitsFragmentContract {
 
         void loadPageCounter(@NonNull String baseEntityId);
 
-        void populateWrapperDataAndFacts(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items);
+        void populateWrapperDataAndFacts(@NonNull List<Object> ancVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items);
 
         void onNextPageClicked();
 
@@ -40,12 +40,12 @@ public interface MaternityProfileVisitsFragmentContract {
 
         interface OnFinishedCallback {
 
-            void onFinished(@NonNull List<Object> maternityVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items);
+            void onFinished(@NonNull List<Object> ancVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items);
         }
 
         interface OnVisitsLoadedCallback {
 
-            void onVisitsLoaded(@NonNull List<Object> maternityVisitSummaries);
+            void onVisitsLoaded(@NonNull List<Object> ancVisitSummaries);
         }
     }
 
@@ -59,7 +59,7 @@ public interface MaternityProfileVisitsFragmentContract {
 
         void showPreviousPageBtn(boolean show);
 
-        void displayVisits(@NonNull List<Object> opdVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items);
+        void displayVisits(@NonNull List<Object> ancVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items);
 
         @Nullable
         String getClientBaseEntityId();
