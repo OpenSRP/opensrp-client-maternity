@@ -24,7 +24,7 @@ import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.db.Obs;
 import org.smartregister.maternity.BaseTest;
 import org.smartregister.maternity.MaternityLibrary;
-import org.smartregister.maternity.exception.CheckInEventProcessException;
+import org.smartregister.maternity.exception.MaternityCloseEventProcessException;
 import org.smartregister.maternity.utils.MaternityConstants;
 
 import java.util.ArrayList;
@@ -59,36 +59,21 @@ public class MaternityMiniClientProcessorForJavaTest extends BaseTest {
     }
 
     @Test
-    public void processServiceDetail() throws Exception {
-        PowerMockito.mockStatic(MaternityLibrary.class);
-        PowerMockito.when(MaternityLibrary.getInstance()).thenReturn(maternityLibrary);
-        Obs obs = new Obs();
-        obs.setFormSubmissionField(MaternityConstants.JSON_FORM_KEY.SERVICE_FEE);
-        obs.setValue("fee");
-        obs.setFieldDataType("text");
-        obs.setFieldCode(MaternityConstants.JSON_FORM_KEY.SERVICE_FEE);
-        event.addObs(obs);
-        event.addDetails(MaternityConstants.JSON_FORM_KEY.ID, "id");
-
-        Whitebox.invokeMethod(maternityMiniClientProcessorForJava, "processServiceDetail", event);
-    }
-
-    @Test
-    public void getEventTypesShouldReturnAtLeast6EventTypesAllStartingWithOpd() {
+    public void getEventTypesShouldReturnAtLeast6EventTypesAllStartingWithMaternity() {
         HashSet<String> eventTypes = maternityMiniClientProcessorForJava.getEventTypes();
 
-        Assert.assertTrue(eventTypes.size() >= 6);
+        Assert.assertEquals(4, eventTypes.size());
         for (String eventType: eventTypes) {
-            Assert.assertTrue(eventType.startsWith("MATERNITY"));
+            Assert.assertTrue(eventType.contains("Maternity"));
         }
     }
 
     @Test
     public void processEventClientShouldThrowExceptionWhenClientIsNull() throws Exception {
-        expectedException.expect(CheckInEventProcessException.class);
-        expectedException.expectMessage("Could not process this MATERNITY Check-In Event because Client bei referenced by MATERNITY Check-In event does not exist");
+        expectedException.expect(MaternityCloseEventProcessException.class);
+        expectedException.expectMessage("Could not process this Maternity Close Event because Client bei referenced by Maternity Close event does not exist");
 
-        Event event = new Event().withEventType(MaternityConstants.EventType.CHECK_IN).withBaseEntityId("bei");
+        Event event = new Event().withEventType(MaternityConstants.EventType.MATERNITY_CLOSE).withBaseEntityId("bei");
         event.addDetails("d", "d");
 
         EventClient eventClient = new EventClient(event, null);

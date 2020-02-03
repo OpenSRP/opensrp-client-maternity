@@ -141,6 +141,7 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
         String entityTable = "ec_client";
 
         HashMap<String, String> details = new HashMap<>();
+        details.put(MaternityConstants.KEY.GENDER, AllConstants.FEMALE_GENDER);
         details.put(MaternityConstants.IntentKey.ENTITY_TABLE, entityTable);
 
         ArgumentCaptor<HashMap<String, String>> hashMapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
@@ -157,7 +158,7 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
 
     @Test
     public void startFormActivityShouldCallProfileInteractorAndFetchSavedDiagnosisAndTreatmentForm() {
-        String formName = MaternityConstants.Form.OPD_DIAGNOSIS_AND_TREAT;
+        String formName = MaternityConstants.Form.MATERNITY_OUTCOME;
         String caseId = "90932-dsdf23-2342";
         String entityTable = "ec_client";
         String locationId = "location-id";
@@ -181,7 +182,7 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
     }
 
     @Test
-    public void saveVisitOrDiagnosisFormShouldCallOpdLibraryProcessCheckInFormWhenEventTypeIsCheckIn() throws JSONException {
+    public void saveVisitOrDiagnosisFormShouldCallMaternityLibraryProcessCheckInFormWhenEventTypeIsCheckIn() throws JSONException {
         String jsonString = "{}";
 
         MaternityLibrary maternityLibrary = Mockito.mock(MaternityLibrary.class);
@@ -196,10 +197,10 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
         Intent intent = new Intent();
         intent.putExtra(MaternityConstants.JSON_FORM_EXTRA.JSON, jsonString);
 
-        presenter.saveOutcomeForm(MaternityConstants.EventType.CHECK_IN, intent);
+        presenter.saveOutcomeForm(MaternityConstants.EventType.MATERNITY_OUTCOME, intent);
 
         Mockito.verify(maternityLibrary, Mockito.times(1)).processMaternityOutcomeForm(Mockito.eq(
-                MaternityConstants.EventType.CHECK_IN)
+                MaternityConstants.EventType.MATERNITY_OUTCOME)
                 , Mockito.eq(jsonString)
                 , Mockito.any(Intent.class));
         ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", null);

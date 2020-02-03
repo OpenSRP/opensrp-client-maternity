@@ -12,7 +12,7 @@ import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.db.Obs;
 import org.smartregister.domain.jsonmapping.ClientClassification;
 import org.smartregister.maternity.MaternityLibrary;
-import org.smartregister.maternity.exception.CheckInEventProcessException;
+import org.smartregister.maternity.exception.MaternityCloseEventProcessException;
 import org.smartregister.maternity.pojos.MaternityDetails;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
@@ -96,7 +96,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             }
         } else if (eventType.equals(MaternityConstants.EventType.MATERNITY_CLOSE)) {
             if (eventClient.getClient() == null) {
-                throw new CheckInEventProcessException(String.format("Client %s referenced by %s event does not exist", event.getBaseEntityId(), MaternityConstants.EventType.CHECK_IN));
+                throw new MaternityCloseEventProcessException(String.format("Client %s referenced by %s event does not exist", event.getBaseEntityId(), MaternityConstants.EventType.MATERNITY_CLOSE));
             }
 
             unsyncEvents.add(event);

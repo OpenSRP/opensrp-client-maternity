@@ -3,11 +3,8 @@ package org.smartregister.maternity.interactor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityProfileVisitsFragmentContract;
 import org.smartregister.maternity.utils.AppExecutors;
-
-import java.util.List;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29

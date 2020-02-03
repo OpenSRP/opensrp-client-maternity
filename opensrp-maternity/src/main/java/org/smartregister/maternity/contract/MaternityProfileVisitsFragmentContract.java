@@ -9,7 +9,6 @@ import org.jeasy.rules.api.Facts;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 

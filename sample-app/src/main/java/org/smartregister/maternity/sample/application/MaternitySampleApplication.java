@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.evernote.android.job.JobManager;
 
-import org.jetbrains.annotations.NotNull;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
 import org.smartregister.commonregistry.CommonFtsObject;
@@ -13,18 +12,17 @@ import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.activity.BaseMaternityProfileActivity;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.pojos.MaternityMetadata;
-import org.smartregister.maternity.processor.MaternityMiniClientProcessorForJava;
 import org.smartregister.maternity.sample.BuildConfig;
 import org.smartregister.maternity.sample.activity.MaternityFormActivity;
 import org.smartregister.maternity.sample.configuration.MaternityRegisterQueryProvider;
-import org.smartregister.maternity.sample.job.SampleMaternityJobCreator;
 import org.smartregister.maternity.sample.configuration.SampleSyncConfiguration;
+import org.smartregister.maternity.sample.job.SampleMaternityJobCreator;
 import org.smartregister.maternity.sample.processor.MaternitySampleClientProcessorForJava;
 import org.smartregister.maternity.sample.repository.SampleRepository;
 import org.smartregister.maternity.sample.utils.Constants;
 import org.smartregister.maternity.sample.utils.Utils;
-import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityConstants;
+import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.repository.Repository;
 import org.smartregister.sync.ClientProcessorForJava;

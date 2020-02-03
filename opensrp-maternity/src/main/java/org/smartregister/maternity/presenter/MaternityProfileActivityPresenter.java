@@ -139,6 +139,11 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
 
             profileView.setProfileID(Utils.getValue(client, MaternityDbConstants.KEY.REGISTER_ID, false));
             profileView.setProfileImage(Utils.getValue(client, MaternityDbConstants.KEY.ID, false));
+            String gender = client.get(MaternityConstants.ClientMapKey.GENDER);
+
+            if (gender != null) {
+                profileView.setProfileGender(gender);
+            }
         }
     }
 

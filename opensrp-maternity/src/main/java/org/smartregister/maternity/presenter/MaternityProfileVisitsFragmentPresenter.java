@@ -5,30 +5,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.util.Pair;
-import android.text.TextUtils;
 
 import org.jeasy.rules.api.Facts;
-import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.contract.MaternityProfileVisitsFragmentContract;
-import org.smartregister.maternity.domain.YamlConfig;
-import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.interactor.MaternityProfileVisitsFragmentInteractor;
-import org.smartregister.maternity.utils.FilePath;
-import org.smartregister.maternity.utils.MaternityConstants;
-import org.smartregister.maternity.utils.MaternityFactsUtil;
-import org.smartregister.maternity.utils.MaternityUtils;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-
-import timber.log.Timber;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29

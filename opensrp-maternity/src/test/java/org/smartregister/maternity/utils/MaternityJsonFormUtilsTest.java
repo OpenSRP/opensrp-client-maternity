@@ -45,7 +45,7 @@ public class MaternityJsonFormUtilsTest {
 
     @Test
     public void testGetFormAsJsonWithNonEmptyJsonObjectAndEntityIdBlank() throws Exception {
-        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
+        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.Form.MATERNITY_REGISTRATION
                 , MaternityDbConstants.KEY.TABLE
                 , MaternityConstants.EventType.MATERNITY_REGISTRATION
                 , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
@@ -61,13 +61,13 @@ public class MaternityJsonFormUtilsTest {
                 BuildConfig.VERSION_CODE, 1);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("metadata", new JSONObject());
-        JSONObject result = MaternityJsonFormUtils.getFormAsJson(jsonObject, MaternityConstants.JSON_FORM_KEY.NAME, "", "");
+        JSONObject result = MaternityJsonFormUtils.getFormAsJson(jsonObject, MaternityConstants.Form.MATERNITY_REGISTRATION, "", "");
         Assert.assertNull(result);
     }
 
     @Test
     public void testGetFormAsJsonWithNonEmptyJsonObjectAndEntityIdNonEmpty() throws Exception {
-        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
+        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.Form.MATERNITY_REGISTRATION
                 , MaternityDbConstants.KEY.TABLE
                 , MaternityConstants.EventType.MATERNITY_REGISTRATION
                 , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
@@ -96,13 +96,13 @@ public class MaternityJsonFormUtilsTest {
         jsonObject.put("metadata", new JSONObject());
         jsonObject.put(MaternityJsonFormUtils.STEP1, jsonObjectForFields);
 
-        JSONObject result = MaternityJsonFormUtils.getFormAsJson(jsonObject, MaternityConstants.JSON_FORM_KEY.NAME, "23", "currentLocation");
+        JSONObject result = MaternityJsonFormUtils.getFormAsJson(jsonObject, MaternityConstants.Form.MATERNITY_REGISTRATION, "23", "currentLocation");
         Assert.assertEquals(result, jsonObject);
     }
 
     @Test
     public void testGetFormAsJsonWithNonEmptyJsonObjectAndInjectableFields() throws Exception {
-        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
+        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.Form.MATERNITY_REGISTRATION
                 , MaternityDbConstants.KEY.TABLE
                 , MaternityConstants.EventType.MATERNITY_REGISTRATION
                 , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
@@ -137,7 +137,7 @@ public class MaternityJsonFormUtilsTest {
 
         HashMap<String, String> injectableFields = new HashMap<>();
         injectableFields.put("Injectable", "Injectable value");
-        JSONObject result = MaternityJsonFormUtils.getFormAsJson(jsonObject, MaternityConstants.JSON_FORM_KEY.NAME, "23", "currentLocation", injectableFields);
+        JSONObject result = MaternityJsonFormUtils.getFormAsJson(jsonObject, MaternityConstants.Form.MATERNITY_REGISTRATION, "23", "currentLocation", injectableFields);
         Assert.assertEquals(result, jsonObject);
         Assert.assertEquals("Injectable value", injectableField.getString(MaternityJsonFormUtils.VALUE));
     }
@@ -176,7 +176,7 @@ public class MaternityJsonFormUtilsTest {
 
     @Test
     public void testTagSyncMetadataWithEmptyEvent() throws Exception {
-        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
+        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.Form.MATERNITY_REGISTRATION
                 , MaternityDbConstants.KEY.TABLE
                 , MaternityConstants.EventType.MATERNITY_REGISTRATION
                 , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
@@ -200,7 +200,7 @@ public class MaternityJsonFormUtilsTest {
 
     @Test
     public void testGetLocationIdWithCurrentLocalityIsNotNull() throws Exception {
-        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.JSON_FORM_KEY.NAME
+        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.Form.MATERNITY_REGISTRATION
                 , MaternityDbConstants.KEY.TABLE
                 , MaternityConstants.EventType.MATERNITY_REGISTRATION
                 , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
@@ -338,7 +338,7 @@ public class MaternityJsonFormUtilsTest {
         jsonArrayFields.put(jsonObjectDob);
 
         String expected = "[{\"options\":[{\"value\":\"true\"}],\"key\":\"dob_unknown\"},{\"value\":\"34\",\"key\":\"age_entered\"}," +
-                "{\"value\":\"01-01-1985\",\"key\":\"dob_entered\"},{\"openmrs_entity\":\"person\"," +
+                "{\"value\":\"01-01-1986\",\"key\":\"dob_entered\"},{\"openmrs_entity\":\"person\"," +
                 "\"openmrs_entity_id\":\"birthdate_estimated\",\"value\":1,\"key\":\"birthdate_estimated\"}]";
 
         MaternityJsonFormUtils.dobUnknownUpdateFromAge(jsonArrayFields);
@@ -448,7 +448,7 @@ public class MaternityJsonFormUtilsTest {
     }
 
     @Test
-    public void testProcessOpdDetailsFormShouldReturnNullJsonFormNull() {
+    public void testProcessMaternityDetailsFormShouldReturnNullJsonFormNull() {
         Assert.assertNull(MaternityJsonFormUtils.processMaternityDetailsForm("", Mockito.mock(FormTag.class)));
     }
 

@@ -61,10 +61,7 @@ android {
 }
 
 dependencies {
-    implementation (project(":opensrp-maternity")) {
-        transitive true
-        exclude group: 'io.ona.CircleProgressbar', module: 'lib'
-    }
+    implementation project(":opensrp-maternity")
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'

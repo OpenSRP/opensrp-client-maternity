@@ -1,10 +1,5 @@
 package org.smartregister.maternity;
 
-import android.content.Intent;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -18,20 +13,14 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.ReflectionHelpers;
 import org.smartregister.Context;
-import org.smartregister.CoreLibrary;
-import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.shadows.ShadowMaternityLibrary;
-import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
-import org.smartregister.maternity.utils.MaternityJsonFormUtils;
-import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -75,7 +64,7 @@ public class MaternityLibraryTest extends BaseTest {
     }
 
     @Test
-    public void getOpdRulesEngineHelperShouldReturnNonNull() {
+    public void getMaternityRulesEngineHelperShouldReturnNonNull() {
         MaternityLibrary.init(Mockito.mock(Context.class), Mockito.mock(Repository.class), Mockito.mock(MaternityConfiguration.class), BuildConfig.VERSION_CODE, 1);
 
         assertNotNull(MaternityLibrary.getInstance().getMaternityRulesEngineHelper());
