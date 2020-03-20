@@ -54,7 +54,8 @@ public class MaternityConstants extends AllConstants {
 
         public static final String AGE_ENTERED = "age_entered";
         public static final String DOB_ENTERED = "dob_entered";
-        public static final String ADDRESS_WIDGET_KEY = "home_address";
+        public static final String HOME_ADDRESS_WIDGET_KEY = "home_address";
+        public static final String VILLAGE_ADDRESS_WIDGET_KEY = "village";
         public static final String REMINDERS = "reminders";
 
         public static final String SERVICE_FEE = "service_fee";

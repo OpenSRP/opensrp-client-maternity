@@ -56,7 +56,6 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
     public static final String ZEIR_ID = "zeir_id";
     public static final String CURRENT_ZEIR_ID = "current_zeir_id";
     public static final String READ_ONLY = "read_only";
-    public static final String HOME_ADDRESS = "home_address";
     public static final String PERSON_IDENTIFIER = "person_identifier";
 
     public static JSONObject getFormAsJson(@NonNull JSONObject form, @NonNull String formName, @NonNull String id, @NonNull String currentLocationId) throws JSONException {
@@ -98,7 +97,8 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
                 entityId = entityId.replace("-", "");
             }
 
-            MaternityJsonFormUtils.addRegLocHierarchyQuestions(form, MaternityConstants.JSON_FORM_KEY.ADDRESS_WIDGET_KEY, LocationHierarchy.ENTIRE_TREE);
+            MaternityJsonFormUtils.addRegLocHierarchyQuestions(form, MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS_WIDGET_KEY, LocationHierarchy.ENTIRE_TREE);
+            MaternityJsonFormUtils.addRegLocHierarchyQuestions(form, MaternityConstants.JSON_FORM_KEY.VILLAGE_ADDRESS_WIDGET_KEY, LocationHierarchy.ENTIRE_TREE);
 
             // Inject OPenSrp id into the form
             JSONObject stepOne = form.getJSONObject(MaternityJsonFormUtils.STEP1);

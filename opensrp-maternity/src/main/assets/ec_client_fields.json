@@ -46,13 +46,6 @@
           }
         },
         {
-          "column_name": "opd_reg_number",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.annual_serial_number"
-          }
-        },
-        {
           "column_name": "bht_mid",
           "type": "Client",
           "json_mapping": {

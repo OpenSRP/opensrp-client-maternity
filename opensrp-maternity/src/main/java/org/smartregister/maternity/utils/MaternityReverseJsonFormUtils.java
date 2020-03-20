@@ -38,7 +38,7 @@ public class MaternityReverseJsonFormUtils {
                 JSONObject form = new FormUtils(context).getFormJson(maternityMetadata.getMaternityRegistrationFormName());
                 Timber.d("Original Form %s", form);
                 if (form != null) {
-                    MaternityJsonFormUtils.addRegLocHierarchyQuestions(form, MaternityConstants.JSON_FORM_KEY.ADDRESS_WIDGET_KEY, LocationHierarchy.ENTIRE_TREE);
+                    MaternityJsonFormUtils.addRegLocHierarchyQuestions(form, MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS_WIDGET_KEY, LocationHierarchy.ENTIRE_TREE);
                     form.put(MaternityConstants.JSON_FORM_KEY.ENTITY_ID, detailsMap.get(MaternityConstants.KEY.BASE_ENTITY_ID));
 
                     form.put(MaternityConstants.JSON_FORM_KEY.ENCOUNTER_TYPE, maternityMetadata.getUpdateEventType());

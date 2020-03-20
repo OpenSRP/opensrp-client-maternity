@@ -30,6 +30,13 @@ actions:
 name: step2_conception_date
 description: The mothers conception date
 priority: 1
-condition: "step2_gestation_age != ''"
+condition: "step2_gestation_agedsds != ''"
 actions:
   - "calculation = helper.subtractDuration(helper.getDateToday(), ((new Integer(step2_gestation_age) * 7) +'d'))"
+---
+name: step2_gest_age
+description: The mothers gestation age
+priority: 1
+condition: "step2_lmp != ''"
+actions:
+  - "calculation = helper.getWeeksAndDaysFromDays(helper.getDifferenceDays(helper.getSecondaryValue(step2_lmp)))"
