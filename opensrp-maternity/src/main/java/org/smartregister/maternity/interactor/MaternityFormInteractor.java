@@ -11,9 +11,11 @@ import org.smartregister.maternity.widgets.MaternityMultiSelectList;
 
 public class MaternityFormInteractor extends JsonFormInteractor {
 
-    private static final MaternityFormInteractor INSTANCE = new MaternityFormInteractor();
 
     public static JsonFormInteractor getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new MaternityFormInteractor();
+        }
         return INSTANCE;
     }
 

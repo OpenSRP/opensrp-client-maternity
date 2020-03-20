@@ -90,12 +90,7 @@
         "type": "barcode",
         "barcode_type": "qrcode",
         "hint": "National ID",
-        "edit_type": "name",
-        "look_up": true,
-        "v_required": {
-          "value": false,
-          "err": "Please enter the patient's national id"
-        }
+        "scanButtonText": "Scan National ID"
       },
       {
         "key": "bht_mid",
@@ -123,8 +118,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "reg_number",
         "type": "edit_text",
-        "hint": "Admission Registration Number",
-        "edit_type": "name"
+        "hint": "Admission Registration Number"
       },
       {
         "key": "first_name",
@@ -284,7 +278,6 @@
         "openmrs_data_type": "text",
         "type": "tree",
         "tree": [],
-        "value": "",
         "hint": "Residence",
         "v_required": {
           "value": false,
