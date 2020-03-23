@@ -910,7 +910,7 @@
     ]
   },
   "step3": {
-    "title": "HIV Treatment",
+    "title": "HIV Status & Treatment",
     "fields": [
       {
         "key": "hiv_status_previous",
@@ -922,35 +922,39 @@
         "values": [
           "Positive",
           "Negative",
-          "Unknown",
-          "Not Done"
+          "Unknown"
         ],
-        "keys": [
-          "Positive",
-          "Negative",
-          "Unknown",
-          "Not Done"
-        ]
+        "openmrs_choice_ids": {
+          "Positive": "138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Negative": "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Unknown": "1138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Kindly select the woman's previous HIV Status"
+        }
       },
       {
         "key": "hiv_status_current",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "spinner",
         "hint": "Current HIV Status",
         "values": [
           "Positive",
           "Negative",
-          "Unknown",
-          "Not Done"
+          "Unknown"
         ],
-        "keys": [
-          "Positive",
-          "Negative",
-          "Unknown",
-          "Not Done"
-        ]
+        "openmrs_choice_ids": {
+          "Positive": "138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Negative": "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Unknown": "1138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Kindly select the woman's current HIV Status"
+        }
       },
       {
         "key": "on_art_treatment",
@@ -970,10 +974,10 @@
           "Yes",
           "No"
         ],
-        "keys": [
-          "Yes",
-          "No"
-        ]
+        "openmrs_choice_ids": {
+          "Yes": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "No": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
       },
       {
         "key": "art_clinic_number",
@@ -998,25 +1002,59 @@
         "hint": "ART Mother treatment start period",
         "values": [
           "On ART before pregnancy",
-          "1st and 2nd Trimester(0-27w ART)",
-          "3rd Trimester(28+w ART)",
-          "During Labour (Lab ART)"
+          "1st and 2nd Trimester(0-27 weeks)",
+          "3rd Trimester(28+)",
+          "During Labour"
         ],
         "keys": [
           "On ART before pregnancy",
-          "1st and 2nd Trimester(0-27w ART)",
-          "3rd Trimester(28+w ART)",
-          "During Labour (Lab ART)"
+          "1st and 2nd Trimester(0-27 weeks)",
+          "3rd Trimester(28+)",
+          "During Labour"
         ],
         "relevance": {
           "step3:on_art_treatment": {
             "type": "string",
             "ex": "equalTo(., \"Yes\")"
           }
+        }
+      },
+      {
+        "key": "not_art_reason",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Why is the woman not on ART?",
+        "relevance": {
+          "step3:on_art_treatment": {
+            "type": "string",
+            "ex": "equalTo(., \"No\")"
+          }
         },
-        "v_required": {
-          "value": "true",
-          "err": "Kindly select one of the options provided"
+        "values": [
+          "Defaulted",
+          "Not Started on ART",
+          "Other (Specify)"
+        ],
+        "keys": [
+          "Defaulted",
+          "Not Started on ART",
+          "Other (Specify)"
+        ]
+      },
+      {
+        "key": "not_art_reasons_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Specify",
+        "relevance": {
+          "step3:not_art_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"Other (Specify)\")"
+          }
         }
       }
     ]
