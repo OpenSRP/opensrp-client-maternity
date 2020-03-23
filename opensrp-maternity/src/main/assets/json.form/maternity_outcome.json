@@ -186,10 +186,6 @@
           "value": "true",
           "err": "Enter a valid no"
         },
-        "v_min":{
-          "value": "0",
-          "err": "Number must be 0 or greater than 0"
-        },
         "v_required": {
           "value": "true",
           "err": "Enter the number of babies born alive"
@@ -206,10 +202,6 @@
           "value": "true",
           "err": "Enter a valid no"
         },
-        "v_min":{
-          "value": "0",
-          "err": "Number must be 0 or greater than 0"
-        },
         "v_required": {
           "value": "true",
           "err": "Enter the number of babies stillborn"
@@ -217,159 +209,51 @@
       }
     ]
   },
-
   "step2": {
-    "title": "Complications",
+    "title": "Babies born",
     "next": "step3",
     "fields": [
       {
-        "key": "obstetric_complications",
+        "key": "babies_stillborn",
+        "type": "repeating_group",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "1541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "spinner",
-        "hint": "Obstetric Complications",
-        "values": [
-          "None",
-          "Anter part haem",
-          "Post part heam",
-          "Obstr. Prod Labour",
-          "pre-Eclampsia",
-          "Sepsis",
-          "Ruptured Uterus",
-          "Retained placenta",
-          "Premature labour",
-          "Fatal distress",
-          "Other"
-        ],
-        "keys": [
-          "None",
-          "Anter part haem",
-          "Post part heam",
-          "Obstr. Prod Labour",
-          "pre-Eclampsia",
-          "Sepsis",
-          "Ruptured Uterus",
-          "Retained placenta",
-          "Premature labour",
-          "Fatal distress",
-          "Other"
-        ]
-      },
-      {
-        "key": "emergency_obstetric_care",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "160427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "spinner",
-        "hint": "Emergency Obstretic Care",
-        "values": [
-          "Oxytocin",
-          "Anticonvulsants",
-          "Antibiotics",
-          "Antenatal corticosieroid",
-          "Blood Transfusion",
-          "MRP",
-          "NASG",
-          "ERP"
-        ],
-        "keys": [
-          "Oxytocin",
-          "Anticonvulsants",
-          "Antibiotics",
-          "Antenatal corticosieroid",
-          "Blood Transfusion",
-          "MRP",
-          "NASG",
-          "ERP"
-        ],
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "maternity/outcome_relevance_rules.yml"
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "repeating_group_label": "Baby Stillbirth Details",
+        "reference_edit_text": "step1:baby_count_stillborn",
+        "value": [
+          {
+            "key": "stillbirth_condition",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "type": "spinner",
+            "hint": "Stillbirth condition",
+            "values": [
+              "Fresh",
+              "Macerated",
+              "Other"
+            ],
+            "openmrs_choice_ids": {
+              "Fresh": "159916AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Macerated": "135436AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Other": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            },
+            "v_required": {
+              "value": "true",
+              "err": "Select the condition of the Stillbirth"
             }
           }
-        }
-      },
-      {
-        "key": "referred_out",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "spinner",
-        "hint": "Referred out?",
-        "values": [
-          "Yes",
-          "No"
-        ],
-        "keys": [
-          "Yes",
-          "No"
         ]
       },
-      {
-        "key": "delivery_person",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "spinner",
-        "hint": "Staff conduction delivery",
-        "values": [
-          "MD/CO/MA/NURSE/MIDWIFE/CMA",
-          "PA/WA/HSA /Other"
-        ],
-        "keys": [
-          "MD/CO/MA/NURSE/MIDWIFE/CMA",
-          "PA/WA/HSA /Other"
-        ]
-      },
-      {
-        "key": "vit_a",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "spinner",
-        "hint": "Vit A given",
-        "values": [
-          "Yes",
-          "No"
-        ],
-        "keys": [
-          "Yes",
-          "No"
-        ]
-      },
-      {
-        "key": "mother_status",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "spinner",
-        "hint": "Mother's Status",
-        "values": [
-          "New",
-          "Referral",
-          "Re-Visit"
-        ],
-        "keys": [
-          "New",
-          "Referral",
-          "Re-Visit"
-        ]
-      }
-    ]
-  },
-  "step3": {
-    "title": "Babies born",
-    "fields": [
       {
         "key": "babies_born",
         "type": "repeating_group",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
-        "repeating_group_label": "Baby Number",
-        "reference_edit_text": "step2:baby_count",
+        "repeating_group_label": "Baby Born Alive",
+        "reference_edit_text": "step1:baby_count_alive",
         "value": [
           {
             "key": "discharged_alive",
@@ -385,29 +269,95 @@
             "keys": [
               "Yes",
               "No"
-            ]
+            ],
+            "v_required": {
+              "value": "true",
+              "err": "Select whether the baby was discharged alive"
+            }
           },
           {
-            "key": "death_reason",
+            "key": "birth_record_date",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "",
-            "type": "spinner",
-            "hint": "What was the cause of death?",
-            "values": [
-              "Still birth",
-              "Neonatal Death",
-              "Other"
-            ],
-            "keys": [
-              "Still birth",
-              "Neonatal Death",
-              "Other"
-            ],
+            "type": "edit_text",
+            "read_only": true,
+            "calculation": {
+              "rules-engine": {
+                "ex-rules": {
+                  "rules-dynamic": "maternity/outcome_calculations.yml"
+                }
+              }
+            },
             "relevance": {
-              "step3:discharged_alive": {
+              "step2:discharged_alive": {
                 "type": "string",
-                "ex": "equalTo(., \"No\")"
+                "ex": "equalTo(., \"Yes\")"
+              }
+            }
+          },
+          {
+            "key": "baby_first_name",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "",
+            "type": "edit_text",
+            "hint": "First name",
+            "edit_type": "name",
+            "v_regex": {
+              "value": "[A-Za-z\\s\\.\\-]*",
+              "err": "Please enter a valid name"
+            },
+            "v_required": {
+              "value": true,
+              "err": "Please enter a first name"
+            },
+            "relevance": {
+              "step2:discharged_alive": {
+                "type": "string",
+                "ex": "equalTo(., \"Yes\")"
+              }
+            }
+          },
+          {
+            "key": "baby_last_name",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "",
+            "type": "edit_text",
+            "hint": "Last name",
+            "edit_type": "name",
+            "v_required": {
+              "value": true,
+              "err": "Please enter the last name"
+            },
+            "v_regex": {
+              "value": "[A-Za-z\\s\\.\\-]*",
+              "err": "Please enter a valid name"
+            },
+            "relevance": {
+              "step2:discharged_alive": {
+                "type": "string",
+                "ex": "equalTo(., \"Yes\")"
+              }
+            }
+          },
+          {
+            "key": "baby_dob",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "",
+            "type": "date_picker",
+            "hint": "Birth date and time",
+            "expanded": false,
+            "v_required": {
+              "value": "true",
+              "err": "Enter the birth time and date of the child"
+            },
+            "relevance": {
+              "step2:discharged_alive": {
+                "type": "string",
+                "ex": "equalTo(., \"Yes\")"
               }
             }
           },
@@ -433,19 +383,6 @@
                 "type": "string",
                 "ex": "equalTo(., \"Still birth\")"
               }
-            }
-          },
-          {
-            "key": "birth_date",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "",
-            "type": "date_picker",
-            "hint": "Birth date and time",
-            "expanded": false,
-            "v_required": {
-              "value": "true",
-              "err": "Enter the birth time and date of the child"
             }
           },
           {
@@ -646,6 +583,147 @@
               "No"
             ]
           }
+        ]
+      }
+    ]
+  },
+  "step3": {
+    "title": "Mother Information",
+    "next": "step4",
+    "fields": [
+      {
+        "key": "obstetric_complications",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "1541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "spinner",
+        "hint": "Obstetric Complications",
+        "values": [
+          "None",
+          "Anter part haem",
+          "Post part heam",
+          "Obstr. Prod Labour",
+          "pre-Eclampsia",
+          "Sepsis",
+          "Ruptured Uterus",
+          "Retained placenta",
+          "Premature labour",
+          "Fatal distress",
+          "Other"
+        ],
+        "keys": [
+          "None",
+          "Anter part haem",
+          "Post part heam",
+          "Obstr. Prod Labour",
+          "pre-Eclampsia",
+          "Sepsis",
+          "Ruptured Uterus",
+          "Retained placenta",
+          "Premature labour",
+          "Fatal distress",
+          "Other"
+        ]
+      },
+      {
+        "key": "emergency_obstetric_care",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "160427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "spinner",
+        "hint": "Emergency Obstretic Care",
+        "values": [
+          "Oxytocin",
+          "Anticonvulsants",
+          "Antibiotics",
+          "Antenatal corticosieroid",
+          "Blood Transfusion",
+          "MRP",
+          "NASG",
+          "ERP"
+        ],
+        "keys": [
+          "Oxytocin",
+          "Anticonvulsants",
+          "Antibiotics",
+          "Antenatal corticosieroid",
+          "Blood Transfusion",
+          "MRP",
+          "NASG",
+          "ERP"
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "maternity/outcome_relevance_rules.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "referred_out",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Referred out?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "keys": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "key": "delivery_person",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Staff conduction delivery",
+        "values": [
+          "MD/CO/MA/NURSE/MIDWIFE/CMA",
+          "PA/WA/HSA /Other"
+        ],
+        "keys": [
+          "MD/CO/MA/NURSE/MIDWIFE/CMA",
+          "PA/WA/HSA /Other"
+        ]
+      },
+      {
+        "key": "vit_a",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Vit A given",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "keys": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "key": "mother_status",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Mother's Status",
+        "values": [
+          "New",
+          "Referral",
+          "Re-Visit"
+        ],
+        "keys": [
+          "New",
+          "Referral",
+          "Re-Visit"
         ]
       }
     ]
