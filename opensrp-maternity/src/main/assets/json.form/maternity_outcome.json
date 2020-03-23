@@ -51,8 +51,176 @@
     }
   },
   "step1": {
-    "title": "Complications",
+    "title": "Delivery Details",
     "next": "step2",
+    "fields": [
+      {
+        "key": "delivery_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "date_picker",
+        "hint": "Date of delivery",
+        "min_date": "today-3y",
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the date of delivery"
+        }
+      },
+      {
+        "key": "delivery_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "1572AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "spinner",
+        "hint": "Place of delivery",
+        "values": [
+          "This Facility",
+          "In-Transit (TR)",
+          "Other Facility",
+          "Home/Traditional Birth Authority(CMA)"
+        ],
+        "openmrs_choice_ids": {
+          "This Facility": "159372AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "In-Transit (TR)": "1601AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Other Facility": "1588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Home/Traditional Birth Authority(CMA)": "1536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the place of delivery"
+        }
+      },
+      {
+        "key": "delivery_person",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "1573AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "spinner",
+        "hint": "Staff conducting the delivery",
+        "values": [
+          "Medical Doctor (MD)",
+          "Clinical Officer (CO)",
+          "Medical Assistant (MA)",
+          "Nurse Midwife",
+          "Community Midwifery Assistant (CMA)",
+          "Other (Specify)"
+        ],
+        "openmrs_choice_ids": {
+          "Medical Doctor (MD)": "1574AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Clinical Officer (CO)": "1574AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Nurse Midwife": "1577AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Community Midwifery Assistant (CMA)": "1578AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Other (Specify)": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select the staff conducting the delivery"
+        }
+      },
+      {
+        "key": "delivery_person_other",
+        "openmrs_entity_parent": "1573AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "edit_text",
+        "hint": "Specify",
+        "relevance": {
+          "step1:delivery_person": {
+            "type": "string",
+            "ex": "equalTo(., \"Other (Specify)\")"
+          }
+        }
+      },
+      {
+        "key": "delivery_mode",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "5630AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "spinner",
+        "hint": "Mode of delivery",
+        "values": [
+          "Vaginal Birth",
+          "Spontan Vertex(SVD)",
+          "Vacuum Extraction(VE)",
+          "Breech (BR)",
+          "Caesar Section (CS)",
+          "Other (Specify)"
+        ],
+        "openmrs_choice_ids": {
+          "Vaginal Birth": "162595AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Spontaneous Vertex (SVD)": "158865AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Vacuum Extraction (VE)": "159260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Breech (BR)": "1172AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Caesarean Section (CS)": "1171AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Other (Specify)": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select the delivery mode"
+        }
+      },
+      {
+        "key": "delivery_mode_other",
+        "openmrs_entity_parent": "5630AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "edit_text",
+        "hint": "Specify",
+        "relevance": {
+          "step1:delivery_mode": {
+            "type": "string",
+            "ex": "equalTo(., \"Other (Specify)\")"
+          }
+        }
+      },
+      {
+        "key": "baby_count_alive",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "164894AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "edit_text",
+        "hint": "Number of babies born alive",
+        "v_numeric_integer": {
+          "value": "true",
+          "err": "Enter a valid no"
+        },
+        "v_min":{
+          "value": "0",
+          "err": "Number must be 0 or greater than 0"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Enter the number of babies born alive"
+        }
+      },
+      {
+        "key": "baby_count_stillborn",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Number of babies stillborn",
+        "v_numeric_integer": {
+          "value": "true",
+          "err": "Enter a valid no"
+        },
+        "v_min":{
+          "value": "0",
+          "err": "Number must be 0 or greater than 0"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Enter the number of babies stillborn"
+        }
+      }
+    ]
+  },
+
+  "step2": {
+    "title": "Complications",
+    "next": "step3",
     "fields": [
       {
         "key": "obstetric_complications",
@@ -188,66 +356,6 @@
           "Referral",
           "Re-Visit"
         ]
-      }
-    ]
-  },
-  "step2": {
-    "title": "Delivery Details",
-    "next": "step3",
-    "fields": [
-      {
-        "key": "delivery_location",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "spinner",
-        "hint": "Delivery Location details",
-        "values": [
-          "This Facility",
-          "In-Transit (BBA)",
-          "Other Facility"
-        ],
-        "keys": [
-          "This Facility",
-          "In-Transit (BBA)",
-          "Other Facility"
-        ]
-      },
-      {
-        "key": "delivery_mode",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "spinner",
-        "hint": "Delivery Mode",
-        "values": [
-          "Spontan Vertex",
-          "Vacuum Extraction",
-          "Breach",
-          "Caesar Section"
-        ],
-        "keys": [
-          "Spontan Vertex",
-          "Vacuum Extraction",
-          "Breach",
-          "Caesar Section"
-        ]
-      },
-      {
-        "key": "baby_count",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "edit_text",
-        "hint": "Number of babies born (both alive and still born)",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid no"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Enter the number of babies born"
-        }
       }
     ]
   },
