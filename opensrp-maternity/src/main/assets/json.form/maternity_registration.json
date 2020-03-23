@@ -476,6 +476,21 @@
         }
       },
       {
+        "key": "conception_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "maternity/registration_calculation_rules.yml"
+            }
+          }
+        },
+        "read_only": true
+      },
+      {
         "key": "onset_labour",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",

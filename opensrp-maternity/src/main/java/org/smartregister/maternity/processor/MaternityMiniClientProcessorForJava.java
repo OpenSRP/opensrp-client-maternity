@@ -108,10 +108,10 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
 
         for (Obs observation : obs) {
             String key = observation.getFormSubmissionField();
-            List<Object> values = observation.getValues();
 
-            if (values.size() > 0) {
-                String value = (String) values.get(0);
+            List<Object> humanReadableValues = observation.getHumanReadableValues();
+            if (humanReadableValues.size() > 0) {
+                String value = (String) humanReadableValues.get(0);
 
                 if (!TextUtils.isEmpty(value)) {
                     keyValues.put(key, value);
@@ -119,9 +119,9 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
                 }
             }
 
-            List<Object> humanReadableValues = observation.getHumanReadableValues();
-            if (humanReadableValues.size() > 0) {
-                String value = (String) humanReadableValues.get(0);
+            List<Object> values = observation.getValues();
+            if (values.size() > 0) {
+                String value = (String) values.get(0);
 
                 if (!TextUtils.isEmpty(value)) {
                     keyValues.put(key, value);
