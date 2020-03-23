@@ -412,14 +412,10 @@
         "hint": "Last Menstrual Period",
         "expanded": false,
         "duration": {
-          "label": "Age"
+          "label": "Last Menstrual Period"
         },
-        "min_date": "today-50y",
-        "max_date": "today-10y",
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the date of birth"
-        }
+        "max_date": "today",
+        "min_date": "today-20w"
       },
       {
         "key": "gest_age",
@@ -428,6 +424,7 @@
         "openmrs_entity_id": "",
         "type": "edit_text",
         "value": "",
+        "hint": "The Calculated Gestation age",
         "calculation": {
           "rules-engine": {
             "ex-rules": {
@@ -452,9 +449,10 @@
           "err": "Enter a valid no for Gestation Weeks"
         },
         "relevance": {
-          "step1:lmp": {
-            "type": "string",
-            "ex": "equalTo(., \"\")"
+          "rules-engine": {
+            "ex-rules" : {
+              "rules-file": "maternity/registration_relevance_rules.yml"
+            }
           }
         }
       },
@@ -469,14 +467,11 @@
           "value": "true",
           "err": "Enter a valid no for Gestation Days"
         },
-        "v_required": {
-          "value": "true",
-          "err": "Enter a valid no for Gestation Days"
-        },
         "relevance": {
-          "step1:lmp": {
-            "type": "string",
-            "ex": "equalTo(., \"\")"
+          "rules-engine": {
+            "ex-rules" : {
+              "rules-file": "maternity/registration_relevance_rules.yml"
+            }
           }
         }
       },
@@ -486,12 +481,13 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "date_picker",
-        "hint": "When did labour being? (Onset of Labour)",
+        "hint": "When did labour begin? (Onset of Labour)",
         "expanded": false,
         "duration": {
           "label": "Start of Labour"
         },
-        "min_date": "today-12y"
+        "min_date": "today-3m",
+        "max_date": "today"
       },
       {
         "key": "conception_date",

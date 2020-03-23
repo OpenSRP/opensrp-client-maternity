@@ -43,4 +43,9 @@ public class MaternityRulesEngineHelper extends RulesEngineHelper {
 
         return relevanceFacts.get(RuleConstant.IS_RELEVANT);
     }
+
+    public String getWeeks(Integer days) {
+        double weeks = (double)Math.round(Math.floor((double)(days / 7)));
+        return String.format("%.0f", weeks);
+    }
 }
