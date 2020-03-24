@@ -407,7 +407,13 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
             return;
         }
 
-        Bitmap compressedImageFile = MaternityLibrary.getInstance().getCompressor().compressToBitmap(file);
+        Bitmap compressedImageFile = null;
+        try {
+            compressedImageFile = MaternityLibrary.getInstance().getCompressor().compressToBitmap(file);
+        } catch (IOException e) {
+            Timber.e(e);
+        }
+
         saveStaticImageToDisk(compressedImageFile, providerId, entityId);
 
     }

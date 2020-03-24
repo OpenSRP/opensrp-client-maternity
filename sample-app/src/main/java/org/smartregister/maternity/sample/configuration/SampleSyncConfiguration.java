@@ -6,6 +6,8 @@ import org.smartregister.maternity.sample.BuildConfig;
 import org.smartregister.maternity.sample.application.MaternitySampleApplication;
 import org.smartregister.repository.AllSharedPreferences;
 
+import java.util.List;
+
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
@@ -56,6 +58,16 @@ public class SampleSyncConfiguration extends SyncConfiguration {
     @Override
     public boolean updateClientDetailsTable() {
         return true;
+    }
+
+    @Override
+    public List<String> getSynchronizedLocationTags() {
+        return null;
+    }
+
+    @Override
+    public String getTopAllowedLocationLevel() {
+        return null;
     }
 
 }

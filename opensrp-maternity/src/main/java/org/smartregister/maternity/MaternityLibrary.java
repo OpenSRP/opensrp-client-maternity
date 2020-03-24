@@ -159,7 +159,7 @@ public class MaternityLibrary {
     @NonNull
     public Compressor getCompressor() {
         if (compressor == null) {
-            compressor = Compressor.getDefault(context().applicationContext());
+            compressor = new Compressor(context().applicationContext());
         }
 
         return compressor;
