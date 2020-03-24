@@ -214,6 +214,15 @@
     "next": "step3",
     "fields": [
       {
+        "key": "decoy_view",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "value": "2",
+        "read_only": true
+      },
+      {
         "key": "babies_stillborn",
         "type": "repeating_group",
         "openmrs_entity_parent": "",
@@ -221,6 +230,12 @@
         "openmrs_entity_id": "",
         "repeating_group_label": "Baby Stillbirth Details",
         "reference_edit_text": "step1:baby_count_stillborn",
+        "relevance": {
+          "step2:decoy_view": {
+            "type": "string",
+            "ex": "equalTo(., \"2\")"
+          }
+        },
         "value": [
           {
             "key": "stillbirth_condition",
