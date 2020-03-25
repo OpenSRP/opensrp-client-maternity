@@ -725,7 +725,6 @@
   },
   "step3": {
     "title": "Mother Information",
-    "next": "step4",
     "fields": [
       {
         "key": "obstetric_complications",
