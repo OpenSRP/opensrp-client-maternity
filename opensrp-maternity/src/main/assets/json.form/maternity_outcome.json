@@ -219,8 +219,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "edit_text",
-        "value": "2",
-        "read_only": true
+        "value": "45"
       },
       {
         "key": "babies_stillborn",
@@ -233,7 +232,7 @@
         "relevance": {
           "step2:decoy_view": {
             "type": "string",
-            "ex": "equalTo(., \"2\")"
+            "ex": "equalTo(., \"45\")"
           }
         },
         "value": [
@@ -269,6 +268,12 @@
         "openmrs_entity_id": "",
         "repeating_group_label": "Baby Born Alive",
         "reference_edit_text": "step1:baby_count_alive",
+        "relevance": {
+          "step2:decoy_view": {
+            "type": "string",
+            "ex": "equalTo(., \"45\")"
+          }
+        },
         "value": [
           {
             "key": "discharged_alive",
@@ -377,36 +382,12 @@
             }
           },
           {
-            "key": "still_birth_particular",
+            "key": "baby_gender",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "",
             "type": "spinner",
-            "hint": "Still births",
-            "values": [
-              "Fresh",
-              "Macerated",
-              "Other"
-            ],
-            "keys": [
-              "Fresh",
-              "Macerated",
-              "Other"
-            ],
-            "relevance": {
-              "step3:death_reason": {
-                "type": "string",
-                "ex": "equalTo(., \"Still birth\")"
-              }
-            }
-          },
-          {
-            "key": "gender",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "",
-            "type": "spinner",
-            "hint": "Child Sex",
+            "hint": "Sex",
             "values": [
               "Male",
               "Female"
@@ -417,61 +398,101 @@
             ],
             "v_required": {
               "value": "true",
-              "err": "Please enter the child's gender"
-            },
-            "relevance": {
-              "step3:discharged_alive": {
-                "type": "string",
-                "ex": "equalTo(., \"Yes\")"
-              }
+              "err": "Please enter the Gender of the child"
             }
           },
           {
-            "key": "birth_weight",
+            "key": "birth_weight_entered",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "",
             "type": "edit_text",
             "hint": "Birth Weight(gm)",
-            "v_numeric": {
+            "v_numeric_integer": {
               "value": "true",
-              "err": "Enter a valid no"
+              "err": "Enter a valid weight"
             },
             "v_required": {
               "value": "true",
-              "err": "Enter the number of babies born"
+              "err": "Please enter the child's birth weight"
             },
             "relevance": {
-              "step3:discharged_alive": {
+              "step2:discharged_alive": {
                 "type": "string",
                 "ex": "equalTo(., \"Yes\")"
               }
             }
           },
           {
-            "key": "agpar",
+            "key": "birth_height_entered",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "",
             "type": "edit_text",
-            "hint": "APGAR",
-            "v_numeric": {
+            "hint": "Birth Height(cm)",
+            "v_numeric_integer": {
               "value": "true",
-              "err": "Enter a valid no"
+              "err": "Enter a valid height"
+            },
+            "v_required": {
+              "value": "true",
+              "err": "Please enter the child's birth height"
             },
             "relevance": {
-              "step3:discharged_alive": {
+              "step2:discharged_alive": {
                 "type": "string",
                 "ex": "equalTo(., \"Yes\")"
               }
-            },
-            "v_max": {
-              "value": "10",
-              "err": "The value cannot be larger than 10"
+            }
+          },
+          {
+            "key": "apgar",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "",
+            "type": "edit_text",
+            "hint": "APGAR score",
+            "v_numeric_integer": {
+              "value": "true",
+              "err": "Enter a valid APGAR score"
             },
             "v_min": {
-              "value": "0.00000001",
-              "err": "The value should be greater than 0"
+              "err": "The APGAR score should be greater than 0",
+              "value": "1"
+            },
+            "v_max": {
+              "err": "The APGAR score should be 10 or less than 10",
+              "value": "10"
+            },
+            "v_required": {
+              "value": "true",
+              "err": "Please enter the child's birth APGAR"
+            },
+            "relevance": {
+              "step2:discharged_alive": {
+                "type": "string",
+                "ex": "equalTo(., \"Yes\")"
+              }
+            }
+          },
+          {
+            "key": "baby_first_cry",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "",
+            "type": "spinner",
+            "hint": "Did the baby cry at birth?",
+            "values": [
+              "Yes",
+              "No"
+            ],
+            "keys": [
+              "Yes",
+              "No"
+            ],
+            "v_required": {
+              "value": "true",
+              "err": "Kindly select whether the baby cried at birth"
             }
           },
           {
@@ -493,44 +514,152 @@
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "",
-            "type": "spinner",
-            "hint": "Newborn Care Complications",
-            "values": [
-              "None",
-              "Weight less 2500g",
-              "Prematurity",
-              "Asphyxia",
-              "Sepsis",
-              "Other"
+            "type": "check_box",
+            "label": "Newborn Care Complications",
+            "options": [
+              {
+                "key": "none",
+                "text": "None"
+              },
+              {
+                "key": "premature",
+                "text": "Premature"
+              },
+              {
+                "key": "asphyxia",
+                "text": "Asphyxia"
+              },
+              {
+                "key": "sepsis",
+                "text": "Sepsis"
+              },
+              {
+                "key": "birth_defects",
+                "text": "Birth Defects"
+              },
+              {
+                "key": "other",
+                "text": "Other (Specify)"
+              }
             ],
-            "keys": [
-              "None",
-              "Weight less 2500g",
-              "Prematurity",
-              "Asphyxia",
-              "Sepsis",
-              "Other"
-            ]
+            "v_required": {
+              "value": "true",
+              "err": "Kindly select at least one birth complication"
+            }
+          },
+          {
+            "key": "baby_complications_other",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "",
+            "type": "edit_text",
+            "hint": "Specify",
+            "relevance": {
+              "step2:baby_complications": {
+                "ex-checkbox": [
+                  {
+                    "or": [
+                      "other"
+                    ]
+                  }
+                ]
+              }
+            }
           },
           {
             "key": "baby_care_mgt",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "",
+            "type": "check_box",
+            "label": "Newborn Routine Care & Management",
+            "options": [
+              {
+                "key": "kmc",
+                "text": "Kangaroo Mother Care(KMC)"
+              },
+              {
+                "key": "antibiotics",
+                "text": "Antibiotics"
+              },
+              {
+                "key": "tetracycline_eye_ointment(TEO)",
+                "text": "Tetracycline Eye Ointment (TEO)"
+              },
+              {
+                "key": "chlorhexidine",
+                "text": "Chlorhexidine (7.1%)"
+              },
+              {
+                "key": "vitamin_k",
+                "text": "Vitamin K"
+              },
+              {
+                "key": "rescuscitation",
+                "text": "Rescuscitation"
+              },
+              {
+                "key": "other",
+                "text": "Other (Specify)"
+              }
+            ],
+            "relevance": {
+              "step2:baby_complications": {
+                "type": "string",
+                "ex": "notEqualTo(., \"None\")"
+              }
+            }
+          },
+          {
+            "key": "baby_intervention_specify",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "",
+            "type": "edit_text",
+            "hint": "Specify",
+            "relevance": {
+              "step2:baby_care_mgt": {
+                "ex-checkbox": [
+                  {
+                    "or": [
+                      "other",
+                      "antibiotics"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "key": "baby_intervention_referral_location",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "",
             "type": "spinner",
-            "hint": "Newborn Care Management",
+            "hint": "Specify the location of the referral",
             "values": [
-              "KMC",
-              "Rescuscition",
-              "Antibiotics",
-              "Other"
+              "The Nursery",
+              "Other Facility"
             ],
             "keys": [
-              "KMC",
-              "Rescuscition",
-              "Antibiotics",
-              "Other"
-            ]
+              "The Nursery",
+              "Other Facility"
+            ],
+            "v_required": {
+              "value": "true",
+              "err": "Kindly select the referral location"
+            },
+            "relevance": {
+              "step2:baby_care_mgt": {
+                "ex-checkbox": [
+                  {
+                    "or": [
+                      "referral"
+                    ]
+                  }
+                ]
+              }
+            }
           },
           {
             "key": "newborn_survival_and_hiv_mgmt_label",
@@ -545,14 +674,13 @@
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": ""
-          },
-          {
+          },          {
             "key": "bf_first_hour",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "",
             "type": "spinner",
-            "hint": "Breastfeeding initiated within 60mins",
+            "hint": "Breastfeeding initiated within 60 mins",
             "values": [
               "Yes",
               "No"
@@ -560,27 +688,13 @@
             "keys": [
               "Yes",
               "No"
-            ]
-          },
-          {
-            "key": "baby_routine_care",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "",
-            "type": "spinner",
-            "hint": "Baby Routine Care",
-            "values": [
-              "TEO",
-              "Chlorohexidine",
-              "Vitamin K",
-              "ITN"
             ],
-            "keys": [
-              "TEO",
-              "Chlorohexidine",
-              "Vitamin K",
-              "ITN"
-            ]
+            "relevance": {
+              "step2:discharged_alive": {
+                "type": "string",
+                "ex": "equalTo(., \"Yes\")"
+              }
+            }
           },
           {
             "key": "nvp_administration",
@@ -596,7 +710,14 @@
             "keys": [
               "Yes",
               "No"
-            ]
+            ],
+            "relevance": {
+              "rules-engine": {
+                "ex-rules": {
+                  "rules-dynamic": "maternity/outcome_relevance_rules.yml"
+                }
+              }
+            }
           }
         ]
       }
