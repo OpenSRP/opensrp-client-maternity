@@ -1,11 +1,4 @@
 ---
-name: step1_emergency_obstetric_care
-description: maternity_emergency_obstetric_care
-priority: 1
-condition: "step1_obstetric_care != null && step1_obstetric_care != '' && step1_obstetric_care != 'None'"
-actions:
-  - "isRelevant = true"
----
 name: step2_nvp_administration
 description: nvp_administration
 priority: 1

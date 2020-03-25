@@ -727,71 +727,216 @@
     "title": "Mother Information",
     "fields": [
       {
+        "key": "mother_status",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "What is the current status of the mother?",
+        "values": [
+          "Alive",
+          "Brought in Dead(BID)",
+          "Died Before Dischard(DBD)"
+        ],
+        "keys": [
+          "Alive",
+          "Brought in Dead(BID)",
+          "Died Before Dischard(DBD)"
+        ],
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the Mother's status"
+        }
+      },
+      {
         "key": "obstetric_complications",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "1541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "spinner",
-        "hint": "Obstetric Complications",
-        "values": [
-          "None",
-          "Anter part haem",
-          "Post part heam",
-          "Obstr. Prod Labour",
-          "pre-Eclampsia",
-          "Sepsis",
-          "Ruptured Uterus",
-          "Retained placenta",
-          "Premature labour",
-          "Fatal distress",
-          "Other"
+        "type": "check_box",
+        "label": "Obstetric Complications",
+        "options": [
+          {
+            "key": "none",
+            "text": "None"
+          },
+          {
+            "key": "abnormal_presentation",
+            "text": "Abnormal presentation"
+          },
+          {
+            "key": "anterpartum_haemorrhage",
+            "text": "Antepartum haemorrhage"
+          },
+          {
+            "key": "cord_prolapse",
+            "text": "Cord prolapse"
+          },
+          {
+            "key": "eclampsia",
+            "text": "Eclampsia"
+          },
+          {
+            "key": "fetal_distress",
+            "text": "Fetal distress"
+          },
+          {
+            "key": "haemorrhage",
+            "text": "Haemorrhage"
+          },
+          {
+            "key": "obstructed_prolonged_labour",
+            "text": "Obstructed/Prolonged Labour"
+          },
+          {
+            "key": "perineal_tear",
+            "text": "Perineal tear (2nd, 3rd, or 4th degree)"
+          },
+          {
+            "key": "placenta_praevia",
+            "text": "Placenta praevia"
+          },
+          {
+            "key": "placental_abruption",
+            "text": "Placental abruption"
+          },
+          {
+            "key": "postpartum_haemorhage",
+            "text": "Postpartum Haemorhage"
+          },
+          {
+            "key": "pre_eclampsia",
+            "text": "Pre-eclampsia"
+          },
+          {
+            "key": "premature_labour",
+            "text": "Premature labour"
+          },
+          {
+            "key": "retained_placenta",
+            "text": "Retained placenta"
+          },
+          {
+            "key": "ruptured_uterus",
+            "text": "Ruptured Uterus"
+          },
+          {
+            "key": "sepsis",
+            "text": "Sepsis"
+          },
+          {
+            "key": "severe_anaemia",
+            "text": "Severe Anaemia"
+          },
+          {
+            "key": "symphysiotomy",
+            "text": "Symphysiotomy"
+          },
+          {
+            "key": "other",
+            "text": "Other (Specify)"
+          }
         ],
-        "keys": [
-          "None",
-          "Anter part haem",
-          "Post part heam",
-          "Obstr. Prod Labour",
-          "pre-Eclampsia",
-          "Sepsis",
-          "Ruptured Uterus",
-          "Retained placenta",
-          "Premature labour",
-          "Fatal distress",
-          "Other"
-        ]
+        "relevance": {
+          "step3:mother_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Alive\")"
+          }
+        }
       },
       {
-        "key": "emergency_obstetric_care",
+        "key": "obstetric_complications_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Specify",
+        "relevance": {
+          "step3:obstetric_complications": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "other"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "obstetric_care",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "160427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "spinner",
-        "hint": "Emergency Obstretic Care",
-        "values": [
-          "Oxytocin",
-          "Anticonvulsants",
-          "Antibiotics",
-          "Antenatal corticosieroid",
-          "Blood Transfusion",
-          "MRP",
-          "NASG",
-          "ERP"
-        ],
-        "keys": [
-          "Oxytocin",
-          "Anticonvulsants",
-          "Antibiotics",
-          "Antenatal corticosieroid",
-          "Blood Transfusion",
-          "MRP",
-          "NASG",
-          "ERP"
-        ],
+        "type": "check_box",
+        "label": "Obstetric care",
+        "options": [
+          {
+            "key": "none",
+            "text": "None"
+          },
+          {
+            "key": "oxytocin",
+            "text": "Oxytocin"
+          },
+          {
+            "key": "anticonvulsants",
+            "text": "Anticonvulsants"
+          },
+          {
+            "key": "antibiotics",
+            "text": "Antibiotics"
+          },
+          {
+            "key": "antenatal_corticosteroids_dose_1",
+            "text": "Antenatal corticosteroids (Dose 1)"
+          },
+          {
+            "key": "antenatal_corticosteroids_dose_2",
+            "text": "Antenatal corticosteroids (Dose 2)"
+          },
+          {
+            "key": "blood_transfusion",
+            "text": "Blood transfusion"
+          },
+          {
+            "key": "mrp",
+            "text": "Manual removal of placenta (MRP)"
+          },
+          {
+            "key": "nasg",
+            "text": "Non-pneumatic anti shock garment (NASG)"
+          },
+          {
+            "key": "rpoc",
+            "text": "Removal of retained products of conception (RPOC)"
+          },
+          {
+            "key": "misoprostol_cytotec",
+            "text": "Misoprostol/cytotec"
+          },
+          {
+            "key": "other",
+            "text": "Other (Specify)"
+          }
+        ]
+      },
+      {
+        "key": "obstetric_care_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Specify",
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "maternity/outcome_relevance_rules.yml"
-            }
+          "step3:obstetric_care": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "other"
+                ]
+              }
+            ]
           }
         }
       },
@@ -801,7 +946,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "spinner",
-        "hint": "Referred out?",
+        "hint": "Was the patient referred to another Medical Center?",
         "values": [
           "Yes",
           "No"
@@ -809,23 +954,13 @@
         "keys": [
           "Yes",
           "No"
-        ]
-      },
-      {
-        "key": "delivery_person",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "spinner",
-        "hint": "Staff conduction delivery",
-        "values": [
-          "MD/CO/MA/NURSE/MIDWIFE/CMA",
-          "PA/WA/HSA /Other"
         ],
-        "keys": [
-          "MD/CO/MA/NURSE/MIDWIFE/CMA",
-          "PA/WA/HSA /Other"
-        ]
+        "relevance": {
+          "step3:obstetric_complications": {
+            "type": "string",
+            "ex": "notEqualTo(., \"None\")"
+          }
+        }
       },
       {
         "key": "vit_a",
@@ -833,7 +968,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "spinner",
-        "hint": "Vit A given",
+        "hint": "Was Vitamin A given to the woman?",
         "values": [
           "Yes",
           "No"
@@ -841,25 +976,43 @@
         "keys": [
           "Yes",
           "No"
-        ]
+        ],
+        "relevance": {
+          "step3:mother_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Alive\")"
+          }
+        }
       },
       {
-        "key": "mother_status",
+        "key": "discharge_status",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "spinner",
-        "hint": "Mother's Status",
+        "hint": "What is the discharge status for the woman?",
         "values": [
-          "New",
-          "Referral",
-          "Re-Visit"
+          "Discharged",
+          "Absconded Visit",
+          "Request for discharge",
+          "Left against medical advice",
+          "Lost to Followup",
+          "Other"
         ],
         "keys": [
-          "New",
-          "Referral",
-          "Re-Visit"
-        ]
+          "Discharged",
+          "Absconded Visit",
+          "Request for discharge",
+          "Left against medical advice",
+          "Lost to Followup",
+          "Other"
+        ],
+        "relevance": {
+          "step3:mother_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Alive\")"
+          }
+        }
       }
     ]
   }
