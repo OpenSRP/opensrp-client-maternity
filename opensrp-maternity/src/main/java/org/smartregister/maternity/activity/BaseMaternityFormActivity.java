@@ -125,11 +125,13 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
                         }).setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
                                 Timber.d("No button on dialog in %s", JsonFormActivity.class.getCanonicalName());
                             }
                         }).setNeutralButton(getString(R.string.end_session), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                deleteSession();
                                 BaseMaternityFormActivity.this.finish();
                             }
                         }).create();
@@ -153,6 +155,19 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
             @Override
             public void run() {
                 maternityOutcomeFormDao.saveOrUpdate(maternityOutcomeForm);
+            }
+        });
+    }
+
+    private void deleteSession() {
+        JSONObject jsonObject = getmJSONObject();
+        final MaternityOutcomeForm maternityOutcomeForm = new MaternityOutcomeForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
+                jsonObject.toString(), Utils.convertDateFormat(new DateTime()));
+        final MaternityOutcomeFormDao maternityOutcomeFormDao = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository();
+        new AppExecutors().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                maternityOutcomeFormDao.delete(maternityOutcomeForm);
             }
         });
     }
