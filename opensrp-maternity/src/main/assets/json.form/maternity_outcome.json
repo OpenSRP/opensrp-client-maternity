@@ -218,8 +218,9 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
-        "type": "edit_text",
-        "value": "45"
+        "type": "label",
+        "value": "45",
+        "hidden": true
       },
       {
         "key": "babies_stillborn",
