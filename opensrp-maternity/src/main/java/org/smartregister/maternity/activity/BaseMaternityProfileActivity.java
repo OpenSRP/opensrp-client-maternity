@@ -56,6 +56,7 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
 
     private CommonPersonObjectClient commonPersonObjectClient;
     private Button switchRegBtn;
+    private OngoingTask ongoingTask;
 
     @Override
     protected void initializePresenter() {
@@ -126,7 +127,7 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
         super.onResumption();
         MaternityProfileActivityContract.Presenter maternityProfilePresenter = (MaternityProfileActivityPresenter) presenter;
 
-        if (maternityProfilePresenter.hasOngoingTask()) {
+        if (!maternityProfilePresenter.hasOngoingTask()) {
             commonPersonObjectClient = (CommonPersonObjectClient) getIntent()
                     .getSerializableExtra(MaternityConstants.IntentKey.CLIENT_OBJECT);
             baseEntityId = commonPersonObjectClient.getCaseId();
@@ -248,10 +249,16 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
                 JSONObject form = new JSONObject(jsonString);
                 String encounterType = form.getString(MaternityJsonFormUtils.ENCOUNTER_TYPE);
 
+                OngoingTask ongoingTask = new OngoingTask();
+                ongoingTask.setTaskType(OngoingTask.TaskType.PROCESS_FORM);
+                ongoingTask.setTaskDetail(encounterType);
+
+                addOngoingTask(ongoingTask);
                 if (encounterType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
                     showProgressDialog(R.string.saving_dialog_title);
-                    ((MaternityProfileActivityPresenter) presenter).saveOutcomeForm(encounterType, data);
+                    ((MaternityProfileActivityPresenter) this.presenter).saveOutcomeForm(encounterType, data);
                 } else if (encounterType.equals(MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION)) {
+                    removeOngoingTask(ongoingTask);
                     showProgressDialog(R.string.saving_dialog_title);
 
                     RegisterParams registerParam = new RegisterParams();
@@ -259,16 +266,28 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
                     registerParam.setFormTag(MaternityJsonFormUtils.formTag(MaternityUtils.context().allSharedPreferences()));
                     showProgressDialog(R.string.saving_dialog_title);
 
-                    ((MaternityProfileActivityPresenter) presenter).saveUpdateRegistrationForm(jsonString, registerParam);
+                    ((MaternityProfileActivityPresenter) this.presenter).saveUpdateRegistrationForm(jsonString, registerParam);
                 } else if (encounterType.equals(MaternityConstants.EventType.MATERNITY_CLOSE)) {
                     showProgressDialog(R.string.saving_dialog_title);
-                    ((MaternityProfileActivityPresenter) presenter).saveMaternityCloseForm(encounterType, data);
+                    ((MaternityProfileActivityPresenter) this.presenter).saveMaternityCloseForm(encounterType, data);
+                } else {
+                    removeOngoingTask(ongoingTask);
                 }
 
             } catch (JSONException e) {
                 Timber.e(e);
             }
         }
+    }
+
+    private void addOngoingTask(@NonNull OngoingTask ongoingTask) {
+        this.ongoingTask = ongoingTask;
+        ((MaternityProfileActivityContract.Presenter) this.presenter).setOngoingTask(ongoingTask);
+    }
+
+    private void removeOngoingTask(@NonNull OngoingTask ongoingTask) {
+        ((MaternityProfileActivityContract.Presenter) this.presenter).removeOngoingTask(ongoingTask);
+        this.ongoingTask = null;
     }
 
     @Override

@@ -52,9 +52,9 @@ public interface MaternityProfileActivityContract {
 
         boolean hasOngoingTask();
 
-        List<OngoingTask> getOngoingTasks();
+        OngoingTask getOngoingTask();
 
-        boolean addOngoingTask(@NonNull OngoingTask ongoingTask);
+        boolean setOngoingTask(@NonNull OngoingTask ongoingTask);
 
         boolean removeOngoingTask(@NonNull OngoingTask ongoingTask);
 

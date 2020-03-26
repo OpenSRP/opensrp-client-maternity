@@ -55,8 +55,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     private MaternityProfileActivityModel model;
     private JSONObject form = null;
 
-    private boolean maternityCloseEffected;
-    private ArrayList<OngoingTask> ongoingTasks = new ArrayList<>();
+    private OngoingTask ongoingTask = null;
     private ArrayList<OngoingTaskCompleteListener> ongoingTaskCompleteListeners = new ArrayList<>();
 
     public MaternityProfileActivityPresenter(MaternityProfileActivityContract.View profileView) {
@@ -220,7 +219,6 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
 
         if (eventType.equals(MaternityConstants.EventType.MATERNITY_CLOSE)) {
             try {
-                maternityCloseEffected = true;
                 List<Event> maternityCloseEvents = MaternityLibrary.getInstance().processMaternityCloseForm(eventType, jsonString, data);
                 maternityEventUtils.saveEvents(maternityCloseEvents, this);
             } catch (JSONException e) {
@@ -266,13 +264,14 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
         MaternityProfileActivityContract.View view = getProfileView();
         if (view != null) {
             view.hideProgressDialog();
-            if (maternityCloseEffected) {
+
+            if(getOngoingTask() != null) {
                 view.showMessage(view.getString(R.string.maternity_client_close_message));
                 view.closeView();
-            } else {
-                view.getActionListenerForProfileOverview().onActionReceive();
-                view.getActionListenerForVisitFragment().onActionReceive();
+
+                removeOngoingTask(ongoingTask);
             }
+
         }
     }
 
@@ -303,22 +302,36 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
 
     @Override
     public boolean hasOngoingTask() {
-        return ongoingTasks.size() > 0;
+        return ongoingTask != null;
     }
 
     @Override
-    public List<OngoingTask> getOngoingTasks() {
-        return ongoingTasks;
+    public OngoingTask getOngoingTask() {
+        return ongoingTask;
     }
 
     @Override
-    public boolean addOngoingTask(@NonNull OngoingTask ongoingTask) {
-        return ongoingTasks.add(ongoingTask);
+    public boolean setOngoingTask(@NonNull OngoingTask ongoingTask) {
+        if (this.ongoingTask == null) {
+            this.ongoingTask = ongoingTask;
+            return true;
+        }
+
+        return false;
     }
 
     @Override
     public boolean removeOngoingTask(@NonNull OngoingTask ongoingTask) {
-        return ongoingTasks.remove(ongoingTask);
+        if (this.ongoingTask == ongoingTask) {
+            for (OngoingTaskCompleteListener ongoingTaskCompleteListener: ongoingTaskCompleteListeners) {
+                ongoingTaskCompleteListener.onTaskComplete(ongoingTask);
+            }
+
+            this.ongoingTask = null;
+            return true;
+        }
+
+        return false;
     }
 
     @Override

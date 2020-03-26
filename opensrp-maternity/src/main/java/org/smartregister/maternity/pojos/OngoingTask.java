@@ -8,7 +8,7 @@ public class OngoingTask {
     private TaskType taskType;
     private String taskDetail;
 
-    enum TaskType {
+    public enum TaskType {
         PROCESS_FORM
     }
 
