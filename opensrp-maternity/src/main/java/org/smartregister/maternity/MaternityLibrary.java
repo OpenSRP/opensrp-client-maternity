@@ -20,8 +20,9 @@ import org.smartregister.maternity.configuration.MaternityFormProcessingTask;
 import org.smartregister.maternity.domain.YamlConfig;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.helper.MaternityRulesEngineHelper;
-import org.smartregister.maternity.repository.MaternityDetailsRepository;
+import org.smartregister.maternity.repository.MaternityOutcomeDetailsRepository;
 import org.smartregister.maternity.repository.MaternityOutcomeFormRepository;
+import org.smartregister.maternity.repository.MaternityRegistrationDetailsRepository;
 import org.smartregister.maternity.utils.ConfigurationInstancesHelper;
 import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.maternity.utils.MaternityConstants;
@@ -62,7 +63,8 @@ public class MaternityLibrary {
     private ECSyncHelper syncHelper;
 
     private UniqueIdRepository uniqueIdRepository;
-    private MaternityDetailsRepository maternityDetailsRepository;
+    private MaternityOutcomeDetailsRepository maternityOutcomeDetailsRepository;
+    private MaternityRegistrationDetailsRepository maternityRegistrationDetailsRepository;
     private MaternityOutcomeFormRepository maternityOutcomeFormRepository;
 
     private Compressor compressor;
@@ -124,11 +126,20 @@ public class MaternityLibrary {
     }
 
     @NonNull
-    public MaternityDetailsRepository getMaternityDetailsRepository() {
-        if (maternityDetailsRepository == null) {
-            maternityDetailsRepository = new MaternityDetailsRepository();
+    public MaternityOutcomeDetailsRepository getMaternityOutcomeDetailsRepository() {
+        if (maternityOutcomeDetailsRepository == null) {
+            maternityOutcomeDetailsRepository = new MaternityOutcomeDetailsRepository();
         }
-        return maternityDetailsRepository;
+        return maternityOutcomeDetailsRepository;
+    }
+
+    @NonNull
+    public MaternityRegistrationDetailsRepository getMaternityRegistrationDetailsRepository() {
+        if (maternityRegistrationDetailsRepository == null) {
+            maternityRegistrationDetailsRepository = new MaternityRegistrationDetailsRepository();
+        }
+
+        return maternityRegistrationDetailsRepository;
     }
 
     @NonNull

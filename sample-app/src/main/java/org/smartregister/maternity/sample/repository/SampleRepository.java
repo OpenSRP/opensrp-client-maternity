@@ -6,8 +6,9 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.smartregister.AllConstants;
 import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
-import org.smartregister.maternity.repository.MaternityDetailsRepository;
+import org.smartregister.maternity.repository.MaternityOutcomeDetailsRepository;
 import org.smartregister.maternity.repository.MaternityOutcomeFormRepository;
+import org.smartregister.maternity.repository.MaternityRegistrationDetailsRepository;
 import org.smartregister.maternity.sample.BuildConfig;
 import org.smartregister.maternity.sample.application.MaternitySampleApplication;
 import org.smartregister.repository.EventClientRepository;
@@ -49,7 +50,8 @@ public class SampleRepository extends Repository {
         UniqueIdRepository.createTable(database);
 
         SettingsRepository.onUpgrade(database);
-        MaternityDetailsRepository.createTable(database);
+        MaternityRegistrationDetailsRepository.createTable(database);
+        MaternityOutcomeDetailsRepository.createTable(database);
         MaternityOutcomeFormRepository.createTable(database);
     }
 

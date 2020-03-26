@@ -51,6 +51,7 @@ public interface MaternityDbConstants {
             String RECORDED_AT = "recorded_at";
             String CONCEPTION_DATE = "conception_date";
             String HIV_STATUS = "hiv_status";
+            String EVENT_DATE = "event_date";
             String CREATED_AT = "created_at";
         }
 
@@ -65,6 +66,7 @@ public interface MaternityDbConstants {
     interface Table {
         String EC_CLIENT = "ec_client";
         String MATERNITY_DETAILS = "maternity_details";
+        String MATERNITY_REGISTRATION_DETAILS = "maternity_registration_details";
         String MATERNITY_OUTCOME_FORM = "maternity_outcome_form";
     }
 }

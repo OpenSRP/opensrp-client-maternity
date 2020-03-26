@@ -176,6 +176,15 @@
         }
       },
       {
+        "key": "mother_hiv_status",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Specify",
+        "hidden": true
+      },
+      {
         "key": "baby_count_alive",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

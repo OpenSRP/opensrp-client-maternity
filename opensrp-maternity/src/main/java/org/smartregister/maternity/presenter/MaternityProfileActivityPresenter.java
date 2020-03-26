@@ -157,7 +157,11 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     public void startForm(@NonNull String formName, @NonNull CommonPersonObjectClient commonPersonObjectClient) {
         Map<String, String> clientMap = commonPersonObjectClient.getColumnmaps();
         HashMap<String, String> injectedValues = new HashMap<>();
-        injectedValues.put(MaternityConstants.JsonFormField.PATIENT_GENDER, clientMap.get(MaternityConstants.ClientMapKey.GENDER));
+
+        /*String hivStatus = "Unknown";
+        hivStatus = clientMap.get(MaternityConstants.ClientMapKey.)*/
+
+        injectedValues.put(MaternityConstants.JsonFormField.MOTHER_HIV_STATUS, clientMap.get(MaternityConstants.ClientMapKey.GENDER));
         String entityTable = clientMap.get(MaternityConstants.IntentKey.ENTITY_TABLE);
 
         startFormActivity(formName, commonPersonObjectClient.getCaseId(), entityTable, injectedValues);

@@ -39,7 +39,7 @@ public class MaternityConstants extends AllConstants {
     }
 
     public interface JsonFormField {
-        String PATIENT_GENDER = "patient_gender";
+        String MOTHER_HIV_STATUS = "mother_hiv_status";
     }
 
     public interface JsonFormWidget {

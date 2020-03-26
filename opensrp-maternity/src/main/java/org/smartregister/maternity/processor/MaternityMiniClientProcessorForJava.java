@@ -13,7 +13,7 @@ import org.smartregister.domain.db.Obs;
 import org.smartregister.domain.jsonmapping.ClientClassification;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.exception.MaternityCloseEventProcessException;
-import org.smartregister.maternity.pojos.MaternityDetails;
+import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.sync.ClientProcessorForJava;
@@ -24,8 +24,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-
-import timber.log.Timber;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
@@ -75,25 +73,16 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             HashMap<String, String> keyValues = new HashMap<>();
             generateKeyValuesFromEvent(event, keyValues);
 
-
-            String conceptionDate = keyValues.get(MaternityConstants.Event.MaternityRegistration.CONCEPTION_DATE);
-            String gravida = keyValues.get(MaternityConstants.Event.MaternityRegistration.GRAVIDA);
-            String para = keyValues.get(MaternityConstants.Event.MaternityRegistration.PARA);
+            /*
             String currentHivStatus = keyValues.get(MaternityConstants.Event.MaternityRegistration.CURRENT_HIV_STATUS);
             String previousHivStatus = keyValues.get(MaternityConstants.Event.MaternityRegistration.PREVIOUS_HIV_STATUS);
+            */
 
-            if (gravida != null && conceptionDate != null) {
+            MaternityRegistrationDetails maternityDetails = new MaternityRegistrationDetails(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate(), keyValues);
+            maternityDetails.setCreatedAt(new Date());
 
-                MaternityDetails maternityDetails = new MaternityDetails(eventClient.getClient().getBaseEntityId(), gravida, conceptionDate);
-                maternityDetails.setPara(para);
-                maternityDetails.setHivStatus(currentHivStatus != null ? currentHivStatus : previousHivStatus);
-                maternityDetails.setCreatedAt(new Date());
-
-                //TODO: Figure out how to reuse the already created repository
-                MaternityLibrary.getInstance().getMaternityDetailsRepository().saveOrUpdate(maternityDetails);
-            } else {
-                Timber.e(new Exception("Maternity Registration Event skipped for missing gravida or conceptionDate"));
-            }
+            //TODO: Figure out how to reuse the already created repository
+            MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().saveOrUpdate(maternityDetails);
         } else if (eventType.equals(MaternityConstants.EventType.MATERNITY_CLOSE)) {
             if (eventClient.getClient() == null) {
                 throw new MaternityCloseEventProcessException(String.format("Client %s referenced by %s event does not exist", event.getBaseEntityId(), MaternityConstants.EventType.MATERNITY_CLOSE));
@@ -131,19 +120,13 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
         }
     }
 
-    private void abortTransaction() {
-        if (MaternityLibrary.getInstance().getRepository().getWritableDatabase().inTransaction()) {
-            MaternityLibrary.getInstance().getRepository().getWritableDatabase().endTransaction();
-        }
-    }
-
     @Override
     public boolean unSync(@Nullable List<Event> events) {
         if (events != null) {
             for (Event event : events) {
                 if (MaternityConstants.EventType.MATERNITY_CLOSE.equals(event.getEventType())) {
                     // Delete the maternity details
-                    MaternityLibrary.getInstance().getMaternityDetailsRepository().delete(event.getBaseEntityId());
+                    MaternityLibrary.getInstance().getMaternityOutcomeDetailsRepository().delete(event.getBaseEntityId());
 
                     // Delete the actual client in the maternity table OR REMOVE THE Maternity register type
                     updateRegisterTypeColumn(event, null);

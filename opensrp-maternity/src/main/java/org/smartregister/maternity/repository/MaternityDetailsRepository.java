@@ -9,9 +9,10 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.smartregister.maternity.dao.MaternityDetailsDao;
+import org.smartregister.maternity.pojos.MaternityBaseDetails;
+import org.smartregister.maternity.pojos.MaternityDetails;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
-import org.smartregister.maternity.utils.MaternityDbConstants.Column.MaternityDetails;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.repository.BaseRepository;
 
@@ -21,95 +22,60 @@ import java.util.List;
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
-public class MaternityDetailsRepository extends BaseRepository implements MaternityDetailsDao {
+public abstract class MaternityDetailsRepository extends BaseRepository implements MaternityDetailsDao {
 
-    private String[] columns = new String[]{
-            MaternityDetails.ID,
-            MaternityDetails.BASE_ENTITY_ID,
-            MaternityDetails.PENDING_OUTCOME,
-            MaternityDetails.PARA,
-            MaternityDetails.GRAVIDA,
-            MaternityDetails.HIV_STATUS,
-            MaternityDetails.RECORDED_AT,
-            MaternityDetails.CONCEPTION_DATE,
-            MaternityDetails.CREATED_AT
-    };
+    private String[] columns;
 
-    private static final String CREATE_TABLE_SQL = "CREATE TABLE " + MaternityDbConstants.Table.MATERNITY_DETAILS + "("
-            + MaternityDetails.ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
-            + MaternityDetails.BASE_ENTITY_ID + " VARCHAR NOT NULL, "
-            + MaternityDetails.PENDING_OUTCOME + " BOOLEAN NOT NULL, "
-            // TODO: Make conception_date NOT NULL
-            + MaternityDetails.CONCEPTION_DATE + " VARCHAR, "
-            + MaternityDetails.PARA + " VARCHAR, "
-            + MaternityDetails.GRAVIDA + " VARCHAR, "
-            + MaternityDetails.HIV_STATUS + " VARCHAR, "
-            + MaternityDetails.RECORDED_AT + " VARCHAR, "
-            + MaternityDetails.CREATED_AT + " DATETIME NOT NULL DEFAULT (DATETIME('now')), UNIQUE(" + MaternityDetails.BASE_ENTITY_ID + ") ON CONFLICT REPLACE)";
-
-    public static void createTable(@NonNull SQLiteDatabase database) {
-        database.execSQL(CREATE_TABLE_SQL);
-    }
+    abstract String getTableName();
 
     @NonNull
-    public ContentValues createValuesFor(@NonNull org.smartregister.maternity.pojos.MaternityDetails maternityDetails) {
+    public ContentValues createValuesFor(@NonNull MaternityBaseDetails maternityDetails) {
         ContentValues contentValues = new ContentValues();
-
         if (maternityDetails.getId() != 0) {
-            contentValues.put(MaternityDetails.ID, maternityDetails.getId());
+            contentValues.put(MaternityDbConstants.Column.MaternityDetails.ID, maternityDetails.getId());
         }
 
-        contentValues.put(MaternityDetails.BASE_ENTITY_ID, maternityDetails.getBaseEntityId());
-        contentValues.put(MaternityDetails.GRAVIDA, maternityDetails.getGravida());
-        contentValues.put(MaternityDetails.PARA, maternityDetails.getPara());
-        contentValues.put(MaternityDetails.HIV_STATUS, maternityDetails.getHivStatus());
-        contentValues.put(MaternityDetails.PENDING_OUTCOME, maternityDetails.isPendingOutcome());
-        contentValues.put(MaternityDetails.RECORDED_AT, maternityDetails.getRecordedAt());
-        contentValues.put(MaternityDetails.CONCEPTION_DATE, maternityDetails.getConceptionDate());
-
         if (maternityDetails.getCreatedAt() != null) {
-            contentValues.put(MaternityDetails.CREATED_AT, MaternityUtils.convertDate(maternityDetails.getCreatedAt(), MaternityDbConstants.DATE_FORMAT));
+            contentValues.put(MaternityDbConstants.Column.MaternityDetails.CREATED_AT, MaternityUtils.convertDate(maternityDetails.getCreatedAt(), MaternityDbConstants.DATE_FORMAT));
+        }
+
+        if (maternityDetails.getEventDate() != null) {
+            contentValues.put(MaternityDbConstants.Column.MaternityDetails.EVENT_DATE, MaternityUtils.convertDate(maternityDetails.getEventDate(), MaternityDbConstants.DATE_FORMAT));
+        }
+
+        contentValues.put(MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID, maternityDetails.getBaseEntityId());
+        for (String column: getPropertyNames()) {
+            contentValues.put(column, maternityDetails.getProperties().get(column));
         }
 
         return contentValues;
     }
 
     @Override
-    public boolean saveOrUpdate(@NonNull org.smartregister.maternity.pojos.MaternityDetails maternityDetails) {
+    public boolean saveOrUpdate(@NonNull MaternityBaseDetails maternityDetails) {
         ContentValues contentValues = createValuesFor(maternityDetails);
 
         SQLiteDatabase database = getWritableDatabase();
-        long recordId = database.insertWithOnConflict(MaternityDbConstants.Table.MATERNITY_DETAILS, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+        long recordId = database.insertWithOnConflict(getTableName(), null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
 
         return recordId != -1;
     }
 
     @Nullable
     @Override
-    public org.smartregister.maternity.pojos.MaternityDetails findOne(@NonNull org.smartregister.maternity.pojos.MaternityDetails maternityDetails) {
-        org.smartregister.maternity.pojos.MaternityDetails details = null;
+    public MaternityBaseDetails findOne(@NonNull MaternityBaseDetails maternityDetails) {
+        MaternityBaseDetails details = null;
         if (maternityDetails.getBaseEntityId() != null) {
             SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-            Cursor cursor = sqLiteDatabase.query(MaternityDbConstants.Table.MATERNITY_DETAILS, columns, MaternityDetails.BASE_ENTITY_ID + " = ?",
+
+            Cursor cursor = sqLiteDatabase.query(getTableName(), getColumns(), MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID + " = ?",
                     new String[]{maternityDetails.getBaseEntityId()}, null, null, null, "1");
             if (cursor.getCount() == 0) {
                 return null;
             }
 
             if (cursor.moveToNext()) {
-                details = new org.smartregister.maternity.pojos.MaternityDetails();
-                details.setId(cursor.getInt(0));
-                details.setBaseEntityId(cursor.getString(1));
-                details.setPendingOutcome((cursor.getInt(2) == 1));
-                details.setPara(cursor.getString(3));
-                details.setGravida(cursor.getString(4));
-                details.setHivStatus(cursor.getString(5));
-                details.setRecordedAt(cursor.getString(6));
-                details.setConceptionDate(cursor.getString(7));
-
-                details.setCreatedAt(MaternityUtils
-                        .convertStringToDate(MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS,
-                                cursor.getString(8)));
+                details = convert(cursor);
                 cursor.close();
             }
 
@@ -117,20 +83,60 @@ public class MaternityDetailsRepository extends BaseRepository implements Matern
         return details;
     }
 
+    public MaternityBaseDetails convert(@NonNull Cursor cursor) {
+        MaternityBaseDetails maternityDetails = new MaternityBaseDetails();
+
+        maternityDetails.setId(cursor.getInt(cursor.getColumnIndex(MaternityDbConstants.Column.MaternityDetails.ID)));
+        maternityDetails.setBaseEntityId(cursor.getString(cursor.getColumnIndex(MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID)));
+        maternityDetails.setEventDate(MaternityUtils.convertStringToDate(MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS, cursor.getString(cursor.getColumnIndex(MaternityDbConstants.Column.MaternityDetails.EVENT_DATE))));
+        maternityDetails.setCreatedAt(MaternityUtils.convertStringToDate(MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS, cursor.getString(cursor.getColumnIndex(MaternityDbConstants.Column.MaternityDetails.CREATED_AT))));
+
+        for (String column: getPropertyNames()) {
+            int colIndex = cursor.getColumnIndex(column);
+            if (colIndex != -1) {
+                maternityDetails.put(column, cursor.getString(colIndex));
+            }
+        }
+
+        return maternityDetails;
+    }
+
+    abstract String[] getPropertyNames();
+
     @Override
-    public boolean delete(org.smartregister.maternity.pojos.MaternityDetails maternityDetails) {
+    public boolean delete(MaternityBaseDetails maternityDetails) {
         throw new NotImplementedException("Not Implemented");
     }
 
     public boolean delete(@NonNull String baseEntityId) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        int rowsDeleted = sqLiteDatabase.delete(MaternityDbConstants.Table.MATERNITY_DETAILS, MaternityDetails.BASE_ENTITY_ID + " = ?", new String[]{baseEntityId});
+        int rowsDeleted = sqLiteDatabase.delete(getTableName(), MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID + " = ?", new String[]{baseEntityId});
 
         return rowsDeleted > 0;
     }
 
     @Override
-    public List<org.smartregister.maternity.pojos.MaternityDetails> findAll() {
+    public List<MaternityBaseDetails> findAll() {
         throw new NotImplementedException("Not Implemented");
+    }
+
+    public String[] getColumns() {
+        if (this.columns == null) {
+            String[] propertyNames = getPropertyNames();
+            String[] columns = new String[propertyNames.length + 4];
+
+            columns[0] = MaternityDbConstants.Column.MaternityDetails.ID;
+            columns[1] = MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID;
+            columns[2] = MaternityDbConstants.Column.MaternityDetails.CREATED_AT;
+            columns[3] = MaternityDbConstants.Column.MaternityDetails.EVENT_DATE;
+
+            for (int i = 0; i < propertyNames.length; i++) {
+                columns[i + 4] = propertyNames[i];
+            }
+            this.columns = columns;
+        }
+
+        return this.columns;
+
     }
 }

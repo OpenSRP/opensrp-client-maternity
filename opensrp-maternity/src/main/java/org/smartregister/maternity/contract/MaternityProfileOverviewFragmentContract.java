@@ -7,6 +7,7 @@ import android.support.annotation.StringRes;
 import org.jeasy.rules.api.Facts;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
+import org.smartregister.maternity.pojos.MaternityBaseDetails;
 import org.smartregister.maternity.pojos.MaternityDetails;
 
 import java.util.List;
@@ -28,9 +29,9 @@ public interface MaternityProfileOverviewFragmentContract {
 
         void loadOverviewFacts(@NonNull String baseEntityId, @NonNull OnFinishedCallback onFinishedCallback);
 
-        void loadOverviewDataAndDisplay(@NonNull MaternityDetails maternityDetails, @NonNull final OnFinishedCallback onFinishedCallback);
+        void loadOverviewDataAndDisplay(@NonNull MaternityBaseDetails maternityDetails, @NonNull final OnFinishedCallback onFinishedCallback);
 
-        void setDataFromRegistration(@NonNull MaternityDetails maternityDetails, @NonNull Facts facts);
+        void setDataFromRegistration(@NonNull MaternityBaseDetails maternityDetails, @NonNull Facts facts);
 
         void setClient(@NonNull CommonPersonObjectClient client);
 
@@ -52,7 +53,7 @@ public interface MaternityProfileOverviewFragmentContract {
 
         interface OnFetchedCallback {
 
-            void onFetched(@NonNull MaternityDetails maternityDetails);
+            void onFetched(@NonNull MaternityBaseDetails maternityDetails);
         }
     }
 }

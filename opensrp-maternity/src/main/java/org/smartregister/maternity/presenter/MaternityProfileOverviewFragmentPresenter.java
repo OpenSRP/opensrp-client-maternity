@@ -13,7 +13,9 @@ import org.smartregister.maternity.domain.YamlConfig;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.model.MaternityProfileOverviewFragmentModel;
+import org.smartregister.maternity.pojos.MaternityBaseDetails;
 import org.smartregister.maternity.pojos.MaternityDetails;
+import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
 import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityFactsUtil;
@@ -44,15 +46,15 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
     public void loadOverviewFacts(@NonNull String baseEntityId, @NonNull final OnFinishedCallback onFinishedCallback) {
         model.fetchMaternityOverviewDetails(baseEntityId, new MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback() {
             @Override
-            public void onFetched(@NonNull org.smartregister.maternity.pojos.MaternityDetails maternityDetails) {
+            public void onFetched(@NonNull MaternityBaseDetails maternityDetails) {
                 loadOverviewDataAndDisplay(maternityDetails, onFinishedCallback);
             }
         });
     }
 
     @Override
-    public void loadOverviewDataAndDisplay(@NonNull MaternityDetails maternityDetails, @NonNull final OnFinishedCallback onFinishedCallback) {
-        List<YamlConfigWrapper> yamlConfigListGlobal = new ArrayList<>(); //This makes sure no data duplication happens
+    public void loadOverviewDataAndDisplay(@NonNull MaternityBaseDetails maternityDetails, @NonNull final OnFinishedCallback onFinishedCallback) {
+        List<YamlConfigWrapper> yamlConfigListGlobal = new ArrayList<>();
         Facts facts = new Facts();
         setDataFromRegistration(maternityDetails, facts);
 
@@ -102,13 +104,18 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
     }
 
     @Override
-    public void setDataFromRegistration(@NonNull org.smartregister.maternity.pojos.MaternityDetails maternityDetails, @NonNull Facts facts) {
+    public void setDataFromRegistration(@NonNull MaternityBaseDetails maternityDetails, @NonNull Facts facts) {
+        for (String property: maternityDetails.getProperties().keySet()) {
+            MaternityFactsUtil.putNonNullFact(facts, property, maternityDetails.get(property));
+        }
+
+        /*
         MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.INTAKE_TIME, maternityDetails.getRecordedAt());
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.GRAVIDA, maternityDetails.getGravida());
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.PARA, maternityDetails.getPara());
+        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.GRAVIDA, maternityDetails.get(MaternityDetails.Property));
+        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.PARA, maternityDetails.getPara());*/
 
         int maternityWeeks = 0;
-        String conceptionDate = maternityDetails.getConceptionDate();
+        String conceptionDate = maternityDetails.get(MaternityRegistrationDetails.Property.conception_date.name());
 
         if (!TextUtils.isEmpty(conceptionDate)) {
             maternityWeeks = MaternityLibrary.getGestationAgeInWeeks(conceptionDate);
@@ -116,7 +123,8 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
 
         MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.GESTATION_WEEK, "" + maternityWeeks);
 
-        String hivStatus = maternityDetails.getHivStatus() == null ? getString(R.string.unknown) : maternityDetails.getHivStatus();
+        String currentHivStatus = maternityDetails.get(MaternityRegistrationDetails.Property.hiv_status_current.name());
+        String hivStatus = currentHivStatus == null ? getString(R.string.unknown) : currentHivStatus;
         MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.HIV_STATUS, hivStatus);
     }
 

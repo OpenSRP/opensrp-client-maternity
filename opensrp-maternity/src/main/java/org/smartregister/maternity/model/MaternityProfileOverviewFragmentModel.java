@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityProfileOverviewFragmentContract;
+import org.smartregister.maternity.pojos.MaternityBaseDetails;
 import org.smartregister.maternity.pojos.MaternityDetails;
 import org.smartregister.maternity.utils.AppExecutors;
 
@@ -14,7 +15,7 @@ import org.smartregister.maternity.utils.AppExecutors;
 public class MaternityProfileOverviewFragmentModel implements MaternityProfileOverviewFragmentContract.Model {
 
     private AppExecutors appExecutors;
-    private MaternityDetails maternityDetails = null;
+    private MaternityBaseDetails maternityDetails = null;
 
     public MaternityProfileOverviewFragmentModel() {
         this.appExecutors = new AppExecutors();
@@ -26,9 +27,9 @@ public class MaternityProfileOverviewFragmentModel implements MaternityProfileOv
 
             @Override
             public void run() {
-                maternityDetails = new MaternityDetails();
+                maternityDetails = new MaternityBaseDetails();
                 maternityDetails.setBaseEntityId(baseEntityId);
-                maternityDetails = MaternityLibrary.getInstance().getMaternityDetailsRepository().findOne(maternityDetails);
+                maternityDetails = MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().findOne(maternityDetails);
 
                 appExecutors.mainThread().execute(new Runnable() {
 

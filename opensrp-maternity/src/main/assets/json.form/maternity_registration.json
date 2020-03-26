@@ -1060,7 +1060,7 @@
         ]
       },
       {
-        "key": "not_art_reasons_other",
+        "key": "not_art_reason_other",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",

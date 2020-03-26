@@ -5,11 +5,11 @@ fields:
   - template: "Intake Time: {intake_time}"
     relevance: "intake_time != ''"
 
-  - template: "Gravida: {gravida}"
-    relevance: "gravida != ''"
+  - template: "Gravida: {gravidity}"
+    relevance: "gravidity != ''"
 
-  - template: "Para: {para}"
-    relevance: "para != ''"
+  - template: "Para: {parity}"
+    relevance: "parity != ''"
 
   - template: "Gestation Week: {gestation_week}"
     relevance: "gestation_week != ''"
