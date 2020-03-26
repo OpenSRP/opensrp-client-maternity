@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 
 import org.smartregister.maternity.pojos.MaternityMetadata;
 
+import java.util.ArrayList;
+
 /**
  * This is the object used to configure any configurations added to Maternity. We mostly use objects that are
  * instantiated using {@link org.smartregister.maternity.utils.ConfigurationInstancesHelper} which means
@@ -54,6 +56,10 @@ public class MaternityConfiguration {
         return builder.maternityRegisterSwitcher;
     }
 
+    public ArrayList<Class<? extends MaternityFormProcessingTask>> getMaternityFormProcessingTasks() {
+        return builder.maternityFormProcessingClasses;
+    }
+
     public int getMaxCheckInDurationInMinutes() {
         return builder.maxCheckInDurationInMinutes;
     }
@@ -75,6 +81,9 @@ public class MaternityConfiguration {
 
         @Nullable
         private Class<? extends MaternityRegisterSwitcher> maternityRegisterSwitcher;
+
+        @NonNull
+        private ArrayList<Class<? extends MaternityFormProcessingTask>> maternityFormProcessingClasses = new ArrayList<>();
 
         private boolean isBottomNavigationEnabled;
 
@@ -112,6 +121,11 @@ public class MaternityConfiguration {
 
         public Builder setMaxCheckInDurationInMinutes(int durationInMinutes) {
             this.maxCheckInDurationInMinutes = durationInMinutes;
+            return this;
+        }
+
+        public Builder addMaternityFormProcessingTask(@NonNull Class<? extends MaternityFormProcessingTask> maternityFormProcessingTask) {
+            this.maternityFormProcessingClasses.add(maternityFormProcessingTask);
             return this;
         }
 

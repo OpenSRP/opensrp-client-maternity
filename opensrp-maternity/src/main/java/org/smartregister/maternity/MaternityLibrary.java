@@ -16,11 +16,13 @@ import org.smartregister.Context;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
+import org.smartregister.maternity.configuration.MaternityFormProcessingTask;
 import org.smartregister.maternity.domain.YamlConfig;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.helper.MaternityRulesEngineHelper;
 import org.smartregister.maternity.repository.MaternityDetailsRepository;
 import org.smartregister.maternity.repository.MaternityOutcomeFormRepository;
+import org.smartregister.maternity.utils.ConfigurationInstancesHelper;
 import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
@@ -205,6 +207,13 @@ public class MaternityLibrary {
 
     @NonNull
     public List<Event> processMaternityOutcomeForm(@NonNull String eventType, String jsonString, @Nullable Intent data) throws JSONException {
+        ArrayList<Class<? extends MaternityFormProcessingTask>> maternityFormProcessingTasks = getMaternityConfiguration().getMaternityFormProcessingTasks();
+
+        for (Class<? extends MaternityFormProcessingTask> maternityFormProcessingTaskClass: maternityFormProcessingTasks) {
+            MaternityFormProcessingTask maternityFormProcessingTask = ConfigurationInstancesHelper.newInstance(maternityFormProcessingTaskClass);
+            maternityFormProcessingTask.processMaternityForm(eventType, jsonString, data);
+        }
+
         ArrayList<Event> eventList = new ArrayList<>();
         JSONObject jsonFormObject = new JSONObject(jsonString);
 
