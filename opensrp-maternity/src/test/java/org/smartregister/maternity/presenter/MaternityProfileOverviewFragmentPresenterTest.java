@@ -46,11 +46,11 @@ public class MaternityProfileOverviewFragmentPresenterTest extends BaseTest {
 
     @Test
     public void loadOverviewFactsShouldCallModelFetchLastCheckAndVisit() {
-        Mockito.doNothing().when(model).fetchPregnancyDataAndHivStatus(Mockito.eq("bei"), Mockito.any(MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback.class));
+        Mockito.doNothing().when(model).fetchMaternityOverviewDetails(Mockito.eq("bei"), Mockito.any(MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback.class));
 
         presenter.loadOverviewFacts("bei", Mockito.mock(MaternityProfileOverviewFragmentContract.Presenter.OnFinishedCallback.class));
         Mockito.verify(model, Mockito.times(1))
-                .fetchPregnancyDataAndHivStatus(Mockito.eq("bei"), Mockito.any(MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback.class));
+                .fetchMaternityOverviewDetails(Mockito.eq("bei"), Mockito.any(MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback.class));
     }
 
     /*@Test

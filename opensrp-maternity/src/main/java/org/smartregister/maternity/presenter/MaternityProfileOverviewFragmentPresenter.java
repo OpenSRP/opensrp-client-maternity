@@ -42,7 +42,7 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
 
     @Override
     public void loadOverviewFacts(@NonNull String baseEntityId, @NonNull final OnFinishedCallback onFinishedCallback) {
-        model.fetchPregnancyDataAndHivStatus(baseEntityId, new MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback() {
+        model.fetchMaternityOverviewDetails(baseEntityId, new MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback() {
             @Override
             public void onFetched(@NonNull org.smartregister.maternity.pojos.MaternityDetails maternityDetails) {
                 loadOverviewDataAndDisplay(maternityDetails, onFinishedCallback);

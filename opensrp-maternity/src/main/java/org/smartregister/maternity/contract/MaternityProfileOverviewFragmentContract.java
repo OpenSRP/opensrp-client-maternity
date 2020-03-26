@@ -48,7 +48,7 @@ public interface MaternityProfileOverviewFragmentContract {
 
     interface Model {
 
-        void fetchPregnancyDataAndHivStatus(@NonNull String baseEntityId, @NonNull OnFetchedCallback onFetchedCallback);
+        void fetchMaternityOverviewDetails(@NonNull String baseEntityId, @NonNull OnFetchedCallback onFetchedCallback);
 
         interface OnFetchedCallback {
 

@@ -21,7 +21,7 @@ public class MaternityProfileOverviewFragmentModel implements MaternityProfileOv
     }
 
     @Override
-    public void fetchPregnancyDataAndHivStatus(final @NonNull String baseEntityId, @NonNull final OnFetchedCallback onFetchedCallback) {
+    public void fetchMaternityOverviewDetails(final @NonNull String baseEntityId, @NonNull final OnFetchedCallback onFetchedCallback) {
         appExecutors.diskIO().execute(new Runnable() {
 
             @Override

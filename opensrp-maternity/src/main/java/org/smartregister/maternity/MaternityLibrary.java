@@ -228,6 +228,26 @@ public class MaternityLibrary {
         return eventList;
     }
 
+    @NonNull
+    public List<Event> processMaternityCloseForm(@NonNull String eventType, String jsonString, @Nullable Intent data) throws JSONException {
+        ArrayList<Event> eventList = new ArrayList<>();
+        JSONObject jsonFormObject = new JSONObject(jsonString);
+
+        JSONObject stepOne = jsonFormObject.getJSONObject(MaternityJsonFormUtils.STEP1);
+        JSONArray fieldsArray = stepOne.getJSONArray(MaternityJsonFormUtils.FIELDS);
+
+        FormTag formTag = MaternityJsonFormUtils.formTag(MaternityUtils.getAllSharedPreferences());
+
+        String baseEntityId = MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID);
+        String entityTable = MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.ENTITY_TABLE);
+        Event closeMaternityEvent = JsonFormUtils.createEvent(fieldsArray, jsonFormObject.getJSONObject(METADATA)
+                , formTag, baseEntityId, eventType, entityTable);
+        MaternityJsonFormUtils.tagSyncMetadata(closeMaternityEvent);
+        eventList.add(closeMaternityEvent);
+
+        return eventList;
+    }
+
     public String maternityLookUpQuery() {
         String lookUpQueryForChild = "select id as _id, %s, %s, %s, %s, %s, %s, zeir_id as %s, null as national_id from ec_child where [condition] ";
         lookUpQueryForChild = String.format(lookUpQueryForChild, MaternityConstants.KEY.RELATIONALID, MaternityConstants.KEY.FIRST_NAME,

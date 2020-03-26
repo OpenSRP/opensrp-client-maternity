@@ -19,10 +19,12 @@ import org.smartregister.maternity.R;
 import org.smartregister.maternity.contract.MaternityProfileActivityContract;
 import org.smartregister.maternity.interactor.MaternityProfileInteractor;
 import org.smartregister.maternity.listener.MaternityEventActionCallBack;
+import org.smartregister.maternity.listener.OngoingTaskCompleteListener;
 import org.smartregister.maternity.model.MaternityProfileActivityModel;
 import org.smartregister.maternity.pojos.MaternityEventClient;
 import org.smartregister.maternity.pojos.MaternityMetadata;
 import org.smartregister.maternity.pojos.MaternityOutcomeForm;
+import org.smartregister.maternity.pojos.OngoingTask;
 import org.smartregister.maternity.pojos.RegisterParams;
 import org.smartregister.maternity.tasks.FetchRegistrationDataTask;
 import org.smartregister.maternity.utils.AppExecutors;
@@ -34,6 +36,7 @@ import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.util.Utils;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +54,10 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
 
     private MaternityProfileActivityModel model;
     private JSONObject form = null;
+
+    private boolean maternityCloseEffected;
+    private ArrayList<OngoingTask> ongoingTasks = new ArrayList<>();
+    private ArrayList<OngoingTaskCompleteListener> ongoingTaskCompleteListeners = new ArrayList<>();
 
     public MaternityProfileActivityPresenter(MaternityProfileActivityContract.View profileView) {
         mProfileView = new WeakReference<>(profileView);
@@ -199,6 +206,30 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     }
 
     @Override
+    public void saveMaternityCloseForm(@NonNull String eventType, @Nullable Intent data) {
+        String jsonString = null;
+        MaternityEventUtils maternityEventUtils = new MaternityEventUtils(new AppExecutors());
+        if (data != null) {
+            jsonString = data.getStringExtra(MaternityConstants.JSON_FORM_EXTRA.JSON);
+        }
+
+        if (jsonString == null) {
+            Timber.e(new Exception("Maternity Close form JSON is null"));
+            return;
+        }
+
+        if (eventType.equals(MaternityConstants.EventType.MATERNITY_CLOSE)) {
+            try {
+                maternityCloseEffected = true;
+                List<Event> maternityCloseEvents = MaternityLibrary.getInstance().processMaternityCloseForm(eventType, jsonString, data);
+                maternityEventUtils.saveEvents(maternityCloseEvents, this);
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
+        }
+    }
+
+    @Override
     public void saveUpdateRegistrationForm(@NonNull String jsonString, @NonNull RegisterParams registerParams) {
         try {
             if (registerParams.getFormTag() == null) {
@@ -234,9 +265,14 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     public void onMaternityEventSaved() {
         MaternityProfileActivityContract.View view = getProfileView();
         if (view != null) {
-            view.getActionListenerForProfileOverview().onActionReceive();
-            view.getActionListenerForVisitFragment().onActionReceive();
             view.hideProgressDialog();
+            if (maternityCloseEffected) {
+                view.showMessage(view.getString(R.string.maternity_client_close_message));
+                view.closeView();
+            } else {
+                view.getActionListenerForProfileOverview().onActionReceive();
+                view.getActionListenerForVisitFragment().onActionReceive();
+            }
         }
     }
 
@@ -263,5 +299,35 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
                 }
             }), new String[]{baseEntityId});
         }
+    }
+
+    @Override
+    public boolean hasOngoingTask() {
+        return ongoingTasks.size() > 0;
+    }
+
+    @Override
+    public List<OngoingTask> getOngoingTasks() {
+        return ongoingTasks;
+    }
+
+    @Override
+    public boolean addOngoingTask(@NonNull OngoingTask ongoingTask) {
+        return ongoingTasks.add(ongoingTask);
+    }
+
+    @Override
+    public boolean removeOngoingTask(@NonNull OngoingTask ongoingTask) {
+        return ongoingTasks.remove(ongoingTask);
+    }
+
+    @Override
+    public boolean addOngoingTaskCompleteListener(@NonNull OngoingTaskCompleteListener ongoingTaskCompleteListener) {
+        return ongoingTaskCompleteListeners.add(ongoingTaskCompleteListener);
+    }
+
+    @Override
+    public boolean removeOngoingTaskCompleteListener(@NonNull OngoingTaskCompleteListener ongoingTaskCompleteListener) {
+        return ongoingTaskCompleteListeners.remove(ongoingTaskCompleteListener);
     }
 }

@@ -6,11 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +25,8 @@ import org.smartregister.maternity.contract.MaternityProfileActivityContract;
 import org.smartregister.maternity.fragment.MaternityProfileOverviewFragment;
 import org.smartregister.maternity.fragment.MaternityProfileVisitsFragment;
 import org.smartregister.maternity.listener.OnSendActionToFragment;
+import org.smartregister.maternity.listener.OngoingTaskCompleteListener;
+import org.smartregister.maternity.pojos.OngoingTask;
 import org.smartregister.maternity.pojos.RegisterParams;
 import org.smartregister.maternity.presenter.MaternityProfileActivityPresenter;
 import org.smartregister.maternity.utils.ConfigurationInstancesHelper;
@@ -110,6 +114,8 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
         // When user click home menu item then quit this activity.
         if (itemId == android.R.id.home) {
             finish();
+        } else if (itemId == R.id.maternity_menu_item_close_client) {
+            openMaternityCloseForm();
         }
 
         return super.onOptionsItemSelected(item);
@@ -118,19 +124,31 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     @Override
     protected void onResumption() {
         super.onResumption();
-        commonPersonObjectClient = (CommonPersonObjectClient) getIntent()
-                .getSerializableExtra(MaternityConstants.IntentKey.CLIENT_OBJECT);
-        baseEntityId = commonPersonObjectClient.getCaseId();
-        ((MaternityProfileActivityPresenter) presenter).refreshProfileTopSection(commonPersonObjectClient.getColumnmaps());
+        MaternityProfileActivityContract.Presenter maternityProfilePresenter = (MaternityProfileActivityPresenter) presenter;
 
-        // Enable switcher
-        configureRegisterSwitcher();
+        if (maternityProfilePresenter.hasOngoingTask()) {
+            commonPersonObjectClient = (CommonPersonObjectClient) getIntent()
+                    .getSerializableExtra(MaternityConstants.IntentKey.CLIENT_OBJECT);
+            baseEntityId = commonPersonObjectClient.getCaseId();
+            maternityProfilePresenter.refreshProfileTopSection(commonPersonObjectClient.getColumnmaps());
 
-        // Disable the registration info button if the client is not in Maternity
-        if (commonPersonObjectClient != null) {
-            String register_type = commonPersonObjectClient.getDetails().get(MaternityConstants.ColumnMapKey.REGISTER_TYPE);
-            View view = findViewById(R.id.btn_profile_registration_info);
-            view.setEnabled(MaternityConstants.RegisterType.MATERNITY.equalsIgnoreCase(register_type));
+            // Enable switcher
+            configureRegisterSwitcher();
+
+            // Disable the registration info button if the client is not in Maternity
+            if (commonPersonObjectClient != null) {
+                String register_type = commonPersonObjectClient.getDetails().get(MaternityConstants.ColumnMapKey.REGISTER_TYPE);
+                View view = findViewById(R.id.btn_profile_registration_info);
+                view.setEnabled(MaternityConstants.RegisterType.MATERNITY.equalsIgnoreCase(register_type));
+            }
+        } else {
+            maternityProfilePresenter.addOngoingTaskCompleteListener(new OngoingTaskCompleteListener() {
+                @Override
+                public void onTaskComplete(@NonNull OngoingTask ongoingTask) {
+                    maternityProfilePresenter.removeOngoingTaskCompleteListener(this);
+                    onResumption();
+                }
+            });
         }
     }
 
@@ -201,6 +219,13 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     }
 
     @Override
+    public void openMaternityCloseForm() {
+        if (commonPersonObjectClient != null) {
+            ((MaternityProfileActivityPresenter) presenter).startForm(MaternityConstants.Form.MATERNITY_CLOSE, commonPersonObjectClient);
+        }
+    }
+
+    @Override
     public void startFormActivity(@NonNull JSONObject form, @NonNull HashMap<String, String> intentKeys) {
         Intent intent = MaternityUtils.buildFormActivityIntent(form, intentKeys, this);
         startActivityForResult(intent, MaternityJsonFormUtils.REQUEST_CODE_GET_JSON);
@@ -208,6 +233,8 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_maternity_profile_activity, menu);
         return true;
     }
 
@@ -233,6 +260,9 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
                     showProgressDialog(R.string.saving_dialog_title);
 
                     ((MaternityProfileActivityPresenter) presenter).saveUpdateRegistrationForm(jsonString, registerParam);
+                } else if (encounterType.equals(MaternityConstants.EventType.MATERNITY_CLOSE)) {
+                    showProgressDialog(R.string.saving_dialog_title);
+                    ((MaternityProfileActivityPresenter) presenter).saveMaternityCloseForm(encounterType, data);
                 }
 
             } catch (JSONException e) {
@@ -277,5 +307,18 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     @Override
     public void setClient(@NonNull CommonPersonObjectClient client) {
         this.commonPersonObjectClient = client;
+    }
+
+    @Override
+    public void showMessage(@Nullable String text) {
+        if (text != null) {
+            Toast.makeText(this, text, Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    @Override
+    public void closeView() {
+        finish();
     }
 }

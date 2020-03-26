@@ -117,7 +117,6 @@ public class MaternityConstants extends AllConstants {
         public static final String UPDATE_MATERNITY_REGISTRATION = "Update Maternity Registration";
         public static final String MATERNITY_OUTCOME = "Maternity Outcome";
         public static final String MATERNITY_CLOSE = "Maternity Close";
-        public static final String CHECK_IN = "MATERNITY Check-In";
         public static final String DIAGNOSIS_AND_TREAT = "MATERNITY Diagnosis and Treatment";
     }
 
@@ -134,6 +133,7 @@ public class MaternityConstants extends AllConstants {
     public interface Form {
         String MATERNITY_REGISTRATION = "maternity_registration";
         String MATERNITY_OUTCOME = "maternity_outcome";
+        String MATERNITY_CLOSE = "maternity_close";
     }
 
     public interface FormValue {

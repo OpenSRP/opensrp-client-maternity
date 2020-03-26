@@ -10,12 +10,15 @@ import org.json.JSONObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.maternity.listener.OnSendActionToFragment;
+import org.smartregister.maternity.listener.OngoingTaskCompleteListener;
 import org.smartregister.maternity.pojos.MaternityEventClient;
 import org.smartregister.maternity.pojos.MaternityOutcomeForm;
+import org.smartregister.maternity.pojos.OngoingTask;
 import org.smartregister.maternity.pojos.RegisterParams;
 import org.smartregister.view.contract.BaseProfileContract;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -38,12 +41,26 @@ public interface MaternityProfileActivityContract {
 
         void saveOutcomeForm(@NonNull String eventType, @Nullable Intent data);
 
+        void saveMaternityCloseForm(@NonNull String eventType, @Nullable Intent data);
+
         void saveUpdateRegistrationForm(@NonNull String jsonString, @NonNull RegisterParams registerParams);
 
         @Nullable
         MaternityEventClient processRegistration(@NonNull String jsonString, @NonNull FormTag formTag);
 
         void onUpdateRegistrationBtnCLicked(@NonNull String baseEntityId);
+
+        boolean hasOngoingTask();
+
+        List<OngoingTask> getOngoingTasks();
+
+        boolean addOngoingTask(@NonNull OngoingTask ongoingTask);
+
+        boolean removeOngoingTask(@NonNull OngoingTask ongoingTask);
+
+        boolean addOngoingTaskCompleteListener(@NonNull OngoingTaskCompleteListener ongoingTaskCompleteListener);
+
+        boolean removeOngoingTaskCompleteListener(@NonNull OngoingTaskCompleteListener ongoingTaskCompleteListener);
     }
 
     interface View extends BaseProfileContract.View {
@@ -60,6 +77,8 @@ public interface MaternityProfileActivityContract {
 
         void openMaternityOutcomeForm();
 
+        void openMaternityCloseForm();
+
         void startFormActivity(@NonNull JSONObject form, @NonNull HashMap<String, String> intentKeys);
 
         OnSendActionToFragment getActionListenerForVisitFragment();
@@ -69,16 +88,19 @@ public interface MaternityProfileActivityContract {
         @Nullable
         String getString(@StringRes int resId);
 
-
         @NonNull
         Context getContext();
 
-        void startActivityForResult(@NonNull Intent intent, int requestCode);
+        void startActivityForResult(Intent intent, int requestCode);
 
         @Nullable
         CommonPersonObjectClient getClient();
 
         void setClient(@NonNull CommonPersonObjectClient client);
+
+        void showMessage(@Nullable String text);
+
+        void closeView();
 
     }
 
