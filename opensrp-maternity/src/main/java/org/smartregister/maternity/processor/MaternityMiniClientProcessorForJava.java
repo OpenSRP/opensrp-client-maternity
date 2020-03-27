@@ -13,6 +13,7 @@ import org.smartregister.domain.db.Obs;
 import org.smartregister.domain.jsonmapping.ClientClassification;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.exception.MaternityCloseEventProcessException;
+import org.smartregister.maternity.pojos.MaternityDetails;
 import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
@@ -81,7 +82,6 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             MaternityRegistrationDetails maternityDetails = new MaternityRegistrationDetails(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate(), keyValues);
             maternityDetails.setCreatedAt(new Date());
 
-            //TODO: Figure out how to reuse the already created repository
             MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().saveOrUpdate(maternityDetails);
         } else if (eventType.equals(MaternityConstants.EventType.MATERNITY_CLOSE)) {
             if (eventClient.getClient() == null) {
@@ -89,6 +89,13 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             }
 
             unsyncEvents.add(event);
+        } else if (eventType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
+            HashMap<String, String> keyValues = new HashMap<>();
+            generateKeyValuesFromEvent(event, keyValues);
+
+            MaternityDetails maternityDetails = new MaternityDetails(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate(), keyValues);
+            maternityDetails.setCreatedAt(new Date());
+            MaternityLibrary.getInstance().getMaternityOutcomeDetailsRepository().saveOrUpdate(maternityDetails);
         }
     }
 
@@ -126,7 +133,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             for (Event event : events) {
                 if (MaternityConstants.EventType.MATERNITY_CLOSE.equals(event.getEventType())) {
                     // Delete the maternity details
-                    MaternityLibrary.getInstance().getMaternityOutcomeDetailsRepository().delete(event.getBaseEntityId());
+                    // MaternityLibrary.getInstance().getMaternityOutcomeDetailsRepository().delete(event.getBaseEntityId());
 
                     // Delete the actual client in the maternity table OR REMOVE THE Maternity register type
                     updateRegisterTypeColumn(event, null);

@@ -14,7 +14,6 @@ import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.model.MaternityProfileOverviewFragmentModel;
 import org.smartregister.maternity.pojos.MaternityBaseDetails;
-import org.smartregister.maternity.pojos.MaternityDetails;
 import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
 import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.maternity.utils.MaternityConstants;
@@ -48,6 +47,14 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
             @Override
             public void onFetched(@NonNull MaternityBaseDetails maternityDetails) {
                 loadOverviewDataAndDisplay(maternityDetails, onFinishedCallback);
+
+                // Update the client map
+                CommonPersonObjectClient commonPersonObjectClient = getProfileView().getActivityClientMap();
+                if (commonPersonObjectClient != null) {
+
+                    commonPersonObjectClient.getColumnmaps().putAll(maternityDetails.getProperties());
+                    commonPersonObjectClient.getDetails().putAll(maternityDetails.getProperties());
+                }
             }
         });
     }
@@ -112,7 +119,8 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
         /*
         MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.INTAKE_TIME, maternityDetails.getRecordedAt());
         MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.GRAVIDA, maternityDetails.get(MaternityDetails.Property));
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.PARA, maternityDetails.getPara());*/
+        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.PARA, maternityDetails.getPara());
+        */
 
         int maternityWeeks = 0;
         String conceptionDate = maternityDetails.get(MaternityRegistrationDetails.Property.conception_date.name());

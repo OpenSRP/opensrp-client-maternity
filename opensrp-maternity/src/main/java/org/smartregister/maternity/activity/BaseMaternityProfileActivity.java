@@ -227,8 +227,8 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     }
 
     @Override
-    public void startFormActivity(@NonNull JSONObject form, @NonNull HashMap<String, String> intentKeys) {
-        Intent intent = MaternityUtils.buildFormActivityIntent(form, intentKeys, this);
+    public void startFormActivity(@NonNull JSONObject form, @NonNull HashMap<String, String> intentData) {
+        Intent intent = MaternityUtils.buildFormActivityIntent(form, intentData, this);
         startActivityForResult(intent, MaternityJsonFormUtils.REQUEST_CODE_GET_JSON);
     }
 

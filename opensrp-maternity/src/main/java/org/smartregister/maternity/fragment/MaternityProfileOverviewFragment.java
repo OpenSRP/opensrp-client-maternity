@@ -120,4 +120,14 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
     public void onActionReceive() {
         onResumption();
     }
+
+    @Override
+    @Nullable
+    public CommonPersonObjectClient getActivityClientMap() {
+        if (getActivity() instanceof BaseMaternityProfileActivity) {
+            return ((BaseMaternityProfileActivity) getActivity()).getClient();
+        }
+
+        return null;
+    }
 }

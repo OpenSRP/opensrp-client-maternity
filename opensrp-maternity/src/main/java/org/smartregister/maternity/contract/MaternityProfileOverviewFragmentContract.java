@@ -23,6 +23,9 @@ public interface MaternityProfileOverviewFragmentContract {
         @Nullable
         String getString(@StringRes int stringId);
 
+        @Nullable
+        CommonPersonObjectClient getActivityClientMap();
+
     }
 
     interface Presenter {

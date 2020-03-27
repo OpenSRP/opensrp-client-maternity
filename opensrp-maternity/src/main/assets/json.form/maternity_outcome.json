@@ -180,8 +180,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
-        "type": "edit_text",
-        "hint": "Specify",
+        "type": "label",
         "hidden": true
       },
       {
@@ -303,27 +302,6 @@
             "v_required": {
               "value": "true",
               "err": "Select whether the baby was discharged alive"
-            }
-          },
-          {
-            "key": "birth_record_date",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "",
-            "type": "edit_text",
-            "read_only": true,
-            "calculation": {
-              "rules-engine": {
-                "ex-rules": {
-                  "rules-dynamic": "maternity/outcome_calculations.yml"
-                }
-              }
-            },
-            "relevance": {
-              "step2:discharged_alive": {
-                "type": "string",
-                "ex": "equalTo(., \"Yes\")"
-              }
             }
           },
           {
@@ -966,9 +944,14 @@
           "No"
         ],
         "relevance": {
-          "step3:obstetric_complications": {
-            "type": "string",
-            "ex": "notEqualTo(., \"None\")"
+          "step3:obstetric_care": {
+            "ex-checkbox": [
+              {
+                "not": [
+                  "none"
+                ]
+              }
+            ]
           }
         }
       },

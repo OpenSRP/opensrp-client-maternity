@@ -24,6 +24,7 @@ import org.smartregister.maternity.model.MaternityProfileActivityModel;
 import org.smartregister.maternity.pojos.MaternityEventClient;
 import org.smartregister.maternity.pojos.MaternityMetadata;
 import org.smartregister.maternity.pojos.MaternityOutcomeForm;
+import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
 import org.smartregister.maternity.pojos.OngoingTask;
 import org.smartregister.maternity.pojos.RegisterParams;
 import org.smartregister.maternity.tasks.FetchRegistrationDataTask;
@@ -158,10 +159,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
         Map<String, String> clientMap = commonPersonObjectClient.getColumnmaps();
         HashMap<String, String> injectedValues = new HashMap<>();
 
-        /*String hivStatus = "Unknown";
-        hivStatus = clientMap.get(MaternityConstants.ClientMapKey.)*/
-
-        injectedValues.put(MaternityConstants.JsonFormField.MOTHER_HIV_STATUS, clientMap.get(MaternityConstants.ClientMapKey.GENDER));
+        injectedValues.put(MaternityConstants.JsonFormField.MOTHER_HIV_STATUS, clientMap.get(MaternityRegistrationDetails.Property.hiv_status_current.name()));
         String entityTable = clientMap.get(MaternityConstants.IntentKey.ENTITY_TABLE);
 
         startFormActivity(formName, commonPersonObjectClient.getCaseId(), entityTable, injectedValues);

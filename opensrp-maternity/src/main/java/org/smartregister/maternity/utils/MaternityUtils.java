@@ -18,6 +18,7 @@ import org.jeasy.rules.api.Facts;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.smartregister.maternity.MaternityLibrary;
+import org.smartregister.maternity.R;
 import org.smartregister.maternity.pojos.MaternityMetadata;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
@@ -28,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -180,31 +182,48 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         return age;
     }
 
-    @NonNull
-    public static Intent buildFormActivityIntent(JSONObject jsonForm, HashMap<String, String> parcelableData, Context context) {
-        Intent intent = new Intent(context, MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata().getMaternityFormActivity());
-        intent.putExtra(MaternityConstants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
-        Form form = new Form();
-        form.setWizard(false);
-        form.setName("");
-        String encounterType = jsonForm.optString(MaternityJsonFormUtils.ENCOUNTER_TYPE);
-        if (encounterType.equals(MaternityConstants.EventType.DIAGNOSIS_AND_TREAT)) {
-            form.setName(MaternityConstants.EventType.DIAGNOSIS_AND_TREAT);
-            form.setWizard(true);
-        }
-        form.setHideSaveLabel(true);
-        form.setPreviousLabel("");
-        form.setNextLabel("");
-        form.setHideNextButton(false);
-        form.setHidePreviousButton(false);
-        intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+    @Nullable
+    public static Intent buildFormActivityIntent(JSONObject jsonForm, HashMap<String, String> intentData, Context context) {
+        MaternityMetadata maternityMetadata = MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata();
+        if (maternityMetadata != null) {
+            Intent intent = new Intent(context, maternityMetadata.getMaternityFormActivity());
+            intent.putExtra(MaternityConstants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
-        if (parcelableData != null) {
-            for (String intentKey : parcelableData.keySet()) {
-                intent.putExtra(intentKey, parcelableData.get(intentKey));
+            Form form = new Form();
+            form.setWizard(false);
+            form.setName("");
+            String encounterType = jsonForm.optString(MaternityJsonFormUtils.ENCOUNTER_TYPE);
+
+            // If the form has more than one step, enable the form wizard
+            for (Iterator<String> objectKeys = jsonForm.keys(); objectKeys.hasNext(); ) {
+                String key = objectKeys.next();
+                if (!TextUtils.isEmpty(key) && key.contains("step") && !"step1".equalsIgnoreCase(key)) {
+                    form.setName(encounterType);
+                    form.setWizard(true);
+                    break;
+                }
             }
+
+            form.setHideSaveLabel(true);
+            form.setPreviousLabel("");
+            form.setNextLabel("");
+            form.setHideNextButton(false);
+            form.setHidePreviousButton(false);
+
+            if (MaternityConstants.EventType.MATERNITY_OUTCOME.equals(jsonForm.optString(MaternityConstants.JSON_FORM_KEY.ENCOUNTER_TYPE))) {
+                form.setSaveLabel(context.getString(R.string.submit_and_close_maternity));
+            }
+
+            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+            if (intentData != null) {
+                for (String intentKey : intentData.keySet()) {
+                    intent.putExtra(intentKey, intentData.get(intentKey));
+                }
+            }
+            return intent;
         }
-        return intent;
+
+        return null;
     }
 
     @Nullable

@@ -15,10 +15,12 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.fragment.BaseMaternityRegisterFragment;
 import org.smartregister.maternity.pojos.MaternityMetadata;
+import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
 import org.smartregister.maternity.sample.R;
 import org.smartregister.maternity.sample.activity.MaternityRegisterActivity;
 import org.smartregister.maternity.utils.MaternityConstants;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -78,15 +80,15 @@ public class MaternityRegisterFragment extends BaseMaternityRegisterFragment {
 
         MaternityRegisterActivity maternityRegisterActivity = (MaternityRegisterActivity) getActivity();
 
-        if (maternityRegisterActivity != null && clientColumnMaps.containsKey(MaternityConstants.ColumnMapKey.PENDING_OUTCOME)) {
-            String pendingOutcome = clientColumnMaps.get(MaternityConstants.ColumnMapKey.PENDING_OUTCOME);
+        if (maternityRegisterActivity != null) {
             String entityTable = clientColumnMaps.get(MaternityConstants.IntentKey.ENTITY_TABLE);
+            String currentHivStatus = clientColumnMaps.get(MaternityRegistrationDetails.Property.hiv_status_current.name());
 
-            boolean isPendingOutcome = !TextUtils.isEmpty(pendingOutcome) && "1".equals(pendingOutcome);
+            HashMap<String, String> injectableFormValues = new HashMap<>();
+            injectableFormValues.put(MaternityConstants.JsonFormField.MOTHER_HIV_STATUS, currentHivStatus);
 
-            if (isPendingOutcome) {
-                maternityRegisterActivity.startFormActivityFromFormName(MaternityConstants.Form.MATERNITY_OUTCOME, commonPersonObjectClient.getCaseId(), null, null, entityTable);
-            }
+
+            maternityRegisterActivity.startFormActivityFromFormName(MaternityConstants.Form.MATERNITY_OUTCOME, commonPersonObjectClient.getCaseId(), null, injectableFormValues, entityTable);
         }
     }
 

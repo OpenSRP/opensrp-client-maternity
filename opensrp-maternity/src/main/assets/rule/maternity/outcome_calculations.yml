@@ -1,7 +1,0 @@
----
-name: step2_birth_record_date
-description: birth_record_date
-priority: 1
-condition: "step1_delivery_date != null && step1_delivery_date != ''"
-actions:
-  - "calculation = step1_delivery_date"

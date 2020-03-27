@@ -120,43 +120,9 @@ public abstract class BaseMaternityRegisterActivity extends BaseRegisterActivity
     }
 
     @Override
-    public void startFormActivityFromFormJson(@NonNull JSONObject jsonForm, @Nullable HashMap<String, String> parcelableData) {
-        MaternityMetadata maternityMetadata = MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata();
-        if (maternityMetadata != null) {
-            Intent intent = new Intent(this, maternityMetadata.getMaternityFormActivity());
-            intent.putExtra(MaternityConstants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
-            Form form = new Form();
-            form.setWizard(false);
-            form.setName("");
-
-            for (Iterator<String> objectKeys = jsonForm.keys(); objectKeys.hasNext();) {
-                String key = objectKeys.next();
-                if (!TextUtils.isEmpty(key) && key.contains("step") && !"step1".equalsIgnoreCase(key)) {
-                    String encounterType = jsonForm.optString(MaternityConstants.JSON_FORM_KEY.ENCOUNTER_TYPE);
-
-                    form.setName(encounterType);
-                    form.setWizard(true);
-                    break;
-                }
-            }
-
-            form.setHideSaveLabel(true);
-            form.setPreviousLabel("");
-            form.setNextLabel("");
-            form.setHideNextButton(false);
-            form.setHidePreviousButton(false);
-
-            if (MaternityConstants.EventType.MATERNITY_OUTCOME.equals(jsonForm.optString(MaternityConstants.JSON_FORM_KEY.ENCOUNTER_TYPE))) {
-                form.setSaveLabel(getString(R.string.submit_and_close_maternity));
-            }
-
-            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-            if (parcelableData != null) {
-                for (String intentKey : parcelableData.keySet()) {
-                    intent.putExtra(intentKey, parcelableData.get(intentKey));
-                }
-            }
-
+    public void startFormActivityFromFormJson(@NonNull JSONObject jsonForm, @Nullable HashMap<String, String> intentData) {
+        Intent intent = MaternityUtils.buildFormActivityIntent(jsonForm, intentData, this);
+        if (intent != null) {
             startActivityForResult(intent, MaternityJsonFormUtils.REQUEST_CODE_GET_JSON);
         } else {
             Timber.e(new Exception(), "FormActivity cannot be started because MaternityMetadata is NULL");

@@ -79,7 +79,7 @@ public interface MaternityProfileActivityContract {
 
         void openMaternityCloseForm();
 
-        void startFormActivity(@NonNull JSONObject form, @NonNull HashMap<String, String> intentKeys);
+        void startFormActivity(@NonNull JSONObject form, @NonNull HashMap<String, String> intentData);
 
         OnSendActionToFragment getActionListenerForVisitFragment();
 
