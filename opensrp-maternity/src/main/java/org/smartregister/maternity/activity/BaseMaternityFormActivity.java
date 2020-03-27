@@ -35,8 +35,6 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
 
     private BaseMaternityFormFragment maternityFormFragment;
     private boolean enableOnCloseDialog = true;
-    private JSONObject form;
-
     private HashMap<String, String> parcelableData = new HashMap<>();
 
     @Override
@@ -49,12 +47,6 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            form = new JSONObject(currentJsonState());
-        } catch (JSONException e) {
-            Timber.e(e);
-        }
-
         enableOnCloseDialog = getIntent().getBooleanExtra(MaternityConstants.FormActivity.EnableOnCloseDialog, true);
 
         if (getIntent() != null && getIntent().getExtras() != null) {
@@ -78,7 +70,7 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
     protected void onResume() {
         super.onResume();
         try {
-            String encounterType = form.getString(MaternityJsonFormUtils.ENCOUNTER_TYPE);
+            String encounterType = mJSONObject.getString(MaternityJsonFormUtils.ENCOUNTER_TYPE);
             confirmCloseTitle = getString(R.string.confirm_form_close);
             confirmCloseMessage = encounterType.trim().toLowerCase().contains("update") ? this.getString(R.string.any_changes_you_make) : this.getString(R.string.confirm_form_close_explanation);
             setConfirmCloseTitle(confirmCloseTitle);
@@ -113,7 +105,7 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
     @Override
     public void onBackPressed() {
         if (enableOnCloseDialog) {
-            if (form.optString(MaternityJsonFormUtils.ENCOUNTER_TYPE).equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
+            if (mJSONObject.optString(MaternityJsonFormUtils.ENCOUNTER_TYPE).equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
                 AlertDialog dialog = new AlertDialog.Builder(this, R.style.AppThemeAlertDialog).setTitle(confirmCloseTitle)
                         .setMessage(getString(R.string.save_form_fill_session))
                         .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {

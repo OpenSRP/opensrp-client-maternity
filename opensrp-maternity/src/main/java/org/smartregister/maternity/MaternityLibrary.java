@@ -228,8 +228,7 @@ public class MaternityLibrary {
         ArrayList<Event> eventList = new ArrayList<>();
         JSONObject jsonFormObject = new JSONObject(jsonString);
 
-        JSONObject stepOne = jsonFormObject.getJSONObject(MaternityJsonFormUtils.STEP1);
-        JSONArray fieldsArray = stepOne.getJSONArray(MaternityJsonFormUtils.FIELDS);
+        JSONArray fieldsArray = MaternityUtils.generateFieldsFromJsonForm(jsonFormObject);
 
         FormTag formTag = MaternityJsonFormUtils.formTag(MaternityUtils.getAllSharedPreferences());
 
@@ -253,9 +252,7 @@ public class MaternityLibrary {
         ArrayList<Event> eventList = new ArrayList<>();
         JSONObject jsonFormObject = new JSONObject(jsonString);
 
-        JSONObject stepOne = jsonFormObject.getJSONObject(MaternityJsonFormUtils.STEP1);
-        JSONArray fieldsArray = stepOne.getJSONArray(MaternityJsonFormUtils.FIELDS);
-
+        JSONArray fieldsArray = MaternityUtils.generateFieldsFromJsonForm(jsonFormObject);
         FormTag formTag = MaternityJsonFormUtils.formTag(MaternityUtils.getAllSharedPreferences());
 
         String baseEntityId = MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID);

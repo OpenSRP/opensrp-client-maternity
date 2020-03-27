@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.jeasy.rules.api.Facts;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
@@ -273,6 +275,26 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         } else {
             return raw;
         }
+    }
+
+    @NonNull
+    public static JSONArray generateFieldsFromJsonForm(@NonNull JSONObject jsonFormObject) throws JSONException {
+        JSONArray jsonArray = new JSONArray();
+
+        Iterator<String> formKeys = jsonFormObject.keys();
+
+        while (formKeys.hasNext()) {
+            String formKey = formKeys.next();
+            if (formKey != null && formKey.startsWith("step")) {
+                JSONObject stepJSONObject = jsonFormObject.getJSONObject(formKey);
+                JSONArray fieldsArray = stepJSONObject.getJSONArray(MaternityJsonFormUtils.FIELDS);
+                for (int i = 0; i < fieldsArray.length(); i++) {
+                    jsonArray.put(fieldsArray.get(i));
+                }
+            }
+        }
+
+        return jsonArray;
     }
 
 }
