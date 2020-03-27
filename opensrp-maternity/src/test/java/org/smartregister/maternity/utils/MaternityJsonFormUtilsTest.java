@@ -449,7 +449,7 @@ public class MaternityJsonFormUtilsTest {
 
     @Test
     public void testProcessMaternityDetailsFormShouldReturnNullJsonFormNull() {
-        Assert.assertNull(MaternityJsonFormUtils.processMaternityDetailsForm("", Mockito.mock(FormTag.class)));
+        Assert.assertNull(MaternityJsonFormUtils.processMaternityRegistrationForm("", Mockito.mock(FormTag.class)));
     }
 
 }

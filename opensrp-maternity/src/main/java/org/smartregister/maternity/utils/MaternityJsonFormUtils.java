@@ -503,7 +503,7 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
     }
 
     @Nullable
-    public static MaternityEventClient processMaternityDetailsForm(@NonNull String jsonString, @NonNull FormTag formTag) {
+    public static MaternityEventClient processMaternityRegistrationForm(@NonNull String jsonString, @NonNull FormTag formTag) {
         try {
             Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString);
 
