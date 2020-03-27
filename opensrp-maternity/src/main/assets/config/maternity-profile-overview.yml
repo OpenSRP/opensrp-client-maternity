@@ -1,6 +1,6 @@
 ---
 group:
-sub_group: pregnancy_data
+sub_group: pregnancy_data_and_medical_history
 fields:
   - template: "Intake Time: {intake_time}"
     relevance: "intake_time != ''"
@@ -11,6 +11,37 @@ fields:
   - template: "Para: {parity}"
     relevance: "parity != ''"
 
+  - template: "Last Menstrual period: {lmp}"
+    relevance: "lmp != ''"
+
+  - template: "Gestation age in weeks: {ga_weeks_entered}"
+    relevance: "ga_weeks_entered != ''"
+
+  - template: "Gestation age in days: {ga_dys_entered}"
+    relevance: "ga_days_entered != ''"
+
+  - template: "When did labour begin? (Onset of Labour): {onset_labour}"
+    relevance: "onset_labour != ''"
+
+  - template: "Have there been any complications in previous pregnancies?: {previous_complications}"
+    relevance: "previous_complications != ''"
+
+  - template: "Specify: {previous_complications_other}"
+    relevance: "previous_complications_other != ''"
+
+  - template: "Previous Delivery Mode: {previous_delivery_mode}"
+    relevance: "previous_delivery_mode != ''"
+
+  - template: "Previous Pregnancy Outcomes: {previous_pregnancy_outcomes}"
+    relevance: "previous_pregnancy_outcomes != ''"
+
+  - template: "Family medical history: {family_history}"
+    relevance: "family_history != ''"
+
+  - template: "Specify: {family_history_other}"
+    relevance: "family_history_other != ''"
+
+
   - template: "Gestation Week: {gestation_week}"
     relevance: "gestation_week != ''"
 
@@ -20,3 +51,22 @@ fields:
   - template: "Status: {hiv_status}"
     relevance: "hiv_status != ''"
     isRedFont: "hiv_status == 'positive' || hiv_status == 'Positive'"
+
+
+---
+sub_group: demographic_information
+fields:
+  - template: "Highest level of school: {educ_level}"
+    relevance: "educ_level != ''"
+
+  - template: "Marital Status: {marital_status}"
+    relevance: "marital_status != ''"
+
+  - template: "Occupation: {occupation}"
+    relevance: "occupation != ''"
+
+  - template: "Other Occupation: {occupation_other}"
+    relevance: "occupation_other != ''"
+
+  - template: "Religion: {religion}"
+    relevance: "religion != ''"
