@@ -48,9 +48,26 @@ fields:
 ---
 sub_group: hiv_details
 fields:
-  - template: "Status: {hiv_status}"
-    relevance: "hiv_status != ''"
-    isRedFont: "hiv_status == 'positive' || hiv_status == 'Positive'"
+  - template: "Previous HIV Status: {hiv_status_previous}"
+    relevance: "hiv_status_previous != ''"
+
+  - template: "Current HIV Status: {hiv_status_current}"
+    relevance: "hiv_status_current != ''"
+
+  - template: "Is the woman on ART Treatment: {on_art_treatment}"
+    relevance: "on_art_treatment != ''"
+
+  - template: "ART Clinic Number: {art_clinic_number}"
+    relevance: "art_clinic_number != ''"
+
+  - template: "ART treatment start period: {hiv_treatment_srt}"
+    relevance: "hiv_treatment_srt != ''"
+
+  - template: "Why is the woman not on ART?: {not_art_reason}"
+    relevance: "not_art_reason != ''"
+
+  - template: "Reason why woman is not on ART: {not_art_reasons_other}"
+    relevance: "not_art_reasons_other != ''"
 
 
 ---
