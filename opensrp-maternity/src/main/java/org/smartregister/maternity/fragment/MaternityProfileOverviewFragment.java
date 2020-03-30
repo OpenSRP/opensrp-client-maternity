@@ -110,7 +110,7 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.maternity_fragment_profile_overview, container, false);
 
-        maternityOutcomeSectionLayout = view.findViewById(R.id.ll_maternityFragmentProfileOverview_checkinLayout);
+        maternityOutcomeSectionLayout = view.findViewById(R.id.ll_maternityFragmentProfileOverview_outcomeLayout);
         recordOutcomeBtn = view.findViewById(R.id.btn_maternityFragmentProfileOverview_outcome);
 
         return view;
