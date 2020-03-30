@@ -72,12 +72,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             updateRegisterTypeColumn(event, "maternity");
 
             HashMap<String, String> keyValues = new HashMap<>();
-            generateKeyValuesFromEvent(event, keyValues);
-
-            /*
-            String currentHivStatus = keyValues.get(MaternityConstants.Event.MaternityRegistration.CURRENT_HIV_STATUS);
-            String previousHivStatus = keyValues.get(MaternityConstants.Event.MaternityRegistration.PREVIOUS_HIV_STATUS);
-            */
+            generateKeyValuesFromEvent(event, keyValues, true);
 
             MaternityRegistrationDetails maternityDetails = new MaternityRegistrationDetails(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate(), keyValues);
             maternityDetails.setCreatedAt(new Date());
@@ -99,7 +94,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
         }
     }
 
-    private void generateKeyValuesFromEvent(@NonNull Event event, HashMap<String, String> keyValues) {
+    private void generateKeyValuesFromEvent(@NonNull Event event, HashMap<String, String> keyValues, boolean appendOnNewline) {
         List<Obs> obs = event.getObs();
 
         for (Obs observation : obs) {
@@ -108,9 +103,15 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             List<Object> humanReadableValues = observation.getHumanReadableValues();
             if (humanReadableValues.size() > 0) {
                 String value = (String) humanReadableValues.get(0);
+                value = value != null ? value.trim() : value;
 
                 if (!TextUtils.isEmpty(value)) {
-                    keyValues.put(key, value);
+                    if (appendOnNewline && keyValues.containsKey(key)) {
+                        String currentValue = keyValues.get(key);
+                        keyValues.put(key, value + "\n" + currentValue);
+                    } else {
+                        keyValues.put(key, value);
+                    }
                     continue;
                 }
             }
@@ -118,13 +119,22 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             List<Object> values = observation.getValues();
             if (values.size() > 0) {
                 String value = (String) values.get(0);
+                value = value != null ? value.trim() : value;
 
                 if (!TextUtils.isEmpty(value)) {
-                    keyValues.put(key, value);
-                    continue;
+                    if (appendOnNewline && keyValues.containsKey(key)) {
+                        String currentValue = keyValues.get(key);
+                        keyValues.put(key, value + "\n" + currentValue);
+                    } else {
+                        keyValues.put(key, value);
+                    }
                 }
             }
         }
+    }
+
+    private void generateKeyValuesFromEvent(@NonNull Event event, HashMap<String, String> keyValues) {
+        generateKeyValuesFromEvent(event, keyValues, false);
     }
 
     @Override
