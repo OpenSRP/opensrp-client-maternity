@@ -114,11 +114,14 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
         View filterSortLayout = view.findViewById(R.id.filter_sort_layout);
         filterSortLayout.setVisibility(View.GONE);
 
-        dueOnlyLayout = view.findViewById(R.id.due_only_layout);
-        dueOnlyLayout.setVisibility(View.VISIBLE);
-        dueOnlyLayout.setOnClickListener(registerActionHandler);
+        String dueOnlyText = getDueOnlyText();
 
-        ((TextView) view.findViewById(R.id.due_only_text_view)).setText(getDueOnlyText());
+        if (dueOnlyText != null) {
+            dueOnlyLayout = view.findViewById(R.id.due_only_layout);
+            dueOnlyLayout.setVisibility(View.VISIBLE);
+            dueOnlyLayout.setOnClickListener(registerActionHandler);
+            ((TextView) view.findViewById(R.id.due_only_text_view)).setText(dueOnlyText);
+        }
 
         topRightLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -383,9 +386,9 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
     }
 
 
-    @NonNull
+    @Nullable
     @Override
     public String getDueOnlyText() {
-        return getString(R.string.due_only);
+        return null;
     }
 }

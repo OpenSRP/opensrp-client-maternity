@@ -2,6 +2,7 @@ package org.smartregister.maternity.contract;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.json.JSONArray;
 import org.smartregister.configurableviews.model.Field;
@@ -23,7 +24,7 @@ public interface MaternityRegisterFragmentContract {
 
         Presenter presenter();
 
-        @NonNull
+        @Nullable
         String getDueOnlyText();
 
     }
