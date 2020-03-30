@@ -1,6 +1,6 @@
 ---
 group:
-sub_group: pregnancy_data_and_medical_history
+sub_group: pregnancy_data_&_medical_history
 fields:
   - template: "Intake Time: {intake_time}"
     relevance: "intake_time != ''"
@@ -46,7 +46,7 @@ fields:
     relevance: "gestation_week != ''"
 
 ---
-sub_group: hiv_details
+sub_group: hiv_status_&_treatment
 fields:
   - template: "Previous HIV Status: {hiv_status_previous}"
     relevance: "hiv_status_previous != ''"
