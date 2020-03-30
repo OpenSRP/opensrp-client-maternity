@@ -30,8 +30,12 @@ android:
     - android-22
     - android-28
 
-
 script:
+  - cd ..
+  - git clone https://github.com/OpenSRP/opensrp-client-native-form.git
+  - cd opensrp-client-native-form
+  - git checkout fix-repeating-group-feature
+  - cd ../opensrp-client-maternity
   - echo "Travis branch is $TRAVIS_BRANCH"
   - echo "Travis branch is in pull request $TRAVIS_PULL+REQUEST"
   - chmod 755 gradlew
