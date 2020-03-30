@@ -321,7 +321,7 @@
           {
             "key": "isEnrolledInSmsMessages",
             "text": "Enroll in Sms Messages",
-            "value": "false"
+            "value": true
           }
         ]
       },
