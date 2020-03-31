@@ -25,6 +25,7 @@ import org.smartregister.maternity.BaseTest;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityProfileActivityContract;
 import org.smartregister.maternity.pojos.MaternityOutcomeForm;
+import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.repository.AllSharedPreferences;
@@ -141,7 +142,7 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
         String entityTable = "ec_client";
 
         HashMap<String, String> details = new HashMap<>();
-        details.put(MaternityConstants.KEY.GENDER, AllConstants.FEMALE_GENDER);
+        details.put(MaternityRegistrationDetails.Property.hiv_status_current.name(), "Positive");
         details.put(MaternityConstants.IntentKey.ENTITY_TABLE, entityTable);
 
         ArgumentCaptor<HashMap<String, String>> hashMapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
@@ -153,7 +154,7 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
         presenter.startForm(formName, client);
         Mockito.verify(presenter, Mockito.times(1)).startFormActivity(Mockito.eq(formName), Mockito.eq(caseId), Mockito.eq(entityTable), hashMapArgumentCaptor.capture());
 
-        Assert.assertEquals(AllConstants.FEMALE_GENDER, hashMapArgumentCaptor.getValue().get("patient_gender"));
+        Assert.assertEquals("Positive", hashMapArgumentCaptor.getValue().get(MaternityConstants.JsonFormField.MOTHER_HIV_STATUS));
     }
 
     @Test

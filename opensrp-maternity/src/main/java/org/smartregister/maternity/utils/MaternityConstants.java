@@ -117,7 +117,6 @@ public class MaternityConstants extends AllConstants {
         public static final String UPDATE_MATERNITY_REGISTRATION = "Update Maternity Registration";
         public static final String MATERNITY_OUTCOME = "Maternity Outcome";
         public static final String MATERNITY_CLOSE = "Maternity Close";
-        public static final String DIAGNOSIS_AND_TREAT = "MATERNITY Diagnosis and Treatment";
     }
 
     public interface ColumnMapKey {

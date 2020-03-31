@@ -130,7 +130,7 @@ public class MaternityUtilsTest {
     }
 
     @Test
-    public void buildActivityFormIntentShouldCreateIntentWithWizardEnabledWhenEncounterTypeIsDiagnosisAndTreat() throws JSONException {
+    public void buildActivityFormIntentShouldCreateIntentWithWizardEnabledWhenFormHasMoreThanOneStep() throws JSONException {
         // Mock calls to MaternityLibrary
         ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
         Mockito.doReturn(maternityConfiguration).when(maternityLibrary).getMaternityConfiguration();
@@ -138,7 +138,11 @@ public class MaternityUtilsTest {
         Mockito.doReturn(BaseMaternityFormActivity.class).when(maternityMetadata).getMaternityFormActivity();
 
         JSONObject jsonForm = new JSONObject();
-        jsonForm.put(MaternityJsonFormUtils.ENCOUNTER_TYPE, MaternityConstants.EventType.DIAGNOSIS_AND_TREAT);
+        jsonForm.put("step1", new JSONObject());
+        jsonForm.put("step2", new JSONObject());
+        jsonForm.put("step3", new JSONObject());
+
+        jsonForm.put(MaternityJsonFormUtils.ENCOUNTER_TYPE, MaternityConstants.EventType.MATERNITY_OUTCOME);
 
         HashMap<String, String> parcelableData = new HashMap<>();
         String baseEntityId = "89283-23dsd-23sdf";
@@ -148,7 +152,7 @@ public class MaternityUtilsTest {
         Form form = (Form) actualResult.getSerializableExtra(JsonFormConstants.JSON_FORM_KEY.FORM);
 
         assertTrue(form.isWizard());
-        assertEquals(MaternityConstants.EventType.DIAGNOSIS_AND_TREAT, form.getName());
+        assertEquals(MaternityConstants.EventType.MATERNITY_OUTCOME, form.getName());
         assertEquals(baseEntityId, actualResult.getStringExtra(MaternityConstants.IntentKey.BASE_ENTITY_ID));
     }
 

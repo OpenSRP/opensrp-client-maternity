@@ -195,12 +195,12 @@ public class MaternityUtils extends org.smartregister.util.Utils {
             form.setWizard(false);
             form.setName("");
             String encounterType = jsonForm.optString(MaternityJsonFormUtils.ENCOUNTER_TYPE);
+            form.setName(encounterType);
 
             // If the form has more than one step, enable the form wizard
             for (Iterator<String> objectKeys = jsonForm.keys(); objectKeys.hasNext(); ) {
                 String key = objectKeys.next();
-                if (!TextUtils.isEmpty(key) && key.contains("step") && !"step1".equalsIgnoreCase(key)) {
-                    form.setName(encounterType);
+                if (!TextUtils.isEmpty(key) && key.contains("step") && !"step2".equalsIgnoreCase(key)) {
                     form.setWizard(true);
                     break;
                 }
