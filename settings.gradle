@@ -1,2 +1,3 @@
-include ':sample-app', ':opensrp-maternity', ':android-json-form-wizard'
-project(":android-json-form-wizard").projectDir = file("../opensrp-client-native-form/android-json-form-wizard")
+include ':sample-app', ':opensrp-maternity'
+//, ':android-json-form-wizard'
+//project(":android-json-form-wizard").projectDir = file("../opensrp-client-native-form/android-json-form-wizard")
