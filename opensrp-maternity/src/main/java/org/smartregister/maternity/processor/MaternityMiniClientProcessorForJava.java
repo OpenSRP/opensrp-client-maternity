@@ -1,12 +1,10 @@
 package org.smartregister.maternity.processor;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import org.smartregister.commonregistry.CommonFtsObject;
 import org.smartregister.domain.db.Event;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.db.Obs;
@@ -16,7 +14,6 @@ import org.smartregister.maternity.exception.MaternityCloseEventProcessException
 import org.smartregister.maternity.pojos.MaternityDetails;
 import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
 import org.smartregister.maternity.utils.MaternityConstants;
-import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.MiniClientProcessorForJava;
 
@@ -139,7 +136,8 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
 
     @Override
     public boolean unSync(@Nullable List<Event> events) {
-        if (events != null) {
+        // Do nothing for now
+        /*if (events != null) {
             for (Event event : events) {
                 if (MaternityConstants.EventType.MATERNITY_CLOSE.equals(event.getEventType())) {
                     // Delete the maternity details
@@ -149,7 +147,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
                     //updateRegisterTypeColumn(event, null);
                 }
             }
-        }
+        }*/
         return true;
     }
 }

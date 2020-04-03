@@ -1,7 +1,6 @@
 package org.smartregister.maternity.contract;
 
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import org.json.JSONArray;

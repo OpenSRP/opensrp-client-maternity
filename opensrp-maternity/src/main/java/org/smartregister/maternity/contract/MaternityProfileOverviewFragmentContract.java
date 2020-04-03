@@ -8,7 +8,6 @@ import org.jeasy.rules.api.Facts;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.pojos.MaternityBaseDetails;
-import org.smartregister.maternity.pojos.MaternityDetails;
 
 import java.util.List;
 

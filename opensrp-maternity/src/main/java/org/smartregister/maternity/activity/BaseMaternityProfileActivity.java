@@ -56,7 +56,6 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
 
     private CommonPersonObjectClient commonPersonObjectClient;
     private Button switchRegBtn;
-    private OngoingTask ongoingTask;
 
     @Override
     protected void initializePresenter() {

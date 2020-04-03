@@ -7,11 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.View;
-
-import com.vijay.jsonwizard.constants.JsonFormConstants;
-import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
@@ -20,15 +16,12 @@ import org.smartregister.maternity.R;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.fragment.BaseMaternityRegisterFragment;
 import org.smartregister.maternity.model.MaternityRegisterActivityModel;
-import org.smartregister.maternity.pojos.MaternityMetadata;
 import org.smartregister.maternity.presenter.BaseMaternityRegisterActivityPresenter;
-import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.view.activity.BaseRegisterActivity;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import timber.log.Timber;

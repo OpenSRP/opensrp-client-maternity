@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
-import org.smartregister.maternity.pojos.MaternityDetails;
 import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 

@@ -18,7 +18,6 @@ import org.smartregister.maternity.pojos.RegisterParams;
 import org.smartregister.view.contract.BaseProfileContract;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 

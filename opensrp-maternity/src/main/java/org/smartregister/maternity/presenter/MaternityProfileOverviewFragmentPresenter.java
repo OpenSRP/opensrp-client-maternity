@@ -139,6 +139,7 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
     }
 
     public void setClient(@NonNull CommonPersonObjectClient client) {
+        // Do nothing
     }
 
     @Nullable
