@@ -48,7 +48,7 @@ public class MaternityRegistrationDetailsRepository extends MaternityDetailsRepo
     }
 
     @Override
-    String[] getPropertyNames() {
+    public String[] getPropertyNames() {
         if (propertyNames == null) {
             MaternityRegistrationDetails.Property[] properties = MaternityRegistrationDetails.Property.values();
             propertyNames = new String[properties.length];

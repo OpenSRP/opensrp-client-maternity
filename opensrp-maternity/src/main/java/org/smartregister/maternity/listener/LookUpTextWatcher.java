@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class LookUpTextWatcher implements TextWatcher {
 
-    private static Map<String, String> lookUpFields;
+    private Map<String, String> lookUpFields;
     private final View editText;
     private final JsonFormFragment jsonFormFragment;
 
@@ -52,12 +52,11 @@ public class LookUpTextWatcher implements TextWatcher {
             return;
         }
 
-        if (lookUpFields.containsKey(key)) {
-            if (text.trim().isEmpty()) {
-                lookUpFields.remove(key);
-                return;
-            }
+        if (lookUpFields.containsKey(key) && text.trim().isEmpty()) {
+            lookUpFields.remove(key);
+            return;
         }
+
         lookUpFields.put(key, text);
 
         if (jsonFormFragment instanceof BaseMaternityFormFragment) {

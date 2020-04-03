@@ -45,7 +45,6 @@ public class ClientLookUpListAdapter extends RecyclerView.Adapter<ClientLookUpLi
         holder.txtName.setText(fullName);
         holder.itemView.setTag(Utils.convert(commonPersonObject));
         holder.txtDetails.setText(details);
-
     }
 
     @Override
@@ -54,7 +53,8 @@ public class ClientLookUpListAdapter extends RecyclerView.Adapter<ClientLookUpLi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView txtName, txtDetails;
+        private TextView txtName;
+        private TextView txtDetails;
 
         private MyViewHolder(View view) {
             super(view);

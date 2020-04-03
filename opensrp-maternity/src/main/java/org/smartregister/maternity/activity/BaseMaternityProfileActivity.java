@@ -281,13 +281,11 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     }
 
     private void addOngoingTask(@NonNull OngoingTask ongoingTask) {
-        this.ongoingTask = ongoingTask;
         ((MaternityProfileActivityContract.Presenter) this.presenter).setOngoingTask(ongoingTask);
     }
 
     private void removeOngoingTask(@NonNull OngoingTask ongoingTask) {
         ((MaternityProfileActivityContract.Presenter) this.presenter).removeOngoingTask(ongoingTask);
-        this.ongoingTask = null;
     }
 
     @Override

@@ -10,7 +10,6 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.apache.commons.lang3.NotImplementedException;
 import org.smartregister.maternity.dao.MaternityDetailsDao;
 import org.smartregister.maternity.pojos.MaternityBaseDetails;
-import org.smartregister.maternity.pojos.MaternityDetails;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityUtils;
@@ -26,7 +25,7 @@ public abstract class MaternityDetailsRepository extends BaseRepository implemen
 
     private String[] columns;
 
-    abstract String getTableName();
+    public abstract String getTableName();
 
     @NonNull
     public ContentValues createValuesFor(@NonNull MaternityBaseDetails maternityDetails) {
@@ -101,7 +100,7 @@ public abstract class MaternityDetailsRepository extends BaseRepository implemen
         return maternityDetails;
     }
 
-    abstract String[] getPropertyNames();
+    public abstract String[] getPropertyNames();
 
     @Override
     public boolean delete(MaternityBaseDetails maternityDetails) {

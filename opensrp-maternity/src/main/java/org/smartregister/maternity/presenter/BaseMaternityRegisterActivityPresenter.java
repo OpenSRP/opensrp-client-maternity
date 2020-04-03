@@ -77,7 +77,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
     }
 
     @Nullable
-    private MaternityRegisterActivityContract.View getView() {
+    protected MaternityRegisterActivityContract.View getView() {
         if (viewReference != null) {
             return viewReference.get();
         } else {

@@ -160,7 +160,7 @@ public class MaternityRegisterProvider implements RecyclerViewProvider<Maternity
         String firstName = maternityRegisterProviderMetadata.getClientFirstName(patientColumnMaps);
         String middleName = maternityRegisterProviderMetadata.getClientMiddleName(patientColumnMaps);
         String lastName = maternityRegisterProviderMetadata.getClientLastName(patientColumnMaps);
-        String patientName = org.smartregister.util.Utils.getName(firstName, middleName + " " + lastName);
+        String patientName = Utils.getName(firstName, middleName + " " + lastName);
 
         String dobString = Utils.getDuration(maternityRegisterProviderMetadata.getDob(patientColumnMaps));
         String translatedYearInitial = context.getResources().getString(R.string.abbrv_years);

@@ -105,11 +105,6 @@ public abstract class BaseMaternityRegisterActivity extends BaseRegisterActivity
     }
 
     @Override
-    public void startFormActivity(String formName, String entityId, String metaData) {
-        //do nothing
-    }
-
-    @Override
     public void startFormActivityFromFormName(@NonNull String formName, @Nullable String entityId, String metaData, @Nullable HashMap<String, String> injectedFieldValues, @Nullable String entityTable) {
         if (mBaseFragment instanceof BaseMaternityRegisterFragment) {
             String locationId = MaternityUtils.context().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID);

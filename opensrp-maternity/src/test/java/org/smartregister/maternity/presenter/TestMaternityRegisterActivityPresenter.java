@@ -18,17 +18,17 @@ public class TestMaternityRegisterActivityPresenter extends BaseMaternityRegiste
 
     @Override
     public void onNoUniqueId() {
-
+        // Do nothing
     }
 
     @Override
     public void onUniqueIdFetched(Triple<String, String, String> triple, String entityId) {
-
+        // Do nothing
     }
 
     @Override
     public void onRegistrationSaved(boolean isEdit) {
-
+        // Do nothing
     }
 
     @Override

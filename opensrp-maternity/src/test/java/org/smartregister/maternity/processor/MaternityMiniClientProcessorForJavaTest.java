@@ -10,18 +10,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
 import org.robolectric.util.ReflectionHelpers;
 import org.smartregister.CoreLibrary;
 import org.smartregister.domain.db.Event;
 import org.smartregister.domain.db.EventClient;
-import org.smartregister.domain.db.Obs;
 import org.smartregister.maternity.BaseTest;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.exception.MaternityCloseEventProcessException;
@@ -36,11 +32,6 @@ public class MaternityMiniClientProcessorForJavaTest extends BaseTest {
 
     private MaternityMiniClientProcessorForJava maternityMiniClientProcessorForJava;
 
-    @Mock
-    private MaternityLibrary maternityLibrary;
-
-    private Event event;
-
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
@@ -48,7 +39,7 @@ public class MaternityMiniClientProcessorForJavaTest extends BaseTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         maternityMiniClientProcessorForJava = Mockito.spy(new MaternityMiniClientProcessorForJava(Mockito.mock(Context.class)));
-        event = new Event();
+        Event event = new Event();
         event.addDetails(MaternityConstants.JSON_FORM_KEY.VISIT_ID, "visitId");
     }
 

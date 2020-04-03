@@ -45,7 +45,6 @@ import timber.log.Timber;
 public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment implements MaternityRegisterFragmentContract.View {
 
     private static final String DUE_FILTER_TAG = "PRESSED";
-    private View view;
     private View dueOnlyLayout;
     private boolean dueFilterActive = false;
     private MaternityRegisterQueryProviderContract maternityRegisterQueryProvider;
@@ -59,8 +58,6 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
     @Override
     public void setupViews(View view) {
         super.setupViews(view);
-
-        this.view = view;
 
         // Update top left icon
         qrCodeScanImageView = view.findViewById(org.smartregister.R.id.scanQrCode);
@@ -116,11 +113,13 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
 
         String dueOnlyText = getDueOnlyText();
 
+        dueOnlyLayout = view.findViewById(R.id.due_only_layout);
         if (dueOnlyText != null) {
-            dueOnlyLayout = view.findViewById(R.id.due_only_layout);
             dueOnlyLayout.setVisibility(View.VISIBLE);
             dueOnlyLayout.setOnClickListener(registerActionHandler);
             ((TextView) view.findViewById(R.id.due_only_text_view)).setText(dueOnlyText);
+        } else {
+            dueOnlyLayout.setVisibility(View.GONE);
         }
 
         topRightLayout.setOnClickListener(new View.OnClickListener() {

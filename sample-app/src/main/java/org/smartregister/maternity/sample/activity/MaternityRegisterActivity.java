@@ -1,10 +1,8 @@
 package org.smartregister.maternity.sample.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -37,18 +35,13 @@ import timber.log.Timber;
 public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     protected BaseMaternityRegisterActivityPresenter createPresenter(@NonNull MaternityRegisterActivityContract.View view, @NonNull MaternityRegisterActivityContract.Model model) {
         return new MaternityRegisterActivityPresenter(view, model);
     }
 
     @Override
-    protected void initializePresenter() {
-        presenter = new MaternityRegisterActivityPresenter(this, new MaternityRegisterActivityModel());
+    protected MaternityRegisterActivityContract.Model createActivityModel() {
+        return new MaternityRegisterActivityModel();
     }
 
     @Override
@@ -120,7 +113,7 @@ public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
         startActivity(intent);
         finish();
     }
-
+/*
     @Override
     public MaternityRegisterActivityContract.Presenter presenter() {
         return (MaternityRegisterActivityContract.Presenter) presenter;
@@ -135,6 +128,6 @@ public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
     @Override
     protected Fragment[] getOtherFragments() {
         return new Fragment[0];
-    }
+    }*/
 
 }

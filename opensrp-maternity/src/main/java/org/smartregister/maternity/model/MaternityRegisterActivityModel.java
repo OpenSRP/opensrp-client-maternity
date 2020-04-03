@@ -39,6 +39,7 @@ public class MaternityRegisterActivityModel implements MaternityRegisterActivity
 
     @Override
     public void saveLanguage(String language) {
+        // Do nothing for now
     }
 
     @Nullable

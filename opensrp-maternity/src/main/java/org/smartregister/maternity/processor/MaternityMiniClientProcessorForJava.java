@@ -69,7 +69,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             eventClients.add(eventClient);
             processClient(eventClients);
 
-            updateRegisterTypeColumn(event, "maternity");
+            //updateRegisterTypeColumn(event, "maternity");
 
             HashMap<String, String> keyValues = new HashMap<>();
             generateKeyValuesFromEvent(event, keyValues, true);
@@ -146,22 +146,10 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
                     // MaternityLibrary.getInstance().getMaternityOutcomeDetailsRepository().delete(event.getBaseEntityId());
 
                     // Delete the actual client in the maternity table OR REMOVE THE Maternity register type
-                    updateRegisterTypeColumn(event, null);
+                    //updateRegisterTypeColumn(event, null);
                 }
             }
         }
         return true;
-    }
-
-    private void updateRegisterTypeColumn(@NonNull Event event, @Nullable String registerType) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MaternityDbConstants.Column.Client.REGISTER_TYPE, registerType);
-
-        MaternityLibrary.getInstance().context().commonrepository(MaternityDbConstants.Table.EC_CLIENT)
-                .updateColumn(MaternityDbConstants.Table.EC_CLIENT, contentValues, event.getBaseEntityId());
-
-        MaternityLibrary.getInstance().getRepository().getWritableDatabase()
-                .update(CommonFtsObject.searchTableName(MaternityDbConstants.Table.EC_CLIENT)
-                        , contentValues, MaternityDbConstants.Column.Client.BASE_ENTITY_ID + " = ?", new String[]{event.getBaseEntityId()});
     }
 }

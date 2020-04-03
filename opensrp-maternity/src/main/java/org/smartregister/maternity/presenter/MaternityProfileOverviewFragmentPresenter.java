@@ -33,7 +33,6 @@ import timber.log.Timber;
 public class MaternityProfileOverviewFragmentPresenter implements MaternityProfileOverviewFragmentContract.Presenter {
 
     private MaternityProfileOverviewFragmentModel model;
-    private CommonPersonObjectClient client;
     private WeakReference<MaternityProfileOverviewFragmentContract.View> view;
 
     public MaternityProfileOverviewFragmentPresenter(@NonNull MaternityProfileOverviewFragmentContract.View view) {
@@ -51,7 +50,6 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
                 // Update the client map
                 CommonPersonObjectClient commonPersonObjectClient = getProfileView().getActivityClientMap();
                 if (commonPersonObjectClient != null) {
-
                     commonPersonObjectClient.getColumnmaps().putAll(maternityDetails.getProperties());
                     commonPersonObjectClient.getDetails().putAll(maternityDetails.getProperties());
                 }
@@ -141,7 +139,6 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
     }
 
     public void setClient(@NonNull CommonPersonObjectClient client) {
-        this.client = client;
     }
 
     @Nullable

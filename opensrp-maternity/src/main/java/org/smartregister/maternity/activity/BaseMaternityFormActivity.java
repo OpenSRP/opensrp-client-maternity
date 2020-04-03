@@ -33,7 +33,6 @@ import timber.log.Timber;
 
 public class BaseMaternityFormActivity extends JsonWizardFormActivity {
 
-    private BaseMaternityFormFragment maternityFormFragment;
     private boolean enableOnCloseDialog = true;
     private HashMap<String, String> parcelableData = new HashMap<>();
 
@@ -87,7 +86,7 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
     }
 
     protected void initializeFormFragmentCore() {
-        maternityFormFragment = (BaseMaternityFormFragment) BaseMaternityFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME);
+        BaseMaternityFormFragment maternityFormFragment = (BaseMaternityFormFragment) BaseMaternityFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME);
         getSupportFragmentManager().beginTransaction().add(com.vijay.jsonwizard.R.id.container, maternityFormFragment).commit();
     }
 

@@ -1,9 +1,7 @@
 package org.smartregister.maternity.sample.presenter;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import org.apache.commons.lang3.tuple.Triple;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.pojos.MaternityEventClient;
@@ -13,10 +11,7 @@ import org.smartregister.maternity.sample.R;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;
 import org.smartregister.maternity.utils.MaternityUtils;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
-
-import timber.log.Timber;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
@@ -26,9 +21,6 @@ public class MaternityRegisterActivityPresenter extends BaseMaternityRegisterAct
 
     public MaternityRegisterActivityPresenter(MaternityRegisterActivityContract.View view, MaternityRegisterActivityContract.Model model) {
         super(view, model);
-        viewReference = new WeakReference<>(view);
-        interactor = new MaternityRegisterActivityInteractor();
-        this.model = model;
     }
 
     @Override
@@ -53,6 +45,20 @@ public class MaternityRegisterActivityPresenter extends BaseMaternityRegisterAct
         }
     }
 
+    @NonNull
+    @Override
+    public MaternityRegisterActivityContract.Interactor createInteractor() {
+        return new MaternityRegisterActivityInteractor();
+    }
+
+    @Override
+    public void onRegistrationSaved(boolean isEdit) {
+        if (getView() != null) {
+            getView().refreshList(FetchStatus.fetched);
+            getView().hideProgressDialog();
+        }
+    }
+/*
     @Override
     public void onUniqueIdFetched(@NonNull Triple<String, String, String> triple, @NonNull String entityId) {
         try {
@@ -62,14 +68,6 @@ public class MaternityRegisterActivityPresenter extends BaseMaternityRegisterAct
             if (getView() != null) {
                 getView().displayToast(R.string.error_unable_to_start_form);
             }
-        }
-    }
-
-    @Override
-    public void onRegistrationSaved(boolean isEdit) {
-        if (getView() != null) {
-            getView().refreshList(FetchStatus.fetched);
-            getView().hideProgressDialog();
         }
     }
 
@@ -104,4 +102,5 @@ public class MaternityRegisterActivityPresenter extends BaseMaternityRegisterAct
     public void setModel(MaternityRegisterActivityContract.Model model) {
         this.model = model;
     }
+    */
 }

@@ -45,7 +45,7 @@ import java.util.UUID;
 
 import timber.log.Timber;
 
-public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils {
+public class MaternityJsonFormUtils extends JsonFormUtils {
 
     public static final String METADATA = "metadata";
     public static final String ENCOUNTER_TYPE = "encounter_type";
@@ -393,7 +393,7 @@ public class MaternityJsonFormUtils extends org.smartregister.util.JsonFormUtils
         JSONObject updatedClientJson = new JSONObject(org.smartregister.util.JsonFormUtils.gson.toJson(baseClient));
         JSONObject originalClientJsonObject =
                 MaternityLibrary.getInstance().getEcSyncHelper().getClient(baseClient.getBaseEntityId());
-        JSONObject mergedJson = org.smartregister.util.JsonFormUtils.merge(originalClientJsonObject, updatedClientJson);
+        JSONObject mergedJson = JsonFormUtils.merge(originalClientJsonObject, updatedClientJson);
         MaternityLibrary.getInstance().getEcSyncHelper().addClient(baseClient.getBaseEntityId(), mergedJson);
     }
 
