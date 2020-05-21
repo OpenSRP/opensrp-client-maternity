@@ -97,7 +97,7 @@ public class MaternityJsonFormUtils extends JsonFormUtils {
                 entityId = entityId.replace("-", "");
             }
 
-            MaternityJsonFormUtils.addRegLocHierarchyQuestions(form, MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS_WIDGET_KEY, LocationHierarchy.ENTIRE_TREE);
+//            MaternityJsonFormUtils.addRegLocHierarchyQuestions(form, MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS_WIDGET_KEY, LocationHierarchy.ENTIRE_TREE);
             MaternityJsonFormUtils.addRegLocHierarchyQuestions(form, MaternityConstants.JSON_FORM_KEY.VILLAGE_ADDRESS_WIDGET_KEY, LocationHierarchy.ENTIRE_TREE);
 
             // Inject OPenSrp id into the form
@@ -159,7 +159,7 @@ public class MaternityJsonFormUtils extends JsonFormUtils {
 
             //To Do Refactor to remove dependency on hardocded keys
             for (int i = 0; i < questions.length(); i++) {
-                if (questions.getJSONObject(i).getString("key").equals("Home_Facility")) {
+                if (questions.getJSONObject(i).getString("key").equals("village")) {
                     if (StringUtils.isNotBlank(upToFacilitiesString)) {
                         questions.getJSONObject(i).put("tree", new JSONArray(upToFacilitiesString));
                     }

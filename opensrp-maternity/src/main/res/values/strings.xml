@@ -49,10 +49,8 @@
     <string name="add_treatment_medicine">Add treatments/medicine</string>
     <string name="drug_picker_dialog_save">SAVE</string>
     <string name="maternity_dosage_duration_text">Dose: %s, Duration: %s</string>
-
-    <string name="diagnose_and_treat"><![CDATA[DIAGNOSE & TREAT]]></string>
     <string name="outcome">OUTCOME</string>
-    <string name="diagnosis">Diagnosis</string>
+    <string name="diagnosis">Diagnosis Text</string>
     <string name="diagnosis_type">Diagnosis Type</string>
     <string name="disease_code">Disease Code</string>
     <string name="treatment">Treatment</string>
@@ -75,7 +73,7 @@
     <string name="week">Week</string>
 
     <string name="creating_repeating_group_title">Creating Repeating Group title</string>
-    <string name="submit_and_close_maternity">SUBMIT AND CLOSE MATERNITY</string>
+    <string name="submit_and_close_maternity">SUBMIT + CLOSE</string>
     <string name="female">Female</string>
     <string name="maternity_close">Maternity Close</string>
     <string name="maternity_client_close_message">Maternity client has been removed from the register</string>

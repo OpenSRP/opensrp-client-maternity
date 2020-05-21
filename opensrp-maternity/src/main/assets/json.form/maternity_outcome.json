@@ -1,5 +1,5 @@
 {
-  "count": "3",
+  "count": "5",
   "encounter_type": "Maternity Outcome",
   "entity_id": "",
   "metadata": {
@@ -51,8 +51,159 @@
     }
   },
   "step1": {
-    "title": "Delivery Details",
+    "title": "HIV Status & Treatment",
     "next": "step2",
+    "fields": [
+      {
+        "key": "hiv_status_previous",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Previous HIV Status",
+        "values": [
+          "Positive",
+          "Negative",
+          "Unknown"
+        ],
+        "openmrs_choice_ids": {
+          "Positive": "138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Negative": "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Unknown": "1138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Kindly select the woman's previous HIV Status"
+        }
+      },
+      {
+        "key": "hiv_status_current",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "spinner",
+        "hint": "Current HIV Status",
+        "values": [
+          "Positive",
+          "Negative",
+          "Unknown"
+        ],
+        "openmrs_choice_ids": {
+          "Positive": "138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Negative": "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Unknown": "1138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Kindly select the woman's current HIV Status"
+        }
+      },
+      {
+        "key": "on_art_treatment",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Is woman on ART treatment?",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "maternity/outcome_relevance_rules.yml"
+            }
+          }
+        },
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "No": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      },
+      {
+        "key": "art_clinic_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "ART Clinic Number",
+        "relevance": {
+          "step1:on_art_treatment": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "hiv_treatment_start",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "ART Mother treatment start period",
+        "values": [
+          "On ART before pregnancy",
+          "1st and 2nd Trimester(0-27 weeks)",
+          "3rd Trimester(28+)",
+          "During Labour"
+        ],
+        "keys": [
+          "On ART before pregnancy",
+          "1st and 2nd Trimester(0-27 weeks)",
+          "3rd Trimester(28+)",
+          "During Labour"
+        ],
+        "relevance": {
+          "step1:on_art_treatment": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "not_art_reason",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Why is the woman not on ART?",
+        "relevance": {
+          "step1:on_art_treatment": {
+            "type": "string",
+            "ex": "equalTo(., \"No\")"
+          }
+        },
+        "values": [
+          "Defaulted",
+          "Not Started on ART",
+          "Other (Specify)"
+        ],
+        "keys": [
+          "Defaulted",
+          "Not Started on ART",
+          "Other (Specify)"
+        ]
+      },
+      {
+        "key": "not_art_reason_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Specify",
+        "relevance": {
+          "step1:not_art_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"Other (Specify)\")"
+          }
+        }
+      }
+    ]
+  },
+  "step2": {
+    "title": "Delivery Details",
+    "next": "step3",
     "fields": [
       {
         "key": "delivery_date",
@@ -127,7 +278,7 @@
         "type": "edit_text",
         "hint": "Specify",
         "relevance": {
-          "step1:delivery_person": {
+          "step2:delivery_person": {
             "type": "string",
             "ex": "equalTo(., \"Other (Specify)\")"
           }
@@ -169,7 +320,7 @@
         "type": "edit_text",
         "hint": "Specify",
         "relevance": {
-          "step1:delivery_mode": {
+          "step2:delivery_mode": {
             "type": "string",
             "ex": "equalTo(., \"Other (Specify)\")"
           }
@@ -182,107 +333,22 @@
         "openmrs_entity_id": "",
         "type": "label",
         "hidden": true
-      },
-      {
-        "key": "baby_count_alive",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "164894AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "edit_text",
-        "hint": "Number of babies born alive",
-        "v_numeric_integer": {
-          "value": "true",
-          "err": "Enter a valid no"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Enter the number of babies born alive"
-        }
-      },
-      {
-        "key": "baby_count_stillborn",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "edit_text",
-        "hint": "Number of babies stillborn",
-        "v_numeric_integer": {
-          "value": "true",
-          "err": "Enter a valid no"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Enter the number of babies stillborn"
-        }
       }
     ]
   },
-  "step2": {
+  "step3": {
     "title": "Babies born",
-    "next": "step3",
+    "next": "step4",
     "fields": [
-      {
-        "key": "decoy_view",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "value": "45",
-        "hidden": true
-      },
-      {
-        "key": "babies_stillborn",
-        "type": "repeating_group",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "repeating_group_label": "Baby Stillbirth Details",
-        "reference_edit_text": "step1:baby_count_stillborn",
-        "relevance": {
-          "step2:decoy_view": {
-            "type": "string",
-            "ex": "equalTo(., \"45\")"
-          }
-        },
-        "value": [
-          {
-            "key": "stillbirth_condition",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-            "type": "spinner",
-            "hint": "Stillbirth condition",
-            "values": [
-              "Fresh",
-              "Macerated",
-              "Other"
-            ],
-            "openmrs_choice_ids": {
-              "Fresh": "159916AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Macerated": "135436AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Other": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-            },
-            "v_required": {
-              "value": "true",
-              "err": "Select the condition of the Stillbirth"
-            }
-          }
-        ]
-      },
       {
         "key": "babies_born",
         "type": "repeating_group",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
+        "reference_edit_text_hint": "#Total live babies born",
         "repeating_group_label": "Baby Born Alive",
-        "reference_edit_text": "step1:baby_count_alive",
-        "relevance": {
-          "step2:decoy_view": {
-            "type": "string",
-            "ex": "equalTo(., \"45\")"
-          }
-        },
+        "reference_edit_text": "Number of babies born alive",
         "value": [
           {
             "key": "discharged_alive",
@@ -313,7 +379,7 @@
             "hint": "First name",
             "edit_type": "name",
             "v_regex": {
-              "value": "[A-Za-z\\s\\.\\-]*",
+              "value": "^[A-Za-z0-9_]+$",
               "err": "Please enter a valid name"
             },
             "v_required": {
@@ -321,7 +387,7 @@
               "err": "Please enter a first name"
             },
             "relevance": {
-              "step2:discharged_alive": {
+              "step3:discharged_alive": {
                 "type": "string",
                 "ex": "equalTo(., \"Yes\")"
               }
@@ -344,7 +410,7 @@
               "err": "Please enter a valid name"
             },
             "relevance": {
-              "step2:discharged_alive": {
+              "step3:discharged_alive": {
                 "type": "string",
                 "ex": "equalTo(., \"Yes\")"
               }
@@ -356,14 +422,15 @@
             "openmrs_entity": "",
             "openmrs_entity_id": "",
             "type": "date_picker",
-            "hint": "Birth date and time",
+            "hint": "Birth date",
+            "max_date": "today",
             "expanded": false,
             "v_required": {
               "value": "true",
               "err": "Enter the birth time and date of the child"
             },
             "relevance": {
-              "step2:discharged_alive": {
+              "step3:discharged_alive": {
                 "type": "string",
                 "ex": "equalTo(., \"Yes\")"
               }
@@ -375,7 +442,7 @@
             "openmrs_entity": "",
             "openmrs_entity_id": "",
             "type": "spinner",
-            "hint": "Sex",
+            "hint": "Child's gender",
             "values": [
               "Male",
               "Female"
@@ -387,6 +454,12 @@
             "v_required": {
               "value": "true",
               "err": "Please enter the Gender of the child"
+            },
+            "relevance": {
+              "step3:discharged_alive": {
+                "type": "string",
+                "ex": "equalTo(., \"Yes\")"
+              }
             }
           },
           {
@@ -405,7 +478,7 @@
               "err": "Please enter the child's birth weight"
             },
             "relevance": {
-              "step2:discharged_alive": {
+              "step3:discharged_alive": {
                 "type": "string",
                 "ex": "equalTo(., \"Yes\")"
               }
@@ -427,7 +500,7 @@
               "err": "Please enter the child's birth height"
             },
             "relevance": {
-              "step2:discharged_alive": {
+              "step3:discharged_alive": {
                 "type": "string",
                 "ex": "equalTo(., \"Yes\")"
               }
@@ -457,7 +530,7 @@
               "err": "Please enter the child's birth APGAR"
             },
             "relevance": {
-              "step2:discharged_alive": {
+              "step3:discharged_alive": {
                 "type": "string",
                 "ex": "equalTo(., \"Yes\")"
               }
@@ -481,6 +554,12 @@
             "v_required": {
               "value": "true",
               "err": "Kindly select whether the baby cried at birth"
+            },
+            "relevance": {
+              "step3:discharged_alive": {
+                "type": "string",
+                "ex": "equalTo(., \"Yes\")"
+              }
             }
           },
           {
@@ -495,7 +574,13 @@
             "text_color": "#000000",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
-            "openmrs_entity_id": ""
+            "openmrs_entity_id": "",
+            "relevance": {
+              "step3:discharged_alive": {
+                "type": "string",
+                "ex": "equalTo(., \"Yes\")"
+              }
+            }
           },
           {
             "key": "baby_complications",
@@ -504,7 +589,10 @@
             "openmrs_entity_id": "",
             "type": "check_box",
             "label": "Newborn Care Complications",
-            "combine_checkbox_option_values" : "true",
+            "combine_checkbox_option_values": "true",
+            "exclusive": [
+              "none"
+            ],
             "options": [
               {
                 "key": "none",
@@ -534,6 +622,12 @@
             "v_required": {
               "value": "true",
               "err": "Kindly select at least one birth complication"
+            },
+            "relevance": {
+              "step3:discharged_alive": {
+                "type": "string",
+                "ex": "equalTo(., \"Yes\")"
+              }
             }
           },
           {
@@ -544,7 +638,7 @@
             "type": "edit_text",
             "hint": "Specify",
             "relevance": {
-              "step2:baby_complications": {
+              "step3:baby_complications": {
                 "ex-checkbox": [
                   {
                     "or": [
@@ -562,7 +656,7 @@
             "openmrs_entity_id": "",
             "type": "check_box",
             "label": "Newborn Routine Care & Management",
-            "combine_checkbox_option_values" : "true",
+            "combine_checkbox_option_values": "true",
             "options": [
               {
                 "key": "kmc",
@@ -589,12 +683,16 @@
                 "text": "Rescuscitation"
               },
               {
+                "key": "referral",
+                "text": "Referral"
+              },
+              {
                 "key": "other",
                 "text": "Other (Specify)"
               }
             ],
             "relevance": {
-              "step2:baby_complications": {
+              "step3:baby_complications": {
                 "type": "string",
                 "ex": "notEqualTo(., \"None\")"
               }
@@ -608,12 +706,11 @@
             "type": "edit_text",
             "hint": "Specify",
             "relevance": {
-              "step2:baby_care_mgt": {
+              "step3:baby_care_mgt": {
                 "ex-checkbox": [
                   {
                     "or": [
-                      "other",
-                      "antibiotics"
+                      "other"
                     ]
                   }
                 ]
@@ -640,14 +737,10 @@
               "err": "Kindly select the referral location"
             },
             "relevance": {
-              "step2:baby_care_mgt": {
-                "ex-checkbox": [
-                  {
-                    "or": [
-                      "referral"
-                    ]
-                  }
-                ]
+              "rules-engine": {
+                "ex-rules": {
+                  "rules-dynamic": "maternity/outcome_relevance_rules.yml"
+                }
               }
             }
           },
@@ -663,8 +756,15 @@
             "text_color": "#000000",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
-            "openmrs_entity_id": ""
-          },          {
+            "openmrs_entity_id": "",
+            "relevance": {
+              "step3:discharged_alive": {
+                "type": "string",
+                "ex": "equalTo(., \"Yes\")"
+              }
+            }
+          },
+          {
             "key": "bf_first_hour",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
@@ -680,7 +780,7 @@
               "No"
             ],
             "relevance": {
-              "step2:discharged_alive": {
+              "step3:discharged_alive": {
                 "type": "string",
                 "ex": "equalTo(., \"Yes\")"
               }
@@ -713,7 +813,47 @@
       }
     ]
   },
-  "step3": {
+  "step4": {
+    "title": "Still born babies",
+    "next": "step5",
+    "fields": [
+      {
+        "key": "babies_stillborn",
+        "type": "repeating_group",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "reference_edit_text_hint": "#Total stillborn babies",
+        "repeating_group_label": "Baby Stillbirth Details",
+        "reference_edit_text": "Number of babies stillborn",
+        "value": [
+          {
+            "key": "stillbirth_condition",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "type": "spinner",
+            "hint": "Stillbirth condition",
+            "values": [
+              "Fresh",
+              "Macerated",
+              "Other"
+            ],
+            "openmrs_choice_ids": {
+              "Fresh": "159916AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Macerated": "135436AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Other": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            },
+            "v_required": {
+              "value": "true",
+              "err": "Select the condition of the Stillbirth"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "step5": {
     "title": "Mother Information",
     "fields": [
       {
@@ -722,16 +862,16 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "spinner",
-        "hint": "What is the current status of the mother?",
+        "hint": "Current mother's status",
         "values": [
           "Alive",
           "Brought in Dead(BID)",
-          "Died Before Dischard(DBD)"
+          "Died Before Discharge(DBD"
         ],
         "keys": [
           "Alive",
           "Brought in Dead(BID)",
-          "Died Before Dischard(DBD)"
+          "Died Before Discharge(DBD"
         ],
         "v_required": {
           "value": "true",
@@ -745,7 +885,10 @@
         "openmrs_entity_id": "1541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "check_box",
         "label": "Obstetric Complications",
-        "combine_checkbox_option_values" : "true",
+        "combine_checkbox_option_values": "true",
+        "exclusive": [
+          "none"
+        ],
         "options": [
           {
             "key": "none",
@@ -829,9 +972,9 @@
           }
         ],
         "relevance": {
-          "step3:mother_status": {
+          "step5:mother_status": {
             "type": "string",
-            "ex": "equalTo(., \"Alive\")"
+            "ex": "equalTo(.,\"Alive\")"
           }
         }
       },
@@ -843,7 +986,7 @@
         "type": "edit_text",
         "hint": "Specify",
         "relevance": {
-          "step3:obstetric_complications": {
+          "step5:obstetric_complications": {
             "ex-checkbox": [
               {
                 "or": [
@@ -861,7 +1004,10 @@
         "openmrs_entity_id": "160427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "check_box",
         "label": "Obstetric care",
-        "combine_checkbox_option_values" : "true",
+        "combine_checkbox_option_values": "true",
+        "exclusive": [
+          "none"
+        ],
         "options": [
           {
             "key": "none",
@@ -921,7 +1067,7 @@
         "type": "edit_text",
         "hint": "Specify",
         "relevance": {
-          "step3:obstetric_care": {
+          "step5:obstetric_care": {
             "ex-checkbox": [
               {
                 "or": [
@@ -938,7 +1084,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "spinner",
-        "hint": "Was the patient referred to another Medical Center?",
+        "hint": "Was the woman referred out?",
         "values": [
           "Yes",
           "No"
@@ -948,7 +1094,7 @@
           "No"
         ],
         "relevance": {
-          "step3:obstetric_care": {
+          "step5:obstetric_care": {
             "ex-checkbox": [
               {
                 "not": [
@@ -975,7 +1121,7 @@
           "No"
         ],
         "relevance": {
-          "step3:mother_status": {
+          "step5:mother_status": {
             "type": "string",
             "ex": "equalTo(., \"Alive\")"
           }
@@ -1005,7 +1151,7 @@
           "Other"
         ],
         "relevance": {
-          "step3:mother_status": {
+          "step5:mother_status": {
             "type": "string",
             "ex": "equalTo(., \"Alive\")"
           }

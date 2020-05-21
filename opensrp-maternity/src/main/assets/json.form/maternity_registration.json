@@ -1,5 +1,5 @@
 {
-  "count": "4",
+  "count": "3",
   "encounter_type": "Maternity Registration",
   "entity_id": "",
   "relational_id": "",
@@ -99,17 +99,17 @@
         "openmrs_entity_id": "bht_mid",
         "type": "barcode",
         "barcode_type": "qrcode",
-        "hint": "BHT ID",
+        "hint": "Patient ID",
         "value": "0",
         "scanButtonText": "Scan Barcode",
         "look_up": true,
         "v_numeric": {
           "value": "true",
-          "err": "Please enter a valid BHT ID"
+          "err": "Please enter a valid Patient ID"
         },
         "v_required": {
           "value": false,
-          "err": "Please enter a valid BHT ID"
+          "err": "Please enter a valid Patient ID"
         }
       },
       {
@@ -275,7 +275,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
-        "openmrs_data_type": "text",
         "type": "tree",
         "tree": [],
         "hint": "Village",
@@ -289,9 +288,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
-        "openmrs_data_type": "text",
-        "type": "tree",
-        "tree": [],
+        "type": "edit_text",
         "hint": "Home address",
         "v_required": {
           "value": false,
@@ -309,21 +306,6 @@
           "value": "([0][0-9]{9})|\\s*",
           "err": "Number must begin with 0 and must be a total of 10 digits in length"
         }
-      },
-      {
-        "key": "reminders",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "reminders",
-        "openmrs_data_type": "select one",
-        "type": "check_box",
-        "options": [
-          {
-            "key": "isEnrolledInSmsMessages",
-            "text": "Enroll in Sms Messages",
-            "value": true
-          }
-        ]
       },
       {
         "key": "alt_contact_name",
@@ -355,7 +337,7 @@
     ]
   },
   "step2": {
-    "title": "Pregnancy Data",
+    "title": "Pregnancy & medical history",
     "next": "step3",
     "fields": [
       {
@@ -409,13 +391,36 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "165258AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "date_picker",
-        "hint": "Last Menstrual Period",
+        "hint": "Last menstrual period",
         "expanded": false,
         "duration": {
-          "label": "Last Menstrual Period"
+          "label": ""
         },
+        "min_date": "today-280d",
         "max_date": "today",
-        "min_date": "today-20w"
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "maternity/registration_relevance_rules.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "lmp_unknown",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "check_box",
+        "hint": "Last menstrual period unknown checkbox",
+        "label": "",
+        "options": [
+          {
+            "key" : "lmp_unknown",
+            "text": "Last menstrual period unknown?",
+            "value": "false"
+          }
+        ]
       },
       {
         "key": "gest_age",
@@ -423,12 +428,20 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "165220AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "edit_text",
+        "readonly": true,
         "value": "",
         "hint": "The Calculated Gestation age",
         "calculation": {
           "rules-engine": {
             "ex-rules": {
               "rules-file": "maternity/registration_calculation_rules.yml"
+            }
+          }
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "maternity/registration_relevance_rules.yml"
             }
           }
         }
@@ -439,14 +452,14 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "edit_text",
-        "hint": "Gestation Weeks",
+        "hint": "Gestation age in Weeks",
         "v_numeric": {
           "value": "true",
-          "err": "Enter a valid no for Gestation Weeks"
+          "err": "Enter a valid no for Gestation age in Weeks"
         },
         "v_required": {
           "value": "true",
-          "err": "Enter a valid no for Gestation Weeks"
+          "err": "Enter a valid no for Gestation age in Weeks"
         },
         "relevance": {
           "rules-engine": {
@@ -462,10 +475,10 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "edit_text",
-        "hint": "Gestation Days",
+        "hint": "Gestation age in days",
         "v_numeric": {
           "value": "true",
-          "err": "Enter a valid no for Gestation Days"
+          "err": "Enter a valid no for Gestation age in days"
         },
         "relevance": {
           "rules-engine": {
@@ -476,27 +489,20 @@
         }
       },
       {
-        "key": "conception_date",
+        "key": "onset_labour_label",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
-        "type": "edit_text",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "maternity/registration_calculation_rules.yml"
-            }
-          }
-        },
-        "read_only": true
+        "type": "label",
+        "hint": "When did labour begin? (Onset of Labour)"
       },
       {
-        "key": "onset_labour",
+        "key": "onset_labour_date",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "date_picker",
-        "hint": "When did labour begin? (Onset of Labour)",
+        "hint": "Onset of Labour date",
         "expanded": false,
         "duration": {
           "label": "Start of Labour"
@@ -505,12 +511,24 @@
         "max_date": "today"
       },
       {
+        "key": "onset_labour_time",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "time_picker",
+        "hint": "Time",
+        "expanded": false,
+        "duration": {
+          "label": "Onset labour time"
+        }
+      },
+      {
         "key": "previous_complications",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "1430AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "check_box",
-        "label": "Have there been any complications in previous pregnancies?",
+        "label": "Any past pregnancy problems?",
         "relevance": {
           "step2:parity": {
             "type": "numeric",
@@ -672,7 +690,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "5630AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "check_box",
-        "label": "What modes of delivery were used in any of the previous pregnancies?",
+        "label": "Modes of delivery in past pregnancies",
         "relevance": {
           "step2:parity": {
             "type": "numeric",
@@ -728,7 +746,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "5630AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "check_box",
-        "label": "What were the outcomes of the previous pregnancies?",
+        "label": "Outcomes of previous pregnancies",
         "relevance": {
           "step2:parity": {
             "type": "numeric",
@@ -784,7 +802,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "160592AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "check_box",
-        "label": "Are there any medical conditions that are known to be in the family history?",
+        "label": "Family medical history",
         "relevance": {
           "step2:parity": {
             "type": "numeric",
@@ -883,157 +901,6 @@
     ]
   },
   "step3": {
-    "title": "HIV Status & Treatment",
-    "next": "step4",
-    "fields": [
-      {
-        "key": "hiv_status_previous",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "spinner",
-        "hint": "Previous HIV Status",
-        "values": [
-          "Positive",
-          "Negative",
-          "Unknown"
-        ],
-        "openmrs_choice_ids": {
-          "Positive": "138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Negative": "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Unknown": "1138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Kindly select the woman's previous HIV Status"
-        }
-      },
-      {
-        "key": "hiv_status_current",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "spinner",
-        "hint": "Current HIV Status",
-        "values": [
-          "Positive",
-          "Negative",
-          "Unknown"
-        ],
-        "openmrs_choice_ids": {
-          "Positive": "138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Negative": "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Unknown": "1138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Kindly select the woman's current HIV Status"
-        }
-      },
-      {
-        "key": "on_art_treatment",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "spinner",
-        "hint": "Is mother on ART treatment?",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "maternity/registration_relevance_rules.yml"
-            }
-          }
-        },
-        "values": [
-          "Yes",
-          "No"
-        ],
-        "openmrs_choice_ids": {
-          "Yes": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "No": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        }
-      },
-      {
-        "key": "art_clinic_number",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "edit_text",
-        "hint": "ART Clinic Number",
-        "relevance": {
-          "step3:on_art_treatment": {
-            "type": "string",
-            "ex": "equalTo(., \"Yes\")"
-          }
-        }
-      },
-      {
-        "key": "hiv_treatment_start",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "spinner",
-        "hint": "ART Mother treatment start period",
-        "values": [
-          "On ART before pregnancy",
-          "1st and 2nd Trimester(0-27 weeks)",
-          "3rd Trimester(28+)",
-          "During Labour"
-        ],
-        "keys": [
-          "On ART before pregnancy",
-          "1st and 2nd Trimester(0-27 weeks)",
-          "3rd Trimester(28+)",
-          "During Labour"
-        ],
-        "relevance": {
-          "step3:on_art_treatment": {
-            "type": "string",
-            "ex": "equalTo(., \"Yes\")"
-          }
-        }
-      },
-      {
-        "key": "not_art_reason",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "spinner",
-        "hint": "Why is the woman not on ART?",
-        "relevance": {
-          "step3:on_art_treatment": {
-            "type": "string",
-            "ex": "equalTo(., \"No\")"
-          }
-        },
-        "values": [
-          "Defaulted",
-          "Not Started on ART",
-          "Other (Specify)"
-        ],
-        "keys": [
-          "Defaulted",
-          "Not Started on ART",
-          "Other (Specify)"
-        ]
-      },
-      {
-        "key": "not_art_reason_other",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "edit_text",
-        "hint": "Specify",
-        "relevance": {
-          "step3:not_art_reason": {
-            "type": "string",
-            "ex": "equalTo(., \"Other (Specify)\")"
-          }
-        }
-      }
-    ]
-  },
-  "step4": {
     "title": "Demographic Information",
     "fields": [
       {
@@ -1189,7 +1056,7 @@
         "hint": "Specify",
         "edit_type": "name",
         "relevance": {
-          "step4:occupation": {
+          "step3:occupation": {
             "ex-checkbox": [
               {
                 "or": [
@@ -1211,11 +1078,72 @@
       {
         "key": "religion",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "edit_text",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "162929AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_data_type": "",
+        "type": "native_radio",
+        "label": "Religion",
         "hint": "Religion",
-        "edit_type": "name"
+        "label_text_style": "bold",
+        "options": [
+          {
+            "key": "christian",
+            "text": "Christian",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "163125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
+            "key": "muslim",
+            "text": "Muslim",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "162933AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
+            "key": "traditional",
+            "text": "Traditional",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": ""
+          },
+          {
+            "key": "pagan",
+            "text": "Pagan",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": ""
+          },
+          {
+            "key": "none",
+            "text": "None",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
+            "key": "other",
+            "text": "Other (specify)",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          }
+        ]
+      },
+      {
+        "key": "religion_other",
+        "openmrs_entity_parent": "162929AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "edit_text",
+        "hint": "Write in the woman's other religion that is not on the list.",
+        "edit_type": "name",
+        "relevance": {
+          "step3:religion": {
+            "type": "string",
+            "ex": "equalTo(., \"other\")"
+          }
+        }
       }
     ]
   }

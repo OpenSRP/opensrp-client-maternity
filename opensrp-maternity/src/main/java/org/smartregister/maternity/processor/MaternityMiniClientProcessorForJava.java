@@ -79,7 +79,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             if (eventClient.getClient() == null) {
                 throw new MaternityCloseEventProcessException(String.format("Client %s referenced by %s event does not exist", event.getBaseEntityId(), MaternityConstants.EventType.MATERNITY_CLOSE));
             }
-
+            processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
             unsyncEvents.add(event);
         } else if (eventType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
             HashMap<String, String> keyValues = new HashMap<>();
