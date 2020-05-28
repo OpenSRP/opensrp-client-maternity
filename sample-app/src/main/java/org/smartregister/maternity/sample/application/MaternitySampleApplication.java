@@ -11,7 +11,7 @@ import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.activity.BaseMaternityProfileActivity;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
-import org.smartregister.maternity.pojos.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityMetadata;
 import org.smartregister.maternity.sample.BuildConfig;
 import org.smartregister.maternity.sample.activity.MaternityFormActivity;
 import org.smartregister.maternity.sample.configuration.MaternityRegisterQueryProvider;

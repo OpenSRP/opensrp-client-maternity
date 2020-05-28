@@ -23,7 +23,7 @@ import org.robolectric.util.ReflectionHelpers;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.activity.BaseMaternityFormActivity;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
-import org.smartregister.maternity.pojos.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityMetadata;
 
 import java.util.Date;
 import java.util.HashMap;

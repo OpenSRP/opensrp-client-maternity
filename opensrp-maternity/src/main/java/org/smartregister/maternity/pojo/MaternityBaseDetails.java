@@ -1,4 +1,4 @@
-package org.smartregister.maternity.pojos;
+package org.smartregister.maternity.pojo;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

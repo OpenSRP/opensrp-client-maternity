@@ -15,7 +15,7 @@ import org.smartregister.maternity.activity.BaseMaternityRegisterActivity;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.fragment.BaseMaternityRegisterFragment;
 import org.smartregister.maternity.model.MaternityRegisterActivityModel;
-import org.smartregister.maternity.pojos.RegisterParams;
+import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.maternity.presenter.BaseMaternityRegisterActivityPresenter;
 import org.smartregister.maternity.sample.R;
 import org.smartregister.maternity.sample.fragment.MaternityRegisterFragment;

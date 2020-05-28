@@ -18,7 +18,7 @@ import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.dao.MaternityOutcomeFormDao;
 import org.smartregister.maternity.fragment.BaseMaternityFormFragment;
-import org.smartregister.maternity.pojos.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityOutcomeForm;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;

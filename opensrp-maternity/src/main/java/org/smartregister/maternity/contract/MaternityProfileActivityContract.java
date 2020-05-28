@@ -11,10 +11,10 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.maternity.listener.OnSendActionToFragment;
 import org.smartregister.maternity.listener.OngoingTaskCompleteListener;
-import org.smartregister.maternity.pojos.MaternityEventClient;
-import org.smartregister.maternity.pojos.MaternityOutcomeForm;
-import org.smartregister.maternity.pojos.OngoingTask;
-import org.smartregister.maternity.pojos.RegisterParams;
+import org.smartregister.maternity.pojo.MaternityEventClient;
+import org.smartregister.maternity.pojo.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.OngoingTask;
+import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.view.contract.BaseProfileContract;
 
 import java.util.HashMap;

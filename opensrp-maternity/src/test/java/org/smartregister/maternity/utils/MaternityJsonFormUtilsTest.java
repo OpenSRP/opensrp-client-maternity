@@ -26,7 +26,7 @@ import org.smartregister.maternity.BuildConfig;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.configuration.MaternityRegisterQueryProviderTest;
-import org.smartregister.maternity.pojos.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityMetadata;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
 import org.smartregister.util.JsonFormUtils;

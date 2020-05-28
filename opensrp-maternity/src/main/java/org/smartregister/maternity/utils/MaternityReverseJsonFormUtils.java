@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import org.smartregister.domain.Photo;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.maternity.enums.LocationHierarchy;
-import org.smartregister.maternity.pojos.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityMetadata;
 import org.smartregister.util.AssetHandler;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.ImageUtils;
@@ -143,7 +143,8 @@ public class MaternityReverseJsonFormUtils {
             }
         }
 
-        String facilityHierarchyString = AssetHandler.javaToJsonString(entityHierarchy, new TypeToken<List<String>>() {}.getType());
+        String facilityHierarchyString = AssetHandler.javaToJsonString(entityHierarchy, new TypeToken<List<String>>() {
+        }.getType());
         if (StringUtils.isNotBlank(facilityHierarchyString)) {
             jsonObject.put(MaternityJsonFormUtils.VALUE, facilityHierarchyString);
         }

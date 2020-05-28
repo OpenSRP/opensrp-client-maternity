@@ -5,23 +5,28 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.smartregister.CoreLibrary;
 import org.smartregister.domain.db.Event;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.db.Obs;
 import org.smartregister.domain.jsonmapping.ClientClassification;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.exception.MaternityCloseEventProcessException;
-import org.smartregister.maternity.pojos.MaternityDetails;
-import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
+import org.smartregister.maternity.pojo.MaternityChild;
+import org.smartregister.maternity.pojo.MaternityStillBorn;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.MiniClientProcessorForJava;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
@@ -62,32 +67,79 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
 
         if (eventType.equals(MaternityConstants.EventType.MATERNITY_REGISTRATION)
                 || eventType.equals(MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION)) {
-            ArrayList<EventClient> eventClients = new ArrayList<>();
-            eventClients.add(eventClient);
-            processClient(eventClients);
-
-            //updateRegisterTypeColumn(event, "maternity");
-
-            HashMap<String, String> keyValues = new HashMap<>();
-            generateKeyValuesFromEvent(event, keyValues, true);
-
-            MaternityRegistrationDetails maternityDetails = new MaternityRegistrationDetails(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate(), keyValues);
-            maternityDetails.setCreatedAt(new Date());
-
-            MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().saveOrUpdate(maternityDetails);
+            processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+            CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
         } else if (eventType.equals(MaternityConstants.EventType.MATERNITY_CLOSE)) {
             if (eventClient.getClient() == null) {
                 throw new MaternityCloseEventProcessException(String.format("Client %s referenced by %s event does not exist", event.getBaseEntityId(), MaternityConstants.EventType.MATERNITY_CLOSE));
             }
             processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+            CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
             unsyncEvents.add(event);
         } else if (eventType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
-            HashMap<String, String> keyValues = new HashMap<>();
-            generateKeyValuesFromEvent(event, keyValues);
+            processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+            processMaternityOutcome(event);
+            CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
+        }
+    }
 
-            MaternityDetails maternityDetails = new MaternityDetails(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate(), keyValues);
-            maternityDetails.setCreatedAt(new Date());
-            MaternityLibrary.getInstance().getMaternityOutcomeDetailsRepository().saveOrUpdate(maternityDetails);
+    private void processMaternityOutcome(Event event) {
+        HashMap<String, String> keyValues = new HashMap<>();
+        generateKeyValuesFromEvent(event, keyValues);
+        String strStillBorn = keyValues.get(MaternityConstants.JSON_FORM_KEY.BABIES_STILL_BORN_MAP);
+        processStillBorn(strStillBorn, event.getBaseEntityId());
+        String strBabiesBorn = keyValues.get(MaternityConstants.JSON_FORM_KEY.BABIES_BORN_MAP);
+        processBabiesBorn(strBabiesBorn, event.getBaseEntityId());
+    }
+
+    private void processBabiesBorn(String strBabiesBorn, String baseEntityId) {
+        if (StringUtils.isNotBlank(strBabiesBorn)) {
+            try {
+                JSONObject jsonObject = new JSONObject(strBabiesBorn);
+                Iterator<String> repeatingGroupKeys = jsonObject.keys();
+                while (repeatingGroupKeys.hasNext()) {
+                    JSONObject jsonTestObject = jsonObject.optJSONObject(repeatingGroupKeys.next());
+                    MaternityChild maternityChild = new MaternityChild();
+                    maternityChild.setMotherBaseEntityId(baseEntityId);
+                    maternityChild.setApgar(jsonTestObject.optString("apgar"));
+                    maternityChild.setBfFirstHour(jsonTestObject.optString("bf_first_hour"));
+                    maternityChild.setComplications(jsonTestObject.optString("complications"));
+                    maternityChild.setComplicationsOther(jsonTestObject.optString("complications_other"));
+                    maternityChild.setFirstCry(jsonTestObject.optString("baby_first_cry"));
+                    maternityChild.setDischargedAlive(jsonTestObject.optString("discharged_alive"));
+                    maternityChild.setDob(jsonTestObject.optString("dob"));
+                    maternityChild.setFirstName(jsonTestObject.optString("baby_first_name"));
+                    maternityChild.setLastName(jsonTestObject.optString("baby_last_name"));
+                    maternityChild.setGender(jsonTestObject.optString("gender"));
+                    maternityChild.setHeight(jsonTestObject.optString("height"));
+                    maternityChild.setWeight(jsonTestObject.optString("weight"));
+                    //add code to insert opensrp id;
+                    maternityChild.setNvpAdministration(jsonTestObject.optString("nvp_administration"));
+                    maternityChild.setInterventionSpecify(jsonTestObject.optString("intervention_specify"));
+                    maternityChild.setInterventionReferralLocation(jsonTestObject.optString("intervention_referral_location"));
+                    MaternityLibrary.getInstance().getMaternityChildRepository().saveOrUpdate(maternityChild);
+                }
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
+        }
+    }
+
+    private void processStillBorn(String strStillBorn, String baseEntityId) {
+        if (StringUtils.isNotBlank(strStillBorn)) {
+            try {
+                JSONObject jsonObject = new JSONObject(strStillBorn);
+                Iterator<String> repeatingGroupKeys = jsonObject.keys();
+                while (repeatingGroupKeys.hasNext()) {
+                    JSONObject jsonTestObject = jsonObject.optJSONObject(repeatingGroupKeys.next());
+                    MaternityStillBorn maternityStillBorn = new MaternityStillBorn();
+                    maternityStillBorn.setMotherBaseEntityId(baseEntityId);
+                    maternityStillBorn.setStillBirthCondition(jsonTestObject.optString("stillbirth_condition"));
+                    MaternityLibrary.getInstance().getMaternityStillBornRepository().saveOrUpdate(maternityStillBorn);
+                }
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
         }
     }
 

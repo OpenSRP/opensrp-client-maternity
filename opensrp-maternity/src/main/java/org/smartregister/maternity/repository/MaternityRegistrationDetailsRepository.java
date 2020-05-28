@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
-import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
+import org.smartregister.maternity.pojo.MaternityRegistrationDetails;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 
 /**
@@ -22,7 +22,7 @@ public class MaternityRegistrationDetailsRepository extends MaternityDetailsRepo
                 + MaternityDbConstants.Column.MaternityDetails.CREATED_AT + " DATETIME NOT NULL DEFAULT (DATETIME('now')), "
                 + MaternityDbConstants.Column.MaternityDetails.EVENT_DATE + " DATETIME NOT NULL, ";
 
-        for (MaternityRegistrationDetails.Property column: MaternityRegistrationDetails.Property.values()) {
+        for (MaternityRegistrationDetails.Property column : MaternityRegistrationDetails.Property.values()) {
             CREATE_TABLE_SQL += column.name() + " VARCHAR, ";
         }
 
@@ -41,12 +41,10 @@ public class MaternityRegistrationDetailsRepository extends MaternityDetailsRepo
         return MaternityDbConstants.Table.MATERNITY_REGISTRATION_DETAILS;
     }
 
-    @Override
     public String getTableName() {
         return MaternityDbConstants.Table.MATERNITY_REGISTRATION_DETAILS;
     }
 
-    @Override
     public String[] getPropertyNames() {
         if (propertyNames == null) {
             MaternityRegistrationDetails.Property[] properties = MaternityRegistrationDetails.Property.values();

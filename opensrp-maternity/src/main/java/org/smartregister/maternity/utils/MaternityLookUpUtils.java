@@ -12,7 +12,7 @@ import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.event.Listener;
 import org.smartregister.maternity.MaternityLibrary;
-import org.smartregister.maternity.pojos.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityMetadata;
 
 import java.util.ArrayList;
 import java.util.List;

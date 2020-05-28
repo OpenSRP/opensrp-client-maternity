@@ -1,4 +1,4 @@
-package org.smartregister.maternity.pojos;
+package org.smartregister.maternity.pojo;
 
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.repository.BaseRepository;

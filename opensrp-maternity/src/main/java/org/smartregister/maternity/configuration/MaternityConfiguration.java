@@ -3,15 +3,16 @@ package org.smartregister.maternity.configuration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.smartregister.maternity.pojos.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityMetadata;
+import org.smartregister.maternity.utils.MaternityConstants;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This is the object used to configure any configurations added to Maternity. We mostly use objects that are
  * instantiated using {@link org.smartregister.maternity.utils.ConfigurationInstancesHelper} which means
  * that the constructors of any of the classes should not have any parameters
- *
+ * <p>
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
@@ -29,6 +30,9 @@ public class MaternityConfiguration {
         if (builder.maternityRegisterProviderMetadata == null) {
             builder.maternityRegisterProviderMetadata = BaseMaternityRegisterProviderMetadata.class;
         }
+
+        builder.maternityFormProcessingClasses.put(MaternityConstants.EventType.MATERNITY_OUTCOME, MaternityOutcomeFormProcessing.class);
+
     }
 
     @Nullable
@@ -56,7 +60,7 @@ public class MaternityConfiguration {
         return builder.maternityRegisterSwitcher;
     }
 
-    public ArrayList<Class<? extends MaternityFormProcessingTask>> getMaternityFormProcessingTasks() {
+    public HashMap<String, Class<? extends MaternityFormProcessingTask>> getMaternityFormProcessingTasks() {
         return builder.maternityFormProcessingClasses;
     }
 
@@ -83,11 +87,12 @@ public class MaternityConfiguration {
         private Class<? extends MaternityRegisterSwitcher> maternityRegisterSwitcher;
 
         @NonNull
-        private ArrayList<Class<? extends MaternityFormProcessingTask>> maternityFormProcessingClasses = new ArrayList<>();
+        private HashMap<String, Class<? extends MaternityFormProcessingTask>> maternityFormProcessingClasses = new HashMap<>();
 
         private boolean isBottomNavigationEnabled;
 
         private MaternityMetadata maternityMetadata;
+
         private int maxCheckInDurationInMinutes = 24 * 60;
 
         public Builder(@NonNull Class<? extends MaternityRegisterQueryProviderContract> maternityRegisterQueryProvider) {
@@ -124,8 +129,8 @@ public class MaternityConfiguration {
             return this;
         }
 
-        public Builder addMaternityFormProcessingTask(@NonNull Class<? extends MaternityFormProcessingTask> maternityFormProcessingTask) {
-            this.maternityFormProcessingClasses.add(maternityFormProcessingTask);
+        public Builder addMaternityFormProcessingTask(@NonNull String eventType, @NonNull Class<? extends MaternityFormProcessingTask> maternityFormProcessingTask) {
+            this.maternityFormProcessingClasses.put(eventType, maternityFormProcessingTask);
             return this;
         }
 

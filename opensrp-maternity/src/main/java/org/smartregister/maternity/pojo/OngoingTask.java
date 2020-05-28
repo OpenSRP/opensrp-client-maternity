@@ -1,4 +1,4 @@
-package org.smartregister.maternity.pojos;
+package org.smartregister.maternity.pojo;
 
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 26-03-2020.

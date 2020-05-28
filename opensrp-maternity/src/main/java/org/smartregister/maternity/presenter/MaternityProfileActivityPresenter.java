@@ -21,12 +21,12 @@ import org.smartregister.maternity.interactor.MaternityProfileInteractor;
 import org.smartregister.maternity.listener.MaternityEventActionCallBack;
 import org.smartregister.maternity.listener.OngoingTaskCompleteListener;
 import org.smartregister.maternity.model.MaternityProfileActivityModel;
-import org.smartregister.maternity.pojos.MaternityEventClient;
-import org.smartregister.maternity.pojos.MaternityMetadata;
-import org.smartregister.maternity.pojos.MaternityOutcomeForm;
-import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
-import org.smartregister.maternity.pojos.OngoingTask;
-import org.smartregister.maternity.pojos.RegisterParams;
+import org.smartregister.maternity.pojo.MaternityEventClient;
+import org.smartregister.maternity.pojo.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityRegistrationDetails;
+import org.smartregister.maternity.pojo.OngoingTask;
+import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.maternity.tasks.FetchRegistrationDataTask;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.MaternityConstants;
@@ -136,7 +136,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
         MaternityProfileActivityContract.View profileView = getProfileView();
         if (profileView != null) {
             profileView.setProfileName(client.get(MaternityDbConstants.KEY.FIRST_NAME) + " " + client.get(MaternityDbConstants.KEY.LAST_NAME));
-                String translatedYearInitial = profileView.getString(R.string.abbrv_years);
+            String translatedYearInitial = profileView.getString(R.string.abbrv_years);
             String dobString = client.get(MaternityConstants.KEY.DOB);
 
             if (dobString != null) {
@@ -267,7 +267,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
         if (view != null) {
             view.hideProgressDialog();
 
-            if(getOngoingTask() != null) {
+            if (getOngoingTask() != null) {
                 view.showMessage(view.getString(R.string.maternity_client_close_message));
                 view.closeView();
 
@@ -325,7 +325,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     @Override
     public boolean removeOngoingTask(@NonNull OngoingTask ongoingTask) {
         if (this.ongoingTask == ongoingTask) {
-            for (OngoingTaskCompleteListener ongoingTaskCompleteListener: ongoingTaskCompleteListeners) {
+            for (OngoingTaskCompleteListener ongoingTaskCompleteListener : ongoingTaskCompleteListeners) {
                 ongoingTaskCompleteListener.onTaskComplete(ongoingTask);
             }
 

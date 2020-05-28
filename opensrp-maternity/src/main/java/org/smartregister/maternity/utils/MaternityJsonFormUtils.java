@@ -23,11 +23,10 @@ import org.smartregister.domain.tag.FormTag;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.enums.LocationHierarchy;
-import org.smartregister.maternity.pojos.MaternityEventClient;
-import org.smartregister.maternity.pojos.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityEventClient;
+import org.smartregister.maternity.pojo.MaternityMetadata;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.ImageRepository;
-import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.util.AssetHandler;
 import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.activity.DrishtiApplication;
@@ -85,8 +84,7 @@ public class MaternityJsonFormUtils extends JsonFormUtils {
 
         if (MaternityUtils.metadata() != null && MaternityUtils.metadata().getMaternityRegistrationFormName().equals(formName)) {
             if (StringUtils.isBlank(entityId)) {
-                UniqueIdRepository uniqueIdRepo = MaternityLibrary.getInstance().getUniqueIdRepository();
-                entityId = uniqueIdRepo.getNextUniqueId() != null ? uniqueIdRepo.getNextUniqueId().getOpenmrsId() : "";
+                entityId = MaternityUtils.getNextUniqueId();
                 if (entityId.isEmpty()) {
                     Timber.e("MaternityJsonFormUtils --> UniqueIds are empty");
                     return null;
@@ -348,7 +346,7 @@ public class MaternityJsonFormUtils extends JsonFormUtils {
         }
     }
 
-    protected static void lastInteractedWith(@NonNull JSONArray fields) {
+    public static void lastInteractedWith(@NonNull JSONArray fields) {
         try {
             JSONObject lastInteractedWith = new JSONObject();
             lastInteractedWith.put(MaternityConstants.KEY.KEY, MaternityConstants.JSON_FORM_KEY.LAST_INTERACTED_WITH);

@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityProfileOverviewFragmentContract;
-import org.smartregister.maternity.pojos.MaternityBaseDetails;
+import org.smartregister.maternity.pojo.MaternityBaseDetails;
 import org.smartregister.maternity.utils.AppExecutors;
 
 /**

@@ -1,4 +1,4 @@
-package org.smartregister.maternity.pojos;
+package org.smartregister.maternity.pojo;
 
 import com.google.gson.annotations.SerializedName;
 

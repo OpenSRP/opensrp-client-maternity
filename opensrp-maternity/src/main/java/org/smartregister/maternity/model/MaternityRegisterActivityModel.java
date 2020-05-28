@@ -8,7 +8,7 @@ import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
-import org.smartregister.maternity.pojos.MaternityEventClient;
+import org.smartregister.maternity.pojo.MaternityEventClient;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.util.Utils;
@@ -71,7 +71,7 @@ public class MaternityRegisterActivityModel implements MaternityRegisterActivity
     @Nullable
     @Override
     public JSONObject getFormAsJson(String formName, String entityId,
-                             String currentLocationId, @Nullable HashMap<String, String> injectedValues) throws JSONException {
+                                    String currentLocationId, @Nullable HashMap<String, String> injectedValues) throws JSONException {
         JSONObject form = MaternityUtils.getJsonFormToJsonObject(formName);
         if (form != null) {
             return MaternityJsonFormUtils.getFormAsJson(form, formName, entityId, currentLocationId, injectedValues);

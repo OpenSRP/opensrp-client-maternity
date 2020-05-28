@@ -14,7 +14,7 @@ import org.smartregister.domain.FetchStatus;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.interactor.BaseMaternityRegisterActivityInteractor;
-import org.smartregister.maternity.pojos.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityOutcomeForm;
 import org.smartregister.maternity.utils.MaternityConstants;
 
 import java.lang.ref.WeakReference;

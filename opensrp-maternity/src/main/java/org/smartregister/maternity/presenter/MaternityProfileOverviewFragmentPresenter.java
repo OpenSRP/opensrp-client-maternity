@@ -13,8 +13,8 @@ import org.smartregister.maternity.domain.YamlConfig;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.model.MaternityProfileOverviewFragmentModel;
-import org.smartregister.maternity.pojos.MaternityBaseDetails;
-import org.smartregister.maternity.pojos.MaternityRegistrationDetails;
+import org.smartregister.maternity.pojo.MaternityBaseDetails;
+import org.smartregister.maternity.pojo.MaternityRegistrationDetails;
 import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityFactsUtil;
@@ -110,7 +110,7 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
 
     @Override
     public void setDataFromRegistration(@NonNull MaternityBaseDetails maternityDetails, @NonNull Facts facts) {
-        for (String property: maternityDetails.getProperties().keySet()) {
+        for (String property : maternityDetails.getProperties().keySet()) {
             MaternityFactsUtil.putNonNullFact(facts, property, maternityDetails.get(property));
         }
 

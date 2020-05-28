@@ -39,7 +39,7 @@ public class MaternityOutcomeFormRepository extends BaseRepository implements Ma
     }
 
     @Override
-    public boolean saveOrUpdate(@NonNull org.smartregister.maternity.pojos.MaternityOutcomeForm maternityOutcomeForm) {
+    public boolean saveOrUpdate(@NonNull org.smartregister.maternity.pojo.MaternityOutcomeForm maternityOutcomeForm) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(MaternityDbConstants.Column.MaternityOutcomeForm.BASE_ENTITY_ID, maternityOutcomeForm.getBaseEntityId());
         contentValues.put(MaternityDbConstants.Column.MaternityOutcomeForm.FORM, maternityOutcomeForm.getForm());
@@ -51,7 +51,7 @@ public class MaternityOutcomeFormRepository extends BaseRepository implements Ma
 
     @Nullable
     @Override
-    public org.smartregister.maternity.pojos.MaternityOutcomeForm findOne(@NonNull org.smartregister.maternity.pojos.MaternityOutcomeForm maternityOutcomeForm) {
+    public org.smartregister.maternity.pojo.MaternityOutcomeForm findOne(@NonNull org.smartregister.maternity.pojo.MaternityOutcomeForm maternityOutcomeForm) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query(MaternityDbConstants.Table.MATERNITY_OUTCOME_FORM
                 , columns
@@ -65,9 +65,9 @@ public class MaternityOutcomeFormRepository extends BaseRepository implements Ma
             return null;
         }
 
-        org.smartregister.maternity.pojos.MaternityOutcomeForm diagnosisAndTreatmentForm = null;
+        org.smartregister.maternity.pojo.MaternityOutcomeForm diagnosisAndTreatmentForm = null;
         if (cursor.moveToNext()) {
-            diagnosisAndTreatmentForm = new org.smartregister.maternity.pojos.MaternityOutcomeForm(
+            diagnosisAndTreatmentForm = new org.smartregister.maternity.pojo.MaternityOutcomeForm(
                     cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getString(2),
@@ -79,7 +79,7 @@ public class MaternityOutcomeFormRepository extends BaseRepository implements Ma
     }
 
     @Override
-    public boolean delete(@NonNull org.smartregister.maternity.pojos.MaternityOutcomeForm maternityOutcomeForm) {
+    public boolean delete(@NonNull org.smartregister.maternity.pojo.MaternityOutcomeForm maternityOutcomeForm) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         int rows = sqLiteDatabase.delete(MaternityDbConstants.Table.MATERNITY_OUTCOME_FORM
                 , MaternityDbConstants.Column.MaternityOutcomeForm.BASE_ENTITY_ID + " = ? "
@@ -89,7 +89,7 @@ public class MaternityOutcomeFormRepository extends BaseRepository implements Ma
     }
 
     @Override
-    public List<org.smartregister.maternity.pojos.MaternityOutcomeForm> findAll() {
+    public List<org.smartregister.maternity.pojo.MaternityOutcomeForm> findAll() {
         throw new NotImplementedException("Not Implemented");
     }
 }

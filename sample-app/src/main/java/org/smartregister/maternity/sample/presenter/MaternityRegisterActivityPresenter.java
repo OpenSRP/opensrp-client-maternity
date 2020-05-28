@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
-import org.smartregister.maternity.pojos.MaternityEventClient;
-import org.smartregister.maternity.pojos.RegisterParams;
+import org.smartregister.maternity.pojo.MaternityEventClient;
+import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.maternity.presenter.BaseMaternityRegisterActivityPresenter;
 import org.smartregister.maternity.sample.R;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;

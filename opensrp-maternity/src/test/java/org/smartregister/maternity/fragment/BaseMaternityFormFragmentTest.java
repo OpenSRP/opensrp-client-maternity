@@ -23,7 +23,7 @@ import org.smartregister.maternity.activity.BaseMaternityProfileActivity;
 import org.smartregister.maternity.configuration.BaseMaternityRegisterProviderMetadata;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.configuration.MaternityRegisterQueryProviderContract;
-import org.smartregister.maternity.pojos.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityMetadata;
 import org.smartregister.repository.Repository;
 
 

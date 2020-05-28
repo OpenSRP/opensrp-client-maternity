@@ -20,9 +20,11 @@ import org.smartregister.maternity.configuration.MaternityFormProcessingTask;
 import org.smartregister.maternity.domain.YamlConfig;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.helper.MaternityRulesEngineHelper;
-import org.smartregister.maternity.repository.MaternityOutcomeDetailsRepository;
+import org.smartregister.maternity.repository.MaternityChildRepository;
 import org.smartregister.maternity.repository.MaternityOutcomeFormRepository;
 import org.smartregister.maternity.repository.MaternityRegistrationDetailsRepository;
+import org.smartregister.maternity.repository.MaternityStillBornRepository;
+import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.ConfigurationInstancesHelper;
 import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.maternity.utils.MaternityConstants;
@@ -44,6 +46,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import id.zelory.compressor.Compressor;
@@ -63,9 +66,11 @@ public class MaternityLibrary {
     private ECSyncHelper syncHelper;
 
     private UniqueIdRepository uniqueIdRepository;
-    private MaternityOutcomeDetailsRepository maternityOutcomeDetailsRepository;
     private MaternityRegistrationDetailsRepository maternityRegistrationDetailsRepository;
     private MaternityOutcomeFormRepository maternityOutcomeFormRepository;
+    private MaternityStillBornRepository maternityStillBornRepository;
+    private MaternityChildRepository maternityChildRepository;
+    private AppExecutors appExecutors;
 
     private Compressor compressor;
     private int applicationVersion;
@@ -126,20 +131,26 @@ public class MaternityLibrary {
     }
 
     @NonNull
-    public MaternityOutcomeDetailsRepository getMaternityOutcomeDetailsRepository() {
-        if (maternityOutcomeDetailsRepository == null) {
-            maternityOutcomeDetailsRepository = new MaternityOutcomeDetailsRepository();
-        }
-        return maternityOutcomeDetailsRepository;
-    }
-
-    @NonNull
     public MaternityRegistrationDetailsRepository getMaternityRegistrationDetailsRepository() {
         if (maternityRegistrationDetailsRepository == null) {
             maternityRegistrationDetailsRepository = new MaternityRegistrationDetailsRepository();
         }
 
         return maternityRegistrationDetailsRepository;
+    }
+
+    public MaternityStillBornRepository getMaternityStillBornRepository() {
+        if (maternityStillBornRepository == null) {
+            maternityStillBornRepository = new MaternityStillBornRepository();
+        }
+        return maternityStillBornRepository;
+    }
+
+    public MaternityChildRepository getMaternityChildRepository() {
+        if (maternityChildRepository == null) {
+            maternityChildRepository = new MaternityChildRepository();
+        }
+        return maternityChildRepository;
     }
 
     @NonNull
@@ -218,32 +229,12 @@ public class MaternityLibrary {
 
     @NonNull
     public List<Event> processMaternityOutcomeForm(@NonNull String eventType, String jsonString, @Nullable Intent data) throws JSONException {
-        ArrayList<Class<? extends MaternityFormProcessingTask>> maternityFormProcessingTasks = getMaternityConfiguration().getMaternityFormProcessingTasks();
-
-        for (Class<? extends MaternityFormProcessingTask> maternityFormProcessingTaskClass: maternityFormProcessingTasks) {
-            MaternityFormProcessingTask maternityFormProcessingTask = ConfigurationInstancesHelper.newInstance(maternityFormProcessingTaskClass);
-            maternityFormProcessingTask.processMaternityForm(eventType, jsonString, data);
+        HashMap<String, Class<? extends MaternityFormProcessingTask>> maternityFormProcessingTasks = getMaternityConfiguration().getMaternityFormProcessingTasks();
+        List<Event> eventList = new ArrayList<>();
+        if (maternityFormProcessingTasks.get(eventType) != null) {
+            MaternityFormProcessingTask maternityFormProcessingTask = ConfigurationInstancesHelper.newInstance(maternityFormProcessingTasks.get(eventType));
+            eventList = maternityFormProcessingTask.processMaternityForm(eventType, jsonString, data);
         }
-
-        ArrayList<Event> eventList = new ArrayList<>();
-        JSONObject jsonFormObject = new JSONObject(jsonString);
-
-        JSONArray fieldsArray = MaternityUtils.generateFieldsFromJsonForm(jsonFormObject);
-
-        FormTag formTag = MaternityJsonFormUtils.formTag(MaternityUtils.getAllSharedPreferences());
-
-        String baseEntityId = MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID);
-        String entityTable = MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.ENTITY_TABLE);
-        Event maternityOutcomeEvent = MaternityJsonFormUtils.createEvent(fieldsArray, jsonFormObject.getJSONObject(METADATA)
-                , formTag, baseEntityId, eventType, entityTable);
-        eventList.add(maternityOutcomeEvent);
-
-        Event closeMaternityEvent = JsonFormUtils.createEvent(new JSONArray(), new JSONObject(),
-                formTag, baseEntityId, MaternityConstants.EventType.MATERNITY_CLOSE, "");
-        MaternityJsonFormUtils.tagSyncMetadata(closeMaternityEvent);
-        closeMaternityEvent.addDetails(MaternityConstants.JSON_FORM_KEY.VISIT_END_DATE, MaternityUtils.convertDate(new Date(), MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS));
-        eventList.add(closeMaternityEvent);
-
         return eventList;
     }
 
@@ -321,5 +312,12 @@ public class MaternityLibrary {
     @NonNull
     protected Date getDateNow() {
         return new Date();
+    }
+
+    public AppExecutors getAppExecutors() {
+        if (appExecutors == null) {
+            appExecutors = new AppExecutors();
+        }
+        return appExecutors;
     }
 }

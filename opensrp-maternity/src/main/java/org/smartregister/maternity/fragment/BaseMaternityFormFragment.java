@@ -33,7 +33,7 @@ import org.smartregister.maternity.R;
 import org.smartregister.maternity.activity.BaseMaternityFormActivity;
 import org.smartregister.maternity.adapter.ClientLookUpListAdapter;
 import org.smartregister.maternity.interactor.MaternityFormInteractor;
-import org.smartregister.maternity.pojos.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityMetadata;
 import org.smartregister.maternity.presenter.MaternityFormFragmentPresenter;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;

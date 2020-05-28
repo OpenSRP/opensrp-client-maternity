@@ -1,13 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.smartregister.maternity" >
+    package="org.smartregister.maternity">
 
     <application>
         <activity
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:name=".activity.BaseMaternityFormActivity"/>
+            android:name=".activity.BaseMaternityFormActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:name=".activity.BaseMaternityProfileActivity"/>
+            android:name=".activity.BaseMaternityProfileActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

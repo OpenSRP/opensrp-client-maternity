@@ -9,7 +9,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.smartregister.maternity.dao.MaternityDetailsDao;
-import org.smartregister.maternity.pojos.MaternityBaseDetails;
+import org.smartregister.maternity.pojo.MaternityBaseDetails;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityUtils;
@@ -43,7 +43,7 @@ public abstract class MaternityDetailsRepository extends BaseRepository implemen
         }
 
         contentValues.put(MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID, maternityDetails.getBaseEntityId());
-        for (String column: getPropertyNames()) {
+        for (String column : getPropertyNames()) {
             contentValues.put(column, maternityDetails.getProperties().get(column));
         }
 
@@ -90,7 +90,7 @@ public abstract class MaternityDetailsRepository extends BaseRepository implemen
         maternityDetails.setEventDate(MaternityUtils.convertStringToDate(MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS, cursor.getString(cursor.getColumnIndex(MaternityDbConstants.Column.MaternityDetails.EVENT_DATE))));
         maternityDetails.setCreatedAt(MaternityUtils.convertStringToDate(MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS, cursor.getString(cursor.getColumnIndex(MaternityDbConstants.Column.MaternityDetails.CREATED_AT))));
 
-        for (String column: getPropertyNames()) {
+        for (String column : getPropertyNames()) {
             int colIndex = cursor.getColumnIndex(column);
             if (colIndex != -1) {
                 maternityDetails.put(column, cursor.getString(colIndex));

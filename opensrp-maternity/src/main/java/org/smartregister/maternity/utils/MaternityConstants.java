@@ -6,6 +6,7 @@ public class MaternityConstants extends AllConstants {
 
     public static final String SEX = "Sex";
     public static final String CONFIG = "maternity_register";
+    public static final String MOTHER = "mother";
 
     public interface IntentKey {
         String BASE_ENTITY_ID = "base-entity-id";
@@ -73,6 +74,12 @@ public class MaternityConstants extends AllConstants {
         public static final String MATERNITY_EDIT_FORM_TITLE = "Update Maternity Registration";
         public static final String FORM_TITLE = "title";
         public static final String OPENSRP_ID = "opensrp_id";
+        public static final String BABIES_BORN = "babies_born";
+        public static final String BABIES_STILLBORN = "babies_stillborn";
+        public static final String DISCHARGED_ALIVE = "discharged_alive";
+        public static final String ZEIR_ID = "zeir_id";
+        public static final String BABIES_BORN_MAP = "BabiesBornMap";
+        public static final String BABIES_STILL_BORN_MAP = "BabiesStillBornMap";
     }
 
     public static class JSON_FORM_EXTRA {
@@ -80,6 +87,11 @@ public class MaternityConstants extends AllConstants {
         public static final String JSON = "json";
         public static final String ID = "id";
     }
+    public static class JSON_FORM_STEP_NAME {
+        public static final String BABIES_BORN = "Babies born";
+        public static final String STILL_BORN_BABIES = "Still born babies";
+    }
+
 
     public static class OPENMRS {
         public static final String ENTITY = "openmrs_entity";
@@ -116,7 +128,10 @@ public class MaternityConstants extends AllConstants {
         public static final String MATERNITY_REGISTRATION = "Maternity Registration";
         public static final String UPDATE_MATERNITY_REGISTRATION = "Update Maternity Registration";
         public static final String MATERNITY_OUTCOME = "Maternity Outcome";
+        public static final String MATERNITY_STILL_BORN = "Maternity Still Born";
+        public static final String MATERNITY_BORN = "Maternity Born";
         public static final String MATERNITY_CLOSE = "Maternity Close";
+        public static final String BIRTH_REGISTRATION = "Birth Registration";
     }
 
     public interface ColumnMapKey {
