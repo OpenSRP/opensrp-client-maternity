@@ -202,8 +202,8 @@
       {
         "key": "mother_tdv_doses",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "mother_tdv_doses",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
         "type": "spinner",
         "label_info_text": "Whether the child's mother received 2 or more doses of TdV, which transfers protection against Td to the child when they're born.",
         "hint": "How many doses of TdV did the mother receive?",

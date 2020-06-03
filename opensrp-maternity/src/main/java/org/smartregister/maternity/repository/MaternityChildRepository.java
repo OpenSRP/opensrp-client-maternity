@@ -48,7 +48,7 @@ public class MaternityChildRepository extends BaseRepository implements Maternit
     }
 
     @Override
-    public boolean saveOrUpdate(org.smartregister.maternity.pojo.MaternityChild maternityChild) {
+    public boolean saveOrUpdate(MaternityChild maternityChild) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(MaternityDbConstants.Column.MaternityChild.MOTHER_BASE_ENTITY_ID, maternityChild.getMotherBaseEntityId());
         contentValues.put(MaternityDbConstants.Column.MaternityChild.APGAR, maternityChild.getApgar());
@@ -75,17 +75,17 @@ public class MaternityChildRepository extends BaseRepository implements Maternit
     }
 
     @Override
-    public org.smartregister.maternity.pojo.MaternityChild findOne(org.smartregister.maternity.pojo.MaternityChild maternityChild) {
+    public MaternityChild findOne(MaternityChild maternityChild) {
         throw new NotImplementedException("");
     }
 
     @Override
-    public boolean delete(org.smartregister.maternity.pojo.MaternityChild maternityChild) {
+    public boolean delete(MaternityChild maternityChild) {
         throw new NotImplementedException("");
     }
 
     @Override
-    public List<org.smartregister.maternity.pojo.MaternityChild> findAll() {
+    public List<MaternityChild> findAll() {
         throw new NotImplementedException("");
     }
 

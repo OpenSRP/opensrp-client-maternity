@@ -18,7 +18,6 @@ import org.smartregister.maternity.exception.MaternityCloseEventProcessException
 import org.smartregister.maternity.pojo.MaternityChild;
 import org.smartregister.maternity.pojo.MaternityDetails;
 import org.smartregister.maternity.pojo.MaternityRegistrationDetails;
-import org.smartregister.maternity.pojo.MaternityStillBorn;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityUtils;
@@ -102,7 +101,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
         }
     }
 
-    private void processMaternityOutcome(EventClient eventClient) {
+    private void processMaternityOutcome(@NonNull EventClient eventClient) {
         Event event = eventClient.getEvent();
         HashMap<String, String> keyValues = new HashMap<>();
         generateKeyValuesFromEvent(event, keyValues);
@@ -116,7 +115,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
         MaternityLibrary.getInstance().getMaternityOutcomeDetailsRepository().saveOrUpdate(maternityDetails);
     }
 
-    private void processBabiesBorn(String strBabiesBorn, Event event) {
+    private void processBabiesBorn(@Nullable String strBabiesBorn, @NonNull Event event) {
         if (StringUtils.isNotBlank(strBabiesBorn)) {
             try {
                 JSONObject jsonObject = new JSONObject(strBabiesBorn);
@@ -151,7 +150,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
         }
     }
 
-    private void processStillBorn(String strStillBorn, Event event) {
+    private void processStillBorn(@Nullable String strStillBorn, @NonNull Event event) {
         if (StringUtils.isNotBlank(strStillBorn)) {
             try {
                 JSONObject jsonObject = new JSONObject(strStillBorn);
