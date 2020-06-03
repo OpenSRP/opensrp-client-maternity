@@ -22,7 +22,6 @@ public class MaternityConfiguration {
 
     private MaternityConfiguration(@NonNull Builder builder) {
         this.builder = builder;
-
         setDefaults();
     }
 
@@ -31,7 +30,9 @@ public class MaternityConfiguration {
             builder.maternityRegisterProviderMetadata = BaseMaternityRegisterProviderMetadata.class;
         }
 
-        builder.maternityFormProcessingClasses.put(MaternityConstants.EventType.MATERNITY_OUTCOME, MaternityOutcomeFormProcessing.class);
+        if (!builder.maternityFormProcessingClasses.containsKey(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
+            builder.maternityFormProcessingClasses.put(MaternityConstants.EventType.MATERNITY_OUTCOME, MaternityOutcomeFormProcessing.class);
+        }
 
     }
 

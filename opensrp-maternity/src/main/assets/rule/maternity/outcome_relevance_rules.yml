@@ -6,16 +6,23 @@ condition: "(step1_hiv_status_previous == 'Positive') || (step1_hiv_status_curre
 actions:
   - "isRelevant = true"
 ---
-name: step3_nvp_administration
-description: nvp_administration
-priority: 1
-condition: "step1_mother_hiv_status =! null && step1_mother_hiv_status == 'Positive' && step3_discharged_alive != null && step3_discharged_alive == 'Yes'"
-actions:
-  - "isRelevant = true"
----
 name: step3_baby_intervention_referral_location
 description: baby_intervention_referral_location
 priority: 1
 condition: "!step3_baby_care_mgt.isEmpty() && step3_baby_care_mgt.contains('referral')"
+actions:
+  - "isRelevant = true"
+---
+name: step3_child_hiv_status
+description: child_hiv_status
+priority: 1
+condition: "step1_hiv_status_current == 'Positive'"
+actions:
+  - "isRelevant = true"
+---
+name: step3_nvp_administration
+description: nvp_administration
+priority: 1
+condition: "(step3_child_hiv_status == 'Exposed') || (step3_child_hiv_status == 'Positive')"
 actions:
   - "isRelevant = true"

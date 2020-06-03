@@ -198,6 +198,63 @@
             "ex": "equalTo(., \"Other (Specify)\")"
           }
         }
+      },
+      {
+        "key": "mother_tdv_doses",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "mother_tdv_doses",
+        "type": "spinner",
+        "label_info_text": "Whether the child's mother received 2 or more doses of TdV, which transfers protection against Td to the child when they're born.",
+        "hint": "How many doses of TdV did the mother receive?",
+        "v_required": {
+          "value": true,
+          "err": "Please choose an option"
+        },
+        "values": [
+          "5 TDV doses received",
+          "2 - 4 TDV doses received in the past",
+          "1 TDV received",
+          "TDV not received",
+          "Unknown"
+        ],
+        "keys": [
+          "5",
+          "2_4",
+          "1",
+          "none",
+          "unknown"
+        ]
+      },
+      {
+        "key": "protected_at_birth",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "164826AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "spinner",
+        "label_info_text": "Whether the child's mother received 2+ doses of Td.",
+        "hint": "Protected at birth (PAB)",
+        "entity_id": "mother",
+        "v_required": {
+          "value": true,
+          "err": "Please choose an option"
+        },
+        "values": [
+          "Yes",
+          "No",
+          "Don't Know"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "No": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Don't Know": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "relevance": {
+          "step1:mother_tdv_doses": {
+            "type": "string",
+            "ex": "equalTo(., \"5\")"
+          }
+        }
       }
     ]
   },
@@ -325,14 +382,6 @@
             "ex": "equalTo(., \"Other (Specify)\")"
           }
         }
-      },
-      {
-        "key": "mother_hiv_status",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "hidden": true
       }
     ]
   },
@@ -787,6 +836,26 @@
             }
           },
           {
+            "key": "child_hiv_status",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "type": "spinner",
+            "hint": "HIV Status of the Child",
+            "values": [
+              "Positive",
+              "Negative",
+              "Unknown",
+              "Exposed"
+            ],
+            "openmrs_choice_ids": {
+              "Positive": "703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Negative": "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Unknown": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Exposed": "822AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            }
+          },
+          {
             "key": "nvp_administration",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
@@ -1126,6 +1195,33 @@
             "ex": "equalTo(., \"Alive\")"
           }
         }
+      },
+      {
+        "key": "itn_given",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "160427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "native_radio",
+        "label": "Insecticide Treated Net (ITN) given",
+        "label_info_text": "",
+        "label_info_title": "Insecticide Treated Net (ITN) given",
+        "label_text_style": "bold",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          }
+        ]
       },
       {
         "key": "discharge_status",

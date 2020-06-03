@@ -21,9 +21,9 @@ import org.smartregister.maternity.domain.YamlConfig;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.helper.MaternityRulesEngineHelper;
 import org.smartregister.maternity.repository.MaternityChildRepository;
+import org.smartregister.maternity.repository.MaternityOutcomeDetailsRepository;
 import org.smartregister.maternity.repository.MaternityOutcomeFormRepository;
 import org.smartregister.maternity.repository.MaternityRegistrationDetailsRepository;
-import org.smartregister.maternity.repository.MaternityStillBornRepository;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.ConfigurationInstancesHelper;
 import org.smartregister.maternity.utils.FilePath;
@@ -66,9 +66,9 @@ public class MaternityLibrary {
     private ECSyncHelper syncHelper;
 
     private UniqueIdRepository uniqueIdRepository;
+    private MaternityOutcomeDetailsRepository maternityOutcomeDetailsRepository;
     private MaternityRegistrationDetailsRepository maternityRegistrationDetailsRepository;
     private MaternityOutcomeFormRepository maternityOutcomeFormRepository;
-    private MaternityStillBornRepository maternityStillBornRepository;
     private MaternityChildRepository maternityChildRepository;
     private AppExecutors appExecutors;
 
@@ -131,19 +131,20 @@ public class MaternityLibrary {
     }
 
     @NonNull
+    public MaternityOutcomeDetailsRepository getMaternityOutcomeDetailsRepository() {
+        if (maternityOutcomeDetailsRepository == null) {
+            maternityOutcomeDetailsRepository = new MaternityOutcomeDetailsRepository();
+        }
+        return maternityOutcomeDetailsRepository;
+    }
+
+    @NonNull
     public MaternityRegistrationDetailsRepository getMaternityRegistrationDetailsRepository() {
         if (maternityRegistrationDetailsRepository == null) {
             maternityRegistrationDetailsRepository = new MaternityRegistrationDetailsRepository();
         }
 
         return maternityRegistrationDetailsRepository;
-    }
-
-    public MaternityStillBornRepository getMaternityStillBornRepository() {
-        if (maternityStillBornRepository == null) {
-            maternityStillBornRepository = new MaternityStillBornRepository();
-        }
-        return maternityStillBornRepository;
     }
 
     public MaternityChildRepository getMaternityChildRepository() {

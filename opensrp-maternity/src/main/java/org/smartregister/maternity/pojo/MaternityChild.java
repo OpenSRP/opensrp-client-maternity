@@ -18,6 +18,17 @@ public class MaternityChild {
     private String interventionReferralLocation;
     private String interventionSpecify;
     private String careMgt;
+    private String eventDate;
+    private String childHivStatus;
+    private String stillBirthCondition;
+
+    public String getChildHivStatus() {
+        return childHivStatus;
+    }
+
+    public void setChildHivStatus(String childHivStatus) {
+        this.childHivStatus = childHivStatus;
+    }
 
     public String getCareMgt() {
         return careMgt;
@@ -155,4 +166,19 @@ public class MaternityChild {
         this.interventionSpecify = interventionSpecify;
     }
 
+    public String getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
+    }
+
+    public String getStillBirthCondition() {
+        return stillBirthCondition;
+    }
+
+    public void setStillBirthCondition(String stillBirthCondition) {
+        this.stillBirthCondition = stillBirthCondition;
+    }
 }

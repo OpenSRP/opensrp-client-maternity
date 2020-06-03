@@ -155,9 +155,11 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
 
     @Nullable
     private JSONArray getChildFormFields() {
-        JSONObject formJsonObject = MaternityUtils.getFormUtils().getFormJson(getChildFormName());
-        if (formJsonObject != null) {
-            return FormUtils.getMultiStepFormFields(formJsonObject);
+        if (StringUtils.isNotBlank(getChildFormName())) {
+            JSONObject formJsonObject = MaternityUtils.getFormUtils().getFormJson(getChildFormName());
+            if (formJsonObject != null) {
+                return FormUtils.getMultiStepFormFields(formJsonObject);
+            }
         }
         return null;
     }
@@ -169,7 +171,7 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
 
     @NonNull
     protected String getChildFormName() {
-        return "child_enrollment";
+        return "";
     }
 
     @Nullable

@@ -62,7 +62,7 @@ public interface MaternityDbConstants {
             String CREATED_AT = "created_at";
         }
 
-        interface MaternityBaby {
+        interface MaternityChild {
             String MOTHER_BASE_ENTITY_ID = "mother_base_entity_id";
             String FIRST_NAME = "first_name";
             String LAST_NAME = "last_name";
@@ -80,12 +80,11 @@ public interface MaternityDbConstants {
             String INTERVENTION_REFERRAL_LOCATION = "intervention_referral_location";
             String INTERVENTION_SPECIFY = "intervention_specify";
             String CARE_MGT = "care_mgt";
+            String EVENT_DATE = "event_date";
+            String STILL_BIRTH_CONDITION = "stillbirth_condition";
+            String CHILD_HIV_STATUS = "child_hiv_status";
         }
 
-        interface MaternityStillBorn {
-            String MOTHER_BASE_ENTITY_ID = "mother_base_entity_id";
-            String STILLBIRTH__CONDITION = "stillbirth_condition";
-        }
     }
 
     interface Table {
@@ -93,9 +92,6 @@ public interface MaternityDbConstants {
         String MATERNITY_DETAILS = "maternity_details";
         String MATERNITY_REGISTRATION_DETAILS = "maternity_registration_details";
         String MATERNITY_OUTCOME_FORM = "maternity_outcome_form";
-        String MATERNITY_BABY = "maternity_baby";
-        String MATERNITY_STILL_BORN = "maternity_still_born";
-
-
+        String MATERNITY_CHILD = "maternity_child";
     }
 }

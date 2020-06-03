@@ -43,6 +43,9 @@ android {
             testCoverageEnabled = true
             zipAlignEnabled true
         }
+        preview {
+            testCoverageEnabled true
+        }
 
         debug {
             testCoverageEnabled true

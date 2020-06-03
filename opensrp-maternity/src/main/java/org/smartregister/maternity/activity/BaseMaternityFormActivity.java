@@ -87,7 +87,7 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
 
     protected void initializeFormFragmentCore() {
         BaseMaternityFormFragment maternityFormFragment = (BaseMaternityFormFragment) BaseMaternityFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME);
-        getSupportFragmentManager().beginTransaction().add(com.vijay.jsonwizard.R.id.container, maternityFormFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(com.vijay.jsonwizard.R.id.container, maternityFormFragment).addToBackStack(maternityFormFragment.getArguments().getString(JsonFormConstants.STEPNAME)).commit();
     }
 
     @Override
