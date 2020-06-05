@@ -8,9 +8,9 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.listener.MaternityEventActionCallBack;
-import org.smartregister.repository.BaseRepository;
 import org.smartregister.util.JsonFormUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,21 +27,14 @@ public class MaternityEventUtils {
     }
 
     public void saveEvents(@NonNull final List<Event> events, @NonNull final MaternityEventActionCallBack callBack) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                for (Event event : events) {
-                    saveEventInDb(event);
-                }
-
-                processLatestUnprocessedEvents();
-                appExecutors.mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        callBack.onMaternityEventSaved();
-                    }
-                });
+        Runnable runnable = () -> {
+            List<String> formSubmissionIds = new ArrayList<>();
+            for (Event event : events) {
+                formSubmissionIds.add(event.getFormSubmissionId());
+                saveEventInDb(event);
             }
+            processLatestUnprocessedEvents(formSubmissionIds);
+            appExecutors.mainThread().execute(() -> callBack.onMaternityEventSaved());
         };
 
         appExecutors.diskIO().execute(runnable);
@@ -59,12 +52,10 @@ public class MaternityEventUtils {
         }
     }
 
-    private void processLatestUnprocessedEvents() {
+    private void processLatestUnprocessedEvents(List<String> formSubmissionIds) {
         // Process this event
-        long lastSyncTimeStamp = MaternityUtils.getAllSharedPreferences().fetchLastUpdatedAtDate(0);
-        Date lastSyncDate = new Date(lastSyncTimeStamp);
         try {
-            maternityLibrary.getClientProcessorForJava().processClient(maternityLibrary.getEcSyncHelper().getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
+            maternityLibrary.getClientProcessorForJava().processClient(maternityLibrary.getEcSyncHelper().getEvents(formSubmissionIds));
             MaternityUtils.getAllSharedPreferences().saveLastUpdatedAtDate(new Date().getTime());
         } catch (Exception e) {
             Timber.e(e);

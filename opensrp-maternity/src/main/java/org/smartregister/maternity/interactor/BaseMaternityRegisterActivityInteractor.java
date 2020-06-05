@@ -17,13 +17,13 @@ import org.smartregister.maternity.pojo.MaternityOutcomeForm;
 import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.repository.AllSharedPreferences;
-import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.activity.DrishtiApplication;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -86,11 +86,14 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                List<String> formSubmissionIds = new ArrayList<>();
+
                 for (Event event : events) {
+                    formSubmissionIds.add(event.getFormSubmissionId());
                     saveEventInDb(event);
                 }
 
-                processLatestUnprocessedEvents();
+                processLatestUnprocessedEvents(formSubmissionIds);
 
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
@@ -117,13 +120,10 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
         }
     }
 
-    private void processLatestUnprocessedEvents() {
+    private void processLatestUnprocessedEvents(List<String> formSubmissionIds) {
         // Process this event
-        long lastSyncTimeStamp = getAllSharedPreferences().fetchLastUpdatedAtDate(0);
-        Date lastSyncDate = new Date(lastSyncTimeStamp);
-
         try {
-            getClientProcessorForJava().processClient(getSyncHelper().getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
+            getClientProcessorForJava().processClient(getSyncHelper().getEvents(formSubmissionIds));
             getAllSharedPreferences().saveLastUpdatedAtDate(new Date().getTime());
         } catch (Exception e) {
             Timber.e(e);
