@@ -36,7 +36,7 @@ import static org.smartregister.util.JsonFormUtils.gson;
 public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTask<List<Event>> {
 
     @Override
-    public List<Event> processMaternityForm(String jsonString, @Nullable Intent data) throws JSONException {
+    public List<Event> processMaternityForm(@NonNull String jsonString, @Nullable Intent data) throws JSONException {
         return processMaternityOutcomeForm(jsonString, data);
     }
 
@@ -216,7 +216,7 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
         return new HashMap<>();
     }
 
-    public HashMap<String, String> motherDetails(String baseEntityId) {
+    public HashMap<String, String> motherDetails(@NonNull String baseEntityId) {
         return MaternityUtils.getMaternityClient(baseEntityId);
     }
 }
