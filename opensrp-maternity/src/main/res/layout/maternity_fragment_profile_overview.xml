@@ -39,7 +39,7 @@
             android:background="@drawable/diagnose_treat_bg"
             style="?android:attr/borderlessButtonStyle"
             android:textAppearance="?android:textAppearanceMedium"
-            android:text="@string/diagnose_and_treat"/>
+            />
 
     </LinearLayout>
 

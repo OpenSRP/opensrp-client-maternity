@@ -28,7 +28,6 @@ import org.smartregister.maternity.pojo.MaternityRegistrationDetails;
 import org.smartregister.maternity.pojo.OngoingTask;
 import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.maternity.tasks.FetchRegistrationDataTask;
-import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityEventUtils;
@@ -187,7 +186,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     @Override
     public void saveOutcomeForm(@NonNull String eventType, @Nullable Intent data) {
         String jsonString = null;
-        MaternityEventUtils maternityEventUtils = new MaternityEventUtils(new AppExecutors());
+        MaternityEventUtils maternityEventUtils = new MaternityEventUtils();
         if (data != null) {
             jsonString = data.getStringExtra(MaternityConstants.JSON_FORM_EXTRA.JSON);
         }
@@ -209,7 +208,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     @Override
     public void saveMaternityCloseForm(@NonNull String eventType, @Nullable Intent data) {
         String jsonString = null;
-        MaternityEventUtils maternityEventUtils = new MaternityEventUtils(new AppExecutors());
+        MaternityEventUtils maternityEventUtils = new MaternityEventUtils();
         if (data != null) {
             jsonString = data.getStringExtra(MaternityConstants.JSON_FORM_EXTRA.JSON);
         }
@@ -280,23 +279,20 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     @Override
     public void onUpdateRegistrationBtnCLicked(@NonNull String baseEntityId) {
         if (getProfileView() != null) {
-            Utils.startAsyncTask(new FetchRegistrationDataTask(new WeakReference<Context>(getProfileView().getContext()), new FetchRegistrationDataTask.OnTaskComplete() {
-                @Override
-                public void onSuccess(@Nullable String jsonForm) {
-                    MaternityMetadata metadata = MaternityUtils.metadata();
+            Utils.startAsyncTask(new FetchRegistrationDataTask(new WeakReference<>(getProfileView().getContext()), jsonForm -> {
+                MaternityMetadata metadata = MaternityUtils.metadata();
 
-                    MaternityProfileActivityContract.View profileView = getProfileView();
-                    if (profileView != null && metadata != null && jsonForm != null) {
-                        Context context = profileView.getContext();
-                        Intent intent = new Intent(context, metadata.getMaternityFormActivity());
-                        Form formParam = new Form();
-                        formParam.setWizard(false);
-                        formParam.setHideSaveLabel(true);
-                        formParam.setNextLabel("");
-                        intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, formParam);
-                        intent.putExtra(JsonFormConstants.JSON_FORM_KEY.JSON, jsonForm);
-                        profileView.startActivityForResult(intent, MaternityJsonFormUtils.REQUEST_CODE_GET_JSON);
-                    }
+                MaternityProfileActivityContract.View profileView = getProfileView();
+                if (profileView != null && metadata != null && jsonForm != null) {
+                    Context context = profileView.getContext();
+                    Intent intent = new Intent(context, metadata.getMaternityFormActivity());
+                    Form formParam = new Form();
+                    formParam.setWizard(false);
+                    formParam.setHideSaveLabel(true);
+                    formParam.setNextLabel("");
+                    intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, formParam);
+                    intent.putExtra(JsonFormConstants.JSON_FORM_KEY.JSON, jsonForm);
+                    profileView.startActivityForResult(intent, MaternityJsonFormUtils.REQUEST_CODE_GET_JSON);
                 }
             }), new String[]{baseEntityId});
         }

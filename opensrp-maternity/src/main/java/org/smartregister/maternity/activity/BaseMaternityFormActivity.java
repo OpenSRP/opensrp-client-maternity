@@ -19,7 +19,6 @@ import org.smartregister.maternity.R;
 import org.smartregister.maternity.dao.MaternityOutcomeFormDao;
 import org.smartregister.maternity.fragment.BaseMaternityFormFragment;
 import org.smartregister.maternity.pojo.MaternityOutcomeForm;
-import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;
 import org.smartregister.maternity.utils.MaternityUtils;
@@ -142,7 +141,7 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
         final MaternityOutcomeForm maternityOutcomeForm = new MaternityOutcomeForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
                 jsonObject.toString(), Utils.convertDateFormat(new DateTime()));
         final MaternityOutcomeFormDao maternityOutcomeFormDao = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository();
-        new AppExecutors().diskIO().execute(new Runnable() {
+        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 maternityOutcomeFormDao.saveOrUpdate(maternityOutcomeForm);
@@ -155,7 +154,7 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
         final MaternityOutcomeForm maternityOutcomeForm = new MaternityOutcomeForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
                 jsonObject.toString(), Utils.convertDateFormat(new DateTime()));
         final MaternityOutcomeFormDao maternityOutcomeFormDao = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository();
-        new AppExecutors().diskIO().execute(new Runnable() {
+        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 maternityOutcomeFormDao.delete(maternityOutcomeForm);

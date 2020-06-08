@@ -233,8 +233,8 @@ public class MaternityLibrary {
         HashMap<String, Class<? extends MaternityFormProcessingTask>> maternityFormProcessingTasks = getMaternityConfiguration().getMaternityFormProcessingTasks();
         List<Event> eventList = new ArrayList<>();
         if (maternityFormProcessingTasks.get(eventType) != null) {
-            MaternityFormProcessingTask maternityFormProcessingTask = ConfigurationInstancesHelper.newInstance(maternityFormProcessingTasks.get(eventType));
-            eventList = maternityFormProcessingTask.processMaternityForm(eventType, jsonString, data);
+            MaternityFormProcessingTask<List<Event>> maternityFormProcessingTask = ConfigurationInstancesHelper.newInstance(maternityFormProcessingTasks.get(eventType));
+            eventList = maternityFormProcessingTask.processMaternityForm(jsonString, data);
         }
         return eventList;
     }

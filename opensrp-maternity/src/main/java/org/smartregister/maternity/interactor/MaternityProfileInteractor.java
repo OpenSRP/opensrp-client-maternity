@@ -41,7 +41,7 @@ public class MaternityProfileInteractor implements MaternityProfileActivityContr
 
     public MaternityProfileInteractor(@NonNull MaternityProfileActivityContract.Presenter presenter) {
         this.mProfilePresenter = presenter;
-        appExecutors = new AppExecutors();
+        appExecutors = MaternityLibrary.getInstance().getAppExecutors();
     }
 
     @Override

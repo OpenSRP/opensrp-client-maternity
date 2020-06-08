@@ -33,15 +33,11 @@ import timber.log.Timber;
 import static org.smartregister.maternity.utils.MaternityJsonFormUtils.METADATA;
 import static org.smartregister.util.JsonFormUtils.gson;
 
-public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTask {
-
+public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTask<List<Event>> {
 
     @Override
-    public List<Event> processMaternityForm(@NonNull String eventType, String jsonString, @Nullable Intent data) throws JSONException {
-        if (eventType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
-            return processMaternityOutcomeForm(jsonString, data);
-        }
-        return new ArrayList<>();
+    public List<Event> processMaternityForm(String jsonString, @Nullable Intent data) throws JSONException {
+        return processMaternityOutcomeForm(jsonString, data);
     }
 
     public List<Event> processMaternityOutcomeForm(@NonNull String jsonString, @NonNull Intent data) throws JSONException {
@@ -112,7 +108,9 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
     }
 
     @NonNull
-    private List<MaternityEventClient> buildChildRegistrationEvents(HashMap<String, HashMap<String, String>> buildRepeatingGroupBorn, String baseEntityId, JSONObject jsonFormObject) {
+    private List<MaternityEventClient> buildChildRegistrationEvents(@NonNull HashMap<String, HashMap<String, String>> buildRepeatingGroupBorn,
+                                                                    @NonNull String baseEntityId,
+                                                                    @NonNull JSONObject jsonFormObject) {
         FormTag formTag = MaternityJsonFormUtils.formTag(MaternityUtils.getAllSharedPreferences());
 
         String strBabiesBorn = gson.toJson(buildRepeatingGroupBorn);
@@ -126,7 +124,7 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
 
                 Iterator<String> repeatingGroupKeys = jsonObject.keys();
 
-                HashMap<String, String> motherDetails = MaternityUtils.getMaternityClient(baseEntityId);
+                HashMap<String, String> motherDetails = motherDetails(baseEntityId);
 
                 while (repeatingGroupKeys.hasNext()) {
                     JSONObject jsonChildObject = jsonObject.optJSONObject(repeatingGroupKeys.next());
@@ -175,7 +173,7 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
     }
 
     @Nullable
-    private JSONArray populateChildFieldArray(JSONObject maternityBabyBorn, HashMap<String, String> motherDetails) throws JSONException {
+    private JSONArray populateChildFieldArray(@NonNull JSONObject maternityBabyBorn, @NonNull HashMap<String, String> motherDetails) throws JSONException {
         JSONArray jsonArray = getChildFormFields();
         if (jsonArray != null) {
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -198,19 +196,27 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
         return null;
     }
 
-    protected Set<String> otherRequiredFields() {
+    @NonNull
+    public Set<String> otherRequiredFields() {
         return childKeyToColumnMap().keySet();
     }
 
-    protected String childOpensrpId() {
+    @NonNull
+    public String childOpensrpId() {
         return MaternityConstants.JSON_FORM_KEY.ZEIR_ID;
     }
 
+    @NonNull
     public HashMap<String, String> childFormKeyToKeyMap() {
         return new HashMap<>();
     }
 
+    @NonNull
     public HashMap<String, String> childKeyToColumnMap() {
         return new HashMap<>();
+    }
+
+    public HashMap<String, String> motherDetails(String baseEntityId) {
+        return MaternityUtils.getMaternityClient(baseEntityId);
     }
 }

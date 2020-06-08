@@ -80,6 +80,25 @@ public class MaternityConstants extends AllConstants {
         public static final String ZEIR_ID = "zeir_id";
         public static final String BABIES_BORN_MAP = "BabiesBornMap";
         public static final String BABIES_STILL_BORN_MAP = "BabiesStillBornMap";
+
+
+        public static final String BABY_COMPLICATIONS = "baby_complications";
+        public static final String BABY_COMPLICATIONS_OTHER = "baby_complications_other";
+        public static final String BABY_CARE_MGT = "baby_care_mgt";
+        public static final String BABY_FIRST_CRY = "baby_first_cry";
+        public static final String BABY_DOB = "baby_dob";
+        public static final String BABY_FIRST_NAME = "baby_first_name";
+        public static final String BABY_LAST_NAME = "baby_last_name";
+        public static final String BABY_GENDER = "baby_gender";
+        public static final String CHILD_HIV_STATUS = "child_hiv_status";
+        public static final String BIRTH_HEALTH_ENTERED = "birth_height_entered";
+        public static final String BIRTH_WEIGHT_ENTERED = "birth_weight_entered";
+        public static final String NVP_ADMINISTRATION = "nvp_administration";
+        public static final String BABY_INTERVENTION_SPECIFY = "baby_intervention_specify";
+        public static final String BABY_INTERVENTION_REFERRAL_LOCATION = "baby_intervention_referral_location";
+        public static final String BF_FIRST_HOUR = "bf_first_hour";
+        public static final String APGAR = "apgar";
+        public static final String STILLBIRTH_CONDITION = "stillbirth_condition";
     }
 
     public static class JSON_FORM_EXTRA {
@@ -87,6 +106,7 @@ public class MaternityConstants extends AllConstants {
         public static final String JSON = "json";
         public static final String ID = "id";
     }
+
     public static class JSON_FORM_STEP_NAME {
         public static final String BABIES_BORN = "Babies born";
         public static final String STILL_BORN_BABIES = "Still born babies";

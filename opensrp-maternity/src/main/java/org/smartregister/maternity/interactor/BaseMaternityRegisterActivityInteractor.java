@@ -38,7 +38,7 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
     protected AppExecutors appExecutors;
 
     public BaseMaternityRegisterActivityInteractor() {
-        this(new AppExecutors());
+        this(MaternityLibrary.getInstance().getAppExecutors());
     }
 
     @VisibleForTesting

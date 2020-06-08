@@ -3,6 +3,7 @@ package org.smartregister.maternity.interactor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityProfileVisitsFragmentContract;
 import org.smartregister.maternity.utils.AppExecutors;
 
@@ -16,7 +17,7 @@ public class MaternityProfileVisitsFragmentInteractor implements MaternityProfil
 
     public MaternityProfileVisitsFragmentInteractor(@NonNull MaternityProfileVisitsFragmentContract.Presenter presenter) {
         this.mProfileFrgamentPresenter = presenter;
-        appExecutors = new AppExecutors();
+        appExecutors = MaternityLibrary.getInstance().getAppExecutors();
     }
 
     @Override

@@ -1,10 +1,13 @@
 package org.smartregister.maternity.presenter;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.robolectric.util.ReflectionHelpers;
 import org.smartregister.maternity.BaseTest;
+import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 
 /**
@@ -21,9 +24,13 @@ public class MaternityRegisterActivityPresenterTest extends BaseTest {
     @Mock
     private MaternityRegisterActivityContract.Model model;
 
+    @Mock
+    private MaternityLibrary maternityLibrary;
+
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
         presenter = new TestMaternityRegisterActivityPresenter(view, model);
     }
 
@@ -44,5 +51,10 @@ public class MaternityRegisterActivityPresenterTest extends BaseTest {
         presenter.saveLanguage(language);
 
         Mockito.verify(model).saveLanguage(Mockito.eq(language));
+    }
+
+    @After
+    public void tearDown() {
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", null);
     }
 }

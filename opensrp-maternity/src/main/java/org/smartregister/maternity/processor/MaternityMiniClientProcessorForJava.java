@@ -124,24 +124,24 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
                     JSONObject jsonTestObject = jsonObject.optJSONObject(repeatingGroupKeys.next());
                     MaternityChild maternityChild = new MaternityChild();
                     maternityChild.setMotherBaseEntityId(event.getBaseEntityId());
-                    maternityChild.setApgar(jsonTestObject.optString("apgar"));
-                    maternityChild.setBfFirstHour(jsonTestObject.optString("bf_first_hour"));
-                    maternityChild.setComplications(jsonTestObject.optString("baby_complications"));
-                    maternityChild.setComplicationsOther(jsonTestObject.optString("baby_complications_other"));
-                    maternityChild.setCareMgt(jsonTestObject.optString("baby_care_mgt"));
-                    maternityChild.setFirstCry(jsonTestObject.optString("baby_first_cry"));
-                    maternityChild.setDischargedAlive(jsonTestObject.optString("discharged_alive"));
-                    maternityChild.setDob(jsonTestObject.optString("baby_dob"));
-                    maternityChild.setFirstName(jsonTestObject.optString("baby_first_name"));
-                    maternityChild.setLastName(jsonTestObject.optString("baby_last_name"));
-                    maternityChild.setGender(jsonTestObject.optString("baby_gender"));
-                    maternityChild.setChildHivStatus(jsonTestObject.optString("child_hiv_status"));
-                    maternityChild.setHeight(jsonTestObject.optString("birth_height_entered"));
-                    maternityChild.setWeight(jsonTestObject.optString("birth_weight_entered"));
+                    maternityChild.setApgar(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.APGAR));
+                    maternityChild.setBfFirstHour(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BF_FIRST_HOUR));
+                    maternityChild.setComplications(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BABY_COMPLICATIONS));
+                    maternityChild.setComplicationsOther(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BABY_COMPLICATIONS_OTHER));
+                    maternityChild.setCareMgt(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BABY_CARE_MGT));
+                    maternityChild.setFirstCry(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BABY_FIRST_CRY));
+                    maternityChild.setDischargedAlive(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.DISCHARGED_ALIVE));
+                    maternityChild.setDob(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BABY_DOB));
+                    maternityChild.setFirstName(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BABY_FIRST_NAME));
+                    maternityChild.setLastName(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BABY_LAST_NAME));
+                    maternityChild.setGender(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BABY_GENDER));
+                    maternityChild.setChildHivStatus(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.CHILD_HIV_STATUS));
+                    maternityChild.setHeight(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BIRTH_HEALTH_ENTERED));
+                    maternityChild.setWeight(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BIRTH_WEIGHT_ENTERED));
                     maternityChild.setEventDate(MaternityUtils.convertDate(event.getEventDate().toDate(), MaternityDbConstants.DATE_FORMAT));
-                    maternityChild.setNvpAdministration(jsonTestObject.optString("nvp_administration"));
-                    maternityChild.setInterventionSpecify(jsonTestObject.optString("baby_intervention_specify"));
-                    maternityChild.setInterventionReferralLocation(jsonTestObject.optString("baby_intervention_referral_location"));
+                    maternityChild.setNvpAdministration(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.NVP_ADMINISTRATION));
+                    maternityChild.setInterventionSpecify(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BABY_INTERVENTION_SPECIFY));
+                    maternityChild.setInterventionReferralLocation(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BABY_INTERVENTION_REFERRAL_LOCATION));
                     MaternityLibrary.getInstance().getMaternityChildRepository().saveOrUpdate(maternityChild);
                 }
             } catch (JSONException e) {
@@ -159,7 +159,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
                     JSONObject jsonTestObject = jsonObject.optJSONObject(repeatingGroupKeys.next());
                     MaternityChild maternityStillBorn = new MaternityChild();
                     maternityStillBorn.setMotherBaseEntityId(event.getBaseEntityId());
-                    maternityStillBorn.setStillBirthCondition(jsonTestObject.optString("stillbirth_condition"));
+                    maternityStillBorn.setStillBirthCondition(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.STILLBIRTH_CONDITION));
                     maternityStillBorn.setEventDate(MaternityUtils.convertDate(event.getEventDate().toDate(), MaternityDbConstants.DATE_FORMAT));
                     MaternityLibrary.getInstance().getMaternityChildRepository().saveOrUpdate(maternityStillBorn);
                 }

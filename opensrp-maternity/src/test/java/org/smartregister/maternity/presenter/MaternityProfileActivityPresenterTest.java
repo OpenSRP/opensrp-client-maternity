@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,6 +27,7 @@ import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityProfileActivityContract;
 import org.smartregister.maternity.pojo.MaternityOutcomeForm;
 import org.smartregister.maternity.pojo.MaternityRegistrationDetails;
+import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.repository.AllSharedPreferences;
@@ -45,10 +47,16 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
 
     @Mock
     private MaternityProfileActivityContract.View view;
+
     private MaternityProfileActivityContract.Interactor interactor;
+
+    @Mock
+    MaternityLibrary maternityLibrary;
 
     @Before
     public void setUp() throws Exception {
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
+
         presenter = Mockito.spy(new MaternityProfileActivityPresenter(view));
         interactor = Mockito.spy((MaternityProfileActivityContract.Interactor) ReflectionHelpers.getField(presenter, "mProfileInteractor"));
 
@@ -183,11 +191,11 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
     }
 
     @Test
-    public void saveVisitOrDiagnosisFormShouldCallMaternityLibraryProcessCheckInFormWhenEventTypeIsCheckIn() throws JSONException {
+    public void saveOutcomeFormShouldCallMaternityLibraryProcessCheckInFormWhenEventTypeIsCheckIn() throws JSONException {
         String jsonString = "{}";
+        AppExecutors appExecutors = new AppExecutors();
+        Mockito.doReturn(appExecutors).when(maternityLibrary).getAppExecutors();
 
-        MaternityLibrary maternityLibrary = Mockito.mock(MaternityLibrary.class);
-        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
         Mockito.doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
@@ -204,6 +212,10 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
                 MaternityConstants.EventType.MATERNITY_OUTCOME)
                 , Mockito.eq(jsonString)
                 , Mockito.any(Intent.class));
+    }
+
+    @After
+    public void tearDown() throws Exception {
         ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", null);
     }
 }

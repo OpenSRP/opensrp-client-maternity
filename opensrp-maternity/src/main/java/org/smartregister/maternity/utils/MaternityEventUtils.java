@@ -21,8 +21,8 @@ public class MaternityEventUtils {
     private AppExecutors appExecutors;
     private MaternityLibrary maternityLibrary;
 
-    public MaternityEventUtils(AppExecutors appExecutors) {
-        this.appExecutors = appExecutors;
+    public MaternityEventUtils() {
+        this.appExecutors = MaternityLibrary.getInstance().getAppExecutors();
         this.maternityLibrary = MaternityLibrary.getInstance();
     }
 

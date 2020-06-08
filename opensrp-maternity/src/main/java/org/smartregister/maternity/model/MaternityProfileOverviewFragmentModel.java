@@ -17,7 +17,7 @@ public class MaternityProfileOverviewFragmentModel implements MaternityProfileOv
     private MaternityBaseDetails maternityDetails = null;
 
     public MaternityProfileOverviewFragmentModel() {
-        this.appExecutors = new AppExecutors();
+        this.appExecutors = MaternityLibrary.getInstance().getAppExecutors();
     }
 
     @Override
