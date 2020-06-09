@@ -9,6 +9,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.pojo.MaternityBaseDetails;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,9 +32,9 @@ public interface MaternityProfileOverviewFragmentContract {
 
         void loadOverviewFacts(@NonNull String baseEntityId, @NonNull OnFinishedCallback onFinishedCallback);
 
-        void loadOverviewDataAndDisplay(@NonNull MaternityBaseDetails maternityDetails, @NonNull final OnFinishedCallback onFinishedCallback);
+        void loadOverviewDataAndDisplay(@NonNull HashMap<String, String> maternityDetails, @NonNull final OnFinishedCallback onFinishedCallback);
 
-        void setDataFromRegistration(@NonNull MaternityBaseDetails maternityDetails, @NonNull Facts facts);
+        void setDataFromRegistration(@NonNull HashMap<String, String> maternityDetails, @NonNull Facts facts);
 
         void setClient(@NonNull CommonPersonObjectClient client);
 
@@ -55,7 +56,7 @@ public interface MaternityProfileOverviewFragmentContract {
 
         interface OnFetchedCallback {
 
-            void onFetched(@NonNull MaternityBaseDetails maternityDetails);
+            void onFetched(@NonNull HashMap<String, String> maternityDetails);
         }
     }
 }

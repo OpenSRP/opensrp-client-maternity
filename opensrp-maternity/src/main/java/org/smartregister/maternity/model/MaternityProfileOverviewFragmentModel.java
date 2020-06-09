@@ -7,6 +7,8 @@ import org.smartregister.maternity.contract.MaternityProfileOverviewFragmentCont
 import org.smartregister.maternity.pojo.MaternityBaseDetails;
 import org.smartregister.maternity.utils.AppExecutors;
 
+import java.util.HashMap;
+
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
@@ -14,7 +16,7 @@ import org.smartregister.maternity.utils.AppExecutors;
 public class MaternityProfileOverviewFragmentModel implements MaternityProfileOverviewFragmentContract.Model {
 
     private AppExecutors appExecutors;
-    private MaternityBaseDetails maternityDetails = null;
+    private HashMap<String, String> maternityDetails = null;
 
     public MaternityProfileOverviewFragmentModel() {
         this.appExecutors = MaternityLibrary.getInstance().getAppExecutors();
@@ -26,9 +28,8 @@ public class MaternityProfileOverviewFragmentModel implements MaternityProfileOv
 
             @Override
             public void run() {
-                maternityDetails = new MaternityBaseDetails();
-                maternityDetails.setBaseEntityId(baseEntityId);
-                maternityDetails = MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().findOne(maternityDetails);
+                maternityDetails = new HashMap<>();
+                maternityDetails = MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().findByBaseEntityId(baseEntityId);
 
                 appExecutors.mainThread().execute(new Runnable() {
 

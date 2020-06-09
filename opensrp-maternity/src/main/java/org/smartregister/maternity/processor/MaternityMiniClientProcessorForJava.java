@@ -16,16 +16,12 @@ import org.smartregister.domain.jsonmapping.ClientClassification;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.exception.MaternityCloseEventProcessException;
 import org.smartregister.maternity.pojo.MaternityChild;
-import org.smartregister.maternity.pojo.MaternityDetails;
-import org.smartregister.maternity.pojo.MaternityRegistrationDetails;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.MiniClientProcessorForJava;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -72,21 +68,8 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
 
         if (eventType.equals(MaternityConstants.EventType.MATERNITY_REGISTRATION)
                 || eventType.equals(MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION)) {
-            ArrayList<EventClient> eventClients = new ArrayList<>();
-            eventClients.add(eventClient);
-            processClient(eventClients);
-
-            //updateRegisterTypeColumn(event, "maternity");
-
-            HashMap<String, String> keyValues = new HashMap<>();
-            generateKeyValuesFromEvent(event, keyValues, true);
-
-            MaternityRegistrationDetails maternityDetails = new MaternityRegistrationDetails(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate(), keyValues);
-            maternityDetails.setCreatedAt(new Date());
-
-            MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().saveOrUpdate(maternityDetails);
-//            processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
-//            CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
+            processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+            CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
         } else if (eventType.equals(MaternityConstants.EventType.MATERNITY_CLOSE)) {
             if (eventClient.getClient() == null) {
                 throw new MaternityCloseEventProcessException(String.format("Client %s referenced by %s event does not exist", event.getBaseEntityId(), MaternityConstants.EventType.MATERNITY_CLOSE));
@@ -109,10 +92,6 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
         processStillBorn(strStillBorn, event);
         String strBabiesBorn = keyValues.get(MaternityConstants.JSON_FORM_KEY.BABIES_BORN_MAP);
         processBabiesBorn(strBabiesBorn, event);
-
-        MaternityDetails maternityDetails = new MaternityDetails(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate(), keyValues);
-        maternityDetails.setCreatedAt(new Date());
-        MaternityLibrary.getInstance().getMaternityOutcomeDetailsRepository().saveOrUpdate(maternityDetails);
     }
 
     private void processBabiesBorn(@Nullable String strBabiesBorn, @NonNull Event event) {

@@ -13,8 +13,6 @@ import org.smartregister.maternity.domain.YamlConfig;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.model.MaternityProfileOverviewFragmentModel;
-import org.smartregister.maternity.pojo.MaternityBaseDetails;
-import org.smartregister.maternity.pojo.MaternityRegistrationDetails;
 import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityFactsUtil;
@@ -22,7 +20,9 @@ import org.smartregister.maternity.utils.MaternityFactsUtil;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -42,23 +42,20 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
 
     @Override
     public void loadOverviewFacts(@NonNull String baseEntityId, @NonNull final OnFinishedCallback onFinishedCallback) {
-        model.fetchMaternityOverviewDetails(baseEntityId, new MaternityProfileOverviewFragmentContract.Model.OnFetchedCallback() {
-            @Override
-            public void onFetched(@NonNull MaternityBaseDetails maternityDetails) {
-                loadOverviewDataAndDisplay(maternityDetails, onFinishedCallback);
+        model.fetchMaternityOverviewDetails(baseEntityId, maternityDetails -> {
+            loadOverviewDataAndDisplay(maternityDetails, onFinishedCallback);
 
-                // Update the client map
-                CommonPersonObjectClient commonPersonObjectClient = getProfileView().getActivityClientMap();
-                if (commonPersonObjectClient != null) {
-                    commonPersonObjectClient.getColumnmaps().putAll(maternityDetails.getProperties());
-                    commonPersonObjectClient.getDetails().putAll(maternityDetails.getProperties());
-                }
+            // Update the client map
+            CommonPersonObjectClient commonPersonObjectClient = getProfileView().getActivityClientMap();
+            if (commonPersonObjectClient != null) {
+                commonPersonObjectClient.getColumnmaps().putAll(maternityDetails);
+                commonPersonObjectClient.getDetails().putAll(maternityDetails);
             }
         });
     }
 
     @Override
-    public void loadOverviewDataAndDisplay(@NonNull MaternityBaseDetails maternityDetails, @NonNull final OnFinishedCallback onFinishedCallback) {
+    public void loadOverviewDataAndDisplay(@NonNull HashMap<String, String> maternityDetails, @NonNull final OnFinishedCallback onFinishedCallback) {
         List<YamlConfigWrapper> yamlConfigListGlobal = new ArrayList<>();
         Facts facts = new Facts();
         setDataFromRegistration(maternityDetails, facts);
@@ -109,9 +106,9 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
     }
 
     @Override
-    public void setDataFromRegistration(@NonNull MaternityBaseDetails maternityDetails, @NonNull Facts facts) {
-        for (String property : maternityDetails.getProperties().keySet()) {
-            MaternityFactsUtil.putNonNullFact(facts, property, maternityDetails.get(property));
+    public void setDataFromRegistration(@NonNull HashMap<String, String> maternityDetails, @NonNull Facts facts) {
+        for (Map.Entry<String, String> entry : maternityDetails.entrySet()) {
+            MaternityFactsUtil.putNonNullFact(facts, entry.getKey(), entry.getValue());
         }
 
         /*
@@ -121,7 +118,7 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
         */
 
         int maternityWeeks = 0;
-        String conceptionDate = maternityDetails.get(MaternityRegistrationDetails.Property.conception_date.name());
+        String conceptionDate = maternityDetails.get("conception_date");
 
         if (!TextUtils.isEmpty(conceptionDate)) {
             maternityWeeks = MaternityLibrary.getGestationAgeInWeeks(conceptionDate);
@@ -129,7 +126,7 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
 
         MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.GESTATION_WEEK, "" + maternityWeeks);
 
-        String currentHivStatus = maternityDetails.get(MaternityRegistrationDetails.Property.hiv_status_current.name());
+        String currentHivStatus = maternityDetails.get("hiv_status_current");
         String hivStatus = currentHivStatus == null ? getString(R.string.unknown) : currentHivStatus;
         MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.HIV_STATUS, hivStatus);
     }

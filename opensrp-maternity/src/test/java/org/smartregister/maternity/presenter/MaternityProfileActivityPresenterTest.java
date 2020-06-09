@@ -26,7 +26,6 @@ import org.smartregister.maternity.BaseTest;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityProfileActivityContract;
 import org.smartregister.maternity.pojo.MaternityOutcomeForm;
-import org.smartregister.maternity.pojo.MaternityRegistrationDetails;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
