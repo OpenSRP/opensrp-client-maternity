@@ -31,7 +31,7 @@ public class MaternityConfiguration {
         }
 
         if (!builder.maternityFormProcessingClasses.containsKey(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
-            builder.maternityFormProcessingClasses.put(MaternityConstants.EventType.MATERNITY_OUTCOME, MaternityOutcomeFormProcessing.class);
+            builder.maternityFormProcessingClasses.put(MaternityConstants.EventType.MATERNITY_OUTCOME, MaternityOutcomeFormProcessingTask.class);
         }
 
     }

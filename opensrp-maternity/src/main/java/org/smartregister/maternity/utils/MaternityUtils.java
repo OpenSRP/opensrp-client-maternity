@@ -302,7 +302,7 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         return jsonArray;
     }
 
-    public static HashMap<String, HashMap<String, String>> buildRepeatingGroupTests(@NonNull JSONObject stepJsonObject, String fieldName) throws JSONException {
+    public static HashMap<String, HashMap<String, String>> buildRepeatingGroupValues(@NonNull JSONObject stepJsonObject, String fieldName) throws JSONException {
         ArrayList<String> keysArrayList = new ArrayList<>();
         JSONArray fields = stepJsonObject.optJSONArray(JsonFormConstants.FIELDS);
         JSONObject jsonObject = JsonFormUtils.getFieldJSONObject(fields, fieldName);
@@ -335,9 +335,9 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         return repeatingGroupMap;
     }
 
-    public static HashMap<String, String> getMaternityClient(String baseEntityId) {
-        ArrayList<HashMap<String, String>> hashMap;
-        hashMap = CoreLibrary.getInstance().context().getEventClientRepository().rawQuery(MaternityLibrary.getInstance().getRepository().getReadableDatabase(),
+    @Nullable
+    public static HashMap<String, String> getMaternityClient(@NonNull String baseEntityId) {
+        ArrayList<HashMap<String, String>> hashMap = CoreLibrary.getInstance().context().getEventClientRepository().rawQuery(MaternityLibrary.getInstance().getRepository().getReadableDatabase(),
                 "select * from " + metadata().getTableName() +
                         " where " + metadata().getTableName() + ".id = '" + baseEntityId + "' limit 1");
         if (!hashMap.isEmpty()) {

@@ -11,7 +11,6 @@ import org.smartregister.Context;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.event.Listener;
-import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.pojo.MaternityMetadata;
 
 import java.util.ArrayList;
@@ -89,7 +88,7 @@ public class MaternityLookUpUtils {
     protected static String lookUpQuery(@NonNull Map<String, String> entityMap) {
         String mainCondition = getMainConditionString(entityMap);
         if (!TextUtils.isEmpty(mainCondition)) {
-            return MaternityLibrary.getInstance().maternityLookUpQuery().replace("[condition]", mainCondition) + ";";
+            return "";//MaternityLibrary.getInstance().maternityLookUpQuery().replace("[condition]", mainCondition) + ";";
         }
         return null;
     }

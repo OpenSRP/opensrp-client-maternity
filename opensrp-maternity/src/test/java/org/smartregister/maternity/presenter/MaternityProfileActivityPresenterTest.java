@@ -50,7 +50,7 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
     private MaternityProfileActivityContract.Interactor interactor;
 
     @Mock
-    MaternityLibrary maternityLibrary;
+    private MaternityLibrary maternityLibrary;
 
     @Before
     public void setUp() throws Exception {
@@ -149,7 +149,7 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
         String entityTable = "ec_client";
 
         HashMap<String, String> details = new HashMap<>();
-        details.put(MaternityRegistrationDetails.Property.hiv_status_current.name(), "Positive");
+        details.put("hiv_status_current", "Positive");
         details.put(MaternityConstants.IntentKey.ENTITY_TABLE, entityTable);
 
         ArgumentCaptor<HashMap<String, String>> hashMapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);

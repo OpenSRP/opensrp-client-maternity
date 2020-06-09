@@ -68,11 +68,8 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "zeir_id",
-        "type": "barcode",
-        "barcode_type": "qrcode",
+        "type": "edit_text",
         "hint": "MER ID",
-        "value": "0",
-        "scanButtonText": "Scan QR Code",
         "v_numeric": {
           "value": "true",
           "err": "Please enter a valid MER ID"
@@ -87,21 +84,16 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "national_id",
-        "type": "barcode",
-        "barcode_type": "qrcode",
-        "hint": "National ID",
-        "scanButtonText": "Scan National ID"
+        "type": "edit_text",
+        "hint": "National ID"
       },
       {
         "key": "bht_mid",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "bht_mid",
-        "type": "barcode",
-        "barcode_type": "qrcode",
+        "type": "edit_text",
         "hint": "Patient ID",
-        "value": "0",
-        "scanButtonText": "Scan Barcode",
         "look_up": true,
         "v_numeric": {
           "value": "true",
@@ -313,7 +305,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "alt_contact_name",
         "type": "edit_text",
-        "hint": "Alternate Contact Name",
+        "hint": "Next of Kin",
         "edit_type": "name",
         "look_up": "true",
         "entity_id": "",
@@ -328,7 +320,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "alt_contact_phone_number",
         "type": "edit_text",
-        "hint": "Phone number for alternate contact",
+        "hint": "Next of Kin phone number",
         "v_regex": {
           "value": "([0][0-9]{9})|\\s*",
           "err": "Number must begin with 0 and must be a total of 10 digits in length"
@@ -337,7 +329,7 @@
     ]
   },
   "step2": {
-    "title": "Pregnancy & medical history",
+    "title": "Past Obstetrical/Medical/Surgical History",
     "next": "step3",
     "fields": [
       {
@@ -386,6 +378,18 @@
         ]
       },
       {
+        "key": "abortion_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "1823AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "edit_text",
+        "hint": "Abortions",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter valid number"
+        }
+      },
+      {
         "key": "lmp",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -416,7 +420,7 @@
         "label": "",
         "options": [
           {
-            "key" : "lmp_unknown",
+            "key": "lmp_unknown",
             "text": "Last menstrual period unknown?",
             "value": "false"
           }
@@ -550,6 +554,12 @@
             "openmrs_entity_id": "1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
           },
           {
+            "key": "abortions",
+            "text": "Abortions",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "50AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
             "key": "abnormal_presentation",
             "text": "Abnormal Presentation",
             "openmrs_entity": "concept",
@@ -658,10 +668,40 @@
             "openmrs_entity_id": "160853AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
           },
           {
+            "key": "blood_transfusion",
+            "text": "Blood Transfusion",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "1063AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
+            "key": "laparotomy",
+            "text": "Laparotomy",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "164648AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
+            "key": "ruptured_ectopic_pregnancy",
+            "text": "Ruptured Ectopic Pregnancy",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "127246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
+            "key": "rectovaginal_fistula",
+            "text": "Rectovaginal fistula",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "127847AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
+            "key": "vesico_vaginal_fistulay",
+            "text": "Vesico-vaginal fistula",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "49AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
             "key": "other",
             "text": "Other(Specify)",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": ""
+            "openmrs_entity_id": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
           }
         ]
       },
@@ -736,7 +776,7 @@
             "key": "other",
             "text": "Other",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": ""
+            "openmrs_entity_id": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
           }
         ]
       },
@@ -744,9 +784,9 @@
         "key": "previous_pregnancy_outcomes",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "5630AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "161033AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "check_box",
-        "label": "Outcomes of previous pregnancies",
+        "label": "Outcomes of past pregnancies",
         "relevance": {
           "step2:parity": {
             "type": "numeric",
@@ -755,14 +795,14 @@
         },
         "v_required": {
           "value": "true",
-          "err": "Select at least one outcome for previous pregnancy(s)"
+          "err": "Select at least one outcome for past pregnancy(s)"
         },
         "options": [
           {
             "key": "alive",
             "text": "Alive",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": ""
+            "openmrs_entity_id": "151849AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
           },
           {
             "key": "stillbirth_fresh",
@@ -946,6 +986,13 @@
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_entity_id": "160292AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
+            "key": "tertiary",
+            "text": "Tertiary",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "160292AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
           }
         ]
       },
@@ -959,8 +1006,15 @@
         "label_text_style": "bold",
         "options": [
           {
-            "key": "married_living_together",
-            "text": "Married & living together",
+            "key": "married",
+            "text": "Married",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "5555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
+            "key": "living_together",
+            "text": "Living together",
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_entity_id": "1055AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"

@@ -247,19 +247,6 @@ public class MaternityLibrary {
         return eventList;
     }
 
-    public String maternityLookUpQuery() {
-        String lookUpQueryForChild = "select id as _id, %s, %s, %s, %s, %s, %s, zeir_id as %s, null as national_id from ec_child where [condition] ";
-        lookUpQueryForChild = String.format(lookUpQueryForChild, MaternityConstants.KEY.RELATIONALID, MaternityConstants.KEY.FIRST_NAME,
-                MaternityConstants.KEY.LAST_NAME, MaternityConstants.KEY.GENDER, MaternityConstants.KEY.DOB, MaternityConstants.KEY.BASE_ENTITY_ID, MaternityDbConstants.KEY.OPENSRP_ID);
-        String lookUpQueryForMother = "select id as _id, %s, %s, %s, %s, %s, %s, register_id as %s, nrc_number as national_id from ec_mother where [condition] ";
-        lookUpQueryForMother = String.format(lookUpQueryForMother, MaternityConstants.KEY.RELATIONALID, MaternityConstants.KEY.FIRST_NAME,
-                MaternityConstants.KEY.LAST_NAME, MaternityConstants.KEY.GENDER, MaternityConstants.KEY.DOB, MaternityConstants.KEY.BASE_ENTITY_ID, MaternityDbConstants.KEY.OPENSRP_ID);
-        String lookUpQueryForOpdOrMaternityClient = "select id as _id, %s, %s, %s, %s, %s, %s, %s, national_id from ec_client where [condition] ";
-        lookUpQueryForOpdOrMaternityClient = String.format(lookUpQueryForOpdOrMaternityClient, MaternityConstants.KEY.RELATIONALID, MaternityConstants.KEY.FIRST_NAME,
-                MaternityConstants.KEY.LAST_NAME, MaternityConstants.KEY.GENDER, MaternityConstants.KEY.DOB, MaternityConstants.KEY.BASE_ENTITY_ID, MaternityDbConstants.KEY.OPENSRP_ID);
-        return lookUpQueryForChild + " union all " + lookUpQueryForMother + " union all " + lookUpQueryForOpdOrMaternityClient;
-    }
-
     /**
      * This method enables us to configure how-long ago we should consider a valid check-in so that
      * we enable the next step which is DIAGNOSE & TREAT. This method returns the latest date that a check-in

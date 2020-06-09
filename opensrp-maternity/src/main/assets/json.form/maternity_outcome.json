@@ -277,6 +277,16 @@
         }
       },
       {
+        "key": "delivery_time",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "time_picker",
+        "hint": "Time of delivery",
+        "min_date": "today-3y",
+        "max_date": "today"
+      },
+      {
         "key": "delivery_place",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -287,13 +297,15 @@
           "This Facility",
           "In-Transit (TR)",
           "Other Facility",
-          "Home/Traditional Birth Authority(CMA)"
+          "Home",
+          "Traditional Birth Attendant (TBA)"
         ],
         "openmrs_choice_ids": {
           "This Facility": "159372AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "In-Transit (TR)": "1601AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "Other Facility": "1588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Home/Traditional Birth Authority(CMA)": "1536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "Home": "1536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Traditional Birth Attendant (TBA)": "1575AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         },
         "v_required": {
           "value": "true",
@@ -349,7 +361,6 @@
         "type": "spinner",
         "hint": "Mode of delivery",
         "values": [
-          "Vaginal Birth",
           "Spontan Vertex(SVD)",
           "Vacuum Extraction(VE)",
           "Breech (BR)",
@@ -357,7 +368,6 @@
           "Other (Specify)"
         ],
         "openmrs_choice_ids": {
-          "Vaginal Birth": "162595AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "Spontaneous Vertex (SVD)": "158865AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "Vacuum Extraction (VE)": "159260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "Breech (BR)": "1172AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
@@ -503,12 +513,6 @@
             "v_required": {
               "value": "true",
               "err": "Please enter the Gender of the child"
-            },
-            "relevance": {
-              "step3:discharged_alive": {
-                "type": "string",
-                "ex": "equalTo(., \"Yes\")"
-              }
             }
           },
           {
@@ -525,12 +529,6 @@
             "v_required": {
               "value": "true",
               "err": "Please enter the child's birth weight"
-            },
-            "relevance": {
-              "step3:discharged_alive": {
-                "type": "string",
-                "ex": "equalTo(., \"Yes\")"
-              }
             }
           },
           {
@@ -547,21 +545,15 @@
             "v_required": {
               "value": "true",
               "err": "Please enter the child's birth height"
-            },
-            "relevance": {
-              "step3:discharged_alive": {
-                "type": "string",
-                "ex": "equalTo(., \"Yes\")"
-              }
             }
           },
           {
             "key": "apgar",
             "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "1504AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
             "type": "edit_text",
-            "hint": "APGAR score",
+            "hint": "APGAR score 1 minute",
             "v_numeric_integer": {
               "value": "true",
               "err": "Enter a valid APGAR score"
@@ -577,12 +569,30 @@
             "v_required": {
               "value": "true",
               "err": "Please enter the child's birth APGAR"
+            }
+          },
+          {
+            "key": "apgar_five_min",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "1504AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "type": "edit_text",
+            "hint": "APGAR score 5 minutes",
+            "v_numeric_integer": {
+              "value": "true",
+              "err": "Enter a valid APGAR score"
             },
-            "relevance": {
-              "step3:discharged_alive": {
-                "type": "string",
-                "ex": "equalTo(., \"Yes\")"
-              }
+            "v_min": {
+              "err": "The APGAR score should be greater than 0",
+              "value": "1"
+            },
+            "v_max": {
+              "err": "The APGAR score should be 10 or less than 10",
+              "value": "10"
+            },
+            "v_required": {
+              "value": "true",
+              "err": "Please enter the child's birth APGAR"
             }
           },
           {
@@ -603,12 +613,6 @@
             "v_required": {
               "value": "true",
               "err": "Kindly select whether the baby cried at birth"
-            },
-            "relevance": {
-              "step3:discharged_alive": {
-                "type": "string",
-                "ex": "equalTo(., \"Yes\")"
-              }
             }
           },
           {
@@ -623,13 +627,7 @@
             "text_color": "#000000",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
-            "openmrs_entity_id": "",
-            "relevance": {
-              "step3:discharged_alive": {
-                "type": "string",
-                "ex": "equalTo(., \"Yes\")"
-              }
-            }
+            "openmrs_entity_id": ""
           },
           {
             "key": "baby_complications",
@@ -664,6 +662,10 @@
                 "text": "Birth Defects"
               },
               {
+                "key": "low_birth_weight",
+                "text": "Low birth weight"
+              },
+              {
                 "key": "other",
                 "text": "Other (Specify)"
               }
@@ -671,12 +673,6 @@
             "v_required": {
               "value": "true",
               "err": "Kindly select at least one birth complication"
-            },
-            "relevance": {
-              "step3:discharged_alive": {
-                "type": "string",
-                "ex": "equalTo(., \"Yes\")"
-              }
             }
           },
           {
@@ -704,7 +700,7 @@
             "openmrs_entity": "",
             "openmrs_entity_id": "",
             "type": "check_box",
-            "label": "Newborn Routine Care & Management",
+            "label": "Newborn Care & Management",
             "combine_checkbox_option_values": "true",
             "options": [
               {
@@ -887,6 +883,33 @@
     "next": "step5",
     "fields": [
       {
+        "key": "any_stillbirth",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "160427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "native_radio",
+        "label": "Were there any stillbirths?",
+        "label_info_text": "",
+        "label_info_title": "Were there any stillbirths?",
+        "label_text_style": "bold",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          }
+        ]
+      },
+      {
         "key": "babies_stillborn",
         "type": "repeating_group",
         "openmrs_entity_parent": "",
@@ -918,7 +941,13 @@
               "err": "Select the condition of the Stillbirth"
             }
           }
-        ]
+        ],
+        "relevance": {
+          "step4:any_stillbirth": {
+            "type": "string",
+            "ex": "equalTo(., \"yes\")"
+          }
+        }
       }
     ]
   },
@@ -1072,7 +1101,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "160427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "check_box",
-        "label": "Obstetric care",
+        "label": "Current obstetric care",
         "combine_checkbox_option_values": "true",
         "exclusive": [
           "none"

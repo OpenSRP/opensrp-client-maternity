@@ -33,20 +33,20 @@ public class MaternityLookUpUtilsTest {
 
 
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    public void testLookUpQuery() throws Exception {
-        PowerMockito.mockStatic(MaternityLibrary.class);
-        PowerMockito.when(MaternityLibrary.getInstance()).thenReturn(maternityLibrary);
-        PowerMockito.when(maternityLibrary.maternityLookUpQuery()).thenReturn("");
-
-        Map<String, String> entityMap = new HashMap<>();
-        String result = Whitebox.invokeMethod(MaternityLookUpUtils.class, "lookUpQuery", entityMap);
-        Assert.assertEquals(";", result);
-    }
+//    @Test
+//    public void testLookUpQuery() throws Exception {
+//        PowerMockito.mockStatic(MaternityLibrary.class);
+//        PowerMockito.when(MaternityLibrary.getInstance()).thenReturn(maternityLibrary);
+//        PowerMockito.when(maternityLibrary.maternityLookUpQuery()).thenReturn("");
+//
+//        Map<String, String> entityMap = new HashMap<>();
+//        String result = Whitebox.invokeMethod(MaternityLookUpUtils.class, "lookUpQuery", entityMap);
+//        Assert.assertEquals(";", result);
+//    }
 
     @Test
     public void testGetMainConditionStringWhenEntityMapIsEmpty() throws Exception {
@@ -98,8 +98,8 @@ public class MaternityLookUpUtilsTest {
     }
 
     @After
-    public void tearDown(){
-        ReflectionHelpers.setStaticField(MaternityLibrary.class,"instance", null);
+    public void tearDown() {
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", null);
     }
 
 }

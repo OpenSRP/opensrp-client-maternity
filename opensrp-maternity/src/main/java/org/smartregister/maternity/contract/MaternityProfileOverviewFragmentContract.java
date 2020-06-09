@@ -7,7 +7,6 @@ import android.support.annotation.StringRes;
 import org.jeasy.rules.api.Facts;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
-import org.smartregister.maternity.pojo.MaternityBaseDetails;
 
 import java.util.HashMap;
 import java.util.List;

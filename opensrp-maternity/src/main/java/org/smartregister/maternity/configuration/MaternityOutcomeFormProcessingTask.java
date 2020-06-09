@@ -3,6 +3,7 @@ package org.smartregister.maternity.configuration;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.utils.FormUtils;
@@ -33,14 +34,14 @@ import timber.log.Timber;
 import static org.smartregister.maternity.utils.MaternityJsonFormUtils.METADATA;
 import static org.smartregister.util.JsonFormUtils.gson;
 
-public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTask<List<Event>> {
+public class MaternityOutcomeFormProcessingTask implements MaternityFormProcessingTask<List<Event>> {
 
     @Override
     public List<Event> processMaternityForm(@NonNull String jsonString, @Nullable Intent data) throws JSONException {
         return processMaternityOutcomeForm(jsonString, data);
     }
 
-    public List<Event> processMaternityOutcomeForm(@NonNull String jsonString, @NonNull Intent data) throws JSONException {
+    private List<Event> processMaternityOutcomeForm(@NonNull String jsonString, @Nullable Intent data) throws JSONException {
         List<Event> eventList = new ArrayList<>();
 
         JSONObject jsonFormObject = new JSONObject(jsonString);
@@ -60,17 +61,13 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
             String title = step.optString(JsonFormConstants.STEP_TITLE);
 
             if (MaternityConstants.JSON_FORM_STEP_NAME.BABIES_BORN.equals(title)) {
-                HashMap<String, HashMap<String, String>> buildRepeatingGroupBorn = MaternityUtils.buildRepeatingGroupTests(step, MaternityConstants.JSON_FORM_KEY.BABIES_BORN);
 
-                //buildChildRegEvent
-                MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> {
-                    List<MaternityEventClient> childEvents = buildChildRegistrationEvents(buildRepeatingGroupBorn, baseEntityId, jsonFormObject);
-                    if (!childEvents.isEmpty()) {
-                        MaternityUtils.saveMaternityChild(childEvents);
-                    }
-                });
+                HashMap<String, HashMap<String, String>> buildRepeatingGroupBorn = MaternityUtils.buildRepeatingGroupValues(step, MaternityConstants.JSON_FORM_KEY.BABIES_BORN);
 
                 if (!buildRepeatingGroupBorn.isEmpty()) {
+                    if (StringUtils.isNotBlank(baseEntityId)) {
+                        createChildClients(jsonFormObject, baseEntityId, buildRepeatingGroupBorn);
+                    }
                     String strGroup = gson.toJson(buildRepeatingGroupBorn);
                     JSONObject repeatingGroupObj = new JSONObject();
                     repeatingGroupObj.put(JsonFormConstants.KEY, MaternityConstants.JSON_FORM_KEY.BABIES_BORN_MAP);
@@ -79,7 +76,9 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
                     fieldsArray.put(repeatingGroupObj);
                 }
             } else if (MaternityConstants.JSON_FORM_STEP_NAME.STILL_BORN_BABIES.equals(title)) {
-                HashMap<String, HashMap<String, String>> buildRepeatingGroupStillBorn = MaternityUtils.buildRepeatingGroupTests(step, MaternityConstants.JSON_FORM_KEY.BABIES_STILLBORN);
+
+                HashMap<String, HashMap<String, String>> buildRepeatingGroupStillBorn = MaternityUtils.buildRepeatingGroupValues(step, MaternityConstants.JSON_FORM_KEY.BABIES_STILLBORN);
+
                 if (!buildRepeatingGroupStillBorn.isEmpty()) {
                     String strGroup = gson.toJson(buildRepeatingGroupStillBorn);
                     JSONObject repeatingGroupObj = new JSONObject();
@@ -107,6 +106,16 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
 
     }
 
+    public void createChildClients(@NonNull JSONObject jsonFormObject, @NonNull String baseEntityId,
+                                   @NonNull HashMap<String, HashMap<String, String>> buildRepeatingGroupBorn) {
+        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> {
+            List<MaternityEventClient> childEvents = buildChildRegistrationEvents(buildRepeatingGroupBorn, baseEntityId, jsonFormObject);
+            if (!childEvents.isEmpty()) {
+                MaternityUtils.saveMaternityChild(childEvents);
+            }
+        });
+    }
+
     @NonNull
     private List<MaternityEventClient> buildChildRegistrationEvents(@NonNull HashMap<String, HashMap<String, String>> buildRepeatingGroupBorn,
                                                                     @NonNull String baseEntityId,
@@ -125,24 +134,24 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
                 Iterator<String> repeatingGroupKeys = jsonObject.keys();
 
                 HashMap<String, String> motherDetails = motherDetails(baseEntityId);
-
-                while (repeatingGroupKeys.hasNext()) {
-                    JSONObject jsonChildObject = jsonObject.optJSONObject(repeatingGroupKeys.next());
-                    String dischargedAlive = jsonChildObject.optString(MaternityConstants.JSON_FORM_KEY.DISCHARGED_ALIVE);
-                    if (StringUtils.isNotBlank(dischargedAlive) && dischargedAlive.equalsIgnoreCase("yes")) {
-                        String entityId = MaternityJsonFormUtils.generateRandomUUIDString();
-                        JSONArray fields = populateChildFieldArray(jsonChildObject, motherDetails);
-                        if (fields != null) {
-                            Client baseClient = JsonFormUtils.createBaseClient(fields, formTag, entityId);
-                            baseClient.addRelationship(MaternityConstants.MOTHER, baseEntityId);
-                            baseClient.setRelationalBaseEntityId(baseEntityId);
-                            Event childRegEvent = MaternityJsonFormUtils.createEvent(fields, jsonFormObject.optJSONObject(METADATA)
-                                    , formTag, entityId, childRegistrationEvent(), "");
-                            MaternityJsonFormUtils.tagSyncMetadata(childRegEvent);
-                            childRegEventList.add(new MaternityEventClient(baseClient, childRegEvent));
+                if (motherDetails != null) {
+                    while (repeatingGroupKeys.hasNext()) {
+                        JSONObject jsonChildObject = jsonObject.optJSONObject(repeatingGroupKeys.next());
+                        String dischargedAlive = jsonChildObject.optString(MaternityConstants.JSON_FORM_KEY.DISCHARGED_ALIVE);
+                        if (StringUtils.isNotBlank(dischargedAlive) && dischargedAlive.equalsIgnoreCase("yes")) {
+                            String entityId = MaternityJsonFormUtils.generateRandomUUIDString();
+                            JSONArray fields = populateChildFieldArray(jsonChildObject, motherDetails);
+                            if (fields != null) {
+                                Client baseClient = JsonFormUtils.createBaseClient(fields, formTag, entityId);
+                                baseClient.addRelationship(MaternityConstants.MOTHER, baseEntityId);
+                                baseClient.setRelationalBaseEntityId(baseEntityId);
+                                Event childRegEvent = MaternityJsonFormUtils.createEvent(fields, jsonFormObject.optJSONObject(METADATA)
+                                        , formTag, entityId, childRegistrationEvent(), "");
+                                MaternityJsonFormUtils.tagSyncMetadata(childRegEvent);
+                                childRegEventList.add(new MaternityEventClient(baseClient, childRegEvent));
+                            }
                         }
                     }
-
                 }
             } catch (JSONException e) {
                 Timber.e(e);
@@ -152,7 +161,8 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
     }
 
     @Nullable
-    private JSONArray getChildFormFields() {
+    @VisibleForTesting
+    public JSONArray getChildFormFields() {
         if (StringUtils.isNotBlank(getChildFormName())) {
             JSONObject formJsonObject = MaternityUtils.getFormUtils().getFormJson(getChildFormName());
             if (formJsonObject != null) {
@@ -163,12 +173,12 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
     }
 
     @NonNull
-    private String childRegistrationEvent() {
+    public String childRegistrationEvent() {
         return MaternityConstants.EventType.BIRTH_REGISTRATION;
     }
 
     @NonNull
-    protected String getChildFormName() {
+    public String getChildFormName() {
         return "";
     }
 
@@ -216,6 +226,7 @@ public class MaternityOutcomeFormProcessing implements MaternityFormProcessingTa
         return new HashMap<>();
     }
 
+    @Nullable
     public HashMap<String, String> motherDetails(@NonNull String baseEntityId) {
         return MaternityUtils.getMaternityClient(baseEntityId);
     }
