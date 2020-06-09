@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -28,25 +27,10 @@ import java.util.Map;
 @PrepareForTest(MaternityLibrary.class)
 public class MaternityLookUpUtilsTest {
 
-    @Mock
-    private MaternityLibrary maternityLibrary;
-
-
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
-
-//    @Test
-//    public void testLookUpQuery() throws Exception {
-//        PowerMockito.mockStatic(MaternityLibrary.class);
-//        PowerMockito.when(MaternityLibrary.getInstance()).thenReturn(maternityLibrary);
-//        PowerMockito.when(maternityLibrary.maternityLookUpQuery()).thenReturn("");
-//
-//        Map<String, String> entityMap = new HashMap<>();
-//        String result = Whitebox.invokeMethod(MaternityLookUpUtils.class, "lookUpQuery", entityMap);
-//        Assert.assertEquals(";", result);
-//    }
 
     @Test
     public void testGetMainConditionStringWhenEntityMapIsEmpty() throws Exception {

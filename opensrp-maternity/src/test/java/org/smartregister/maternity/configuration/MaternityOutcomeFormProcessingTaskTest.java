@@ -6,6 +6,7 @@ import com.vijay.jsonwizard.utils.FormUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -127,4 +128,9 @@ public class MaternityOutcomeFormProcessingTaskTest extends BaseRobolectricUnitT
         Assert.assertNotNull(childRegEventList.get(0).getClient());
     }
 
+    @After
+    public void tearDown() {
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", null);
+        ReflectionHelpers.setStaticField(CoreLibrary.class, "instance", null);
+    }
 }

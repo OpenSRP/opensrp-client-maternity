@@ -282,9 +282,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "time_picker",
-        "hint": "Time of delivery",
-        "min_date": "today-3y",
-        "max_date": "today"
+        "hint": "Time of delivery"
       },
       {
         "key": "delivery_place",
