@@ -24,6 +24,8 @@ public interface MaternityDbConstants {
         String OPENSRP_ID = "opensrp_id";
         String LAST_INTERACTED_WITH = "last_interacted_with";
         String DATE_REMOVED = "date_removed";
+        String GEST_AGE = "gest_age";
+        String GA_CALCULATED = "ga_calculated";
     }
 
     interface Column {

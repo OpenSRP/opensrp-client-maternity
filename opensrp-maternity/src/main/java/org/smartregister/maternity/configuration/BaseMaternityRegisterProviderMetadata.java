@@ -13,6 +13,8 @@ import org.smartregister.util.Utils;
 
 import java.util.Map;
 
+import timber.log.Timber;
+
 /**
  * This is a metadata class for the RegisterProvider at {@link MaternityRegisterProvider}. Some of the methods avoid null-checking but scream NotNullable
  * because https://github.com/OpenSRP/opensrp-client-core/blob/master/opensrp-app/src/main/java/org/smartregister/util/Utils.java#L208 checks for nulls and replaces them with empty strings
@@ -50,19 +52,25 @@ public class BaseMaternityRegisterProviderMetadata implements MaternityRegisterP
     @Override
     public String getGA(@NonNull Map<String, String> columnMaps) {
         String gaInWeeks = getString(R.string.zero_weeks);
-        String conceptionDateString = Utils.getValue(columnMaps, MaternityDbConstants.KEY.CONCEPTION_DATE, false);
+        String gaCalculatedString = Utils.getValue(columnMaps, MaternityDbConstants.KEY.GA_CALCULATED, false);
 
-        if (!TextUtils.isEmpty(conceptionDateString)) {
-            int intWeeks = MaternityLibrary.getGestationAgeInWeeks(conceptionDateString);
-            String weekString;
+        if (!TextUtils.isEmpty(gaCalculatedString)) {
+            if (gaCalculatedString.contains("weeks")) {
+                try {
+                    int intWeeks = Integer.parseInt(gaCalculatedString.substring(0, gaCalculatedString.indexOf("weeks")).trim());
+                    String weekString;
 
-            if (intWeeks != 1) {
-                weekString = getString(R.string.weeks);
-            } else {
-                weekString = getString(R.string.week);
+                    if (intWeeks != 1) {
+                        weekString = getString(R.string.weeks);
+                    } else {
+                        weekString = getString(R.string.week);
+                    }
+
+                    gaInWeeks = intWeeks + " " + weekString;
+                } catch (IndexOutOfBoundsException | NumberFormatException e) {
+                    Timber.e(e);
+                }
             }
-
-            gaInWeeks =  intWeeks + " " + weekString;
         }
 
         return gaInWeeks;

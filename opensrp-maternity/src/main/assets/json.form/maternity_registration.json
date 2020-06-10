@@ -493,6 +493,20 @@
         }
       },
       {
+        "key": "ga_calculated",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "maternity/registration_calculation_rules.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "onset_labour_label",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",

@@ -34,9 +34,9 @@ condition: "step2_lmp != ''"
 actions:
   - "calculation = helper.getWeeksAndDaysFromDays(helper.getDifferenceDays(helper.getSecondaryValue(step2_lmp)))"
 ---
-name: step2_ga_weeks_entered
-description: The mothers gestation age
+name: step2_ga_calculated
+description: The mothers ga age
 priority: 1
-condition: "step2_lmp != ''"
+condition: "true"
 actions:
-  - "calculation = helper.getWeeks(helper.getDifferenceDays(helper.getSecondaryValue(step2_lmp)))"
+  - "calculation = (step2_lmp != '' ? step2_gest_age : (step2_ga_weeks_entered + ' weeks ' + step2_ga_days_entered + ' days'))"
