@@ -2,32 +2,21 @@ package org.smartregister.maternity.utils;
 
 import android.support.annotation.NonNull;
 
+import org.smartregister.maternity.BuildConfig;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DefaultMaternityLocationUtils {
 
     @NonNull
     public static ArrayList<String> getLocationLevels() {
-        ArrayList<String> allLevels = new ArrayList<>();
-        allLevels.add("Country");
-        allLevels.add("Province");
-        allLevels.add("Department");
-        allLevels.add("Health Facility");
-        allLevels.add("Zone");
-        allLevels.add("Residential Area");
-        allLevels.add("Facility");
-        return allLevels;
+        return new ArrayList<>(Arrays.asList(BuildConfig.LOCATION_LEVELS));
     }
 
     @NonNull
     public static ArrayList<String> getHealthFacilityLevels() {
-        ArrayList<String> healthFacilities = new ArrayList<>();
-        healthFacilities.add("Country");
-        healthFacilities.add("Province");
-        healthFacilities.add("Department");
-        healthFacilities.add("Health Facility");
-        healthFacilities.add("Facility");
-        return healthFacilities;
+        return new ArrayList<>(Arrays.asList(BuildConfig.HEALTH_FACILITY_LEVELS));
     }
 
 }

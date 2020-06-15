@@ -6,14 +6,16 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.google.common.reflect.TypeToken;
+import com.vijay.jsonwizard.constants.JsonFormConstants;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.domain.Photo;
+import org.smartregister.domain.form.FormLocation;
 import org.smartregister.location.helper.LocationHelper;
-import org.smartregister.maternity.enums.LocationHierarchy;
+import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.pojo.MaternityMetadata;
 import org.smartregister.util.AssetHandler;
 import org.smartregister.util.FormUtils;
@@ -38,7 +40,7 @@ public class MaternityReverseJsonFormUtils {
                 JSONObject form = new FormUtils(context).getFormJson(maternityMetadata.getMaternityRegistrationFormName());
                 Timber.d("Original Form %s", form);
                 if (form != null) {
-                    MaternityJsonFormUtils.addRegLocHierarchyQuestions(form, MaternityConstants.JSON_FORM_KEY.VILLAGE_ADDRESS_WIDGET_KEY, LocationHierarchy.ENTIRE_TREE);
+                    MaternityJsonFormUtils.addRegLocHierarchyQuestions(form);
                     form.put(MaternityConstants.JSON_FORM_KEY.ENTITY_ID, detailsMap.get(MaternityConstants.KEY.BASE_ENTITY_ID));
 
                     form.put(MaternityConstants.JSON_FORM_KEY.ENCOUNTER_TYPE, maternityMetadata.getUpdateEventType());
@@ -86,7 +88,10 @@ public class MaternityReverseJsonFormUtils {
                         .toLowerCase(), false).replace("-", ""));
             }
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS)) {
-            reverseHomeAddress(jsonObject, maternityDetails.get(MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS));
+            String homeAddress = maternityDetails.get(MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS);
+            jsonObject.put(MaternityJsonFormUtils.VALUE, homeAddress);
+        } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.VILLAGE)) {
+            reverseVillage(jsonObject, maternityDetails.get(MaternityConstants.JSON_FORM_KEY.VILLAGE));
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.REMINDERS)) {
             reverseReminders(maternityDetails, jsonObject);
         } else {
@@ -102,6 +107,30 @@ public class MaternityReverseJsonFormUtils {
             jsonObject.put(MaternityJsonFormUtils.VALUE, jsonArray);
         }
     }
+
+    private static void reverseVillage(@NonNull JSONObject jsonObject, @Nullable String entity) throws JSONException {
+        List<String> entityHierarchy = null;
+        if (entity != null) {
+            if (MaternityConstants.FormValue.OTHER.equalsIgnoreCase(entity)) {
+                entityHierarchy = new ArrayList<>();
+                entityHierarchy.add(entity);
+            } else {
+                String locationId = LocationHelper.getInstance().getOpenMrsLocationId(entity);
+                entityHierarchy = LocationHelper.getInstance().getOpenMrsLocationHierarchy(locationId, false);
+            }
+        }
+        ArrayList<String> allLevels = MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityMetadata().getHealthFacilityLevels();
+        List<FormLocation> entireTree = LocationHelper.getInstance().generateLocationHierarchyTree(true, allLevels);
+        String entireTreeString = AssetHandler.javaToJsonString(entireTree, new TypeToken<List<FormLocation>>() {
+        }.getType());
+        String facilityHierarchyString = AssetHandler.javaToJsonString(entityHierarchy, new TypeToken<List<String>>() {
+        }.getType());
+        if (StringUtils.isNotBlank(facilityHierarchyString)) {
+            jsonObject.put(JsonFormConstants.VALUE, facilityHierarchyString);
+            jsonObject.put(JsonFormConstants.TREE, new JSONArray(entireTreeString));
+        }
+    }
+
 
     private static void reversePhoto(@NonNull String baseEntityId, @NonNull JSONObject jsonObject) throws JSONException {
         try {

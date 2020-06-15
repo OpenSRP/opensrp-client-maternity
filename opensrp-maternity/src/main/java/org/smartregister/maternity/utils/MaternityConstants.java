@@ -99,6 +99,7 @@ public class MaternityConstants extends AllConstants {
         public static final String BF_FIRST_HOUR = "bf_first_hour";
         public static final String APGAR = "apgar";
         public static final String STILLBIRTH_CONDITION = "stillbirth_condition";
+        public static final String VILLAGE = "village";
     }
 
     public static class JSON_FORM_EXTRA {

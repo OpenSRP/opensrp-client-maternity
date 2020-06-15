@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import org.smartregister.maternity.utils.DefaultMaternityLocationUtils;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class MaternityMetadata {
 
@@ -28,6 +29,8 @@ public class MaternityMetadata {
     private ArrayList<String> locationLevels;
 
     private ArrayList<String> healthFacilityLevels;
+
+    private Set<String> fieldsWithLocationHierarchy;
 
     public MaternityMetadata(@NonNull String maternityRegistrationFormName, @NonNull String tableName, @NonNull String registerEventType, @NonNull String updateEventType,
                              @NonNull String config, @NonNull Class maternityFormActivity, @Nullable Class profileActivity, boolean formWizardValidateRequiredFieldsBefore) {
@@ -129,5 +132,13 @@ public class MaternityMetadata {
 
     public void setHealthFacilityLevels(ArrayList<String> healthFacilityLevels) {
         this.healthFacilityLevels = healthFacilityLevels;
+    }
+
+    public Set<String> getFieldsWithLocationHierarchy() {
+        return fieldsWithLocationHierarchy;
+    }
+
+    public void setFieldsWithLocationHierarchy(Set<String> fieldsWithLocationHierarchy) {
+        this.fieldsWithLocationHierarchy = fieldsWithLocationHierarchy;
     }
 }

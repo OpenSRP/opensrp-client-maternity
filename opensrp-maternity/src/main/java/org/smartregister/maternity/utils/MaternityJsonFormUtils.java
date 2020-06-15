@@ -22,7 +22,6 @@ import org.smartregister.domain.form.FormLocation;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.maternity.MaternityLibrary;
-import org.smartregister.maternity.enums.LocationHierarchy;
 import org.smartregister.maternity.pojo.MaternityEventClient;
 import org.smartregister.maternity.pojo.MaternityMetadata;
 import org.smartregister.repository.AllSharedPreferences;
@@ -95,8 +94,7 @@ public class MaternityJsonFormUtils extends JsonFormUtils {
                 entityId = entityId.replace("-", "");
             }
 
-//            MaternityJsonFormUtils.addRegLocHierarchyQuestions(form, MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS_WIDGET_KEY, LocationHierarchy.ENTIRE_TREE);
-            MaternityJsonFormUtils.addRegLocHierarchyQuestions(form, MaternityConstants.JSON_FORM_KEY.VILLAGE_ADDRESS_WIDGET_KEY, LocationHierarchy.ENTIRE_TREE);
+            addRegLocHierarchyQuestions(form);
 
             // Inject OPenSrp id into the form
             JSONObject stepOne = form.getJSONObject(MaternityJsonFormUtils.STEP1);
@@ -117,25 +115,14 @@ public class MaternityJsonFormUtils extends JsonFormUtils {
         return form;
     }
 
-    protected static void addRegLocHierarchyQuestions(@NonNull JSONObject form, @NonNull String widgetKey, @NonNull LocationHierarchy locationHierarchy) {
+    protected static void addRegLocHierarchyQuestions(@NonNull JSONObject form) {
         try {
-            JSONArray questions = form.getJSONObject(JsonFormConstants.STEP1).getJSONArray(JsonFormConstants.FIELDS);
-
-            ArrayList<String> allLevels;
-            ArrayList<String> healthFacilities;
-            MaternityMetadata metadata = MaternityUtils.metadata();
-            if (metadata != null) {
-                allLevels = metadata.getLocationLevels();
-                healthFacilities = metadata.getHealthFacilityLevels();
-            } else {
-                allLevels = DefaultMaternityLocationUtils.getLocationLevels();
-                healthFacilities = DefaultMaternityLocationUtils.getLocationLevels();
-            }
+            JSONArray questions = com.vijay.jsonwizard.utils.FormUtils.getMultiStepFormFields(form);
+            ArrayList<String> allLevels = MaternityUtils.metadata().getLocationLevels();
+            ArrayList<String> healthFacilities = MaternityUtils.metadata().getHealthFacilityLevels();
 
             List<String> defaultLocation = LocationHelper.getInstance().generateDefaultLocationHierarchy(allLevels);
             List<String> defaultFacility = LocationHelper.getInstance().generateDefaultLocationHierarchy(healthFacilities);
-            List<FormLocation> upToFacilities = LocationHelper.getInstance().generateLocationHierarchyTree(false, healthFacilities);
-            List<FormLocation> upToFacilitiesWithOther = LocationHelper.getInstance().generateLocationHierarchyTree(true, healthFacilities);
             List<FormLocation> entireTree = LocationHelper.getInstance().generateLocationHierarchyTree(true, allLevels);
 
             String defaultLocationString = AssetHandler.javaToJsonString(defaultLocation, new TypeToken<List<String>>() {
@@ -144,103 +131,49 @@ public class MaternityJsonFormUtils extends JsonFormUtils {
             String defaultFacilityString = AssetHandler.javaToJsonString(defaultFacility, new TypeToken<List<String>>() {
             }.getType());
 
-            String upToFacilitiesString = AssetHandler.javaToJsonString(upToFacilities, new TypeToken<List<FormLocation>>() {
-            }.getType());
-
-            String upToFacilitiesWithOtherString = AssetHandler.javaToJsonString(upToFacilitiesWithOther, new TypeToken<List<FormLocation>>() {
-            }.getType());
-
             String entireTreeString = AssetHandler.javaToJsonString(entireTree, new TypeToken<List<FormLocation>>() {
             }.getType());
 
-            updateLocationTree(widgetKey, locationHierarchy, questions, defaultLocationString, defaultFacilityString, upToFacilitiesString, upToFacilitiesWithOtherString, entireTreeString);
+            updateLocationTree(questions, defaultLocationString, defaultFacilityString, entireTreeString);
+        } catch (Exception e) {
+            Timber.e(e, "JsonFormUtils --> addChildRegLocHierarchyQuestions");
+        }
+    }
 
-            //To Do Refactor to remove dependency on hardocded keys
+    private static void updateLocationTree(@NonNull JSONArray questions,
+                                           @Nullable String defaultLocationString, @Nullable String defaultFacilityString,
+                                           @Nullable String entireTreeString) throws JSONException {
+        MaternityMetadata maternityMetadata = MaternityUtils.metadata();
+        if (maternityMetadata != null && maternityMetadata.getFieldsWithLocationHierarchy() != null && !maternityMetadata.getFieldsWithLocationHierarchy().isEmpty()) {
             for (int i = 0; i < questions.length(); i++) {
-                if (questions.getJSONObject(i).getString("key").equals("village")) {
-                    if (StringUtils.isNotBlank(upToFacilitiesString)) {
-                        questions.getJSONObject(i).put("tree", new JSONArray(upToFacilitiesString));
-                    }
-                    if (StringUtils.isNotBlank(defaultFacilityString)) {
-                        questions.getJSONObject(i).put("default", defaultFacilityString);
-                    }
-                } else if (questions.getJSONObject(i).getString("key").equals("Birth_Facility_Name")) {
-                    if (StringUtils.isNotBlank(upToFacilitiesWithOtherString)) {
-                        questions.getJSONObject(i).put("tree", new JSONArray(upToFacilitiesWithOtherString));
-                    }
-                    if (StringUtils.isNotBlank(defaultFacilityString)) {
-                        questions.getJSONObject(i).put("default", defaultFacilityString);
-                    }
-                } else if (questions.getJSONObject(i).getString("key").equals("Residential_Area")) {
+                JSONObject widget = questions.getJSONObject(i);
+                String key = widget.optString(JsonFormConstants.KEY);
+                if (StringUtils.isNotBlank(key) && maternityMetadata.getFieldsWithLocationHierarchy().contains(widget.optString(JsonFormConstants.KEY))) {
                     if (StringUtils.isNotBlank(entireTreeString)) {
-                        questions.getJSONObject(i).put("tree", new JSONArray(entireTreeString));
+                        addLocationTree(key, widget, entireTreeString, JsonFormConstants.TREE);
                     }
-                    if (StringUtils.isNotBlank(defaultLocationString)) {
-                        questions.getJSONObject(i).put("default", defaultLocationString);
+                    if (StringUtils.isNotBlank(defaultFacilityString)) {
+                        addLocationTreeDefault(key, widget, defaultLocationString);
                     }
                 }
             }
-
-        } catch (Exception e) {
-            Timber.e(e);
         }
     }
 
-    private static void updateLocationTree(@NonNull String widgetKey, @NonNull LocationHierarchy locationHierarchy, @NonNull JSONArray questions,
-                                           @NonNull String defaultLocationString, @NonNull String defaultFacilityString,
-                                           @NonNull String upToFacilitiesString, @NonNull String upToFacilitiesWithOtherString,
-                                           @NonNull String entireTreeString) throws JSONException {
-        for (int i = 0; i < questions.length(); i++) {
-            JSONObject widgets = questions.getJSONObject(i);
-            switch (locationHierarchy) {
-                case FACILITY_ONLY:
-                    if (StringUtils.isNotBlank(upToFacilitiesString)) {
-                        addLocationTree(widgetKey, widgets, upToFacilitiesString);
-                    }
-                    if (StringUtils.isNotBlank(defaultFacilityString)) {
-                        addLocationDefault(widgetKey, widgets, defaultFacilityString);
-                    }
-                    break;
-                case FACILITY_WITH_OTHER_STRING:
-                    if (StringUtils.isNotBlank(upToFacilitiesWithOtherString)) {
-                        addLocationTree(widgetKey, widgets, upToFacilitiesWithOtherString);
-                    }
-                    if (StringUtils.isNotBlank(defaultFacilityString)) {
-                        addLocationDefault(widgetKey, widgets, defaultFacilityString);
-                    }
-                    break;
-                case ENTIRE_TREE:
-                    if (StringUtils.isNotBlank(entireTreeString)) {
-                        addLocationTree(widgetKey, widgets, entireTreeString);
-                    }
-                    if (StringUtils.isNotBlank(defaultFacilityString)) {
-                        addLocationDefault(widgetKey, widgets, defaultLocationString);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    private static void addLocationTree(@NonNull String widgetKey, @NonNull JSONObject widget, @NonNull String updateString) {
+    private static void addLocationTree(@NonNull String widgetKey, @NonNull JSONObject
+            widget, @NonNull String updateString, @NonNull String treeType) {
         try {
-            if (widget.getString(MaternityJsonFormUtils.KEY).equals(widgetKey)) {
-                widget.put("tree", new JSONArray(updateString));
+            if (widgetKey.equals(widget.optString(JsonFormConstants.KEY))) {
+                widget.put(treeType, new JSONArray(updateString));
             }
         } catch (JSONException e) {
-            Timber.e(e);
+            Timber.e(e, "JsonFormUtils --> addLocationTree");
         }
     }
 
-    private static void addLocationDefault(@NonNull String widgetKey, @NonNull JSONObject widget, @NonNull String updateString) {
-        try {
-            if (widget.getString(MaternityJsonFormUtils.KEY).equals(widgetKey)) {
-                widget.put("default", new JSONArray(updateString));
-            }
-        } catch (JSONException e) {
-            Timber.e(e, "MaternityJsonFormUtils --> addLocationDefault");
-        }
+    private static void addLocationTreeDefault(@NonNull String widgetKey, @NonNull JSONObject
+            widget, @NonNull String updateString) {
+        addLocationTree(widgetKey, widget, updateString, JsonFormConstants.DEFAULT);
     }
 
     public static Event tagSyncMetadata(@NonNull Event event) {

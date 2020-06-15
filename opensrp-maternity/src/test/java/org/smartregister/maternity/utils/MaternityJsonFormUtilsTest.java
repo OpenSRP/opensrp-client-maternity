@@ -8,18 +8,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+import org.powermock.reflect.internal.WhiteboxImpl;
 import org.robolectric.util.ReflectionHelpers;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
 import org.smartregister.SyncConfiguration;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.domain.form.FormLocation;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.maternity.BuildConfig;
@@ -32,11 +38,39 @@ import org.smartregister.repository.Repository;
 import org.smartregister.util.JsonFormUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 @PrepareForTest(MaternityUtils.class)
 @RunWith(PowerMockRunner.class)
 public class MaternityJsonFormUtilsTest {
+
+
+    @Mock
+    private LocationHelper locationHelper;
+
+    @Mock
+    private MaternityLibrary maternityLibrary;
+
+    private MaternityMetadata maternityMetadata;
+
+    @Mock
+    private MaternityConfiguration maternityConfiguration;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        maternityMetadata = new MaternityMetadata(MaternityConstants.Form.MATERNITY_REGISTRATION
+                , MaternityDbConstants.KEY.TABLE
+                , MaternityConstants.EventType.MATERNITY_REGISTRATION
+                , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
+                , MaternityConstants.CONFIG
+                , Class.class
+                , Class.class
+                , true);
+    }
 
     @After
     public void tearDown() throws Exception {
@@ -45,14 +79,6 @@ public class MaternityJsonFormUtilsTest {
 
     @Test
     public void testGetFormAsJsonWithNonEmptyJsonObjectAndEntityIdBlank() throws Exception {
-        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.Form.MATERNITY_REGISTRATION
-                , MaternityDbConstants.KEY.TABLE
-                , MaternityConstants.EventType.MATERNITY_REGISTRATION
-                , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
-                , MaternityConstants.CONFIG
-                , Class.class
-                , Class.class
-                , true);
         MaternityConfiguration maternityConfiguration = new MaternityConfiguration.Builder(MaternityRegisterQueryProviderTest.class)
                 .setMaternityMetadata(maternityMetadata)
                 .build();
@@ -67,15 +93,6 @@ public class MaternityJsonFormUtilsTest {
 
     @Test
     public void testGetFormAsJsonWithNonEmptyJsonObjectAndEntityIdNonEmpty() throws Exception {
-        MaternityMetadata maternityMetadata = new MaternityMetadata(MaternityConstants.Form.MATERNITY_REGISTRATION
-                , MaternityDbConstants.KEY.TABLE
-                , MaternityConstants.EventType.MATERNITY_REGISTRATION
-                , MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION
-                , MaternityConstants.CONFIG
-                , Class.class
-                , Class.class
-                , true);
-
         MaternityConfiguration maternityConfiguration = new MaternityConfiguration.Builder(MaternityRegisterQueryProviderTest.class)
                 .setMaternityMetadata(maternityMetadata)
                 .build();
@@ -98,6 +115,56 @@ public class MaternityJsonFormUtilsTest {
 
         JSONObject result = MaternityJsonFormUtils.getFormAsJson(jsonObject, MaternityConstants.Form.MATERNITY_REGISTRATION, "23", "currentLocation");
         Assert.assertEquals(result, jsonObject);
+    }
+
+    @Test
+    public void testUpdateLocationStringShouldPopulateTreeAndDefaultAttributeUsingLocationHierarchyTree() throws Exception {
+        maternityMetadata.setFieldsWithLocationHierarchy(new HashSet<>(Arrays.asList("village")));
+        Mockito.when(maternityConfiguration.getMaternityMetadata()).thenReturn(maternityMetadata);
+        Mockito.when(maternityLibrary.getMaternityConfiguration()).thenReturn(maternityConfiguration);
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(JsonFormConstants.KEY, "village");
+        jsonObject.put(JsonFormConstants.TYPE, JsonFormConstants.TREE);
+        jsonArray.put(jsonObject);
+        String hierarchyString = "[\"Kenya\",\"Central\"]";
+        String entireTreeString = "[{\"nodes\":[{\"level\":\"Province\",\"name\":\"Central\",\"key\":\"1\"}],\"level\":\"Country\",\"name\":\"Kenya\",\"key\":\"0\"}]";
+        ArrayList<String> healthFacilities = new ArrayList<>();
+        healthFacilities.add("Country");
+        healthFacilities.add("Province");
+
+        List<FormLocation> entireTree = new ArrayList<>();
+        FormLocation formLocationCountry = new FormLocation();
+        formLocationCountry.level = "Country";
+        formLocationCountry.name = "Kenya";
+        formLocationCountry.key = "0";
+        FormLocation formLocationProvince = new FormLocation();
+        formLocationProvince.level = "Province";
+        formLocationProvince.name = "Central";
+        formLocationProvince.key = "1";
+
+        List<FormLocation> entireTreeCountryNode = new ArrayList<>();
+        entireTreeCountryNode.add(formLocationProvince);
+        formLocationCountry.nodes = entireTreeCountryNode;
+        entireTree.add(formLocationCountry);
+
+        ReflectionHelpers.setStaticField(LocationHelper.class, "instance", locationHelper);
+
+        Mockito.doReturn(entireTree).when(locationHelper).generateLocationHierarchyTree(ArgumentMatchers.anyBoolean(), ArgumentMatchers.eq(healthFacilities));
+
+        WhiteboxImpl.invokeMethod(MaternityJsonFormUtils.class, "updateLocationTree", jsonArray, hierarchyString, entireTreeString, entireTreeString);
+        Assert.assertTrue(jsonObject.has(JsonFormConstants.TREE));
+        Assert.assertTrue(jsonObject.has(JsonFormConstants.DEFAULT));
+        Assert.assertEquals(hierarchyString, jsonObject.optString(JsonFormConstants.DEFAULT));
+        JSONArray resultTreeObject = new JSONArray(jsonObject.optString(JsonFormConstants.TREE));
+        Assert.assertTrue(resultTreeObject.optJSONObject(0).has("nodes"));
+        Assert.assertEquals("Kenya", resultTreeObject.optJSONObject(0).optString("name"));
+        Assert.assertEquals("Country", resultTreeObject.optJSONObject(0).optString("level"));
+        Assert.assertEquals("0", resultTreeObject.optJSONObject(0).optString("key"));
+        Assert.assertEquals("Central", resultTreeObject.optJSONObject(0).optJSONArray("nodes").optJSONObject(0).optString("name"));
+        Assert.assertEquals("1", resultTreeObject.optJSONObject(0).optJSONArray("nodes").optJSONObject(0).optString("key"));
+        Assert.assertEquals("Province", resultTreeObject.optJSONObject(0).optJSONArray("nodes").optJSONObject(0).optString("level"));
     }
 
     @Test
@@ -140,38 +207,6 @@ public class MaternityJsonFormUtilsTest {
         JSONObject result = MaternityJsonFormUtils.getFormAsJson(jsonObject, MaternityConstants.Form.MATERNITY_REGISTRATION, "23", "currentLocation", injectableFields);
         Assert.assertEquals(result, jsonObject);
         Assert.assertEquals("Injectable value", injectableField.getString(MaternityJsonFormUtils.VALUE));
-    }
-
-    @Test
-    public void testAddLocationTreeWithEmptyJsonObject() throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        Whitebox.invokeMethod(MaternityJsonFormUtils.class, "addLocationTree", "", jsonObject, "");
-        Assert.assertFalse(jsonObject.has("tree"));
-    }
-
-    @Test
-    public void testAddLocationTreeWithNonEmptyJsonObject() throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(MaternityJsonFormUtils.KEY, "");
-        JSONArray jsonArray = new JSONArray();
-        Whitebox.invokeMethod(MaternityJsonFormUtils.class, "addLocationTree", "", jsonObject, jsonArray.toString());
-        Assert.assertTrue(jsonObject.has("tree"));
-    }
-
-    @Test
-    public void testAddLocationDefaultWithEmptyJsonObject() throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        Whitebox.invokeMethod(MaternityJsonFormUtils.class, "addLocationDefault", "", jsonObject, "");
-        Assert.assertFalse(jsonObject.has("default"));
-    }
-
-    @Test
-    public void testAddLocationDefaultTreeWithNonEmptyJsonObject() throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(MaternityJsonFormUtils.KEY, "");
-        JSONArray jsonArray = new JSONArray();
-        Whitebox.invokeMethod(MaternityJsonFormUtils.class, "addLocationDefault", "", jsonObject, jsonArray.toString());
-        Assert.assertTrue(jsonObject.has("default"));
     }
 
     @Test

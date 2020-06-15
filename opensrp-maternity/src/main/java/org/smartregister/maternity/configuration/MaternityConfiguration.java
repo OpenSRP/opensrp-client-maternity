@@ -61,8 +61,8 @@ public class MaternityConfiguration {
         return builder.maternityRegisterSwitcher;
     }
 
-    public HashMap<String, Class<? extends MaternityFormProcessingTask>> getMaternityFormProcessingTasks() {
-        return builder.maternityFormProcessingClasses;
+    public Class<? extends MaternityFormProcessingTask> getMaternityFormProcessingTasks(@NonNull String eventType) {
+        return builder.maternityFormProcessingClasses.get(eventType);
     }
 
     public int getMaxCheckInDurationInMinutes() {

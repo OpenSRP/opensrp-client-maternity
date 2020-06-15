@@ -44,7 +44,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import id.zelory.compressor.Compressor;
@@ -219,13 +218,8 @@ public class MaternityLibrary {
 
     @NonNull
     public List<Event> processMaternityOutcomeForm(@NonNull String eventType, String jsonString, @Nullable Intent data) throws JSONException {
-        HashMap<String, Class<? extends MaternityFormProcessingTask>> maternityFormProcessingTasks = getMaternityConfiguration().getMaternityFormProcessingTasks();
-        List<Event> eventList = new ArrayList<>();
-        if (maternityFormProcessingTasks.get(eventType) != null) {
-            MaternityFormProcessingTask<List<Event>> maternityFormProcessingTask = ConfigurationInstancesHelper.newInstance(maternityFormProcessingTasks.get(eventType));
-            eventList = maternityFormProcessingTask.processMaternityForm(jsonString, data);
-        }
-        return eventList;
+        MaternityFormProcessingTask<List<Event>> maternityFormProcessingTask = ConfigurationInstancesHelper.newInstance(getMaternityConfiguration().getMaternityFormProcessingTasks(eventType));
+        return maternityFormProcessingTask.processMaternityForm(jsonString, data);
     }
 
     @NonNull

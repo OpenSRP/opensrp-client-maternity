@@ -28,6 +28,8 @@ import org.smartregister.repository.Repository;
 import org.smartregister.sync.ClientProcessorForJava;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -77,7 +79,7 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
             names.add(Constants.Columns.DOB);
 
             return names.toArray(new String[names.size()]);
-        } else if (tableName.equals(MaternityDbConstants.KEY.TABLE)){
+        } else if (tableName.equals(MaternityDbConstants.KEY.TABLE)) {
 
             return new String[]{MaternityDbConstants.KEY.BASE_ENTITY_ID, MaternityDbConstants.KEY.FIRST_NAME, MaternityDbConstants.KEY.LAST_NAME,
                     MaternityDbConstants.KEY.LAST_INTERACTED_WITH, MaternityDbConstants.KEY.DATE_REMOVED, MaternityDbConstants.Column.Client.REGISTER_TYPE};
@@ -108,7 +110,8 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
                 , MaternityConstants.CONFIG
                 , MaternityFormActivity.class
                 , BaseMaternityProfileActivity.class
-                ,true);
+                , true);
+        maternityMetadata.setFieldsWithLocationHierarchy(new HashSet<>(Arrays.asList("village")));
         MaternityConfiguration maternityConfiguration = new MaternityConfiguration
                 .Builder(MaternityRegisterQueryProvider.class)
                 .setMaternityMetadata(maternityMetadata)
@@ -133,7 +136,7 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
     public void logoutCurrentUser() {
     }
 
-    public void initializeTestLocationData(){
+    public void initializeTestLocationData() {
         // this function is for test purposes only
         String loc = "{\"locationsHierarchy\":{\"map\":{\"5b854508-42c5-4cc5-9bea-77335687a428\":{\"children\":{\"425b0ac3-05e7-4123-ad27-76f510d96a6a\":{\"children\":{\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\":{\"children\":{\"6ca7788c-d995-4431-a8a3-2f030db1aee0\":{\"id\":\"6ca7788c-d995-4431-a8a3-2f030db1aee0\",\"label\":\"The crypts\",\"node\":{\"locationId\":\"6ca7788c-d995-4431-a8a3-2f030db1aee0\",\"name\":\"The crypts\",\"parentLocation\":{\"locationId\":\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\",\"name\":\"Winterfell\",\"parentLocation\":{\"locationId\":\"425b0ac3-05e7-4123-ad27-76f510d96a6a\",\"name\":\"The North\",\"serverVersion\":0,\"voided\":false},\"serverVersion\":0,\"voided\":false},\"tags\":[\"Facility\"],\"serverVersion\":0,\"voided\":false},\"parent\":\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\"}},\"id\":\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\",\"label\":\"Winterfell\",\"node\":{\"locationId\":\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\",\"name\":\"Winterfell\",\"parentLocation\":{\"locationId\":\"425b0ac3-05e7-4123-ad27-76f510d96a6a\",\"name\":\"The North\",\"parentLocation\":{\"locationId\":\"5b854508-42c5-4cc5-9bea-77335687a428\",\"name\":\"Westeros\",\"serverVersion\":0,\"voided\":false},\"serverVersion\":0,\"voided\":false},\"tags\":[\"Department\"],\"serverVersion\":0,\"voided\":false},\"parent\":\"425b0ac3-05e7-4123-ad27-76f510d96a6a\"}},\"id\":\"425b0ac3-05e7-4123-ad27-76f510d96a6a\",\"label\":\"The North\",\"node\":{\"locationId\":\"425b0ac3-05e7-4123-ad27-76f510d96a6a\",\"name\":\"The North\",\"parentLocation\":{\"locationId\":\"5b854508-42c5-4cc5-9bea-77335687a428\",\"name\":\"Westeros\",\"serverVersion\":0,\"voided\":false},\"tags\":[\"Province\"],\"serverVersion\":0,\"voided\":false},\"parent\":\"5b854508-42c5-4cc5-9bea-77335687a428\"}},\"id\":\"5b854508-42c5-4cc5-9bea-77335687a428\",\"label\":\"Westeros\",\"node\":{\"locationId\":\"5b854508-42c5-4cc5-9bea-77335687a428\",\"name\":\"Westeros\",\"tags\":[\"Country\"],\"serverVersion\":0,\"voided\":false}}},\"parentChildren\":{\"425b0ac3-05e7-4123-ad27-76f510d96a6a\":[\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\"],\"288403dc-e48f-4fa5-9cd2-f2293c07fe8c\":[\"6ca7788c-d995-4431-a8a3-2f030db1aee0\"],\"5b854508-42c5-4cc5-9bea-77335687a428\":[\"425b0ac3-05e7-4123-ad27-76f510d96a6a\"]}}}";
         context.allSettings().saveANMLocation(loc);
