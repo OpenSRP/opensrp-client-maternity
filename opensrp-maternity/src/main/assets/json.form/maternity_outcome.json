@@ -546,6 +546,29 @@
             }
           },
           {
+            "key": "toaster_apgar",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "",
+            "type": "toaster_notes",
+            "text": "Apgar score (1 minute): {apgar_value}/10",
+            "text_color": "#D56900",
+            "toaster_type": "none",
+            "relevance": {
+              "step3:apgar": {
+                "type": "string",
+                "ex": "notEqualTo(., \"\")"
+              }
+            },
+            "calculation": {
+              "rules-engine": {
+                "ex-rules": {
+                  "rules-dynamic": "maternity/outcome_calculation_rules.yml"
+                }
+              }
+            }
+          },
+          {
             "key": "apgar",
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -567,6 +590,29 @@
             "v_required": {
               "value": "true",
               "err": "Please enter the child's birth APGAR"
+            }
+          },
+          {
+            "key": "toaster_apgar_five_min",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "",
+            "type": "toaster_notes",
+            "text": "Apgar score (5 minutes):{apgar_value}/10",
+            "text_color": "#D56900",
+            "toaster_type": "none",
+            "relevance": {
+              "step3:apgar_five_min": {
+                "type": "string",
+                "ex": "notEqualTo(., \"\")"
+              }
+            },
+            "calculation": {
+              "rules-engine": {
+                "ex-rules": {
+                  "rules-dynamic": "maternity/outcome_calculation_rules.yml"
+                }
+              }
             }
           },
           {
