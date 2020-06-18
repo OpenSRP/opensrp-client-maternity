@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import timber.log.Timber;
 
@@ -72,6 +73,7 @@ public class MaternityReverseJsonFormUtils {
     }
 
     private static void setFormFieldValues(@NonNull Map<String, String> maternityDetails, @NonNull List<String> nonEditableFields, @NonNull JSONObject jsonObject) throws JSONException {
+        Set<String> fieldsWithLocationHierarchy = MaternityUtils.metadata().getFieldsWithLocationHierarchy();
         if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.KEY.PHOTO)) {
             reversePhoto(maternityDetails.get(MaternityConstants.KEY.BASE_ENTITY_ID), jsonObject);
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.DOB_UNKNOWN)) {
@@ -90,8 +92,9 @@ public class MaternityReverseJsonFormUtils {
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS)) {
             String homeAddress = maternityDetails.get(MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS);
             jsonObject.put(MaternityJsonFormUtils.VALUE, homeAddress);
-        } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.VILLAGE)) {
-            reverseVillage(jsonObject, maternityDetails.get(MaternityConstants.JSON_FORM_KEY.VILLAGE));
+        } else if (fieldsWithLocationHierarchy != null && !fieldsWithLocationHierarchy.isEmpty()
+                && fieldsWithLocationHierarchy.contains(jsonObject.getString(MaternityJsonFormUtils.KEY))) {
+            reverseLocationField(jsonObject, maternityDetails.get(jsonObject.getString(MaternityJsonFormUtils.KEY)));
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.REMINDERS)) {
             reverseReminders(maternityDetails, jsonObject);
         } else {
@@ -108,7 +111,7 @@ public class MaternityReverseJsonFormUtils {
         }
     }
 
-    private static void reverseVillage(@NonNull JSONObject jsonObject, @Nullable String entity) throws JSONException {
+    private static void reverseLocationField(@NonNull JSONObject jsonObject, @Nullable String entity) throws JSONException {
         List<String> entityHierarchy = null;
         if (entity != null) {
             if (MaternityConstants.FormValue.OTHER.equalsIgnoreCase(entity)) {

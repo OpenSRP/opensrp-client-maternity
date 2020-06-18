@@ -547,6 +547,7 @@
         "openmrs_entity_id": "1430AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "check_box",
         "label": "Any past pregnancy problems?",
+        "label_text_style": "bold",
         "relevance": {
           "step2:parity": {
             "type": "numeric",
@@ -745,6 +746,7 @@
         "openmrs_entity_id": "5630AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "check_box",
         "label": "Modes of delivery in past pregnancies",
+        "label_text_style": "bold",
         "relevance": {
           "step2:parity": {
             "type": "numeric",
@@ -756,12 +758,6 @@
           "err": "Select at least one delivery mode"
         },
         "options": [
-          {
-            "key": "vaginal_birth",
-            "text": "Vaginal Birth",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "162595AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          },
           {
             "key": "spontaneous_vertex",
             "text": "Spontaneous Vertex (SVD)",
@@ -801,6 +797,7 @@
         "openmrs_entity_id": "161033AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "check_box",
         "label": "Outcomes of past pregnancies",
+        "label_text_style": "bold",
         "relevance": {
           "step2:parity": {
             "type": "numeric",
@@ -857,6 +854,7 @@
         "openmrs_entity_id": "160592AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "check_box",
         "label": "Family medical history",
+        "label_text_style": "bold",
         "relevance": {
           "step2:parity": {
             "type": "numeric",
