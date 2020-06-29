@@ -73,8 +73,10 @@ public class MaternityJsonFormUtilsTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", null);
+        ReflectionHelpers.setStaticField(CoreLibrary.class, "instance", null);
+        ReflectionHelpers.setStaticField(LocationHelper.class, "instance", null);
     }
 
     @Test
@@ -337,7 +339,7 @@ public class MaternityJsonFormUtilsTest {
         LocationHelper.init(defaultLocations,
                 "Country");
         MaternityJsonFormUtils.processLocationFields(jsonArray);
-        Assert.assertEquals(jsonArray.getJSONObject(0).getString(JsonFormConstants.VALUE), "test");
+        Assert.assertEquals("test", jsonArray.optJSONObject(0).optString(JsonFormConstants.VALUE));
     }
 
     @Test
