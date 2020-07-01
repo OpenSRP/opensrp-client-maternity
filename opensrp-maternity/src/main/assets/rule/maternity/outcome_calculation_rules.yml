@@ -1,0 +1,14 @@
+---
+name: step3_toaster_apgar
+description: toaster_apgar
+priority: 1
+condition: "step3_apgar != ''"
+actions:
+  - "calculation = ['apgar_value' : step3_apgar]"
+---
+name: step3_toaster_apgar_five_min
+description: toaster_apgar
+priority: 1
+condition: "step3_apgar_five_min != ''"
+actions:
+  - "calculation = ['apgar_value' : step3_apgar_five_min]"

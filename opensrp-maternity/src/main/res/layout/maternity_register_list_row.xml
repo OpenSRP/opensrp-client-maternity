@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/register_columns"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/patient_column"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/register_list_item_margin"
+        android:layout_marginLeft="@dimen/register_list_item_margin"
+        android:layout_marginTop="@dimen/register_list_top_bottom_margin"
+        android:layout_marginEnd="@dimen/register_list_item_margin"
+        android:layout_marginRight="@dimen/register_list_item_margin"
+        android:layout_marginBottom="@dimen/register_list_top_bottom_margin"
+        android:layout_toStartOf="@+id/ll_maternityRegisterListRow_clientActionWrapper"
+        android:layout_toLeftOf="@+id/ll_maternityRegisterListRow_clientActionWrapper"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_maternityRegisterListRow_patientName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="0dp"
+            android:text="Patient Name"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/child_register_title_size"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_maternityRegisterListRow_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_horizontal"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:text="Age: 33"
+                android:textSize="@dimen/child_register_list_desc_size" />
+
+            <TextView
+                android:id="@+id/tv_maternityRegisterListRow_firstDotDivider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="\u2022"
+                android:textSize="@dimen/child_register_list_desc_size" />
+
+            <TextView
+                android:id="@+id/tv_maternityRegisterListRow_ga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_horizontal"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:text="GA: 36 weeks"
+                android:textColor="@color/light_grey_text"
+                android:textSize="@dimen/child_register_list_desc_size"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_maternityRegisterListRow_patientId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_horizontal"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:text="ID: 1439058"
+            android:textSize="@dimen/child_register_list_desc_size" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_maternityRegisterListRow_clientActionWrapper"
+        android:layout_width="@dimen/child_register_list_item_width"
+        android:layout_height="90dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingStart="@dimen/register_list_item_padding"
+        android:paddingLeft="@dimen/register_list_item_padding"
+        android:paddingTop="@dimen/register_list_top_bottom_padding"
+        android:paddingEnd="@dimen/register_list_item_padding"
+        android:paddingRight="@dimen/register_list_item_padding"
+        android:paddingBottom="@dimen/register_list_top_bottom_padding">
+
+        <Button
+            android:id="@+id/btn_maternityRegisterListRow_clientAction"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:gravity="center"
+            android:hapticFeedbackEnabled="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/outcome"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textSize="15sp"
+            android:background="@drawable/maternity_outcome_bg"
+            android:typeface="normal" />
+
+    </LinearLayout>
+
+</RelativeLayout>
