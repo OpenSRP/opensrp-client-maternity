@@ -164,16 +164,12 @@ public class MaternityUtils extends org.smartregister.util.Utils {
     }
 
     @NonNull
-    public static String generateNIds(int n) {
-        StringBuilder strIds = new StringBuilder();
+    public static String[] generateNIds(int n) {
+        String[] strIds = new String[n];
         for (int i = 0; i < n; i++) {
-            if ((i + 1) == n) {
-                strIds.append(JsonFormUtils.generateRandomUUIDString());
-            } else {
-                strIds.append(JsonFormUtils.generateRandomUUIDString()).append(",");
-            }
+            strIds[i] = JsonFormUtils.generateRandomUUIDString();
         }
-        return strIds.toString();
+        return strIds;
     }
 
     @NotNull
@@ -375,4 +371,5 @@ public class MaternityUtils extends org.smartregister.util.Utils {
             Timber.e(e);
         }
     }
+
 }

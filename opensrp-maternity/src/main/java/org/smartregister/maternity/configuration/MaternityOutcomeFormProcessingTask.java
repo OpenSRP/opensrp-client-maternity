@@ -18,6 +18,7 @@ import org.smartregister.domain.tag.FormTag;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.pojo.MaternityEventClient;
 import org.smartregister.maternity.utils.MaternityConstants;
+import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.util.JsonFormUtils;
@@ -27,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import timber.log.Timber;
@@ -66,6 +68,14 @@ public class MaternityOutcomeFormProcessingTask implements MaternityFormProcessi
 
                 if (!buildRepeatingGroupBorn.isEmpty()) {
                     if (StringUtils.isNotBlank(baseEntityId)) {
+
+                        String[] ids = MaternityUtils.generateNIds(buildRepeatingGroupBorn.size());
+                        int count = 0;
+                        for (Map.Entry<String, HashMap<String, String>> entrySet : buildRepeatingGroupBorn.entrySet()) {
+                            entrySet.getValue().put(MaternityDbConstants.Column.MaternityChild.BASE_ENTITY_ID, ids[count]);
+                            count++;
+                        }
+
                         createChildClients(jsonFormObject, baseEntityId, buildRepeatingGroupBorn);
                     }
                     String strGroup = gson.toJson(buildRepeatingGroupBorn);
@@ -139,7 +149,7 @@ public class MaternityOutcomeFormProcessingTask implements MaternityFormProcessi
                         JSONObject jsonChildObject = jsonObject.optJSONObject(repeatingGroupKeys.next());
                         String dischargedAlive = jsonChildObject.optString(MaternityConstants.JSON_FORM_KEY.DISCHARGED_ALIVE);
                         if (StringUtils.isNotBlank(dischargedAlive) && dischargedAlive.equalsIgnoreCase("yes")) {
-                            String entityId = MaternityJsonFormUtils.generateRandomUUIDString();
+                            String entityId = jsonChildObject.optString(MaternityDbConstants.Column.MaternityChild.BASE_ENTITY_ID);
                             JSONArray fields = populateChildFieldArray(jsonChildObject, motherDetails);
                             if (fields != null) {
                                 Client baseClient = JsonFormUtils.createBaseClient(fields, formTag, entityId);

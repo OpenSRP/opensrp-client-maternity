@@ -16,6 +16,7 @@ import java.util.List;
 public class MaternityChildRepository extends BaseRepository implements MaternityGenericDao<MaternityChild> {
 
     private static final String CREATE_TABLE_SQL = "CREATE TABLE " + MaternityDbConstants.Table.MATERNITY_CHILD + "("
+            + MaternityDbConstants.Column.MaternityChild.BASE_ENTITY_ID + " VARCHAR NULL, "
             + MaternityDbConstants.Column.MaternityChild.MOTHER_BASE_ENTITY_ID + " VARCHAR NOT NULL, "
             + MaternityDbConstants.Column.MaternityChild.APGAR + " VARCHAR NULL, "
             + MaternityDbConstants.Column.MaternityChild.BF_FIRST_HOUR + " VARCHAR NULL, "
@@ -38,13 +39,18 @@ public class MaternityChildRepository extends BaseRepository implements Maternit
             + MaternityDbConstants.Column.MaternityChild.EVENT_DATE + " VARCHAR NULL )";
 
 
-    private static final String INDEX_BASE_ENTITY_ID = "CREATE INDEX " + MaternityDbConstants.Table.MATERNITY_CHILD
+    private static final String INDEX_MOTHER_BASE_ENTITY_ID = "CREATE INDEX " + MaternityDbConstants.Table.MATERNITY_CHILD
             + "_" + MaternityDbConstants.Column.MaternityChild.MOTHER_BASE_ENTITY_ID + "_index ON " + MaternityDbConstants.Table.MATERNITY_CHILD +
             "(" + MaternityDbConstants.Column.MaternityChild.MOTHER_BASE_ENTITY_ID + " COLLATE NOCASE);";
+
+    private static final String INDEX_BASE_ENTITY_ID = "CREATE INDEX " + MaternityDbConstants.Table.MATERNITY_CHILD
+            + "_" + MaternityDbConstants.Column.MaternityChild.BASE_ENTITY_ID + "_index ON " + MaternityDbConstants.Table.MATERNITY_CHILD +
+            "(" + MaternityDbConstants.Column.MaternityChild.BASE_ENTITY_ID + " COLLATE NOCASE) WHERE " + MaternityDbConstants.Column.MaternityChild.BASE_ENTITY_ID + " IS NOT NULL;";
 
     public static void createTable(@NonNull SQLiteDatabase database) {
         database.execSQL(CREATE_TABLE_SQL);
         database.execSQL(INDEX_BASE_ENTITY_ID);
+        database.execSQL(INDEX_MOTHER_BASE_ENTITY_ID);
     }
 
     @Override
@@ -62,6 +68,7 @@ public class MaternityChildRepository extends BaseRepository implements Maternit
         contentValues.put(MaternityDbConstants.Column.MaternityChild.HEIGHT, maternityChild.getHeight());
         contentValues.put(MaternityDbConstants.Column.MaternityChild.WEIGHT, maternityChild.getWeight());
         contentValues.put(MaternityDbConstants.Column.MaternityChild.CARE_MGT, maternityChild.getCareMgt());
+        contentValues.put(MaternityDbConstants.Column.MaternityChild.BASE_ENTITY_ID, maternityChild.getBaseEntityId());
         contentValues.put(MaternityDbConstants.Column.MaternityChild.NVP_ADMINISTRATION, maternityChild.getNvpAdministration());
         contentValues.put(MaternityDbConstants.Column.MaternityChild.GENDER, maternityChild.getGender());
         contentValues.put(MaternityDbConstants.Column.MaternityChild.INTERVENTION_REFERRAL_LOCATION, maternityChild.getInterventionReferralLocation());
