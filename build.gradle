@@ -17,6 +17,22 @@ buildscript {
     }
 }
 
+
+configure(allprojects) { project ->
+
+    version = VERSION_NAME
+    group = GROUP
+    buildscript {
+        repositories {
+            google()
+            jcenter()
+            mavenCentral()
+            maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+            mavenLocal()
+        }
+    }
+}
+
 allprojects {
     repositories {
         maven { url 'https://maven.google.com' }
