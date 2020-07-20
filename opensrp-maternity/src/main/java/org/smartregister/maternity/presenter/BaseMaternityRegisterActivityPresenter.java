@@ -14,6 +14,7 @@ import org.smartregister.domain.FetchStatus;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.interactor.BaseMaternityRegisterActivityInteractor;
+import org.smartregister.maternity.pojo.MaternityMedicInfoForm;
 import org.smartregister.maternity.pojo.MaternityOutcomeForm;
 import org.smartregister.maternity.utils.MaternityConstants;
 
@@ -116,6 +117,27 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
     }
 
     @Override
+    public void saveMedicInfoForm(@NonNull String eventType, @Nullable Intent data) {
+        String jsonString = null;
+        if (data != null) {
+            jsonString = data.getStringExtra(MaternityConstants.JSON_FORM_EXTRA.JSON);
+        }
+
+        if (jsonString == null) {
+            return;
+        }
+
+        if (eventType.equals(MaternityConstants.EventType.MATERNITY_MEDIC_INFO)) {
+            try {
+                List<Event> maternityMedicInfoEvent = MaternityLibrary.getInstance().processMaternityMedicInfoForm(eventType, jsonString, data);
+                interactor.saveEvents(maternityMedicInfoEvent, this);
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
+        }
+    }
+
+    @Override
     public void onEventSaved() {
         if (getView() != null) {
             getView().refreshList(FetchStatus.fetched);
@@ -144,6 +166,10 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
                 interactor.fetchSavedMaternityOutcomeForm(entityId, entityTable, this);
                 return;
             }
+            else if (formName.equals(MaternityConstants.Form.MATERNITY_MEDIC_INFO)) {
+                interactor.fetchSavedMaternityMedicInfoForm(entityId, entityTable, this);
+                return;
+            }
 
         } catch (JSONException e) {
             Timber.e(e);
@@ -158,6 +184,19 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
         try {
             if (diagnosisAndTreatmentForm != null) {
                 form = new JSONObject(diagnosisAndTreatmentForm.getForm());
+            }
+
+            startFormActivity(caseId, entityTable, form);
+        } catch (JSONException ex) {
+            Timber.e(ex);
+        }
+    }
+
+    @Override
+    public void onFetchedSavedMedicInfoForm(@Nullable MaternityMedicInfoForm medicInfoFormForm, @NonNull String caseId, @Nullable String entityTable) {
+        try {
+            if (medicInfoFormForm != null) {
+                form = new JSONObject(medicInfoFormForm.getForm());
             }
 
             startFormActivity(caseId, entityTable, form);

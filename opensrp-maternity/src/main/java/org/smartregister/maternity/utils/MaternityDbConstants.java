@@ -64,6 +64,13 @@ public interface MaternityDbConstants {
             String CREATED_AT = "created_at";
         }
 
+        interface MaternityMedicInfoForm {
+            String ID = "id";
+            String BASE_ENTITY_ID = "base_entity_id";
+            String FORM = "form";
+            String CREATED_AT = "created_at";
+        }
+
         interface MaternityChild {
             String MOTHER_BASE_ENTITY_ID = "mother_base_entity_id";
             String FIRST_NAME = "first_name";
@@ -94,6 +101,7 @@ public interface MaternityDbConstants {
         String MATERNITY_DETAILS = "maternity_details";
         String MATERNITY_REGISTRATION_DETAILS = "maternity_registration_details";
         String MATERNITY_OUTCOME_FORM = "maternity_outcome_form";
+        String MATERNITY_MEDIC_INFO_FORM = "maternity_outcome_form";
         String MATERNITY_CHILD = "maternity_child";
     }
 }

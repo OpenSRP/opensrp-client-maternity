@@ -21,6 +21,7 @@ import org.smartregister.maternity.domain.YamlConfig;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.helper.MaternityRulesEngineHelper;
 import org.smartregister.maternity.repository.MaternityChildRepository;
+import org.smartregister.maternity.repository.MaternityMedicInfoFormRepository;
 import org.smartregister.maternity.repository.MaternityOutcomeFormRepository;
 import org.smartregister.maternity.repository.MaternityRegistrationDetailsRepository;
 import org.smartregister.maternity.utils.AppExecutors;
@@ -65,6 +66,7 @@ public class MaternityLibrary {
     private UniqueIdRepository uniqueIdRepository;
     private MaternityRegistrationDetailsRepository maternityRegistrationDetailsRepository;
     private MaternityOutcomeFormRepository maternityOutcomeFormRepository;
+    private MaternityMedicInfoFormRepository maternityMedicInfoFormRepository;
     private MaternityChildRepository maternityChildRepository;
     private AppExecutors appExecutors;
 
@@ -151,6 +153,14 @@ public class MaternityLibrary {
     }
 
     @NonNull
+    public MaternityMedicInfoFormRepository getMaternityMedicInfoFormRepository() {
+        if (maternityMedicInfoFormRepository == null) {
+            maternityMedicInfoFormRepository = new MaternityMedicInfoFormRepository();
+        }
+        return maternityMedicInfoFormRepository;
+    }
+
+    @NonNull
     public Repository getRepository() {
         return repository;
     }
@@ -218,6 +228,12 @@ public class MaternityLibrary {
 
     @NonNull
     public List<Event> processMaternityOutcomeForm(@NonNull String eventType, String jsonString, @Nullable Intent data) throws JSONException {
+        MaternityFormProcessingTask<List<Event>> maternityFormProcessingTask = ConfigurationInstancesHelper.newInstance(getMaternityConfiguration().getMaternityFormProcessingTasks(eventType));
+        return maternityFormProcessingTask.processMaternityForm(jsonString, data);
+    }
+
+    @NonNull
+    public List<Event> processMaternityMedicInfoForm(@NonNull String eventType, String jsonString, @Nullable Intent data) throws JSONException {
         MaternityFormProcessingTask<List<Event>> maternityFormProcessingTask = ConfigurationInstancesHelper.newInstance(getMaternityConfiguration().getMaternityFormProcessingTasks(eventType));
         return maternityFormProcessingTask.processMaternityForm(jsonString, data);
     }

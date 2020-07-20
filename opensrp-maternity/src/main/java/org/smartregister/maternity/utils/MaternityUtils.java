@@ -1,5 +1,6 @@
 package org.smartregister.maternity.utils;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -39,6 +40,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -374,5 +376,18 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         } catch (Exception e) {
             Timber.e(e);
         }
+    }
+
+    @NonNull
+    public static ContentValues convertMapToContentValues(@Nullable Map<String, String> map) {
+        ContentValues contentValues = new ContentValues();
+
+        if (map != null) {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                contentValues.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        return contentValues;
     }
 }

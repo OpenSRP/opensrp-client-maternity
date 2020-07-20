@@ -26,6 +26,7 @@ import org.smartregister.maternity.model.MaternityRegisterFragmentModel;
 import org.smartregister.maternity.presenter.MaternityRegisterFragmentPresenter;
 import org.smartregister.maternity.provider.MaternityRegisterProvider;
 import org.smartregister.maternity.utils.ConfigurationInstancesHelper;
+import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.maternity.utils.MaternityViewConstants;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
@@ -191,7 +192,15 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
 
                         goToClientDetailActivity((CommonPersonObjectClient) viewClient);
                     } else if (view.getTag(R.id.VIEW_TYPE).equals(MaternityViewConstants.Provider.ACTION_BUTTON_COLUMN)) {
-                        performPatientAction((CommonPersonObjectClient) viewClient);
+                        Object buttonType = view.getTag(R.id.BUTTON_TYPE);
+                        if (buttonType != null) {
+                            if (buttonType.equals(R.string.outcome)) {
+                                performPatientAction((CommonPersonObjectClient) viewClient, MaternityConstants.Form.MATERNITY_OUTCOME);
+                            }
+                            else if (buttonType.equals(R.string.start_maternity)){
+                                performPatientAction((CommonPersonObjectClient) viewClient, MaternityConstants.Form.MATERNITY_MEDIC_INFO);
+                            }
+                        }
                     }
                 } else {
                     Timber.e(new Exception(), "Value for key[%d] is not a CommonPersonObjectClient but is of type %s"
@@ -202,7 +211,7 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
         }
     }
 
-    abstract protected void performPatientAction(@NonNull CommonPersonObjectClient commonPersonObjectClient);
+    abstract protected void performPatientAction(@NonNull CommonPersonObjectClient commonPersonObjectClient, String formName);
 
     @Override
     public void onSyncInProgress(FetchStatus fetchStatus) {

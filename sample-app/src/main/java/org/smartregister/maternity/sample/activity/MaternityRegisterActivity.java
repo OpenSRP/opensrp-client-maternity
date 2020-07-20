@@ -70,6 +70,9 @@ public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
                 } else if (encounterType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
                     showProgressDialog(R.string.saving_dialog_title);
                     presenter().saveOutcomeForm(encounterType, data);
+                } else if (encounterType.equals(MaternityConstants.EventType.MATERNITY_MEDIC_INFO)) {
+                    showProgressDialog(R.string.saving_dialog_title);
+                    presenter().saveMedicInfoForm(encounterType, data);
                 }
 
             } catch (JSONException e) {

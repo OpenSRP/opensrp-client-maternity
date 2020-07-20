@@ -100,6 +100,7 @@ public class MaternityConstants extends AllConstants {
         public static final String APGAR = "apgar";
         public static final String STILLBIRTH_CONDITION = "stillbirth_condition";
         public static final String VILLAGE = "village";
+        public static final String MATERNITY_MEDIC_INFO_SUBMITTED = "maternity_medic_info_submitted";
     }
 
     public static class JSON_FORM_EXTRA {
@@ -149,6 +150,7 @@ public class MaternityConstants extends AllConstants {
         public static final String MATERNITY_REGISTRATION = "Maternity Registration";
         public static final String UPDATE_MATERNITY_REGISTRATION = "Update Maternity Registration";
         public static final String MATERNITY_OUTCOME = "Maternity Outcome";
+        public static final String MATERNITY_MEDIC_INFO = "Maternity Medic Information";
         public static final String MATERNITY_STILL_BORN = "Maternity Still Born";
         public static final String MATERNITY_BORN = "Maternity Born";
         public static final String MATERNITY_CLOSE = "Maternity Close";
@@ -168,6 +170,7 @@ public class MaternityConstants extends AllConstants {
     public interface Form {
         String MATERNITY_REGISTRATION = "maternity_registration";
         String MATERNITY_OUTCOME = "maternity_outcome";
+        String MATERNITY_MEDIC_INFO = "maternity_medic_info";
         String MATERNITY_CLOSE = "maternity_close";
     }
 

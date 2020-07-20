@@ -13,6 +13,7 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.pojo.MaternityEventClient;
+import org.smartregister.maternity.pojo.MaternityMedicInfoForm;
 import org.smartregister.maternity.pojo.MaternityOutcomeForm;
 import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.maternity.utils.AppExecutors;
@@ -63,6 +64,23 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
                     }
                 });
             }
+        });
+    }
+
+    @Override
+    public void fetchSavedMaternityMedicInfoForm(@NonNull String baseEntityId, @Nullable String entityTable, @NonNull MaternityRegisterActivityContract.InteractorCallBack interactorCallBack) {
+        appExecutors.diskIO().execute(() -> {
+            final MaternityMedicInfoForm medicInfoForm = MaternityLibrary
+                    .getInstance()
+                    .getMaternityMedicInfoFormRepository()
+                    .findOne(new MaternityMedicInfoForm(baseEntityId));
+
+            appExecutors.mainThread().execute(new Runnable() {
+                @Override
+                public void run() {
+                    interactorCallBack.onFetchedSavedMedicInfoForm(medicInfoForm, baseEntityId, entityTable);
+                }
+            });
         });
     }
 

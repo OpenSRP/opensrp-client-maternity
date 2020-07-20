@@ -78,4 +78,5 @@
     <string name="maternity_close">Maternity Close</string>
     <string name="maternity_client_close_message">Maternity client has been removed from the register</string>
 
+    <string name="start_maternity">START MATERNITY</string>
 </resources>
