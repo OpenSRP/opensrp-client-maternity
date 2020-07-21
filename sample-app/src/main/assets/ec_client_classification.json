@@ -37,6 +37,13 @@
             "creates_case": [
               "maternity_outcome"
             ]
+          },
+          {
+            "field": "eventType",
+            "field_value": "Maternity Medic Information",
+            "creates_case": [
+              "maternity_registration_details"
+            ]
           }
         ]
       }

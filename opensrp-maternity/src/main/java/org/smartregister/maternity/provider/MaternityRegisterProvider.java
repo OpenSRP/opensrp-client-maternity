@@ -20,7 +20,6 @@ import org.smartregister.maternity.configuration.MaternityRegisterRowOptions;
 import org.smartregister.maternity.holders.FooterViewHolder;
 import org.smartregister.maternity.holders.MaternityRegisterViewHolder;
 import org.smartregister.maternity.utils.ConfigurationInstancesHelper;
-import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.maternity.utils.MaternityViewConstants;
 import org.smartregister.util.Utils;
@@ -32,7 +31,6 @@ import org.smartregister.view.dialog.SortOption;
 import org.smartregister.view.viewholder.OnClickFormLauncher;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -180,17 +178,7 @@ public class MaternityRegisterProvider implements RecyclerViewProvider<Maternity
 
     public void addButtonClickListeners(@NonNull CommonPersonObjectClient client, MaternityRegisterViewHolder viewHolder) {
 
-        viewHolder.dueButton.setTag(R.id.BUTTON_TYPE, R.string.start_maternity);
-        viewHolder.dueButton.setText(R.string.start_maternity);
-
-        HashMap<String, String> data = MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().findByBaseEntityId(client.getCaseId());
-        if (data != null) {
-
-            if ("1".equals(data.get(MaternityConstants.JSON_FORM_KEY.MATERNITY_MEDIC_INFO_SUBMITTED))) {
-                viewHolder.dueButton.setText(R.string.outcome);
-                viewHolder.dueButton.setTag(R.id.BUTTON_TYPE, R.string.outcome);
-            }
-        }
+        MaternityUtils.setActionButtonStatus(viewHolder.dueButton, client.getCaseId());
 
         View patient = viewHolder.patientColumn;
         attachPatientOnclickListener(MaternityViewConstants.Provider.PATIENT_COLUMN, patient, client);

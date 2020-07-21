@@ -2,6 +2,7 @@ package org.smartregister.maternity.repository;
 
 import android.content.ContentValues;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -15,6 +16,7 @@ import timber.log.Timber;
 
 public class MaternityRegistrationDetailsRepository extends BaseRepository {
 
+    @Nullable
     public HashMap<String, String> findByBaseEntityId(@NonNull String baseEntityId) {
         try {
             if (StringUtils.isNotBlank(baseEntityId)) {

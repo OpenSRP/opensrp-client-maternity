@@ -16,8 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
+import org.smartregister.maternity.dao.MaternityMedicInfoFormDao;
 import org.smartregister.maternity.dao.MaternityOutcomeFormDao;
 import org.smartregister.maternity.fragment.BaseMaternityFormFragment;
+import org.smartregister.maternity.pojo.MaternityMedicInfoForm;
 import org.smartregister.maternity.pojo.MaternityOutcomeForm;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;
@@ -103,63 +105,69 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
     @Override
     public void onBackPressed() {
         if (enableOnCloseDialog) {
-            if (mJSONObject.optString(MaternityJsonFormUtils.ENCOUNTER_TYPE).equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
-                AlertDialog dialog = new AlertDialog.Builder(this, R.style.AppThemeAlertDialog).setTitle(confirmCloseTitle)
-                        .setMessage(getString(R.string.save_form_fill_session))
-                        .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                saveFormFillSession();
-                                BaseMaternityFormActivity.this.finish();
-                            }
-                        }).setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+            String encounterType = mJSONObject.optString(MaternityJsonFormUtils.ENCOUNTER_TYPE);
 
-                                Timber.d("No button on dialog in %s", JsonFormActivity.class.getCanonicalName());
-                            }
-                        }).setNeutralButton(getString(R.string.end_session), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                deleteSession();
-                                BaseMaternityFormActivity.this.finish();
-                            }
-                        }).create();
+            AlertDialog dialog = new AlertDialog.Builder(this, R.style.AppThemeAlertDialog).setTitle(confirmCloseTitle)
+                    .setMessage(getString(R.string.save_form_fill_session))
+                    .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            saveFormFillSession(encounterType);
+                            BaseMaternityFormActivity.this.finish();
+                        }
+                    }).setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                dialog.show();
-            } else {
-                super.onBackPressed();
-            }
+                            Timber.d("No button on dialog in %s", JsonFormActivity.class.getCanonicalName());
+                        }
+                    }).setNeutralButton(getString(R.string.end_session), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteSession(encounterType);
+                            BaseMaternityFormActivity.this.finish();
+                        }
+                    }).create();
+
+            dialog.show();
 
         } else {
             BaseMaternityFormActivity.this.finish();
         }
     }
 
-    private void saveFormFillSession() {
+    private void saveFormFillSession(String encounterType) {
         JSONObject jsonObject = getmJSONObject();
-        final MaternityOutcomeForm maternityOutcomeForm = new MaternityOutcomeForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
-                jsonObject.toString(), Utils.convertDateFormat(new DateTime()));
-        final MaternityOutcomeFormDao maternityOutcomeFormDao = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository();
-        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                maternityOutcomeFormDao.saveOrUpdate(maternityOutcomeForm);
-            }
-        });
+
+        if (MaternityConstants.EventType.MATERNITY_OUTCOME.equals(encounterType)) {
+            final MaternityOutcomeForm maternityOutcomeForm = new MaternityOutcomeForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
+                    jsonObject.toString(), Utils.convertDateFormat(new DateTime()));
+            final MaternityOutcomeFormDao maternityOutcomeFormDao = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository();
+            MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> maternityOutcomeFormDao.saveOrUpdate(maternityOutcomeForm));
+        }
+        else if (MaternityConstants.EventType.MATERNITY_MEDIC_INFO.equals(encounterType)) {
+            final MaternityMedicInfoForm maternityMedicInfoForm = new MaternityMedicInfoForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
+                    jsonObject.toString(), Utils.convertDateFormat(new DateTime()));
+            final MaternityMedicInfoFormDao maternityMedicInfoFormDao = MaternityLibrary.getInstance().getMaternityMedicInfoFormRepository();
+            MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> maternityMedicInfoFormDao.saveOrUpdate(maternityMedicInfoForm));
+        }
     }
 
-    private void deleteSession() {
+    private void deleteSession(String encounterType) {
         JSONObject jsonObject = getmJSONObject();
-        final MaternityOutcomeForm maternityOutcomeForm = new MaternityOutcomeForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
-                jsonObject.toString(), Utils.convertDateFormat(new DateTime()));
-        final MaternityOutcomeFormDao maternityOutcomeFormDao = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository();
-        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                maternityOutcomeFormDao.delete(maternityOutcomeForm);
-            }
-        });
+
+        if (MaternityConstants.EventType.MATERNITY_OUTCOME.equals(encounterType)) {
+            final MaternityOutcomeForm maternityOutcomeForm = new MaternityOutcomeForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
+                    jsonObject.toString(), Utils.convertDateFormat(new DateTime()));
+            final MaternityOutcomeFormDao maternityOutcomeFormDao = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository();
+            MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> maternityOutcomeFormDao.delete(maternityOutcomeForm));
+        }
+        else if (MaternityConstants.EventType.MATERNITY_MEDIC_INFO.equals(encounterType)) {
+            final MaternityMedicInfoForm maternityMedicInfoForm = new MaternityMedicInfoForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
+                    jsonObject.toString(), Utils.convertDateFormat(new DateTime()));
+            final MaternityMedicInfoFormDao maternityMedicInfoFormDao = MaternityLibrary.getInstance().getMaternityMedicInfoFormRepository();
+            MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> maternityMedicInfoFormDao.delete(maternityMedicInfoForm));
+        }
     }
 
     @NonNull

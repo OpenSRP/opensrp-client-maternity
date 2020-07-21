@@ -112,6 +112,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
 
     private HashMap<String, String> refineForMedicInfo(HashMap<String, String> rawMap) {
         HashMap<String, String> columns = new HashMap<>();
+        columns.put("id", rawMap.get(MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID));
         columns.put(MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID, rawMap.get(MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID));
         columns.put(MaternityConstants.JSON_FORM_KEY.MATERNITY_MEDIC_INFO_SUBMITTED, rawMap.get(MaternityConstants.JSON_FORM_KEY.MATERNITY_MEDIC_INFO_SUBMITTED));
         columns.put("gravidity", rawMap.get("gravidity"));

@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -26,7 +28,9 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.pojo.MaternityEventClient;
+import org.smartregister.maternity.pojo.MaternityMedicInfoForm;
 import org.smartregister.maternity.pojo.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityOutcomeForm;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
@@ -389,5 +393,35 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         }
 
         return contentValues;
+    }
+
+    public static void setActionButtonStatus(Button button, String baseEntityId) {
+        button.setTag(R.id.BUTTON_TYPE, R.string.start_maternity);
+        button.setText(R.string.start_maternity);
+
+        String formType = MaternityConstants.EventType.MATERNITY_MEDIC_INFO;
+
+        HashMap<String, String> data = MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().findByBaseEntityId(baseEntityId);
+        if (data != null) {
+
+            if ("1".equals(data.get(MaternityConstants.JSON_FORM_KEY.MATERNITY_MEDIC_INFO_SUBMITTED))) {
+                formType = MaternityConstants.EventType.MATERNITY_OUTCOME;
+                button.setText(R.string.outcome);
+                button.setTag(R.id.BUTTON_TYPE, R.string.outcome);
+            }
+        }
+
+        if (MaternityConstants.EventType.MATERNITY_MEDIC_INFO.equals(formType)) {
+            MaternityMedicInfoForm maternityMedicInfoForm = MaternityLibrary.getInstance().getMaternityMedicInfoFormRepository().findOne(new MaternityMedicInfoForm(baseEntityId));
+            if (maternityMedicInfoForm != null) {
+                button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.diagnose_treat_bg));
+            }
+        }
+        else if (MaternityConstants.EventType.MATERNITY_OUTCOME.equals(formType)) {
+            MaternityOutcomeForm maternityOutcomeForm = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository().findOne(new MaternityOutcomeForm(baseEntityId));
+            if (maternityOutcomeForm != null) {
+                button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.diagnose_treat_bg));
+            }
+        }
     }
 }
