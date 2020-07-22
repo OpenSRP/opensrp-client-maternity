@@ -73,12 +73,9 @@ public class MaternityUtilsTest {
     }
 
     @Test
-    public void generateNIds() {
-        String result = MaternityUtils.generateNIds(0);
-        assertEquals(result, "");
-
-        String result1 = MaternityUtils.generateNIds(1);
-        assertEquals(result1.split(",").length, 1);
+    public void testGenerateNIdsShouldGenerateNIds() {
+        assertEquals(2, MaternityUtils.generateNIds(2).length);
+        assertEquals(0, MaternityUtils.generateNIds(0).length);
     }
 
     @Test
@@ -109,7 +106,7 @@ public class MaternityUtilsTest {
     }
 
     @Test
-    public void testGetClientAge(){
+    public void testGetClientAge() {
         assertEquals("13", MaternityUtils.getClientAge("13y 4m", "y"));
         assertEquals("4m", MaternityUtils.getClientAge("4m", "y"));
         assertEquals("5", MaternityUtils.getClientAge("5y 4w", "y"));

@@ -21,6 +21,7 @@ public class MaternityChild {
     private String eventDate;
     private String childHivStatus;
     private String stillBirthCondition;
+    private String baseEntityId;
 
     public String getChildHivStatus() {
         return childHivStatus;
@@ -180,5 +181,13 @@ public class MaternityChild {
 
     public void setStillBirthCondition(String stillBirthCondition) {
         this.stillBirthCondition = stillBirthCondition;
+    }
+
+    public String getBaseEntityId() {
+        return baseEntityId;
+    }
+
+    public void setBaseEntityId(String baseEntityId) {
+        this.baseEntityId = baseEntityId;
     }
 }
