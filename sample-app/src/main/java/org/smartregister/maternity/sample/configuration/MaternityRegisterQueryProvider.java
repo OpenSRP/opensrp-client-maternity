@@ -39,7 +39,7 @@ public class MaternityRegisterQueryProvider extends MaternityRegisterQueryProvid
     @NonNull
     @Override
     public String mainSelectWhereIDsIn() {
-        return "SELECT ec_client.id AS _id , ec_client.first_name , ec_client.last_name , '' AS middle_name , ec_client.gender , ec_client.dob , '' AS home_address, maternity_details.ga_calculated, ec_client.relationalid , ec_client.opensrp_id AS register_id , ec_client.last_interacted_with, 'ec_client' as entity_table FROM ec_client INNER JOIN maternity_registration_details maternity_details ON ec_client.base_entity_id = maternity_details.base_entity_id " +
+        return "SELECT maternity_details.base_entity_id AS mmi_base_entity_id, ec_client.id AS _id , ec_client.first_name , ec_client.last_name , '' AS middle_name , ec_client.gender , ec_client.dob , '' AS home_address, maternity_details.ga_calculated, ec_client.relationalid , ec_client.opensrp_id AS register_id , ec_client.last_interacted_with, 'ec_client' as entity_table FROM ec_client LEFT JOIN maternity_medic_info maternity_details ON ec_client.base_entity_id = maternity_details.base_entity_id " +
                 "WHERE ec_client.id IN (%s) " +
                 "ORDER BY ec_client.last_interacted_with DESC";
     }

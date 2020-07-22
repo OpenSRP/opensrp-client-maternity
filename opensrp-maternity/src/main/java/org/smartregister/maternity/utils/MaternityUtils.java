@@ -1,6 +1,5 @@
 package org.smartregister.maternity.utils;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -25,6 +24,7 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.pojo.MaternityEventClient;
@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import timber.log.Timber;
 
@@ -382,29 +381,19 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         }
     }
 
-    @NonNull
-    public static ContentValues convertMapToContentValues(@Nullable Map<String, String> map) {
-        ContentValues contentValues = new ContentValues();
+    public static void setActionButtonStatus(Button button, CommonPersonObjectClient client) {
+        String baseEntityId = client.getCaseId();
 
-        if (map != null) {
-            for (Map.Entry<String, String> entry : map.entrySet()) {
-                contentValues.put(entry.getKey(), entry.getValue());
-            }
-        }
-
-        return contentValues;
-    }
-
-    public static void setActionButtonStatus(Button button, String baseEntityId) {
         button.setTag(R.id.BUTTON_TYPE, R.string.start_maternity);
         button.setText(R.string.start_maternity);
+        button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.maternity_outcome_bg));
 
         String formType = MaternityConstants.EventType.MATERNITY_MEDIC_INFO;
 
         HashMap<String, String> data = MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().findByBaseEntityId(baseEntityId);
         if (data != null) {
 
-            if ("1".equals(data.get(MaternityConstants.JSON_FORM_KEY.MATERNITY_MEDIC_INFO_SUBMITTED))) {
+            if (client.getColumnmaps().get(MaternityConstants.JSON_FORM_KEY.MMI_BASE_ENTITY_ID) != null) {
                 formType = MaternityConstants.EventType.MATERNITY_OUTCOME;
                 button.setText(R.string.outcome);
                 button.setTag(R.id.BUTTON_TYPE, R.string.outcome);
@@ -414,13 +403,13 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         if (MaternityConstants.EventType.MATERNITY_MEDIC_INFO.equals(formType)) {
             MaternityMedicInfoForm maternityMedicInfoForm = MaternityLibrary.getInstance().getMaternityMedicInfoFormRepository().findOne(new MaternityMedicInfoForm(baseEntityId));
             if (maternityMedicInfoForm != null) {
-                button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.diagnose_treat_bg));
+                button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.form_saved_btn_bg));
             }
         }
         else if (MaternityConstants.EventType.MATERNITY_OUTCOME.equals(formType)) {
             MaternityOutcomeForm maternityOutcomeForm = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository().findOne(new MaternityOutcomeForm(baseEntityId));
             if (maternityOutcomeForm != null) {
-                button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.diagnose_treat_bg));
+                button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.form_saved_btn_bg));
             }
         }
     }

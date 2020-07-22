@@ -219,6 +219,13 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     }
 
     @Override
+    public void openMaternityMedicInfoForm() {
+        if (commonPersonObjectClient != null) {
+            ((MaternityProfileActivityPresenter) presenter).startForm(MaternityConstants.Form.MATERNITY_MEDIC_INFO, commonPersonObjectClient);
+        }
+    }
+
+    @Override
     public void openMaternityCloseForm() {
         if (commonPersonObjectClient != null) {
             ((MaternityProfileActivityPresenter) presenter).startForm(MaternityConstants.Form.MATERNITY_CLOSE, commonPersonObjectClient);
@@ -256,6 +263,9 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
                 if (encounterType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
                     showProgressDialog(R.string.saving_dialog_title);
                     ((MaternityProfileActivityPresenter) this.presenter).saveOutcomeForm(encounterType, data);
+                } else if (encounterType.equals(MaternityConstants.EventType.MATERNITY_MEDIC_INFO)) {
+                    showProgressDialog(R.string.saving_dialog_title);
+                    ((MaternityProfileActivityPresenter) this.presenter).saveMedicInfoForm(encounterType, data);
                 } else if (encounterType.equals(MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION)) {
                     removeOngoingTask(ongoingTask);
                     showProgressDialog(R.string.saving_dialog_title);

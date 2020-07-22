@@ -42,7 +42,7 @@
             "field": "eventType",
             "field_value": "Maternity Medic Information",
             "creates_case": [
-              "maternity_registration_details"
+              "maternity_medic_info"
             ]
           }
         ]

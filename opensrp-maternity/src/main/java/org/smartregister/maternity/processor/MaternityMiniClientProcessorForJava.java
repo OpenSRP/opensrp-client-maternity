@@ -80,24 +80,12 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             unsyncEvents.add(event);
         } else if (eventType.equals(MaternityConstants.EventType.MATERNITY_MEDIC_INFO)) {
             processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
-            processMedicInfo(eventClient);
             CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
         } else if (eventType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
             processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
             processMaternityOutcome(eventClient);
             CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
         }
-    }
-
-    private void processMedicInfo(@NonNull EventClient eventClient) {
-        Event event = eventClient.getEvent();
-        HashMap<String, String> keyValues = new HashMap<>();
-        generateKeyValuesFromEvent(event, keyValues);
-
-        keyValues.put(MaternityConstants.JSON_FORM_KEY.MATERNITY_MEDIC_INFO_SUBMITTED, "1");
-        keyValues.put(MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID, eventClient.getClient().getBaseEntityId());
-
-        MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().saveOrUpdate(MaternityUtils.convertMapToContentValues(refineForMedicInfo(keyValues)));
     }
 
     private void processMaternityOutcome(@NonNull EventClient eventClient) {
@@ -108,36 +96,6 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
         processStillBorn(strStillBorn, event);
         String strBabiesBorn = keyValues.get(MaternityConstants.JSON_FORM_KEY.BABIES_BORN_MAP);
         processBabiesBorn(strBabiesBorn, event);
-    }
-
-    private HashMap<String, String> refineForMedicInfo(HashMap<String, String> rawMap) {
-        HashMap<String, String> columns = new HashMap<>();
-        columns.put("id", rawMap.get(MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID));
-        columns.put(MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID, rawMap.get(MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID));
-        columns.put(MaternityConstants.JSON_FORM_KEY.MATERNITY_MEDIC_INFO_SUBMITTED, rawMap.get(MaternityConstants.JSON_FORM_KEY.MATERNITY_MEDIC_INFO_SUBMITTED));
-        columns.put("gravidity", rawMap.get("gravidity"));
-        columns.put("parity", rawMap.get("parity"));
-        columns.put("abortion_number", rawMap.get("abortion_number"));
-        columns.put("lmp", rawMap.get("lmp"));
-        columns.put("lmp_unknown", rawMap.get("lmp_unknown"));
-        columns.put("gest_age", rawMap.get("gest_age"));
-        columns.put("ga_weeks_entered", rawMap.get("ga_weeks_entered"));
-        columns.put("ga_days_entered", rawMap.get("ga_days_entered"));
-        columns.put("ga_calculated", rawMap.get("ga_calculated"));
-        columns.put("onset_labour_date", rawMap.get("onset_labour_date"));
-        columns.put("onset_labour_time", rawMap.get("onset_labour_time"));
-        columns.put("previous_delivery_mode", rawMap.get("previous_delivery_mode"));
-        columns.put("previous_pregnancy_outcomes", rawMap.get("previous_pregnancy_outcomes"));
-        columns.put("previous_complications", rawMap.get("previous_complications"));
-        columns.put("previous_complications_other", rawMap.get("previous_complications_other"));
-        columns.put("surgeries", rawMap.get("surgeries"));
-        columns.put("surgeries_other_gyn_proced", rawMap.get("surgeries_other_gyn_proced"));
-        columns.put("surgeries_other", rawMap.get("surgeries_other"));
-        columns.put("health_conditions", rawMap.get("health_conditions"));
-        columns.put("health_conditions_other", rawMap.get("health_conditions_other"));
-        columns.put("family_history", rawMap.get("family_history"));
-        columns.put("family_history_other", rawMap.get("family_history_other"));
-        return columns;
     }
 
     private void processBabiesBorn(@Nullable String strBabiesBorn, @NonNull Event event) {

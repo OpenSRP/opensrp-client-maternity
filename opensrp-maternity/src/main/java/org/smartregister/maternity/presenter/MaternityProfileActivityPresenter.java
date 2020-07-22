@@ -205,6 +205,28 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     }
 
     @Override
+    public void saveMedicInfoForm(@NonNull String eventType, @Nullable Intent data) {
+        String jsonString = null;
+        MaternityEventUtils maternityEventUtils = new MaternityEventUtils();
+        if (data != null) {
+            jsonString = data.getStringExtra(MaternityConstants.JSON_FORM_EXTRA.JSON);
+        }
+
+        if (jsonString == null) {
+            return;
+        }
+
+        if (eventType.equals(MaternityConstants.EventType.MATERNITY_MEDIC_INFO)) {
+            try {
+                List<Event> maternityMedicInfoEvents = MaternityLibrary.getInstance().processMaternityMedicInfoForm(eventType, jsonString, data);
+                maternityEventUtils.saveEvents(maternityMedicInfoEvents, this);
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
+        }
+    }
+
+    @Override
     public void saveMaternityCloseForm(@NonNull String eventType, @Nullable Intent data) {
         String jsonString = null;
         MaternityEventUtils maternityEventUtils = new MaternityEventUtils();

@@ -40,6 +40,8 @@ public interface MaternityProfileActivityContract {
 
         void saveOutcomeForm(@NonNull String eventType, @Nullable Intent data);
 
+        void saveMedicInfoForm(@NonNull String eventType, @Nullable Intent data);
+
         void saveMaternityCloseForm(@NonNull String eventType, @Nullable Intent data);
 
         void saveUpdateRegistrationForm(@NonNull String jsonString, @NonNull RegisterParams registerParams);
@@ -75,6 +77,8 @@ public interface MaternityProfileActivityContract {
         void setProfileImage(@NonNull String baseEntityId);
 
         void openMaternityOutcomeForm();
+
+        void openMaternityMedicInfoForm();
 
         void openMaternityCloseForm();
 

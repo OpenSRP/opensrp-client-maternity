@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:textColor="@color/diagnose_treat_txt_color"
-            android:background="@drawable/diagnose_treat_bg"
+            android:background="@drawable/maternity_outcome_bg"
             style="?android:attr/borderlessButtonStyle"
             android:textAppearance="?android:textAppearanceMedium"
             />

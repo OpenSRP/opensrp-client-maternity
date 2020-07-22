@@ -1,10 +1,7 @@
 package org.smartregister.maternity.repository;
 
-import android.content.ContentValues;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.maternity.utils.MaternityDbConstants;
@@ -28,14 +25,6 @@ public class MaternityRegistrationDetailsRepository extends BaseRepository {
             Timber.e(e);
         }
         return null;
-    }
-
-    public boolean saveOrUpdate(@NonNull ContentValues contentValues) {
-
-        SQLiteDatabase database = getWritableDatabase();
-        long recordId = database.insertWithOnConflict(getTableName(), null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
-
-        return recordId != -1;
     }
 
     private String getTableName() {
