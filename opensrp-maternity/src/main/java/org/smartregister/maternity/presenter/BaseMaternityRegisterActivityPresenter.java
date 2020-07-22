@@ -14,7 +14,6 @@ import org.smartregister.domain.FetchStatus;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.interactor.BaseMaternityRegisterActivityInteractor;
-import org.smartregister.maternity.pojo.MaternityMedicInfoForm;
 import org.smartregister.maternity.pojo.MaternityOutcomeForm;
 import org.smartregister.maternity.utils.MaternityConstants;
 
@@ -162,12 +161,8 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
         try {
             form = model.getFormAsJson(formName, entityId, locationId, injectedFieldValues);
             // Todo: Enquire if we have to save a session of the outcome form to be continued later
-            if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME)) {
+            if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME) || formName.equals(MaternityConstants.Form.MATERNITY_MEDIC_INFO)) {
                 interactor.fetchSavedMaternityOutcomeForm(entityId, entityTable, this);
-                return;
-            }
-            else if (formName.equals(MaternityConstants.Form.MATERNITY_MEDIC_INFO)) {
-                interactor.fetchSavedMaternityMedicInfoForm(entityId, entityTable, this);
                 return;
             }
 
@@ -184,19 +179,6 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
         try {
             if (diagnosisAndTreatmentForm != null) {
                 form = new JSONObject(diagnosisAndTreatmentForm.getForm());
-            }
-
-            startFormActivity(caseId, entityTable, form);
-        } catch (JSONException ex) {
-            Timber.e(ex);
-        }
-    }
-
-    @Override
-    public void onFetchedSavedMedicInfoForm(@Nullable MaternityMedicInfoForm medicInfoFormForm, @NonNull String caseId, @Nullable String entityTable) {
-        try {
-            if (medicInfoFormForm != null) {
-                form = new JSONObject(medicInfoFormForm.getForm());
             }
 
             startFormActivity(caseId, entityTable, form);

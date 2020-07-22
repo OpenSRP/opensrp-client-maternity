@@ -28,7 +28,6 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.pojo.MaternityEventClient;
-import org.smartregister.maternity.pojo.MaternityMedicInfoForm;
 import org.smartregister.maternity.pojo.MaternityMetadata;
 import org.smartregister.maternity.pojo.MaternityOutcomeForm;
 import org.smartregister.repository.UniqueIdRepository;
@@ -388,29 +387,18 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         button.setText(R.string.start_maternity);
         button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.maternity_outcome_bg));
 
-        String formType = MaternityConstants.EventType.MATERNITY_MEDIC_INFO;
-
         HashMap<String, String> data = MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().findByBaseEntityId(baseEntityId);
         if (data != null) {
 
             if (client.getColumnmaps().get(MaternityConstants.JSON_FORM_KEY.MMI_BASE_ENTITY_ID) != null) {
-                formType = MaternityConstants.EventType.MATERNITY_OUTCOME;
                 button.setText(R.string.outcome);
                 button.setTag(R.id.BUTTON_TYPE, R.string.outcome);
             }
         }
 
-        if (MaternityConstants.EventType.MATERNITY_MEDIC_INFO.equals(formType)) {
-            MaternityMedicInfoForm maternityMedicInfoForm = MaternityLibrary.getInstance().getMaternityMedicInfoFormRepository().findOne(new MaternityMedicInfoForm(baseEntityId));
-            if (maternityMedicInfoForm != null) {
-                button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.form_saved_btn_bg));
-            }
-        }
-        else if (MaternityConstants.EventType.MATERNITY_OUTCOME.equals(formType)) {
-            MaternityOutcomeForm maternityOutcomeForm = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository().findOne(new MaternityOutcomeForm(baseEntityId));
-            if (maternityOutcomeForm != null) {
-                button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.form_saved_btn_bg));
-            }
+        MaternityOutcomeForm maternityOutcomeForm = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository().findOne(new MaternityOutcomeForm(baseEntityId));
+        if (maternityOutcomeForm != null) {
+            button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.form_saved_btn_bg));
         }
     }
 }

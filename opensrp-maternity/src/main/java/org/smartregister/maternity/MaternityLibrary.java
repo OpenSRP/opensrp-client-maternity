@@ -21,7 +21,6 @@ import org.smartregister.maternity.domain.YamlConfig;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.helper.MaternityRulesEngineHelper;
 import org.smartregister.maternity.repository.MaternityChildRepository;
-import org.smartregister.maternity.repository.MaternityMedicInfoFormRepository;
 import org.smartregister.maternity.repository.MaternityOutcomeFormRepository;
 import org.smartregister.maternity.repository.MaternityRegistrationDetailsRepository;
 import org.smartregister.maternity.utils.AppExecutors;
@@ -66,7 +65,6 @@ public class MaternityLibrary {
     private UniqueIdRepository uniqueIdRepository;
     private MaternityRegistrationDetailsRepository maternityRegistrationDetailsRepository;
     private MaternityOutcomeFormRepository maternityOutcomeFormRepository;
-    private MaternityMedicInfoFormRepository maternityMedicInfoFormRepository;
     private MaternityChildRepository maternityChildRepository;
     private AppExecutors appExecutors;
 
@@ -150,14 +148,6 @@ public class MaternityLibrary {
             maternityOutcomeFormRepository = new MaternityOutcomeFormRepository();
         }
         return maternityOutcomeFormRepository;
-    }
-
-    @NonNull
-    public MaternityMedicInfoFormRepository getMaternityMedicInfoFormRepository() {
-        if (maternityMedicInfoFormRepository == null) {
-            maternityMedicInfoFormRepository = new MaternityMedicInfoFormRepository();
-        }
-        return maternityMedicInfoFormRepository;
     }
 
     @NonNull
