@@ -12,7 +12,7 @@ import org.smartregister.domain.tag.FormTag;
 import org.smartregister.maternity.listener.OnSendActionToFragment;
 import org.smartregister.maternity.listener.OngoingTaskCompleteListener;
 import org.smartregister.maternity.pojo.MaternityEventClient;
-import org.smartregister.maternity.pojo.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.maternity.pojo.OngoingTask;
 import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.view.contract.BaseProfileContract;
@@ -109,7 +109,7 @@ public interface MaternityProfileActivityContract {
 
     interface Interactor {
 
-        void fetchSavedDiagnosisAndTreatmentForm(@NonNull String baseEntityId, @NonNull String entityTable);
+        void fetchSavedPartialForm(@NonNull String baseEntityId, @NonNull String entityTable);
 
         void saveRegistration(@NonNull MaternityEventClient maternityEventClient, @NonNull String jsonString, RegisterParams registerParams, @NonNull MaternityProfileActivityContract.InteractorCallBack callBack);
 
@@ -123,7 +123,7 @@ public interface MaternityProfileActivityContract {
 
         void onRegistrationSaved(@Nullable CommonPersonObjectClient client, boolean isEdit);
 
-        void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityOutcomeForm diagnosisAndTreatmentForm, @NonNull String caseId, @NonNull String entityTable);
+        void onFetchedSavedPartialForm(@Nullable MaternityPartialForm savedPartialForm, @NonNull String caseId, @NonNull String entityTable);
 
     }
 }

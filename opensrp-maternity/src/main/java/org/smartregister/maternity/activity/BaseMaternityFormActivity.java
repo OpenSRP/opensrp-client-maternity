@@ -16,9 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
-import org.smartregister.maternity.dao.MaternityOutcomeFormDao;
+import org.smartregister.maternity.dao.MaternityPartialFormDao;
 import org.smartregister.maternity.fragment.BaseMaternityFormFragment;
-import org.smartregister.maternity.pojo.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;
 import org.smartregister.maternity.utils.MaternityUtils;
@@ -136,18 +136,18 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
     private void saveFormFillSession() {
         JSONObject jsonObject = getmJSONObject();
 
-        final MaternityOutcomeForm maternityOutcomeForm = new MaternityOutcomeForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
+        final MaternityPartialForm maternityPartialForm = new MaternityPartialForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
                 jsonObject.toString(), Utils.convertDateFormat(new DateTime()));
-        final MaternityOutcomeFormDao maternityOutcomeFormDao = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository();
-        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> maternityOutcomeFormDao.saveOrUpdate(maternityOutcomeForm));
+        final MaternityPartialFormDao maternityPartialFormDao = MaternityLibrary.getInstance().getMaternityPartialFormRepository();
+        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> maternityPartialFormDao.saveOrUpdate(maternityPartialForm));
     }
 
     private void deleteSession() {
         JSONObject jsonObject = getmJSONObject();
-        final MaternityOutcomeForm maternityOutcomeForm = new MaternityOutcomeForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
+        final MaternityPartialForm maternityPartialForm = new MaternityPartialForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
                 jsonObject.toString(), Utils.convertDateFormat(new DateTime()));
-        final MaternityOutcomeFormDao maternityOutcomeFormDao = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository();
-        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> maternityOutcomeFormDao.delete(maternityOutcomeForm));
+        final MaternityPartialFormDao maternityPartialFormDao = MaternityLibrary.getInstance().getMaternityPartialFormRepository();
+        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> maternityPartialFormDao.delete(maternityPartialForm));
     }
 
     @NonNull

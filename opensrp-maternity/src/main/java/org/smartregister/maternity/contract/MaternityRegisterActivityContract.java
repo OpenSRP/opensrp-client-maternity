@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.maternity.pojo.MaternityEventClient;
-import org.smartregister.maternity.pojo.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.view.contract.BaseRegisterContract;
 
@@ -95,7 +95,7 @@ public interface MaternityRegisterActivityContract {
 
         void onEventSaved();
 
-        void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityOutcomeForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable);
+        void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityPartialForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable);
 
     }
 }

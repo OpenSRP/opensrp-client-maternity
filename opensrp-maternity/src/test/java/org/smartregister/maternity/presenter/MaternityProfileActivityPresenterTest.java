@@ -25,7 +25,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.BaseTest;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityProfileActivityContract;
-import org.smartregister.maternity.pojo.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
@@ -90,7 +90,7 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
         form.put("question", "What is happening?");
 
         ReflectionHelpers.setField(presenter, "form", form);
-        presenter.onFetchedSavedDiagnosisAndTreatmentForm(null, "caseId", "ec_child");
+        presenter.onFetchedSavedPartialForm(null, "caseId", "ec_child");
         Mockito.verify(presenter, Mockito.times(1)).startFormActivity(formCaptor.capture(), Mockito.anyString(), Mockito.nullable(String.class));
 
         Assert.assertEquals("", formCaptor.getValue().get("value"));
@@ -110,8 +110,8 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
         prefilledForm.put("value", "I Don't Know");
         prefilledForm.put("question", "What is happening?");
 
-        presenter.onFetchedSavedDiagnosisAndTreatmentForm(
-                new MaternityOutcomeForm(8923, "bei", prefilledForm.toString(), "2019-05-01 11:11:11")
+        presenter.onFetchedSavedPartialForm(
+                new MaternityPartialForm(8923, "bei", prefilledForm.toString(), "2019-05-01 11:11:11")
                 , "caseId"
                 , "ec_child");
         Mockito.verify(presenter, Mockito.times(1)).startFormActivity(formCaptor.capture(), Mockito.anyString(), Mockito.nullable(String.class));
@@ -183,10 +183,10 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
 
         // Mock call to MaternityUtils.context().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID)
         Mockito.doReturn(locationId).when(allSharedPreferences).getPreference(Mockito.eq(AllConstants.CURRENT_LOCATION_ID));
-        Mockito.doNothing().when(interactor).fetchSavedDiagnosisAndTreatmentForm(Mockito.eq(caseId), Mockito.eq(entityTable));
+        Mockito.doNothing().when(interactor).fetchSavedPartialForm(Mockito.eq(caseId), Mockito.eq(entityTable));
 
         presenter.startFormActivity(formName, caseId, entityTable, injectedValues);
-        Mockito.verify(interactor, Mockito.times(1)).fetchSavedDiagnosisAndTreatmentForm(Mockito.eq(caseId), Mockito.eq(entityTable));
+        Mockito.verify(interactor, Mockito.times(1)).fetchSavedPartialForm(Mockito.eq(caseId), Mockito.eq(entityTable));
     }
 
     @Test

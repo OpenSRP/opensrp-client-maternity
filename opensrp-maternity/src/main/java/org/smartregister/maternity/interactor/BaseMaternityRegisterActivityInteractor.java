@@ -13,7 +13,7 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.pojo.MaternityEventClient;
-import org.smartregister.maternity.pojo.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.repository.AllSharedPreferences;
@@ -51,10 +51,10 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
         appExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                final MaternityOutcomeForm diagnosisAndTreatmentForm = MaternityLibrary
+                final MaternityPartialForm diagnosisAndTreatmentForm = MaternityLibrary
                         .getInstance()
-                        .getMaternityOutcomeFormRepository()
-                        .findOne(new MaternityOutcomeForm(baseEntityId));
+                        .getMaternityPartialFormRepository()
+                        .findOne(new MaternityPartialForm(baseEntityId));
 
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override

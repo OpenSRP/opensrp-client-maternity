@@ -29,7 +29,7 @@ import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.pojo.MaternityEventClient;
 import org.smartregister.maternity.pojo.MaternityMetadata;
-import org.smartregister.maternity.pojo.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
@@ -396,8 +396,8 @@ public class MaternityUtils extends org.smartregister.util.Utils {
             }
         }
 
-        MaternityOutcomeForm maternityOutcomeForm = MaternityLibrary.getInstance().getMaternityOutcomeFormRepository().findOne(new MaternityOutcomeForm(baseEntityId));
-        if (maternityOutcomeForm != null) {
+        MaternityPartialForm maternityPartialForm = MaternityLibrary.getInstance().getMaternityPartialFormRepository().findOne(new MaternityPartialForm(baseEntityId));
+        if (maternityPartialForm != null) {
             button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.form_saved_btn_bg));
         }
     }

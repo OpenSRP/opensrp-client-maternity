@@ -23,7 +23,7 @@ import org.smartregister.maternity.listener.OngoingTaskCompleteListener;
 import org.smartregister.maternity.model.MaternityProfileActivityModel;
 import org.smartregister.maternity.pojo.MaternityEventClient;
 import org.smartregister.maternity.pojo.MaternityMetadata;
-import org.smartregister.maternity.pojo.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.maternity.pojo.OngoingTask;
 import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.maternity.tasks.FetchRegistrationDataTask;
@@ -107,10 +107,10 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     }
 
     @Override
-    public void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityOutcomeForm diagnosisAndTreatmentForm, @NonNull String caseId, @NonNull String entityTable) {
+    public void onFetchedSavedPartialForm(@Nullable MaternityPartialForm savedPartialForm, @NonNull String caseId, @NonNull String entityTable) {
         try {
-            if (diagnosisAndTreatmentForm != null) {
-                form = new JSONObject(diagnosisAndTreatmentForm.getForm());
+            if (savedPartialForm != null) {
+                form = new JSONObject(savedPartialForm.getForm());
             }
 
             startFormActivity(form, caseId, entityTable);
@@ -171,8 +171,8 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
                 form = model.getFormAsJson(formName, caseId, locationId, injectedValues);
 
                 // Fetch saved form & continue editing
-                if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME)) {
-                    mProfileInteractor.fetchSavedDiagnosisAndTreatmentForm(caseId, entityTable);
+                if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME) || formName.equals(MaternityConstants.Form.MATERNITY_MEDIC_INFO)) {
+                    mProfileInteractor.fetchSavedPartialForm(caseId, entityTable);
                 } else {
                     startFormActivity(form, caseId, entityTable);
                 }
