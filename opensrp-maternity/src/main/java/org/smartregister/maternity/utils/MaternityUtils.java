@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -22,10 +24,12 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.pojo.MaternityEventClient;
 import org.smartregister.maternity.pojo.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
@@ -164,12 +168,16 @@ public class MaternityUtils extends org.smartregister.util.Utils {
     }
 
     @NonNull
-    public static String[] generateNIds(int n) {
-        String[] strIds = new String[n];
+    public static String generateNIds(int n) {
+        StringBuilder strIds = new StringBuilder();
         for (int i = 0; i < n; i++) {
-            strIds[i] = JsonFormUtils.generateRandomUUIDString();
+            if ((i + 1) == n) {
+                strIds.append(JsonFormUtils.generateRandomUUIDString());
+            } else {
+                strIds.append(JsonFormUtils.generateRandomUUIDString()).append(",");
+            }
         }
-        return strIds;
+        return strIds.toString();
     }
 
     @NotNull
@@ -372,4 +380,25 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         }
     }
 
+    public static void setActionButtonStatus(Button button, CommonPersonObjectClient client) {
+        String baseEntityId = client.getCaseId();
+
+        button.setTag(R.id.BUTTON_TYPE, R.string.start_maternity);
+        button.setText(R.string.start_maternity);
+        button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.maternity_outcome_bg));
+
+        HashMap<String, String> data = MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().findByBaseEntityId(baseEntityId);
+        if (data != null) {
+
+            if (client.getColumnmaps().get(MaternityConstants.JSON_FORM_KEY.MMI_BASE_ENTITY_ID) != null) {
+                button.setText(R.string.outcome);
+                button.setTag(R.id.BUTTON_TYPE, R.string.outcome);
+            }
+        }
+
+        MaternityPartialForm maternityPartialForm = MaternityLibrary.getInstance().getMaternityPartialFormRepository().findOne(new MaternityPartialForm(baseEntityId));
+        if (maternityPartialForm != null) {
+            button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.form_saved_btn_bg));
+        }
+    }
 }
