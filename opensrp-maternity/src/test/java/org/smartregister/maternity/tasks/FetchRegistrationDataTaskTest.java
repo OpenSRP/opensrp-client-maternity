@@ -18,7 +18,7 @@ import org.smartregister.maternity.configuration.BaseMaternityRegisterProviderMe
 import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.pojo.MaternityMetadata;
 import org.smartregister.maternity.provider.MaternityRegisterQueryProviderTest;
-import org.smartregister.maternity.repository.MaternityRegistrationDetailsRepository;
+import org.smartregister.maternity.repository.MaternityDetailsRepository;
 import org.smartregister.repository.EventClientRepository;
 
 import java.lang.ref.WeakReference;
@@ -50,7 +50,7 @@ public class FetchRegistrationDataTaskTest extends BaseTest {
         org.smartregister.Context opensrpContext = Mockito.mock(org.smartregister.Context.class);
         SQLiteDatabase sqLiteDatabase = Mockito.mock(SQLiteDatabase.class);
         EventClientRepository eventClientRepository = Mockito.mock(EventClientRepository.class);
-        MaternityRegistrationDetailsRepository maternityRegistrationDetailsRepository = new MaternityRegistrationDetailsRepository();
+        MaternityDetailsRepository maternityDetailsRepository = new MaternityDetailsRepository();
         Mockito.doReturn(sqLiteDatabase).when(eventClientRepository).getReadableDatabase();
         Mockito.doReturn(eventClientRepository).when(opensrpContext).getEventClientRepository();
         MaternityConfiguration maternityConfiguration = new MaternityConfiguration.Builder(MaternityRegisterQueryProviderTest.class)
@@ -66,7 +66,7 @@ public class FetchRegistrationDataTaskTest extends BaseTest {
                 .build();
         Mockito.doReturn(maternityConfiguration).when(maternityLibrary).getMaternityConfiguration();
         Mockito.doReturn(opensrpContext).when(maternityLibrary).context();
-        Mockito.doReturn(maternityRegistrationDetailsRepository).when(maternityLibrary).getMaternityRegistrationDetailsRepository();
+        Mockito.doReturn(maternityDetailsRepository).when(maternityLibrary).getMaternityDetailsRepository();
         ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
 
         HashMap<String, String> details = new HashMap<>();
@@ -80,5 +80,7 @@ public class FetchRegistrationDataTaskTest extends BaseTest {
         String baseEntityId = "2323-ae";
         fetchRegistrationDataTask.doInBackground(baseEntityId);
         Mockito.verify(eventClientRepository, Mockito.times(1)).rawQuery(Mockito.eq(sqLiteDatabase), Mockito.anyString());
+
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", null);
     }
 }
