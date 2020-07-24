@@ -121,11 +121,14 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
                     maternityChild.setChildHivStatus(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.CHILD_HIV_STATUS));
                     maternityChild.setHeight(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BIRTH_HEALTH_ENTERED));
                     maternityChild.setWeight(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BIRTH_WEIGHT_ENTERED));
+                    maternityChild.setBaseEntityId(jsonTestObject.optString(MaternityDbConstants.Column.MaternityChild.BASE_ENTITY_ID));
                     maternityChild.setEventDate(MaternityUtils.convertDate(event.getEventDate().toDate(), MaternityDbConstants.DATE_FORMAT));
                     maternityChild.setNvpAdministration(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.NVP_ADMINISTRATION));
                     maternityChild.setInterventionSpecify(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BABY_INTERVENTION_SPECIFY));
                     maternityChild.setInterventionReferralLocation(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.BABY_INTERVENTION_REFERRAL_LOCATION));
-                    MaternityLibrary.getInstance().getMaternityChildRepository().saveOrUpdate(maternityChild);
+                    if (StringUtils.isNotBlank(maternityChild.getBaseEntityId()) && StringUtils.isNotBlank(maternityChild.getMotherBaseEntityId())) {
+                        MaternityLibrary.getInstance().getMaternityChildRepository().saveOrUpdate(maternityChild);
+                    }
                 }
             } catch (JSONException e) {
                 Timber.e(e);
@@ -144,7 +147,9 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
                     maternityStillBorn.setMotherBaseEntityId(event.getBaseEntityId());
                     maternityStillBorn.setStillBirthCondition(jsonTestObject.optString(MaternityConstants.JSON_FORM_KEY.STILLBIRTH_CONDITION));
                     maternityStillBorn.setEventDate(MaternityUtils.convertDate(event.getEventDate().toDate(), MaternityDbConstants.DATE_FORMAT));
-                    MaternityLibrary.getInstance().getMaternityChildRepository().saveOrUpdate(maternityStillBorn);
+                    if (StringUtils.isNotBlank(maternityStillBorn.getMotherBaseEntityId())) {
+                        MaternityLibrary.getInstance().getMaternityChildRepository().saveOrUpdate(maternityStillBorn);
+                    }
                 }
             } catch (JSONException e) {
                 Timber.e(e);

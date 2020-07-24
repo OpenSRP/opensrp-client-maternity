@@ -85,6 +85,7 @@ public interface MaternityDbConstants {
             String EVENT_DATE = "event_date";
             String STILL_BIRTH_CONDITION = "stillbirth_condition";
             String CHILD_HIV_STATUS = "child_hiv_status";
+            String BASE_ENTITY_ID = "base_entity_id";
         }
 
     }

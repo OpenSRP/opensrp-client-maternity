@@ -41,6 +41,9 @@ fields:
   - template: "Specify: {family_history_other}"
     relevance: "family_history_other != ''"
 
+  - template: "Gestation Week: {ga_calculated}"
+    relevance: "ga_calculated != ''"
+
 ---
 sub_group: hiv_status_&_treatment
 fields:

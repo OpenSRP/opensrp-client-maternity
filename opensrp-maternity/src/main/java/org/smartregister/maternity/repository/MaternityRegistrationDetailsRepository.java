@@ -13,7 +13,6 @@ import timber.log.Timber;
 
 public class MaternityRegistrationDetailsRepository extends BaseRepository {
 
-    @Nullable
     public HashMap<String, String> findByBaseEntityId(@NonNull String baseEntityId) {
         try {
             if (StringUtils.isNotBlank(baseEntityId)) {

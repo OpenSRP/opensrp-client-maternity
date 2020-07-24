@@ -2,7 +2,6 @@ package org.smartregister.maternity.presenter;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 import org.jeasy.rules.api.Facts;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -110,21 +109,6 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
         for (Map.Entry<String, String> entry : maternityDetails.entrySet()) {
             MaternityFactsUtil.putNonNullFact(facts, entry.getKey(), entry.getValue());
         }
-
-        /*
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.INTAKE_TIME, maternityDetails.getRecordedAt());
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.GRAVIDA, maternityDetails.get(MaternityDetails.Property));
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.PARA, maternityDetails.getPara());
-        */
-
-        int maternityWeeks = 0;
-        String conceptionDate = maternityDetails.get("conception_date");
-
-        if (!TextUtils.isEmpty(conceptionDate)) {
-            maternityWeeks = MaternityLibrary.getGestationAgeInWeeks(conceptionDate);
-        }
-
-        MaternityFactsUtil.putNonNullFact(facts, MaternityConstants.FactKey.ProfileOverview.GESTATION_WEEK, "" + maternityWeeks);
 
         String currentHivStatus = maternityDetails.get("hiv_status_current");
         String hivStatus = currentHivStatus == null ? getString(R.string.unknown) : currentHivStatus;

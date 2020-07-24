@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.smartregister.CoreLibrary;
+import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;
 import org.smartregister.maternity.utils.MaternityReverseJsonFormUtils;
@@ -19,16 +19,19 @@ public class FetchRegistrationDataTask extends AsyncTask<String, Void, String> {
     private WeakReference<Context> contextWeakReference;
     private OnTaskComplete onTaskComplete;
 
-    public FetchRegistrationDataTask(@NonNull WeakReference<Context> contextWeakReference, @NonNull OnTaskComplete onTaskComplete){
+    public FetchRegistrationDataTask(@NonNull WeakReference<Context> contextWeakReference, @NonNull OnTaskComplete onTaskComplete) {
         this.contextWeakReference = contextWeakReference;
         this.onTaskComplete = onTaskComplete;
     }
 
     @Nullable
     protected String doInBackground(String... params) {
-        Map<String, String> detailsMap = CoreLibrary.getInstance().context().detailsRepository().getAllDetailsForClient(params[0]);
-        detailsMap.put(MaternityJsonFormUtils.OPENSRP_ID, detailsMap.get(MaternityConstants.KEY.OPENSRP_ID));
-        return MaternityReverseJsonFormUtils.prepareJsonEditMaternityRegistrationForm(detailsMap, Arrays.asList(MaternityJsonFormUtils.OPENSRP_ID, MaternityConstants.JSON_FORM_KEY.BHT_ID), contextWeakReference.get());
+        Map<String, String> detailsMap = MaternityLibrary.getInstance().getMaternityDetailsRepository().findByBaseEntityId(params[0]);
+        if (detailsMap != null) {
+            detailsMap.put(MaternityJsonFormUtils.OPENSRP_ID, detailsMap.get(MaternityConstants.KEY.OPENSRP_ID));
+            return MaternityReverseJsonFormUtils.prepareJsonEditMaternityRegistrationForm(detailsMap, Arrays.asList(MaternityJsonFormUtils.OPENSRP_ID, MaternityConstants.JSON_FORM_KEY.BHT_ID), contextWeakReference.get());
+        }
+        return null;
     }
 
     protected void onPostExecute(@Nullable String jsonForm) {

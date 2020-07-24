@@ -98,8 +98,8 @@ public class MaternityProfileInteractor implements MaternityProfileActivityContr
 
         if (cursor != null && cursor.moveToFirst()) {
             CommonPersonObject commonPersonObject = commonRepository.getCommonPersonObjectFromCursor(cursor);
-            String name = commonPersonObject.getColumnmaps().get(MaternityDbConstants.KEY.FIRST_NAME)
-                    + " " + commonPersonObject.getColumnmaps().get(MaternityDbConstants.KEY.LAST_NAME);
+            String name = commonPersonObject.getDetails().get(MaternityDbConstants.KEY.FIRST_NAME)
+                    + " " + commonPersonObject.getDetails().get(MaternityDbConstants.KEY.LAST_NAME);
             CommonPersonObjectClient client = new CommonPersonObjectClient(commonPersonObject.getCaseId(),
                     commonPersonObject.getDetails(), name);
             client.setColumnmaps(commonPersonObject.getDetails());
