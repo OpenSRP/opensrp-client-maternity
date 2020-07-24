@@ -11,6 +11,7 @@ import java.util.HashMap;
 import timber.log.Timber;
 
 public class MaternityRegistrationDetailsRepository extends BaseRepository {
+
     public HashMap<String, String> findByBaseEntityId(@NonNull String baseEntityId) {
         try {
             if (StringUtils.isNotBlank(baseEntityId)) {
