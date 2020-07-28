@@ -384,13 +384,9 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         button.setText(R.string.start_maternity);
         button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.maternity_outcome_bg));
 
-        HashMap<String, String> data = MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().findByBaseEntityId(baseEntityId);
-        if (data != null) {
-
-            if (client.getColumnmaps().get(MaternityConstants.JSON_FORM_KEY.MMI_BASE_ENTITY_ID) != null) {
-                button.setText(R.string.outcome);
-                button.setTag(R.id.BUTTON_TYPE, R.string.outcome);
-            }
+        if (client.getColumnmaps().get(MaternityConstants.JSON_FORM_KEY.MMI_BASE_ENTITY_ID) != null) {
+            button.setText(R.string.outcome);
+            button.setTag(R.id.BUTTON_TYPE, R.string.outcome);
         }
 
         MaternityPartialForm maternityPartialForm = MaternityLibrary.getInstance().getMaternityPartialFormRepository().findOne(new MaternityPartialForm(baseEntityId));
