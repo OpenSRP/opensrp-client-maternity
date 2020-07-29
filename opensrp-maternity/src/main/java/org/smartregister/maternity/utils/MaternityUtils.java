@@ -383,7 +383,7 @@ public class MaternityUtils extends org.smartregister.util.Utils {
             button.setTag(R.id.BUTTON_TYPE, R.string.outcome);
             button.setText(R.string.outcome);
             button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.form_saved_btn_bg));
-        } else if (client.getColumnmaps().get("mmi_base_entity_id") == null) {
+        } else if (client.getColumnmaps().get(MaternityConstants.JSON_FORM_KEY.MMI_BASE_ENTITY_ID) == null) {
             button.setTag(R.id.BUTTON_TYPE, R.string.start_maternity);
             button.setText(R.string.start_maternity);
             button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.maternity_outcome_bg));

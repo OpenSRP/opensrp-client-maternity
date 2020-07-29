@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
+import org.smartregister.maternity.helper.TextUtilHelper;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.util.StringUtil;
 
@@ -30,12 +30,14 @@ public class MaternityProfileVisitsAdapter extends RecyclerView.Adapter<Maternit
     private Context context;
     private LayoutInflater mInflater;
     private ArrayList<Pair<YamlConfigWrapper, Facts>> items;
+    private TextUtilHelper textUtilHelper;
 
     // data is passed into the constructor
     public MaternityProfileVisitsAdapter(@NonNull Context context, ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.items = items;
+        textUtilHelper = new TextUtilHelper();
     }
 
     // inflates the row layout from xml when needed
@@ -57,7 +59,7 @@ public class MaternityProfileVisitsAdapter extends RecyclerView.Adapter<Maternit
         if (yamlConfigWrapper != null && facts != null) {
             String group = yamlConfigWrapper.getGroup();
 
-            if (!TextUtils.isEmpty(group)) {
+            if (!textUtilHelper.isEmpty(group)) {
                 holder.sectionHeader.setText(StringUtil.humanize(group));
                 holder.sectionHeader.setVisibility(View.VISIBLE);
             } else {
@@ -65,7 +67,7 @@ public class MaternityProfileVisitsAdapter extends RecyclerView.Adapter<Maternit
             }
 
             String subGroup = yamlConfigWrapper.getSubGroup();
-            if (!TextUtils.isEmpty(subGroup)) {
+            if (!textUtilHelper.isEmpty(subGroup)) {
                 if (MaternityUtils.isTemplate(subGroup)) {
                     subGroup = MaternityUtils.fillTemplate(subGroup, facts);
                 }
@@ -133,7 +135,7 @@ public class MaternityProfileVisitsAdapter extends RecyclerView.Adapter<Maternit
         return context.getResources().getColor(colorId);
     }
 
-    private MaternityProfileVisitsAdapter.Template getTemplate(String rawTemplate) {
+    public MaternityProfileVisitsAdapter.Template getTemplate(String rawTemplate) {
         MaternityProfileVisitsAdapter.Template template = new MaternityProfileVisitsAdapter.Template();
 
         if (rawTemplate.contains(":")) {
@@ -178,7 +180,7 @@ public class MaternityProfileVisitsAdapter extends RecyclerView.Adapter<Maternit
         }
     }
 
-    private class Template {
+    public static class Template {
         public String title = "";
         public String detail = "";
     }
