@@ -30,6 +30,11 @@ public class MaternityProfileOverviewFragmentModel implements MaternityProfileOv
                 maternityDetails = new HashMap<>();
                 maternityDetails = MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().findByBaseEntityId(baseEntityId);
 
+                HashMap<String, String> maternityMedicInfo = MaternityLibrary.getInstance().getMaternityDetailsRepository().findMedicInfoByBaseEntityId(baseEntityId);
+                if (maternityMedicInfo != null) {
+                    maternityDetails.putAll(maternityMedicInfo);
+                }
+
                 appExecutors.mainThread().execute(new Runnable() {
 
                     @Override

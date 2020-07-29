@@ -137,7 +137,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
     }
 
     @Override
-    public void onEventSaved() {
+    public void onEventSaved(List<Event> events) {
         if (getView() != null) {
             getView().refreshList(FetchStatus.fetched);
             getView().hideProgressDialog();

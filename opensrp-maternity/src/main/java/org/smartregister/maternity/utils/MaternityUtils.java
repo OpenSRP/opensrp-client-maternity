@@ -2,6 +2,7 @@ package org.smartregister.maternity.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -29,7 +30,6 @@ import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.pojo.MaternityEventClient;
 import org.smartregister.maternity.pojo.MaternityMetadata;
-import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
@@ -378,24 +378,19 @@ public class MaternityUtils extends org.smartregister.util.Utils {
 
 
     public static void setActionButtonStatus(Button button, CommonPersonObjectClient client) {
-        String baseEntityId = client.getCaseId();
-
-        button.setTag(R.id.BUTTON_TYPE, R.string.start_maternity);
-        button.setText(R.string.start_maternity);
-        button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.maternity_outcome_bg));
-
-        HashMap<String, String> data = MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().findByBaseEntityId(baseEntityId);
-        if (data != null) {
-
-            if (client.getColumnmaps().get(MaternityConstants.JSON_FORM_KEY.MMI_BASE_ENTITY_ID) != null) {
-                button.setText(R.string.outcome);
-                button.setTag(R.id.BUTTON_TYPE, R.string.outcome);
-            }
-        }
-
-        MaternityPartialForm maternityPartialForm = MaternityLibrary.getInstance().getMaternityPartialFormRepository().findOne(new MaternityPartialForm(baseEntityId));
-        if (maternityPartialForm != null) {
+        button.setTypeface(null, Typeface.NORMAL);
+        if (client.getColumnmaps().get("mof_id") != null) {
+            button.setTag(R.id.BUTTON_TYPE, R.string.outcome);
+            button.setText(R.string.outcome);
             button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.form_saved_btn_bg));
+        } else if (client.getColumnmaps().get("mmi_base_entity_id") == null) {
+            button.setTag(R.id.BUTTON_TYPE, R.string.start_maternity);
+            button.setText(R.string.start_maternity);
+            button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.maternity_outcome_bg));
+        } else {
+            button.setTag(R.id.BUTTON_TYPE, R.string.outcome);
+            button.setText(R.string.outcome);
+            button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.maternity_outcome_bg));
         }
     }
 }

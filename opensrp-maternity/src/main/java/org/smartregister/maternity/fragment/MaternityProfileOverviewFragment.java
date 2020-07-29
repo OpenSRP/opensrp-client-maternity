@@ -90,7 +90,7 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
 
     private void showOutcomeBtn() {
         if (getActivity() != null) {
-            MaternityUtils.setActionButtonStatus(recordOutcomeBtn, commonPersonObjectClient);
+            updateActionButtonStatus(recordOutcomeBtn, commonPersonObjectClient);
             maternityOutcomeSectionLayout.setVisibility(View.VISIBLE);
             recordOutcomeBtn.setOnClickListener(v -> {
                 Object buttonType = v.getTag(R.id.BUTTON_TYPE);
@@ -99,8 +99,7 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
                     BaseMaternityProfileActivity profileActivity = (BaseMaternityProfileActivity) getActivity();
                     if (buttonType.equals(R.string.outcome)) {
                         profileActivity.openMaternityOutcomeForm();
-                    }
-                    else if (buttonType.equals(R.string.start_maternity)){
+                    } else if (buttonType.equals(R.string.start_maternity)) {
                         profileActivity.openMaternityMedicInfoForm();
                     }
                 }
@@ -108,9 +107,13 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
         }
     }
 
+    protected void updateActionButtonStatus(Button recordOutcomeBtn, CommonPersonObjectClient commonPersonObjectClient) {
+        MaternityUtils.setActionButtonStatus(recordOutcomeBtn, commonPersonObjectClient);
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.maternity_fragment_profile_overview, container, false);
+        View view = inflater.inflate(R.layout.maternity_fragment_profile_overview, container, false);
 
         maternityOutcomeSectionLayout = view.findViewById(R.id.ll_maternityFragmentProfileOverview_outcomeLayout);
         recordOutcomeBtn = view.findViewById(R.id.btn_maternityFragmentProfileOverview_outcome);

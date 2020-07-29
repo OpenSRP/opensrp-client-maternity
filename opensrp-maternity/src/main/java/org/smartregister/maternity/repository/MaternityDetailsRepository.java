@@ -2,11 +2,13 @@ package org.smartregister.maternity.repository;
 
 import android.support.annotation.NonNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.repository.BaseRepository;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -23,6 +25,19 @@ public class MaternityDetailsRepository extends BaseRepository {
                     .rawQuery(MaternityLibrary.getInstance().context().getEventClientRepository().getReadableDatabase(),
                             "select * from " + MaternityUtils.metadata().getTableName() +
                                     " where " + MaternityDbConstants.Column.Client.BASE_ENTITY_ID + " = '" + baseEntityId + "' limit 1").get(0);
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            Timber.e(e);
+        }
+        return null;
+    }
+
+    public HashMap<String, String> findMedicInfoByBaseEntityId(@NonNull String baseEntityId) {
+        try {
+            if (StringUtils.isNotBlank(baseEntityId)) {
+                return rawQuery(getReadableDatabase(),
+                        "select * from maternity_medic_info " +
+                                " where " + MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID + " = '" + baseEntityId + "' limit 1").get(0);
+            }
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             Timber.e(e);
         }

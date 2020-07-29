@@ -98,7 +98,7 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-                        callBack.onEventSaved();
+                        callBack.onEventSaved(events);
                     }
                 });
             }

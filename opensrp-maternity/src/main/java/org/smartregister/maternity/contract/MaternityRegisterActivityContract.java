@@ -93,7 +93,7 @@ public interface MaternityRegisterActivityContract {
 
         void onRegistrationSaved(boolean isEdit);
 
-        void onEventSaved();
+        void onEventSaved(List<Event> events);
 
         void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityPartialForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable);
 

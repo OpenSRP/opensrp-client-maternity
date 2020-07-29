@@ -113,7 +113,6 @@ public class MaternityOutcomeFormProcessingTask implements MaternityFormProcessi
         closeMaternityEvent.addDetails(MaternityConstants.JSON_FORM_KEY.VISIT_END_DATE, MaternityUtils.convertDate(new Date(), MaternityConstants.DateFormat.YYYY_MM_DD_HH_MM_SS));
         eventList.add(closeMaternityEvent);
         return eventList;
-
     }
 
     public void createChildClients(@NonNull JSONObject jsonFormObject, @NonNull String baseEntityId,
@@ -121,9 +120,13 @@ public class MaternityOutcomeFormProcessingTask implements MaternityFormProcessi
         MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> {
             List<MaternityEventClient> childEvents = buildChildRegistrationEvents(buildRepeatingGroupBorn, baseEntityId, jsonFormObject);
             if (!childEvents.isEmpty()) {
-                MaternityUtils.saveMaternityChild(childEvents);
+                saveMaternityChild(childEvents);
             }
         });
+    }
+
+    protected void saveMaternityChild(List<MaternityEventClient> childEvents) {
+        MaternityUtils.saveMaternityChild(childEvents);
     }
 
     @NonNull
