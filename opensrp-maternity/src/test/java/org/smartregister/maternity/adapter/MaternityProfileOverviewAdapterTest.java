@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.jeasy.rules.api.Facts;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,12 +18,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.robolectric.util.ReflectionHelpers;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
-import org.smartregister.maternity.helper.LibraryHelper;
 import org.smartregister.maternity.helper.MaternityRulesEngineHelper;
-import org.smartregister.maternity.helper.TextUtilHelper;
 
 import java.util.List;
 
@@ -60,12 +60,6 @@ public class MaternityProfileOverviewAdapterTest {
     @Mock
     private MaternityLibrary maternityLibrary;
 
-    @Mock
-    private TextUtilHelper textUtilHelper;
-
-    @Mock
-    private LibraryHelper libraryHelper;
-
     private MaternityProfileOverviewAdapter adapter;
 
     @Before
@@ -75,9 +69,6 @@ public class MaternityProfileOverviewAdapterTest {
 
         adapter = new MaternityProfileOverviewAdapter(context, mData, facts);
         setField(adapter, "mInflater", mInflater);
-        setField(adapter, "textUtilHelper", textUtilHelper);
-        setField(adapter, "libraryHelper", libraryHelper);
-
     }
 
     @Test
@@ -113,7 +104,7 @@ public class MaternityProfileOverviewAdapterTest {
         YamlConfigItem yamlConfigItem = mock(YamlConfigItem.class);
         MaternityRulesEngineHelper maternityRulesEngineHelper = mock(MaternityRulesEngineHelper.class);
 
-        when(textUtilHelper.isEmpty(anyString())).thenReturn(false);
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
         when(context.getResources()).thenReturn(resources);
         when(resources.getColor(anyInt())).thenReturn(Color.RED);
         when(mData.get(anyInt())).thenReturn(yamlConfigWrapper);
@@ -122,7 +113,6 @@ public class MaternityProfileOverviewAdapterTest {
         when(yamlConfigWrapper.getYamlConfigItem()).thenReturn(yamlConfigItem);
         when(yamlConfigItem.getTemplate()).thenReturn(template);
         when(yamlConfigItem.getIsRedFont()).thenReturn("yes");
-        when(libraryHelper.getMaternityLibraryInstance()).thenReturn(maternityLibrary);
         when(maternityLibrary.getMaternityRulesEngineHelper()).thenReturn(maternityRulesEngineHelper);
         when(maternityRulesEngineHelper.getRelevance(any(Facts.class), anyString())).thenReturn(true);
         when(facts.get("one")).thenReturn("two");
@@ -161,7 +151,6 @@ public class MaternityProfileOverviewAdapterTest {
         YamlConfigWrapper yamlConfigWrapper = mock(YamlConfigWrapper.class);
         YamlConfigItem yamlConfigItem = mock(YamlConfigItem.class);
 
-        when(textUtilHelper.isEmpty(anyString())).thenReturn(true);
         when(context.getResources()).thenReturn(resources);
         when(resources.getColor(anyInt())).thenReturn(Color.BLACK);
         when(mData.get(anyInt())).thenReturn(yamlConfigWrapper);
@@ -217,5 +206,10 @@ public class MaternityProfileOverviewAdapterTest {
         String rawTemplate = "nothing";
         MaternityProfileOverviewAdapter.Template template = adapter.getTemplate(rawTemplate);
         assertEquals(rawTemplate, template.title);
+    }
+
+    @After
+    public void tearDown() {
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", null);
     }
 }

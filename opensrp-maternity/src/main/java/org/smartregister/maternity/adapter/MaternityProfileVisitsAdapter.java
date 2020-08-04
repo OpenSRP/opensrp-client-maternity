@@ -11,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jeasy.rules.api.Facts;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
-import org.smartregister.maternity.helper.TextUtilHelper;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.util.StringUtil;
 
@@ -30,14 +30,12 @@ public class MaternityProfileVisitsAdapter extends RecyclerView.Adapter<Maternit
     private Context context;
     private LayoutInflater mInflater;
     private ArrayList<Pair<YamlConfigWrapper, Facts>> items;
-    private TextUtilHelper textUtilHelper;
 
     // data is passed into the constructor
     public MaternityProfileVisitsAdapter(@NonNull Context context, ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.items = items;
-        textUtilHelper = new TextUtilHelper();
     }
 
     // inflates the row layout from xml when needed
@@ -59,7 +57,7 @@ public class MaternityProfileVisitsAdapter extends RecyclerView.Adapter<Maternit
         if (yamlConfigWrapper != null && facts != null) {
             String group = yamlConfigWrapper.getGroup();
 
-            if (!textUtilHelper.isEmpty(group)) {
+            if (StringUtils.isNotBlank(group)) {
                 holder.sectionHeader.setText(StringUtil.humanize(group));
                 holder.sectionHeader.setVisibility(View.VISIBLE);
             } else {
@@ -67,7 +65,7 @@ public class MaternityProfileVisitsAdapter extends RecyclerView.Adapter<Maternit
             }
 
             String subGroup = yamlConfigWrapper.getSubGroup();
-            if (!textUtilHelper.isEmpty(subGroup)) {
+            if (StringUtils.isNotBlank(subGroup)) {
                 if (MaternityUtils.isTemplate(subGroup)) {
                     subGroup = MaternityUtils.fillTemplate(subGroup, facts);
                 }

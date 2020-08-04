@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
-import org.smartregister.maternity.helper.TextUtilHelper;
 import org.smartregister.util.StringUtil;
 
 import java.util.ArrayList;
@@ -51,8 +50,6 @@ public class MaternityProfileVisitsAdapterTest {
     @Mock
     private ArrayList<Pair<YamlConfigWrapper, Facts>> items;
 
-    @Mock
-    private TextUtilHelper textUtilHelper;
 
     private MaternityProfileVisitsAdapter adapter;
 
@@ -62,7 +59,6 @@ public class MaternityProfileVisitsAdapterTest {
 
         adapter = new MaternityProfileVisitsAdapter(context, items);
         setField(adapter, "mInflater", mInflater);
-        setField(adapter, "textUtilHelper", textUtilHelper);
     }
 
     @Test
@@ -102,7 +98,6 @@ public class MaternityProfileVisitsAdapterTest {
         setField(pair, "first", yamlConfigWrapper);
         setField(pair, "second", facts);
 
-        when(textUtilHelper.isEmpty(anyString())).thenReturn(false);
         when(context.getResources()).thenReturn(resources);
         when(resources.getColor(anyInt())).thenReturn(Color.RED);
         when(items.get(anyInt())).thenReturn(pair);
@@ -147,7 +142,6 @@ public class MaternityProfileVisitsAdapterTest {
         setField(pair, "first", yamlConfigWrapper);
         setField(pair, "second", facts);
 
-        when(textUtilHelper.isEmpty(anyString())).thenReturn(true);
         when(items.get(anyInt())).thenReturn(pair);
 
         when(yamlConfigWrapper.getGroup()).thenReturn(group);
@@ -155,8 +149,8 @@ public class MaternityProfileVisitsAdapterTest {
 
         adapter.onBindViewHolder(vh, 0);
 
-        verify(sectionHeader, times(1)).setVisibility(View.GONE);
-        verify(subSectionHeader, times(1)).setVisibility(View.GONE);
+        verify(sectionHeader, times(1)).setVisibility(View.VISIBLE);
+        verify(subSectionHeader, times(1)).setVisibility(View.VISIBLE);
         verify(sectionDetailTitle, times(1)).setVisibility(View.GONE);
         verify(sectionDetails, times(1)).setVisibility(View.GONE);
     }
