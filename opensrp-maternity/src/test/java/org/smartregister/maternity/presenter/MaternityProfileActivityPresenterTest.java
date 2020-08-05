@@ -183,10 +183,10 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
 
         // Mock call to MaternityUtils.context().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID)
         Mockito.doReturn(locationId).when(allSharedPreferences).getPreference(Mockito.eq(AllConstants.CURRENT_LOCATION_ID));
-        Mockito.doNothing().when(interactor).fetchSavedPartialForm(MaternityConstants.EventType.MATERNITY_OUTCOME, Mockito.eq(caseId), Mockito.eq(entityTable));
+        Mockito.doNothing().when(interactor).fetchSavedPartialForm(Mockito.eq(MaternityConstants.EventType.MATERNITY_OUTCOME), Mockito.eq(caseId), Mockito.eq(entityTable));
 
         presenter.startFormActivity(formName, caseId, entityTable, injectedValues);
-        Mockito.verify(interactor, Mockito.times(1)).fetchSavedPartialForm(MaternityConstants.EventType.MATERNITY_OUTCOME, Mockito.eq(caseId), Mockito.eq(entityTable));
+        Mockito.verify(interactor, Mockito.times(1)).fetchSavedPartialForm(Mockito.eq(MaternityConstants.EventType.MATERNITY_OUTCOME), Mockito.eq(caseId), Mockito.eq(entityTable));
     }
 
     @Test
