@@ -16,6 +16,7 @@ import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.interactor.BaseMaternityRegisterActivityInteractor;
 import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.maternity.utils.MaternityConstants;
+import org.smartregister.maternity.utils.MaternityUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -162,7 +163,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
             form = model.getFormAsJson(formName, entityId, locationId, injectedFieldValues);
             // Todo: Enquire if we have to save a session of the outcome form to be continued later
             if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME) || formName.equals(MaternityConstants.Form.MATERNITY_MEDIC_INFO)) {
-                interactor.fetchSavedMaternityOutcomeForm(entityId, entityTable, this);
+                interactor.fetchSavedMaternityOutcomeForm(MaternityUtils.convertFormNameToType(formName), entityId, entityTable, this);
                 return;
             }
 

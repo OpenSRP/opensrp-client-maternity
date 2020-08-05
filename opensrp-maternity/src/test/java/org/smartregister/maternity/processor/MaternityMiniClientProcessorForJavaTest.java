@@ -50,7 +50,7 @@ public class MaternityMiniClientProcessorForJavaTest extends BaseTest {
     }
 
     @Test
-    public void getEventTypesShouldReturnAtLeast6EventTypesAllStartingWithMaternity() {
+    public void getEventTypeShouldVerifyTheSize() {
         HashSet<String> eventTypes = maternityMiniClientProcessorForJava.getEventTypes();
 
         Assert.assertEquals(5, eventTypes.size());

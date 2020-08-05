@@ -111,7 +111,7 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
         prefilledForm.put("question", "What is happening?");
 
         presenter.onFetchedSavedPartialForm(
-                new MaternityPartialForm(8923, "bei", prefilledForm.toString(), "2019-05-01 11:11:11")
+                new MaternityPartialForm(8923, "bei", prefilledForm.toString(), "", "2019-05-01 11:11:11")
                 , "caseId"
                 , "ec_child");
         Mockito.verify(presenter, Mockito.times(1)).startFormActivity(formCaptor.capture(), Mockito.anyString(), Mockito.nullable(String.class));
@@ -183,10 +183,10 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
 
         // Mock call to MaternityUtils.context().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID)
         Mockito.doReturn(locationId).when(allSharedPreferences).getPreference(Mockito.eq(AllConstants.CURRENT_LOCATION_ID));
-        Mockito.doNothing().when(interactor).fetchSavedPartialForm(Mockito.eq(caseId), Mockito.eq(entityTable));
+        Mockito.doNothing().when(interactor).fetchSavedPartialForm(MaternityConstants.EventType.MATERNITY_OUTCOME, Mockito.eq(caseId), Mockito.eq(entityTable));
 
         presenter.startFormActivity(formName, caseId, entityTable, injectedValues);
-        Mockito.verify(interactor, Mockito.times(1)).fetchSavedPartialForm(Mockito.eq(caseId), Mockito.eq(entityTable));
+        Mockito.verify(interactor, Mockito.times(1)).fetchSavedPartialForm(MaternityConstants.EventType.MATERNITY_OUTCOME, Mockito.eq(caseId), Mockito.eq(entityTable));
     }
 
     @Test

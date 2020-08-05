@@ -74,7 +74,7 @@ public interface MaternityRegisterActivityContract {
 
     interface Interactor {
 
-        void fetchSavedMaternityOutcomeForm(@NonNull String baseEntityId, @Nullable String entityTable, @NonNull InteractorCallBack interactorCallBack);
+        void fetchSavedMaternityOutcomeForm(@Nullable String formType, @NonNull String baseEntityId, @Nullable String entityTable, @NonNull InteractorCallBack interactorCallBack);
 
         void getNextUniqueId(Triple<String, String, String> triple, MaternityRegisterActivityContract.InteractorCallBack callBack);
 

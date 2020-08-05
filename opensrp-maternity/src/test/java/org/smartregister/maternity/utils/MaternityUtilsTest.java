@@ -12,6 +12,7 @@ import org.jeasy.rules.api.Facts;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,12 +24,10 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.util.ReflectionHelpers;
-import org.smartregister.maternity.BuildConfig;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.activity.BaseMaternityFormActivity;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.pojo.MaternityMetadata;
-import org.smartregister.repository.Repository;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -39,6 +38,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 /**
@@ -64,10 +64,13 @@ public class MaternityUtilsTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        org.smartregister.Context context = mock(org.smartregister.Context.class);
-        Repository repository = mock(Repository.class);
-        MaternityConfiguration maternityConfiguration = mock(MaternityConfiguration.class);
-        MaternityLibrary.init(context, repository, maternityConfiguration, BuildConfig.VERSION_CODE, 1);
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
+        when(MaternityLibrary.getInstance().context()).thenReturn(mock(org.smartregister.Context.class));
+    }
+
+    @After
+    public void tearDown() {
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", null);
     }
 
     @Test

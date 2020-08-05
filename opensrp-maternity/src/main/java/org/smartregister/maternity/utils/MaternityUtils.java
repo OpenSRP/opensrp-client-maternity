@@ -393,4 +393,28 @@ public class MaternityUtils extends org.smartregister.util.Utils {
             button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.maternity_outcome_bg));
         }
     }
+
+    @Nullable
+    public static String convertFormNameToType(String formName) {
+        String formType = null;
+
+        switch (formName) {
+            case MaternityConstants.Form.MATERNITY_REGISTRATION:
+                formType = MaternityConstants.EventType.MATERNITY_REGISTRATION;
+                break;
+
+            case MaternityConstants.Form.MATERNITY_MEDIC_INFO:
+                formType = MaternityConstants.EventType.MATERNITY_MEDIC_INFO;
+                break;
+
+            case MaternityConstants.Form.MATERNITY_OUTCOME:
+                formType = MaternityConstants.EventType.MATERNITY_OUTCOME;
+                break;
+
+            case MaternityConstants.Form.MATERNITY_CLOSE:
+                formType = MaternityConstants.EventType.MATERNITY_CLOSE;
+                break;
+        }
+        return formType;
+    }
 }

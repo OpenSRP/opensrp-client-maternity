@@ -109,7 +109,7 @@ public interface MaternityProfileActivityContract {
 
     interface Interactor {
 
-        void fetchSavedPartialForm(@NonNull String baseEntityId, @NonNull String entityTable);
+        void fetchSavedPartialForm(@Nullable String formType, @NonNull String baseEntityId, @NonNull String entityTable);
 
         void saveRegistration(@NonNull MaternityEventClient maternityEventClient, @NonNull String jsonString, RegisterParams registerParams, @NonNull MaternityProfileActivityContract.InteractorCallBack callBack);
 

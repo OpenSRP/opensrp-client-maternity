@@ -61,6 +61,7 @@ public interface MaternityDbConstants {
             String ID = "id";
             String BASE_ENTITY_ID = "base_entity_id";
             String FORM = "form";
+            String FORM_TYPE = "form_type";
             String CREATED_AT = "created_at";
         }
 
