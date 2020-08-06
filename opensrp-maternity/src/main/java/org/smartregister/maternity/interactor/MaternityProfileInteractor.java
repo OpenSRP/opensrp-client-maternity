@@ -45,12 +45,12 @@ public class MaternityProfileInteractor implements MaternityProfileActivityContr
     }
 
     @Override
-    public void fetchSavedPartialForm(@NonNull final String baseEntityId, @NonNull final String entityTable) {
+    public void fetchSavedPartialForm(@Nullable String formType, @NonNull final String baseEntityId, @NonNull final String entityTable) {
         appExecutors.diskIO().execute(() -> {
             final MaternityPartialForm savedPartialForm = MaternityLibrary
                     .getInstance()
                     .getMaternityPartialFormRepository()
-                    .findOne(new MaternityPartialForm(baseEntityId));
+                    .findOne(new MaternityPartialForm(baseEntityId, formType));
 
             appExecutors.mainThread().execute(() -> {
                 if (mProfilePresenter instanceof MaternityProfileActivityContract.InteractorCallBack) {

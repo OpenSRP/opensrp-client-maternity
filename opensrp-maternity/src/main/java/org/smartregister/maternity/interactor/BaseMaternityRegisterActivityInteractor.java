@@ -47,19 +47,19 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
     }
 
     @Override
-    public void fetchSavedMaternityOutcomeForm(final @NonNull String baseEntityId, final @Nullable String entityTable, @NonNull final MaternityRegisterActivityContract.InteractorCallBack interactorCallBack) {
+    public void fetchSavedPartialForm(final @Nullable String formType, final @NonNull String baseEntityId, final @Nullable String entityTable, @NonNull final MaternityRegisterActivityContract.InteractorCallBack interactorCallBack) {
         appExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 final MaternityPartialForm diagnosisAndTreatmentForm = MaternityLibrary
                         .getInstance()
                         .getMaternityPartialFormRepository()
-                        .findOne(new MaternityPartialForm(baseEntityId));
+                        .findOne(new MaternityPartialForm(baseEntityId, formType));
 
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-                        interactorCallBack.onFetchedSavedDiagnosisAndTreatmentForm(diagnosisAndTreatmentForm, baseEntityId, entityTable);
+                        interactorCallBack.onFetchSavedPartialForm(diagnosisAndTreatmentForm, baseEntityId, entityTable);
                     }
                 });
             }

@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.powermock.api.mockito.PowerMockito;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 
@@ -98,7 +97,7 @@ public class ClientLookUpListAdapterTest {
         columnsMap.put(MaternityDbConstants.Column.Client.LAST_NAME, lastName);
         columnsMap.put(MaternityDbConstants.KEY.OPENSRP_ID, openSrpId);
 
-        CommonPersonObject commonPersonObject = PowerMockito.spy(new CommonPersonObject(caseId, relationalId, columnsMap, type));
+        CommonPersonObject commonPersonObject = new CommonPersonObject(caseId, relationalId, columnsMap, type);
         commonPersonObject.setColumnmaps(columnsMap);
 
         when(data.get(anyInt())).thenReturn(commonPersonObject);

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONException;
@@ -162,7 +164,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
             form = model.getFormAsJson(formName, entityId, locationId, injectedFieldValues);
             // Todo: Enquire if we have to save a session of the outcome form to be continued later
             if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME) || formName.equals(MaternityConstants.Form.MATERNITY_MEDIC_INFO)) {
-                interactor.fetchSavedMaternityOutcomeForm(entityId, entityTable, this);
+                interactor.fetchSavedPartialForm(form.optString(JsonFormConstants.ENCOUNTER_TYPE), entityId, entityTable, this);
                 return;
             }
 
@@ -175,7 +177,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
     }
 
     @Override
-    public void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityPartialForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable) {
+    public void onFetchSavedPartialForm(@Nullable MaternityPartialForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable) {
         try {
             if (diagnosisAndTreatmentForm != null) {
                 form = new JSONObject(diagnosisAndTreatmentForm.getForm());

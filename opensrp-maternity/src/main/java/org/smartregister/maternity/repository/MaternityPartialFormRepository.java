@@ -21,6 +21,7 @@ public class MaternityPartialFormRepository extends BaseRepository implements Ma
             + MaternityDbConstants.Column.MaternityPartialForm.ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
             + MaternityDbConstants.Column.MaternityPartialForm.BASE_ENTITY_ID + " VARCHAR NOT NULL, "
             + MaternityDbConstants.Column.MaternityPartialForm.FORM + " TEXT NOT NULL, "
+            + MaternityDbConstants.Column.MaternityPartialForm.FORM_TYPE + " VARCHAR NOT NULL, "
             + MaternityDbConstants.Column.MaternityPartialForm.CREATED_AT + " INTEGER NOT NULL ," +
             "UNIQUE(" + MaternityDbConstants.Column.MaternityPartialForm.BASE_ENTITY_ID + ") ON CONFLICT REPLACE)";
 
@@ -32,6 +33,7 @@ public class MaternityPartialFormRepository extends BaseRepository implements Ma
             MaternityDbConstants.Column.MaternityPartialForm.ID,
             MaternityDbConstants.Column.MaternityPartialForm.BASE_ENTITY_ID,
             MaternityDbConstants.Column.MaternityPartialForm.FORM,
+            MaternityDbConstants.Column.MaternityPartialForm.FORM_TYPE,
             MaternityDbConstants.Column.MaternityPartialForm.CREATED_AT};
 
     public static void createTable(@NonNull SQLiteDatabase database) {
@@ -44,8 +46,9 @@ public class MaternityPartialFormRepository extends BaseRepository implements Ma
         ContentValues contentValues = new ContentValues();
         contentValues.put(MaternityDbConstants.Column.MaternityPartialForm.BASE_ENTITY_ID, maternityPartialForm.getBaseEntityId());
         contentValues.put(MaternityDbConstants.Column.MaternityPartialForm.FORM, maternityPartialForm.getForm());
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        contentValues.put(MaternityDbConstants.Column.MaternityPartialForm.FORM, maternityPartialForm.getFormType());
         contentValues.put(MaternityDbConstants.Column.MaternityPartialForm.CREATED_AT, maternityPartialForm.getCreatedAt());
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         long rows = sqLiteDatabase.insert(MaternityDbConstants.Table.MATERNITY_PARTIAL_FORM, null, contentValues);
         return rows != -1;
     }
@@ -56,8 +59,8 @@ public class MaternityPartialFormRepository extends BaseRepository implements Ma
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query(MaternityDbConstants.Table.MATERNITY_PARTIAL_FORM
                 , columns
-                , MaternityDbConstants.Column.MaternityPartialForm.BASE_ENTITY_ID + " = ? "
-                , new String[]{maternityPartialForm.getBaseEntityId()}
+                , MaternityDbConstants.Column.MaternityPartialForm.BASE_ENTITY_ID + " = ? AND " + MaternityDbConstants.Column.MaternityPartialForm.FORM_TYPE + " = ? "
+                , new String[]{maternityPartialForm.getBaseEntityId(), maternityPartialForm.getFormType()}
                 , null
                 , null
                 , null);
@@ -72,7 +75,8 @@ public class MaternityPartialFormRepository extends BaseRepository implements Ma
                     cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getString(2),
-                    cursor.getString(3));
+                    cursor.getString(3),
+                    cursor.getString(4));
             cursor.close();
         }
 
@@ -83,8 +87,8 @@ public class MaternityPartialFormRepository extends BaseRepository implements Ma
     public boolean delete(@NonNull MaternityPartialForm maternityPartialForm) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         int rows = sqLiteDatabase.delete(MaternityDbConstants.Table.MATERNITY_PARTIAL_FORM
-                , MaternityDbConstants.Column.MaternityPartialForm.BASE_ENTITY_ID + " = ? "
-                , new String[]{maternityPartialForm.getBaseEntityId()});
+                , MaternityDbConstants.Column.MaternityPartialForm.BASE_ENTITY_ID + " = ? AND " + MaternityDbConstants.Column.MaternityPartialForm.FORM_TYPE + " = ? "
+                , new String[]{maternityPartialForm.getBaseEntityId(), maternityPartialForm.getFormType()});
 
         return rows > 0;
     }

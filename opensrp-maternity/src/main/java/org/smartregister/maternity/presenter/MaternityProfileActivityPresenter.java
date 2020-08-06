@@ -172,7 +172,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
 
                 // Fetch saved form & continue editing
                 if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME) || formName.equals(MaternityConstants.Form.MATERNITY_MEDIC_INFO)) {
-                    mProfileInteractor.fetchSavedPartialForm(caseId, entityTable);
+                    mProfileInteractor.fetchSavedPartialForm(form.optString(JsonFormConstants.ENCOUNTER_TYPE), caseId, entityTable);
                 } else {
                     startFormActivity(form, caseId, entityTable);
                 }
