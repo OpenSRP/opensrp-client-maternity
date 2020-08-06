@@ -30,6 +30,7 @@ import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.pojo.MaternityEventClient;
 import org.smartregister.maternity.pojo.MaternityMetadata;
+import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
@@ -392,5 +393,29 @@ public class MaternityUtils extends org.smartregister.util.Utils {
             button.setText(R.string.outcome);
             button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.maternity_outcome_bg));
         }
+    }
+
+    public static void deleteSavedPartialForm(String baseEntityId, String formType) {
+        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityLibrary.getInstance().getMaternityPartialFormRepository().delete(new MaternityPartialForm(baseEntityId, formType)));
+    }
+
+    public static String getFormType(String eventType) {
+        String formType = "";
+
+        switch (eventType) {
+            case MaternityConstants.EventType.MATERNITY_MEDIC_INFO:
+                formType = MaternityConstants.Form.MATERNITY_MEDIC_INFO;
+                break;
+
+            case MaternityConstants.EventType.MATERNITY_OUTCOME:
+                formType = MaternityConstants.Form.MATERNITY_OUTCOME;
+                break;
+
+            case MaternityConstants.EventType.MATERNITY_CLOSE:
+                formType = MaternityConstants.Form.MATERNITY_CLOSE;
+                break;
+        }
+
+        return formType;
     }
 }
