@@ -74,7 +74,7 @@ public interface MaternityRegisterActivityContract {
 
     interface Interactor {
 
-        void fetchSavedMaternityOutcomeForm(@Nullable String formType, @NonNull String baseEntityId, @Nullable String entityTable, @NonNull InteractorCallBack interactorCallBack);
+        void fetchSavedPartialForm(@Nullable String formType, @NonNull String baseEntityId, @Nullable String entityTable, @NonNull InteractorCallBack interactorCallBack);
 
         void getNextUniqueId(Triple<String, String, String> triple, MaternityRegisterActivityContract.InteractorCallBack callBack);
 
@@ -95,7 +95,7 @@ public interface MaternityRegisterActivityContract {
 
         void onEventSaved(List<Event> events);
 
-        void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityPartialForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable);
+        void onFetchSavedPartialForm(@Nullable MaternityPartialForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable);
 
     }
 }
