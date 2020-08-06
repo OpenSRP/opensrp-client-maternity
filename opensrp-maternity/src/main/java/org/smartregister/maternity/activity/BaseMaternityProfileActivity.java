@@ -82,12 +82,12 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
 
         MaternityProfileOverviewFragment profileOverviewFragment = MaternityProfileOverviewFragment.newInstance(this.getIntent().getExtras());
         setSendActionListenerForProfileOverview(profileOverviewFragment);
+        adapter.addFragment(profileOverviewFragment, getString(R.string.overview));
 
         MaternityProfileVisitsFragment profileVisitsFragment = MaternityProfileVisitsFragment.newInstance(this.getIntent().getExtras());
         setSendActionListenerToVisitsFragment(profileVisitsFragment);
-
-        adapter.addFragment(profileOverviewFragment, this.getString(R.string.overview));
-        adapter.addFragment(profileVisitsFragment, this.getString(R.string.anc_history));
+        adapter.addFragment(profileVisitsFragment,
+                presenter().hasAncProfile() ? getString(R.string.anc_history) : String.format("%s%s", getString(R.string.anc_history), "*"));
 
         viewPager.setAdapter(adapter);
         return viewPager;
@@ -346,5 +346,9 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     @Override
     public void closeView() {
         finish();
+    }
+
+    public MaternityProfileActivityPresenter presenter() {
+        return (MaternityProfileActivityPresenter) presenter;
     }
 }

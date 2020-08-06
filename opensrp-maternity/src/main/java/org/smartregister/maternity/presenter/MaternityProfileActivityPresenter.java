@@ -362,4 +362,14 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     public boolean removeOngoingTaskCompleteListener(@NonNull OngoingTaskCompleteListener ongoingTaskCompleteListener) {
         return ongoingTaskCompleteListeners.remove(ongoingTaskCompleteListener);
     }
+
+    @Override
+    public void openAncProfile() {
+
+    }
+
+    @Override
+    public boolean hasAncProfile() {
+        return false;
+    }
 }

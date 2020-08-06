@@ -13,9 +13,7 @@ import java.util.List;
 
 
 /**
- *
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
- *
  */
 public interface MaternityProfileVisitsFragmentContract {
 
@@ -35,7 +33,6 @@ public interface MaternityProfileVisitsFragmentContract {
         void onNextPageClicked();
 
         void onPreviousPageClicked();
-
 
         interface OnFinishedCallback {
 
@@ -62,7 +59,6 @@ public interface MaternityProfileVisitsFragmentContract {
 
         @Nullable
         String getClientBaseEntityId();
-
     }
 
     interface Interactor {

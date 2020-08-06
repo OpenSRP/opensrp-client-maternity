@@ -41,7 +41,7 @@ public class MaternityProfileVisitsFragmentPresenter implements MaternityProfile
         }
 
         // Activity destroyed set interactor to null
-        if (! isChangingConfiguration) {
+        if (!isChangingConfiguration) {
             mProfileInteractor = null;
         }
     }
@@ -85,7 +85,7 @@ public class MaternityProfileVisitsFragmentPresenter implements MaternityProfile
             profileView.showPageCountText(String.format(pageCounterTemplate, (currentPageNo + 1), totalPages));
 
             profileView.showPreviousPageBtn(currentPageNo > 0);
-            profileView.showNextPageBtn(currentPageNo < (totalPages -1));
+            profileView.showNextPageBtn(currentPageNo < (totalPages - 1));
         }
     }
 

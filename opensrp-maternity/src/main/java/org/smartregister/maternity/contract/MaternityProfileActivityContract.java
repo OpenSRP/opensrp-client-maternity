@@ -62,6 +62,10 @@ public interface MaternityProfileActivityContract {
         boolean addOngoingTaskCompleteListener(@NonNull OngoingTaskCompleteListener ongoingTaskCompleteListener);
 
         boolean removeOngoingTaskCompleteListener(@NonNull OngoingTaskCompleteListener ongoingTaskCompleteListener);
+
+        void openAncProfile();
+
+        boolean hasAncProfile();
     }
 
     interface View extends BaseProfileContract.View {

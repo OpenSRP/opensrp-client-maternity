@@ -79,4 +79,6 @@
     <string name="maternity_client_close_message">Maternity client has been removed from the register</string>
 
     <string name="start_maternity">START MATERNITY</string>
+    <string name="no_available_anc_history_for_this_client">No available ANC history for this client</string>
+    <string name="view_anc_profile_text">View ANC Profile</string>
 </resources>

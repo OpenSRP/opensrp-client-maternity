@@ -4,18 +4,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
+import com.rey.material.widget.TextView;
+
+import org.apache.commons.lang3.NotImplementedException;
 import org.jeasy.rules.api.Facts;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.R;
-import org.smartregister.maternity.adapter.MaternityProfileVisitsAdapter;
+import org.smartregister.maternity.activity.BaseMaternityProfileActivity;
 import org.smartregister.maternity.contract.MaternityProfileVisitsFragmentContract;
 import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.listener.OnSendActionToFragment;
@@ -30,14 +30,10 @@ import java.util.List;
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
 
-public class MaternityProfileVisitsFragment extends BaseProfileFragment implements MaternityProfileVisitsFragmentContract.View, OnSendActionToFragment {
+public class MaternityProfileVisitsFragment extends BaseProfileFragment implements MaternityProfileVisitsFragmentContract.View, OnSendActionToFragment, View.OnClickListener {
 
-    private RecyclerView recyclerView;
     private MaternityProfileVisitsFragmentContract.Presenter presenter;
     private String baseEntityId;
-    private Button nextPageBtn;
-    private Button previousPageBtn;
-    private TextView pageCounter;
 
     public static MaternityProfileVisitsFragment newInstance(@Nullable Bundle bundle) {
         Bundle args = bundle;
@@ -89,25 +85,16 @@ public class MaternityProfileVisitsFragment extends BaseProfileFragment implemen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.maternity_fragment_profile_visits, container, false);
-
-        recyclerView = fragmentView.findViewById(R.id.rv_maternityFragmentProfileVisit_recyclerView);
-        nextPageBtn = fragmentView.findViewById(R.id.btn_maternityFragmentProfileVisit_nextPageBtn);
-        previousPageBtn = fragmentView.findViewById(R.id.btn_maternityFragmentProfileVisit_previousPageBtn);
-        pageCounter = fragmentView.findViewById(R.id.tv_maternityFragmentProfileVisit_pageCounter);
-
-        nextPageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onNextPageClicked();
-            }
-        });
-        previousPageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onPreviousPageClicked();
-            }
-        });
-
+        Button btnAncHistory = fragmentView.findViewById(R.id.btn_anc_history);
+        btnAncHistory.setOnClickListener(this);
+        TextView txtAncHistory = fragmentView.findViewById(R.id.txt_no_anc_history);
+        if (hasAncProfile()) {
+            txtAncHistory.setVisibility(View.GONE);
+            btnAncHistory.setVisibility(View.VISIBLE);
+        } else {
+            txtAncHistory.setVisibility(View.VISIBLE);
+            btnAncHistory.setVisibility(View.GONE);
+        }
         return fragmentView;
     }
 
@@ -118,36 +105,38 @@ public class MaternityProfileVisitsFragment extends BaseProfileFragment implemen
 
     @Override
     public void showPageCountText(@NonNull String pageCounterText) {
-        this.pageCounter.setText(pageCounterText);
+        throw new NotImplementedException("");
     }
 
     @Override
     public void showNextPageBtn(boolean show) {
-        nextPageBtn.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-        nextPageBtn.setClickable(show);
+        throw new NotImplementedException("");
     }
 
     @Override
     public void showPreviousPageBtn(boolean show) {
-        previousPageBtn.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-        previousPageBtn.setClickable(show);
+        throw new NotImplementedException("");
     }
 
     @Override
     public void displayVisits(@NonNull List<Object> ancVisitSummaries, @NonNull ArrayList<Pair<YamlConfigWrapper, Facts>> items) {
-        if (getActivity() != null) {
-            MaternityProfileVisitsAdapter adapter = new MaternityProfileVisitsAdapter(getActivity(), items);
-            adapter.notifyDataSetChanged();
-
-            // set up the RecyclerView
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(adapter);
-        }
+        throw new NotImplementedException("");
     }
 
     @Nullable
     @Override
     public String getClientBaseEntityId() {
         return baseEntityId;
+    }
+
+    private boolean hasAncProfile() {
+        return ((BaseMaternityProfileActivity) getActivity()).presenter().hasAncProfile();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_anc_history) {
+            ((BaseMaternityProfileActivity) getActivity()).presenter().openAncProfile();
+        }
     }
 }
