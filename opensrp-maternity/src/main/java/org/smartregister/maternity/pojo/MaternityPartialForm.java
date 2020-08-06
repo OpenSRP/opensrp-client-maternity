@@ -10,9 +10,6 @@ public class MaternityPartialForm {
     private String formType;
     private String createdAt;
 
-    public MaternityPartialForm() {
-    }
-
     public MaternityPartialForm(String baseEntityId, @Nullable String formType) {
         this.baseEntityId = baseEntityId;
         this.formType = formType;

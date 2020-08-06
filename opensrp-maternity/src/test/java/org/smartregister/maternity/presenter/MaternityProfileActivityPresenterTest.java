@@ -2,8 +2,6 @@ package org.smartregister.maternity.presenter;
 
 import android.content.Intent;
 
-import com.vijay.jsonwizard.constants.JsonFormConstants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
@@ -27,7 +25,6 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.BaseTest;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityProfileActivityContract;
-import org.smartregister.maternity.model.MaternityProfileActivityModel;
 import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.MaternityConstants;
@@ -174,12 +171,6 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
         String entityTable = "ec_client";
         String locationId = "location-id";
 
-        JSONObject form = new JSONObject();
-        form.put(JsonFormConstants.ENCOUNTER_TYPE, MaternityConstants.EventType.MATERNITY_OUTCOME);
-        MaternityProfileActivityModel model = Mockito.mock(MaternityProfileActivityModel.class);
-        Mockito.doReturn(form).when(model).getFormAsJson(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.any(HashMap.class));
-        ReflectionHelpers.setField(presenter, "model", model);
-
         HashMap<String, String> injectedValues = new HashMap<>();
 
         MaternityLibrary maternityLibrary = Mockito.mock(MaternityLibrary.class);
@@ -192,12 +183,11 @@ public class MaternityProfileActivityPresenterTest extends BaseTest {
 
         // Mock call to MaternityUtils.context().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID)
         Mockito.doReturn(locationId).when(allSharedPreferences).getPreference(Mockito.eq(AllConstants.CURRENT_LOCATION_ID));
-        Mockito.doNothing().when(interactor).fetchSavedPartialForm(Mockito.eq(MaternityConstants.EventType.MATERNITY_OUTCOME), Mockito.eq(caseId), Mockito.eq(entityTable));
+        Mockito.doNothing().when(interactor).fetchSavedPartialForm(Mockito.eq(MaternityConstants.Form.MATERNITY_OUTCOME), Mockito.eq(caseId), Mockito.eq(entityTable));
 
         presenter.startFormActivity(formName, caseId, entityTable, injectedValues);
-        Mockito.verify(interactor, Mockito.times(1)).fetchSavedPartialForm(Mockito.eq(MaternityConstants.EventType.MATERNITY_OUTCOME), Mockito.eq(caseId), Mockito.eq(entityTable));
+        Mockito.verify(interactor, Mockito.times(1)).fetchSavedPartialForm(Mockito.eq(MaternityConstants.Form.MATERNITY_OUTCOME), Mockito.eq(caseId), Mockito.eq(entityTable));
 
-        ReflectionHelpers.setField(presenter, "model", null);
     }
 
     @Test
