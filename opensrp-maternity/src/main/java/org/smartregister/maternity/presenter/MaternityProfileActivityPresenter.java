@@ -172,7 +172,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
 
                 // Fetch saved form & continue editing
                 if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME) || formName.equals(MaternityConstants.Form.MATERNITY_MEDIC_INFO)) {
-                    mProfileInteractor.fetchSavedPartialForm(formName, caseId, entityTable);
+                    mProfileInteractor.fetchSavedPartialForm(form.optString(JsonFormConstants.ENCOUNTER_TYPE), caseId, entityTable);
                 } else {
                     startFormActivity(form, caseId, entityTable);
                 }
@@ -198,7 +198,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
             try {
                 List<Event> maternityOutcomeAndCloseEvents = MaternityLibrary.getInstance().processMaternityOutcomeForm(eventType, jsonString, data);
                 maternityEventUtils.saveEvents(maternityOutcomeAndCloseEvents, this);
-                MaternityUtils.deleteSavedPartialForm(MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID), MaternityUtils.getFormType(eventType));
+                MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityLibrary.getInstance().getMaternityPartialFormRepository().delete(new MaternityPartialForm(MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID), eventType)));
             } catch (JSONException e) {
                 Timber.e(e);
             }
@@ -221,7 +221,7 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
             try {
                 List<Event> maternityMedicInfoEvents = MaternityLibrary.getInstance().processMaternityMedicInfoForm(eventType, jsonString, data);
                 maternityEventUtils.saveEvents(maternityMedicInfoEvents, this);
-                MaternityUtils.deleteSavedPartialForm(MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID), MaternityUtils.getFormType(eventType));
+                MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityLibrary.getInstance().getMaternityPartialFormRepository().delete(new MaternityPartialForm(MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID), eventType)));
             } catch (JSONException e) {
                 Timber.e(e);
             }
