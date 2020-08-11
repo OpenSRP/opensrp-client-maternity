@@ -63,7 +63,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
 
     @Override
     public void processEventClient(@NonNull EventClient eventClient, @NonNull List<Event> unsyncEvents, @Nullable ClientClassification clientClassification) throws Exception {
-        Event event = eventClient.getEvent();
+        org.smartregister.domain.db.Event event = eventClient.getEvent();
 
         String eventType = event.getEventType();
 

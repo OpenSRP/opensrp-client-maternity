@@ -9,7 +9,7 @@ import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 public class MaternityRegisterQueryBuilder extends SmartRegisterQueryBuilder {
 
     @Override
-    public String SelectInitiateMainTableCounts(String tableName) {
+    public String selectInitiateMainTableCounts(String tableName) {
         String selectQuery = "SELECT COUNT(*) as sub_count";
         selectQuery = selectQuery + " FROM " + tableName;
 
