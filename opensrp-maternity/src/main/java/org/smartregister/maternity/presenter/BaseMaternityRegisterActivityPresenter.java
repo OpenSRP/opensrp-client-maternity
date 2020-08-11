@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONException;
@@ -110,7 +112,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
             try {
                 List<Event> maternityOutcomeAndCloseEvent = MaternityLibrary.getInstance().processMaternityOutcomeForm(eventType, jsonString, data);
                 interactor.saveEvents(maternityOutcomeAndCloseEvent, this);
-                MaternityUtils.deleteSavedPartialForm(MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID), MaternityUtils.getFormType(eventType));
+                MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityLibrary.getInstance().getMaternityPartialFormRepository().delete(new MaternityPartialForm(MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID), eventType)));
             } catch (JSONException e) {
                 Timber.e(e);
             }
@@ -132,7 +134,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
             try {
                 List<Event> maternityMedicInfoEvent = MaternityLibrary.getInstance().processMaternityMedicInfoForm(eventType, jsonString, data);
                 interactor.saveEvents(maternityMedicInfoEvent, this);
-                MaternityUtils.deleteSavedPartialForm(MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID), MaternityUtils.getFormType(eventType));
+                MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityLibrary.getInstance().getMaternityPartialFormRepository().delete(new MaternityPartialForm(MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID), eventType)));
             } catch (JSONException e) {
                 Timber.e(e);
             }
@@ -165,7 +167,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
             form = model.getFormAsJson(formName, entityId, locationId, injectedFieldValues);
             // Todo: Enquire if we have to save a session of the outcome form to be continued later
             if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME) || formName.equals(MaternityConstants.Form.MATERNITY_MEDIC_INFO)) {
-                interactor.fetchSavedPartialForm(formName, entityId, entityTable, this);
+                interactor.fetchSavedPartialForm(form.optString(JsonFormConstants.ENCOUNTER_TYPE), entityId, entityTable, this);
                 return;
             }
 

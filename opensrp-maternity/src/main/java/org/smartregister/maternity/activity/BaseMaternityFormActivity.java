@@ -110,7 +110,7 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
                         .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                saveFormFillSession(MaternityUtils.getFormType(eventType));
+                                saveFormFillSession(eventType);
                                 BaseMaternityFormActivity.this.finish();
                             }
                         }).setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -122,7 +122,7 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
                         }).setNeutralButton(getString(R.string.end_session), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                deleteSession(MaternityUtils.getFormType(eventType));
+                                deleteSession(eventType);
                                 BaseMaternityFormActivity.this.finish();
                             }
                         }).create();
@@ -134,17 +134,17 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
         }
     }
 
-    private void saveFormFillSession(@NonNull String formType) {
+    private void saveFormFillSession(@NonNull String eventType) {
         JSONObject jsonObject = getmJSONObject();
 
         final MaternityPartialForm maternityPartialForm = new MaternityPartialForm(0, MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID),
-                jsonObject.toString(), formType, Utils.convertDateFormat(new DateTime()));
+                jsonObject.toString(), eventType, Utils.convertDateFormat(new DateTime()));
         final MaternityPartialFormDao maternityPartialFormDao = MaternityLibrary.getInstance().getMaternityPartialFormRepository();
         MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> maternityPartialFormDao.saveOrUpdate(maternityPartialForm));
     }
 
-    private void deleteSession(@NonNull String formType) {
-        MaternityUtils.deleteSavedPartialForm(MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID), formType);
+    private void deleteSession(@NonNull String eventType) {
+        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityLibrary.getInstance().getMaternityPartialFormRepository().delete(new MaternityPartialForm(MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID), eventType)));
     }
 
     @NonNull

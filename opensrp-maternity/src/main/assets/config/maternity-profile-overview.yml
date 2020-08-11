@@ -33,7 +33,7 @@ fields:
     relevance: "parity > 1"
 
   - template: "What were the outcomes of the previous pregnancies?: {previous_pregnancy_outcomes}"
-    relevance: "gravidity > 1"
+    relevance: "parity > 1"
 
   - template: "Family medical history: {family_history}"
     relevance: "family_history != ''"
