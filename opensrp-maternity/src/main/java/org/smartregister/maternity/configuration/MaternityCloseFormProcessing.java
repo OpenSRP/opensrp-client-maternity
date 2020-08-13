@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,16 +55,18 @@ public class MaternityCloseFormProcessing implements MaternityFormProcessingTask
     protected void processWomanDiedEvent(JSONArray fieldsArray, Event event) throws JSONException {
         if ("woman_died".equals(getFieldValue(fieldsArray, "maternity_close_reason"))) {
             event.setEventType(MaternityConstants.EventType.DEATH);
-            createDeathEventObject(event);
+            createDeathEventObject(event, fieldsArray);
         }
     }
 
-    private void createDeathEventObject(Event event) throws JSONException {
+    private void createDeathEventObject(Event event, JSONArray fieldsArray) throws JSONException {
         JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
 
         EventClientRepository db = MaternityLibrary.getInstance().eventClientRepository();
 
         JSONObject client = db.getClientByBaseEntityId(eventJson.getString(ClientProcessor.baseEntityIdJSONKey));
+        String dateOfDeath = JsonFormUtils.getFieldValue(fieldsArray, "date_of_death");
+        client.put(MaternityConstants.JSON_FORM_KEY.DEATH_DATE, StringUtils.isNotBlank(dateOfDeath) ? dateOfDeath : MaternityUtils.getTodaysDate());
         client.put(FormEntityConstants.Person.deathdate_estimated.name(), false);
         client.put(MaternityConstants.JSON_FORM_KEY.DEATH_DATE_APPROX, false);
 
@@ -81,4 +84,3 @@ public class MaternityCloseFormProcessing implements MaternityFormProcessingTask
         db.addEvent(event.getBaseEntityId(), eventJsonUpdateClientEvent);
     }
 }
-
