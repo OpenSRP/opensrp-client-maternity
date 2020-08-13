@@ -19,6 +19,7 @@ import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.pojo.MaternityMetadata;
 import org.smartregister.maternity.provider.MaternityRegisterQueryProviderTest;
 import org.smartregister.maternity.repository.MaternityDetailsRepository;
+import org.smartregister.maternity.repository.MaternityRegistrationDetailsRepository;
 import org.smartregister.repository.EventClientRepository;
 
 import java.lang.ref.WeakReference;
@@ -66,6 +67,7 @@ public class FetchRegistrationDataTaskTest extends BaseTest {
                 .build();
         Mockito.doReturn(maternityConfiguration).when(maternityLibrary).getMaternityConfiguration();
         Mockito.doReturn(opensrpContext).when(maternityLibrary).context();
+        Mockito.doReturn(new MaternityRegistrationDetailsRepository()).when(maternityLibrary).getMaternityRegistrationDetailsRepository();
         Mockito.doReturn(maternityDetailsRepository).when(maternityLibrary).getMaternityDetailsRepository();
         ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
 
