@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.jeasy.rules.api.Facts;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -404,4 +405,7 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         }
     }
 
+    public static String getTodaysDate() {
+        return convertDateFormat(DateTime.now());
+    }
 }

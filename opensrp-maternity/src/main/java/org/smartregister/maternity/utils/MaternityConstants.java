@@ -48,6 +48,7 @@ public class MaternityConstants extends AllConstants {
     }
 
     public static class JSON_FORM_KEY {
+        public static final String DEATH_DATE_APPROX = "deathdateApprox";
         public static final String OPTIONS = "options";
         public static final String LAST_INTERACTED_WITH = "last_interacted_with";
         public static final String DOB = "dob";
@@ -102,6 +103,7 @@ public class MaternityConstants extends AllConstants {
         public static final String VILLAGE = "village";
         public static final String MMI_BASE_ENTITY_ID = "mmi_base_entity_id";
         public static final String SEX = "Sex";
+        public static final String DEATH_DATE = "deathdate";
     }
 
     public static class JSON_FORM_EXTRA {
@@ -133,6 +135,8 @@ public class MaternityConstants extends AllConstants {
         public static final String OPENSRP_ID = "opensrp_id";
         public static final String RELATIONALID = "relationalid";
         public static final String GENDER = "gender";
+        public static final String DOD = "dod";
+        public static final String DATE_REMOVED = "date_removed";
     }
 
     public static class ENTITY {
@@ -156,6 +160,7 @@ public class MaternityConstants extends AllConstants {
         public static final String MATERNITY_BORN = "Maternity Born";
         public static final String MATERNITY_CLOSE = "Maternity Close";
         public static final String BIRTH_REGISTRATION = "Birth Registration";
+        public static final String DEATH = "Death";
     }
 
     public interface ColumnMapKey {

@@ -16,6 +16,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
+import org.smartregister.maternity.configuration.MaternityFormProcessingTask;
 import org.smartregister.maternity.contract.MaternityProfileActivityContract;
 import org.smartregister.maternity.interactor.MaternityProfileInteractor;
 import org.smartregister.maternity.listener.MaternityEventActionCallBack;
@@ -27,6 +28,7 @@ import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.maternity.pojo.OngoingTask;
 import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.maternity.tasks.FetchRegistrationDataTask;
+import org.smartregister.maternity.utils.ConfigurationInstancesHelper;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityEventUtils;
@@ -243,7 +245,8 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
 
         if (eventType.equals(MaternityConstants.EventType.MATERNITY_CLOSE)) {
             try {
-                List<Event> maternityCloseEvents = MaternityLibrary.getInstance().processMaternityCloseForm(eventType, jsonString, data);
+                MaternityFormProcessingTask<List<Event>> maternityFormProcessingTask = ConfigurationInstancesHelper.newInstance(MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityFormProcessingTasks(eventType));
+                List<Event> maternityCloseEvents = maternityFormProcessingTask.processMaternityForm(jsonString, data);
                 maternityEventUtils.saveEvents(maternityCloseEvents, this);
             } catch (JSONException e) {
                 Timber.e(e);

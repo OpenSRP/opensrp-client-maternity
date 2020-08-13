@@ -67,12 +67,19 @@
           "Wrong entry",
           "Other"
         ],
+        "keys": [
+          "woman_died",
+          "lost_to_follow_up",
+          "moved_away",
+          "wrong_entry",
+          "other"
+        ],
         "openmrs_choice_ids": {
-          "Woman died": "160034AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Lost to follow-up": "5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Moved away": "160415AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Wrong entry": "165246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Other": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "woman_died": "160034AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "lost_to_follow_up": "5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "moved_away": "160415AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "wrong_entry": "165246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "other": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         },
         "v_required": {
           "value": "true",
@@ -93,7 +100,7 @@
         "relevance": {
           "step1:maternity_close_reason": {
             "type": "string",
-            "ex": "equalTo(., \"Woman died\")"
+            "ex": "equalTo(., \"woman_died\")"
           }
         }
       },
@@ -126,7 +133,7 @@
         "relevance": {
           "step1:maternity_close_reason": {
             "type": "string",
-            "ex": "equalTo(., \"Woman died\")"
+            "ex": "equalTo(., \"woman_died\")"
           }
         }
       },
@@ -168,7 +175,7 @@
         "relevance": {
           "step1:maternity_close_reason": {
             "type": "string",
-            "ex": "equalTo(., \"Woman died\")"
+            "ex": "equalTo(., \"woman_died\")"
           }
         }
       },

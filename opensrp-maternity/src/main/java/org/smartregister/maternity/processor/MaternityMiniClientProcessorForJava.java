@@ -1,5 +1,6 @@
 package org.smartregister.maternity.processor;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
+import org.smartregister.commonregistry.AllCommonsRepository;
 import org.smartregister.domain.db.Event;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.db.Obs;
@@ -22,6 +24,7 @@ import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.MiniClientProcessorForJava;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -51,6 +54,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             eventTypes.add(MaternityConstants.EventType.MATERNITY_OUTCOME);
             eventTypes.add(MaternityConstants.EventType.MATERNITY_MEDIC_INFO);
             eventTypes.add(MaternityConstants.EventType.MATERNITY_CLOSE);
+            eventTypes.add(MaternityConstants.EventType.DEATH);
         }
 
         return eventTypes;
@@ -85,6 +89,32 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
             processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
             processMaternityOutcome(eventClient);
             CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
+        } else if (eventType.equals(MaternityConstants.EventType.DEATH)) {
+            processDeathEvent(eventClient);
+            processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+            CoreLibrary.getInstance().context().getEventClientRepository().markEventAsProcessed(eventClient.getEvent().getFormSubmissionId());
+            unsyncEvents.add(event);
+        }
+    }
+
+    private void processDeathEvent(@NonNull EventClient eventClient) {
+        Event event = eventClient.getEvent();
+        String entityId = event.getBaseEntityId();
+
+        HashMap<String, String> keyValues = new HashMap<>();
+        generateKeyValuesFromEvent(event, keyValues, true);
+
+        String encounterDateField = keyValues.get("date_of_death");
+
+        ContentValues values = new ContentValues();
+        values.put(MaternityConstants.KEY.DOD, encounterDateField);
+        values.put(MaternityConstants.KEY.DATE_REMOVED, MaternityUtils.getTodaysDate());
+
+        //Update REGISTER and FTS Tables
+        AllCommonsRepository allCommonsRepository = MaternityLibrary.getInstance().context().allCommonsRepositoryobjects(MaternityDbConstants.Table.EC_CLIENT);
+        if (allCommonsRepository != null) {
+            allCommonsRepository.update(MaternityDbConstants.Table.EC_CLIENT, values, entityId);
+            MaternityLibrary.getInstance().context().allCommonsRepositoryobjects(MaternityDbConstants.Table.EC_CLIENT).updateSearch(Arrays.asList(new String[]{entityId}));
         }
     }
 
