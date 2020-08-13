@@ -103,6 +103,7 @@ public class MaternityConstants extends AllConstants {
         public static final String VILLAGE = "village";
         public static final String MMI_BASE_ENTITY_ID = "mmi_base_entity_id";
         public static final String DEATH_DATE = "deathdate";
+        public static final String ATTRIBUTES = "attributes";
     }
 
     public static class JSON_FORM_EXTRA {
