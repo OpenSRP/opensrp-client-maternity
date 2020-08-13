@@ -37,6 +37,10 @@ public class MaternityConfiguration {
         if (!builder.maternityFormProcessingClasses.containsKey(MaternityConstants.EventType.MATERNITY_MEDIC_INFO)) {
             builder.maternityFormProcessingClasses.put(MaternityConstants.EventType.MATERNITY_MEDIC_INFO, MaternityMedicInfoFormProcessingTask.class);
         }
+
+        if (!builder.maternityFormProcessingClasses.containsKey(MaternityConstants.EventType.MATERNITY_CLOSE)) {
+            builder.maternityFormProcessingClasses.put(MaternityConstants.EventType.MATERNITY_CLOSE, MaternityCloseFormProcessing.class);
+        }
     }
 
     @Nullable

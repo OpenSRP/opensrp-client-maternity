@@ -30,6 +30,7 @@ import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;
 import org.smartregister.maternity.utils.MaternityUtils;
+import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.sync.ClientProcessorForJava;
@@ -68,6 +69,7 @@ public class MaternityLibrary {
     private MaternityDetailsRepository maternityDetailsRepository;
     private MaternityPartialFormRepository maternityPartialFormRepository;
     private MaternityChildRepository maternityChildRepository;
+    private EventClientRepository eventClientRepository;
     private AppExecutors appExecutors;
 
     private Compressor compressor;
@@ -306,5 +308,12 @@ public class MaternityLibrary {
             appExecutors = new AppExecutors();
         }
         return appExecutors;
+    }
+
+    public EventClientRepository eventClientRepository() {
+        if (eventClientRepository == null) {
+            eventClientRepository = new EventClientRepository();
+        }
+        return eventClientRepository;
     }
 }
