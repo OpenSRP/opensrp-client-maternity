@@ -128,6 +128,8 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
                         }).create();
 
                 dialog.show();
+            } else {
+                super.onBackPressed();
             }
         } else {
             BaseMaternityFormActivity.this.finish();

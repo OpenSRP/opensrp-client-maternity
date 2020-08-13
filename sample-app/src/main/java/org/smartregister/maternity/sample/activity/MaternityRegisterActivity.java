@@ -115,21 +115,4 @@ public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
         startActivity(intent);
         finish();
     }
-/*
-    @Override
-    public MaternityRegisterActivityContract.Presenter presenter() {
-        return (MaternityRegisterActivityContract.Presenter) presenter;
-    }
-
-
-    @Override
-    public void startRegistration() {
-        //Do nothing
-    }
-
-    @Override
-    protected Fragment[] getOtherFragments() {
-        return new Fragment[0];
-    }*/
-
 }

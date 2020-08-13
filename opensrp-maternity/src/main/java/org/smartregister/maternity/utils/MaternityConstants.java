@@ -101,6 +101,7 @@ public class MaternityConstants extends AllConstants {
         public static final String STILLBIRTH_CONDITION = "stillbirth_condition";
         public static final String VILLAGE = "village";
         public static final String MMI_BASE_ENTITY_ID = "mmi_base_entity_id";
+        public static final String SEX = "Sex";
     }
 
     public static class JSON_FORM_EXTRA {

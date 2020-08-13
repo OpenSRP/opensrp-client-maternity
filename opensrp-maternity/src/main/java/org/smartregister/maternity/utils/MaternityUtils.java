@@ -376,20 +376,31 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         }
     }
 
-    public static void setActionButtonStatus(Button button, CommonPersonObjectClient client) {
-        button.setTypeface(null, Typeface.NORMAL);
-        if (client.getColumnmaps().get("mof_id") != null) {
-            button.setTag(R.id.BUTTON_TYPE, R.string.outcome);
-            button.setText(R.string.outcome);
-            button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.form_saved_btn_bg));
-        } else if (client.getColumnmaps().get(MaternityConstants.JSON_FORM_KEY.MMI_BASE_ENTITY_ID) == null) {
-            button.setTag(R.id.BUTTON_TYPE, R.string.start_maternity);
-            button.setText(R.string.start_maternity);
-            button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.maternity_outcome_bg));
+    public static void setActionButtonStatus(Button dueButton, CommonPersonObjectClient commonPersonObjectClient) {
+        dueButton.setTypeface(null, Typeface.NORMAL);
+        if (commonPersonObjectClient.getColumnmaps().get("mpf_id") != null) {
+            String formType = commonPersonObjectClient.getColumnmaps().get("mpf_form_type");
+            if (MaternityConstants.EventType.MATERNITY_MEDIC_INFO.equals(formType)) {
+                dueButton.setText(R.string.start_maternity);
+                dueButton.setTag(R.id.BUTTON_TYPE, R.string.start_maternity);
+                dueButton.setBackgroundResource(R.drawable.form_saved_btn_bg);
+                dueButton.setTextColor(dueButton.getContext().getResources().getColor(R.color.dark_grey_text));
+            } else if (MaternityConstants.EventType.MATERNITY_OUTCOME.equals(formType)) {
+                dueButton.setText(R.string.outcome);
+                dueButton.setTag(R.id.BUTTON_TYPE, R.string.outcome);
+                dueButton.setBackgroundResource(R.drawable.form_saved_btn_bg);
+                dueButton.setTextColor(dueButton.getContext().getResources().getColor(R.color.dark_grey_text));
+            }
+        } else if (commonPersonObjectClient.getColumnmaps().get(MaternityConstants.JSON_FORM_KEY.MMI_BASE_ENTITY_ID) == null) {
+            dueButton.setText(R.string.start_maternity);
+            dueButton.setTag(R.id.BUTTON_TYPE, R.string.start_maternity);
+            dueButton.setBackgroundResource(R.drawable.maternity_outcome_bg);
+            dueButton.setTextColor(dueButton.getContext().getResources().getColor(R.color.dark_grey_text));
         } else {
-            button.setTag(R.id.BUTTON_TYPE, R.string.outcome);
-            button.setText(R.string.outcome);
-            button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.maternity_outcome_bg));
+            dueButton.setText(R.string.outcome);
+            dueButton.setTag(R.id.BUTTON_TYPE, R.string.outcome);
+            dueButton.setTextColor(ContextCompat.getColor(dueButton.getContext(), R.color.dark_grey_text));
+            dueButton.setBackground(ContextCompat.getDrawable(dueButton.getContext(), R.drawable.maternity_outcome_bg));
         }
     }
 

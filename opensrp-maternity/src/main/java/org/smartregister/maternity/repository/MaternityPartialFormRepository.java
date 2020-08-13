@@ -46,7 +46,7 @@ public class MaternityPartialFormRepository extends BaseRepository implements Ma
         ContentValues contentValues = new ContentValues();
         contentValues.put(MaternityDbConstants.Column.MaternityPartialForm.BASE_ENTITY_ID, maternityPartialForm.getBaseEntityId());
         contentValues.put(MaternityDbConstants.Column.MaternityPartialForm.FORM, maternityPartialForm.getForm());
-        contentValues.put(MaternityDbConstants.Column.MaternityPartialForm.FORM, maternityPartialForm.getFormType());
+        contentValues.put(MaternityDbConstants.Column.MaternityPartialForm.FORM_TYPE, maternityPartialForm.getFormType());
         contentValues.put(MaternityDbConstants.Column.MaternityPartialForm.CREATED_AT, maternityPartialForm.getCreatedAt());
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         long rows = sqLiteDatabase.insert(MaternityDbConstants.Table.MATERNITY_PARTIAL_FORM, null, contentValues);

@@ -265,21 +265,21 @@
       {
         "key": "village",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "1354AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "tree",
         "tree": [],
         "hint": "Village",
         "v_required": {
-          "value": false,
+          "value": true,
           "err": "Please enter the Woman's Village"
         }
       },
       {
         "key": "home_address",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity": "person_address",
+        "openmrs_entity_id": "address2",
         "type": "edit_text",
         "hint": "Home address",
         "v_required": {
@@ -446,6 +446,7 @@
         "type": "check_box",
         "label": "Occupation",
         "hint": "Occupation",
+        "combine_checkbox_option_values": "true",
         "label_text_style": "bold",
         "options": [
           {

@@ -51,8 +51,8 @@ public class MaternityReverseJsonFormUtils {
 
                     JSONObject metadata = form.getJSONObject(MaternityJsonFormUtils.METADATA);
                     metadata.put(MaternityJsonFormUtils.ENCOUNTER_LOCATION, MaternityUtils.getAllSharedPreferences().fetchCurrentLocality());
-                    JSONObject stepOne = form.getJSONObject(MaternityJsonFormUtils.STEP1);
-                    JSONArray jsonArray = stepOne.getJSONArray(MaternityJsonFormUtils.FIELDS);
+
+                    JSONArray jsonArray = com.vijay.jsonwizard.utils.FormUtils.getMultiStepFormFields(form);
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -89,22 +89,36 @@ public class MaternityReverseJsonFormUtils {
                 jsonObject.put(MaternityJsonFormUtils.VALUE, Utils.getValue(maternityDetails, jsonObject.getString(MaternityJsonFormUtils.OPENMRS_ENTITY_ID)
                         .toLowerCase(), false).replace("-", ""));
             }
-        } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS)) {
-            String homeAddress = maternityDetails.get(MaternityConstants.JSON_FORM_KEY.HOME_ADDRESS);
-            jsonObject.put(MaternityJsonFormUtils.VALUE, homeAddress);
         } else if (fieldsWithLocationHierarchy != null && !fieldsWithLocationHierarchy.isEmpty()
                 && fieldsWithLocationHierarchy.contains(jsonObject.getString(MaternityJsonFormUtils.KEY))) {
             reverseLocationField(jsonObject, maternityDetails.get(jsonObject.getString(MaternityJsonFormUtils.KEY)));
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.REMINDERS)) {
             reverseReminders(maternityDetails, jsonObject);
         } else {
-            jsonObject.put(MaternityJsonFormUtils.VALUE, getMappedValue(jsonObject.getString(MaternityJsonFormUtils.OPENMRS_ENTITY_ID), maternityDetails));
+            String value = getMappedValue(jsonObject.optString(MaternityJsonFormUtils.KEY), maternityDetails);
+            if (StringUtils.isNotBlank(value)) {
+                if (jsonObject.optString(JsonFormConstants.TYPE).equals(JsonFormConstants.CHECK_BOX)) {
+                    try {
+                        jsonObject.put(MaternityJsonFormUtils.VALUE, new JSONArray(value));
+                    } catch (JSONException e) {
+                        if (!value.contains("[")) {
+                            JSONArray jsonArray = new JSONArray();
+                            jsonArray.put(getMappedValue(jsonObject.optString(MaternityJsonFormUtils.KEY), maternityDetails).replaceAll(" ", "_").toLowerCase());
+                            jsonObject.put(MaternityJsonFormUtils.VALUE, jsonArray);
+                        }
+                    }
+                } else {
+                    jsonObject.put(MaternityJsonFormUtils.VALUE, getMappedValue(jsonObject.optString(MaternityJsonFormUtils.KEY), maternityDetails));
+                }
+            } else {
+                jsonObject.put(MaternityJsonFormUtils.VALUE, getMappedValue(jsonObject.getString(MaternityJsonFormUtils.OPENMRS_ENTITY_ID), maternityDetails));
+            }
         }
         jsonObject.put(MaternityJsonFormUtils.READ_ONLY, nonEditableFields.contains(jsonObject.getString(MaternityJsonFormUtils.KEY)));
     }
 
     private static void reverseReminders(@NonNull Map<String, String> maternityDetails, @NonNull JSONObject jsonObject) throws JSONException {
-        if (Boolean.valueOf(maternityDetails.get(MaternityConstants.JSON_FORM_KEY.REMINDERS))) {
+        if (Boolean.parseBoolean(maternityDetails.get(MaternityConstants.JSON_FORM_KEY.REMINDERS))) {
             JSONArray jsonArray = new JSONArray();
             jsonArray.put(MaternityConstants.FormValue.IS_ENROLLED_IN_MESSAGES);
             jsonObject.put(MaternityJsonFormUtils.VALUE, jsonArray);
