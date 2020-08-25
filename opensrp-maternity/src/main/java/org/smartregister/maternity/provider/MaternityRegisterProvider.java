@@ -177,9 +177,6 @@ public class MaternityRegisterProvider implements RecyclerViewProvider<Maternity
     }
 
     public void addButtonClickListeners(@NonNull CommonPersonObjectClient client, MaternityRegisterViewHolder viewHolder) {
-
-        MaternityUtils.setActionButtonStatus(viewHolder.dueButton, client);
-
         View patient = viewHolder.patientColumn;
         attachPatientOnclickListener(MaternityViewConstants.Provider.PATIENT_COLUMN, patient, client);
         attachPatientOnclickListener(MaternityViewConstants.Provider.ACTION_BUTTON_COLUMN, viewHolder.dueButton, client);

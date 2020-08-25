@@ -9,12 +9,14 @@ import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.jeasy.rules.api.Facts;
@@ -379,11 +381,12 @@ public class MaternityUtils extends org.smartregister.util.Utils {
 
     public static void setActionButtonStatus(Button dueButton, CommonPersonObjectClient commonPersonObjectClient) {
         dueButton.setTypeface(null, Typeface.NORMAL);
+        dueButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, dueButton.getResources().getDimension(R.dimen.text_size));
         if (commonPersonObjectClient.getColumnmaps().get("mpf_id") != null) {
             String formType = commonPersonObjectClient.getColumnmaps().get("mpf_form_type");
             if (MaternityConstants.EventType.MATERNITY_MEDIC_INFO.equals(formType)) {
-                dueButton.setText(R.string.start_maternity);
-                dueButton.setTag(R.id.BUTTON_TYPE, R.string.start_maternity);
+                dueButton.setText(R.string.complete_registration);
+                dueButton.setTag(R.id.BUTTON_TYPE, R.string.complete_registration);
                 dueButton.setBackgroundResource(R.drawable.form_saved_btn_bg);
                 dueButton.setTextColor(dueButton.getContext().getResources().getColor(R.color.dark_grey_text));
             } else if (MaternityConstants.EventType.MATERNITY_OUTCOME.equals(formType)) {
@@ -393,8 +396,8 @@ public class MaternityUtils extends org.smartregister.util.Utils {
                 dueButton.setTextColor(dueButton.getContext().getResources().getColor(R.color.dark_grey_text));
             }
         } else if (commonPersonObjectClient.getColumnmaps().get(MaternityConstants.JSON_FORM_KEY.MMI_BASE_ENTITY_ID) == null) {
-            dueButton.setText(R.string.start_maternity);
-            dueButton.setTag(R.id.BUTTON_TYPE, R.string.start_maternity);
+            dueButton.setText(R.string.complete_registration);
+            dueButton.setTag(R.id.BUTTON_TYPE, R.string.complete_registration);
             dueButton.setBackgroundResource(R.drawable.maternity_outcome_bg);
             dueButton.setTextColor(dueButton.getContext().getResources().getColor(R.color.dark_grey_text));
         } else {
@@ -407,5 +410,16 @@ public class MaternityUtils extends org.smartregister.util.Utils {
 
     public static String getTodaysDate() {
         return convertDateFormat(DateTime.now());
+    }
+
+    public static String reverseHyphenSeparatedValues(@Nullable String rawString, @NonNull String outputSeparator) {
+        if (StringUtils.isNotBlank(rawString)) {
+            String resultString = rawString;
+            String[] tokenArray = resultString.trim().split("-");
+            ArrayUtils.reverse(tokenArray);
+            resultString = StringUtils.join(tokenArray, outputSeparator);
+            return resultString;
+        }
+        return "";
     }
 }

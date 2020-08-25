@@ -29,6 +29,8 @@ import java.util.List;
 
 import timber.log.Timber;
 
+import static org.smartregister.util.Utils.getAllSharedPreferences;
+
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
  */
@@ -123,8 +125,10 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
     private void processLatestUnprocessedEvents(List<String> formSubmissionIds) {
         // Process this event
         try {
+            long lastSyncTimeStamp = getAllSharedPreferences().fetchLastUpdatedAtDate(0);
+            Date lastSyncDate = new Date(lastSyncTimeStamp);
             getClientProcessorForJava().processClient(getSyncHelper().getEvents(formSubmissionIds));
-            getAllSharedPreferences().saveLastUpdatedAtDate(new Date().getTime());
+            getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
         } catch (Exception e) {
             Timber.e(e);
         }

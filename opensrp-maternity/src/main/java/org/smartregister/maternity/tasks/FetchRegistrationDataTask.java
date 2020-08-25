@@ -33,7 +33,7 @@ public class FetchRegistrationDataTask extends AsyncTask<String, Void, String> {
                 detailsMap.putAll(registrationDetailsMap);
             }
             detailsMap.put(MaternityJsonFormUtils.OPENSRP_ID, detailsMap.get(MaternityConstants.KEY.OPENSRP_ID));
-            return MaternityReverseJsonFormUtils.prepareJsonEditMaternityRegistrationForm(detailsMap, Arrays.asList(MaternityJsonFormUtils.OPENSRP_ID, MaternityConstants.JSON_FORM_KEY.BHT_ID, MaternityConstants.JSON_FORM_KEY.SEX), contextWeakReference.get());
+            return MaternityReverseJsonFormUtils.prepareJsonEditMaternityRegistrationForm(detailsMap, Arrays.asList(MaternityJsonFormUtils.OPENSRP_ID, MaternityConstants.JSON_FORM_KEY.SEX), contextWeakReference.get());
         }
         return null;
     }

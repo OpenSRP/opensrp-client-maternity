@@ -99,7 +99,7 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
                     BaseMaternityProfileActivity profileActivity = (BaseMaternityProfileActivity) getActivity();
                     if (buttonType.equals(R.string.outcome)) {
                         profileActivity.openMaternityOutcomeForm();
-                    } else if (buttonType.equals(R.string.start_maternity)) {
+                    } else if (buttonType.equals(R.string.complete_registration)) {
                         profileActivity.openMaternityMedicInfoForm();
                     }
                 }

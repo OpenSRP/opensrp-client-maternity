@@ -66,9 +66,13 @@ public class MaternityCloseFormProcessing implements MaternityFormProcessingTask
 
         JSONObject client = db.getClientByBaseEntityId(eventJson.getString(ClientProcessor.baseEntityIdJSONKey));
         String dateOfDeath = JsonFormUtils.getFieldValue(fieldsArray, "date_of_death");
-        client.put(MaternityConstants.JSON_FORM_KEY.DEATH_DATE, StringUtils.isNotBlank(dateOfDeath) ? dateOfDeath : MaternityUtils.getTodaysDate());
+        client.put(MaternityConstants.JSON_FORM_KEY.DEATH_DATE, StringUtils.isNotBlank(dateOfDeath) ? MaternityUtils.reverseHyphenSeparatedValues(dateOfDeath, "-") : MaternityUtils.getTodaysDate());
         client.put(FormEntityConstants.Person.deathdate_estimated.name(), false);
         client.put(MaternityConstants.JSON_FORM_KEY.DEATH_DATE_APPROX, false);
+
+        JSONObject attributes = client.getJSONObject(MaternityConstants.JSON_FORM_KEY.ATTRIBUTES);
+        attributes.put(MaternityConstants.JSON_FORM_KEY.DATE_REMOVED, MaternityUtils.getTodaysDate());
+        client.put(MaternityConstants.JSON_FORM_KEY.ATTRIBUTES, attributes);
 
         db.addorUpdateClient(event.getBaseEntityId(), client);
 
