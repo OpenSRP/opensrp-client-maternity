@@ -3,4 +3,5 @@
     <item name="VIEW_ID" type="id"/>
     <item name="VIEW_TYPE" type="id"/>
     <item name="VIEW_CLIENT" type="id"/>
+    <item name="BUTTON_TYPE" type="id"/>
 </resources>

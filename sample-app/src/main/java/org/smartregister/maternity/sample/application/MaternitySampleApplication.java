@@ -10,6 +10,7 @@ import org.smartregister.commonregistry.CommonFtsObject;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.activity.BaseMaternityProfileActivity;
+import org.smartregister.maternity.configuration.BaseMaternityRegisterRowOptions;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.pojo.MaternityMetadata;
 import org.smartregister.maternity.sample.BuildConfig;
@@ -115,6 +116,7 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
         MaternityConfiguration maternityConfiguration = new MaternityConfiguration
                 .Builder(MaternityRegisterQueryProvider.class)
                 .setMaternityMetadata(maternityMetadata)
+                .setMaternityRegisterRowOptions(BaseMaternityRegisterRowOptions.class)
                 .build();
         MaternityLibrary.init(context, getRepository(), maternityConfiguration, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
 

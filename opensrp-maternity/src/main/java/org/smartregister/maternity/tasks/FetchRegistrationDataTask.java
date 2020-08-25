@@ -27,9 +27,13 @@ public class FetchRegistrationDataTask extends AsyncTask<String, Void, String> {
     @Nullable
     protected String doInBackground(String... params) {
         Map<String, String> detailsMap = MaternityLibrary.getInstance().getMaternityDetailsRepository().findByBaseEntityId(params[0]);
+        Map<String, String> registrationDetailsMap = MaternityLibrary.getInstance().getMaternityRegistrationDetailsRepository().findByBaseEntityId(params[0]);
         if (detailsMap != null) {
+            if (registrationDetailsMap != null) {
+                detailsMap.putAll(registrationDetailsMap);
+            }
             detailsMap.put(MaternityJsonFormUtils.OPENSRP_ID, detailsMap.get(MaternityConstants.KEY.OPENSRP_ID));
-            return MaternityReverseJsonFormUtils.prepareJsonEditMaternityRegistrationForm(detailsMap, Arrays.asList(MaternityJsonFormUtils.OPENSRP_ID, MaternityConstants.JSON_FORM_KEY.BHT_ID), contextWeakReference.get());
+            return MaternityReverseJsonFormUtils.prepareJsonEditMaternityRegistrationForm(detailsMap, Arrays.asList(MaternityJsonFormUtils.OPENSRP_ID, MaternityConstants.JSON_FORM_KEY.SEX), contextWeakReference.get());
         }
         return null;
     }

@@ -70,6 +70,9 @@ public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
                 } else if (encounterType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
                     showProgressDialog(R.string.saving_dialog_title);
                     presenter().saveOutcomeForm(encounterType, data);
+                } else if (encounterType.equals(MaternityConstants.EventType.MATERNITY_MEDIC_INFO)) {
+                    showProgressDialog(R.string.saving_dialog_title);
+                    presenter().saveMedicInfoForm(encounterType, data);
                 }
 
             } catch (JSONException e) {
@@ -112,21 +115,4 @@ public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
         startActivity(intent);
         finish();
     }
-/*
-    @Override
-    public MaternityRegisterActivityContract.Presenter presenter() {
-        return (MaternityRegisterActivityContract.Presenter) presenter;
-    }
-
-
-    @Override
-    public void startRegistration() {
-        //Do nothing
-    }
-
-    @Override
-    protected Fragment[] getOtherFragments() {
-        return new Fragment[0];
-    }*/
-
 }

@@ -3,6 +3,7 @@ package org.smartregister.maternity.presenter;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jeasy.rules.api.Facts;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.MaternityLibrary;
@@ -107,7 +108,8 @@ public class MaternityProfileOverviewFragmentPresenter implements MaternityProfi
     @Override
     public void setDataFromRegistration(@NonNull HashMap<String, String> maternityDetails, @NonNull Facts facts) {
         for (Map.Entry<String, String> entry : maternityDetails.entrySet()) {
-            MaternityFactsUtil.putNonNullFact(facts, entry.getKey(), entry.getValue());
+            String value = entry.getValue();
+            MaternityFactsUtil.putNonNullFact(facts, entry.getKey(), StringUtils.isBlank(value) ? "" : value.replaceAll("\"", ""));
         }
 
         String currentHivStatus = maternityDetails.get("hiv_status_current");

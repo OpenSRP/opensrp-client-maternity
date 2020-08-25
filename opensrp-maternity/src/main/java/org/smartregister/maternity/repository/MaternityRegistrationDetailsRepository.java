@@ -16,12 +16,16 @@ public class MaternityRegistrationDetailsRepository extends BaseRepository {
         try {
             if (StringUtils.isNotBlank(baseEntityId)) {
                 return rawQuery(getReadableDatabase(),
-                        "select * from " + MaternityDbConstants.Table.MATERNITY_REGISTRATION_DETAILS +
+                        "select * from " + getTableName() +
                                 " where " + MaternityDbConstants.Column.MaternityDetails.BASE_ENTITY_ID + " = '" + baseEntityId + "' limit 1").get(0);
             }
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             Timber.e(e);
         }
         return null;
+    }
+
+    private String getTableName() {
+        return MaternityDbConstants.Table.MATERNITY_REGISTRATION_DETAILS;
     }
 }

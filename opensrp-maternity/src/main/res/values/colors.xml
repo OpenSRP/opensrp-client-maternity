@@ -18,7 +18,7 @@
     <color name="diagnose_treat_btn_clicked">#EDBA00</color>
     <color name="diagnose_treat_btn_normal">@color/translucent_yellow</color>
 
-    <color name="diagnose_treat_txt_color">#756020</color>
+    <color name="form_saved_btn_bg_color">#756020</color>
     <color name="overview_check_in_btn_txt_color">#4390CF</color>
     <color name="overview_check_in_btn_border_color">#4390CF</color>
 

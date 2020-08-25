@@ -14,7 +14,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.robolectric.util.ReflectionHelpers;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
-import org.smartregister.maternity.repository.MaternityOutcomeFormRepository;
+import org.smartregister.maternity.repository.MaternityPartialFormRepository;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class BaseMaternityRegisterActivityPresenterTest {
     private MaternityLibrary maternityLibrary;
 
     @Mock
-    private MaternityOutcomeFormRepository maternityOutcomeFormRepository;
+    private MaternityPartialFormRepository maternityPartialFormRepository;
 
     @Before
     public void setUp() {
@@ -42,7 +42,7 @@ public class BaseMaternityRegisterActivityPresenterTest {
     public void startFormShouldPassEntityTableAndBaseEntityIdToActivity() throws JSONException {
         PowerMockito.mockStatic(MaternityLibrary.class);
         PowerMockito.when(MaternityLibrary.getInstance()).thenReturn(maternityLibrary);
-        PowerMockito.when(maternityLibrary.getMaternityOutcomeFormRepository()).thenReturn(maternityOutcomeFormRepository);
+        PowerMockito.when(maternityLibrary.getMaternityPartialFormRepository()).thenReturn(maternityPartialFormRepository);
 
         MaternityRegisterActivityContract.View view = Mockito.mock(MaternityRegisterActivityContract.View.class);
         MaternityRegisterActivityContract.Model model = Mockito.mock(MaternityRegisterActivityContract.Model.class);

@@ -3,7 +3,6 @@ package org.smartregister.maternity.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +21,7 @@ import org.smartregister.maternity.domain.YamlConfigWrapper;
 import org.smartregister.maternity.listener.OnSendActionToFragment;
 import org.smartregister.maternity.presenter.MaternityProfileOverviewFragmentPresenter;
 import org.smartregister.maternity.utils.MaternityConstants;
+import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.view.fragment.BaseProfileFragment;
 
 import java.util.List;
@@ -37,6 +37,7 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
 
     private LinearLayout maternityOutcomeSectionLayout;
     private Button recordOutcomeBtn;
+    private CommonPersonObjectClient commonPersonObjectClient;
 
     public static MaternityProfileOverviewFragment newInstance(Bundle bundle) {
         Bundle args = bundle;
@@ -53,7 +54,7 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
         presenter = new MaternityProfileOverviewFragmentPresenter(this);
 
         if (getArguments() != null) {
-            CommonPersonObjectClient commonPersonObjectClient = (CommonPersonObjectClient) getArguments()
+            commonPersonObjectClient = (CommonPersonObjectClient) getArguments()
                     .getSerializable(MaternityConstants.IntentKey.CLIENT_OBJECT);
 
             if (commonPersonObjectClient != null) {
@@ -89,26 +90,30 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
 
     private void showOutcomeBtn() {
         if (getActivity() != null) {
+            updateActionButtonStatus(recordOutcomeBtn, commonPersonObjectClient);
             maternityOutcomeSectionLayout.setVisibility(View.VISIBLE);
-            recordOutcomeBtn.setText(R.string.outcome);
-            recordOutcomeBtn.setBackgroundResource(R.drawable.outcome_btn_overview_bg);
-            recordOutcomeBtn.setTextColor(getActivity().getResources().getColorStateList(R.color.check_in_btn_overview_text_color));
-            recordOutcomeBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentActivity activity = getActivity();
+            recordOutcomeBtn.setOnClickListener(v -> {
+                Object buttonType = v.getTag(R.id.BUTTON_TYPE);
 
-                    if (activity instanceof BaseMaternityProfileActivity) {
-                        ((BaseMaternityProfileActivity) activity).openMaternityOutcomeForm();
+                if (buttonType != null) {
+                    BaseMaternityProfileActivity profileActivity = (BaseMaternityProfileActivity) getActivity();
+                    if (buttonType.equals(R.string.outcome)) {
+                        profileActivity.openMaternityOutcomeForm();
+                    } else if (buttonType.equals(R.string.complete_registration)) {
+                        profileActivity.openMaternityMedicInfoForm();
                     }
                 }
             });
         }
     }
 
+    protected void updateActionButtonStatus(Button recordOutcomeBtn, CommonPersonObjectClient commonPersonObjectClient) {
+        MaternityUtils.setActionButtonStatus(recordOutcomeBtn, commonPersonObjectClient);
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.maternity_fragment_profile_overview, container, false);
+        View view = inflater.inflate(R.layout.maternity_fragment_profile_overview, container, false);
 
         maternityOutcomeSectionLayout = view.findViewById(R.id.ll_maternityFragmentProfileOverview_outcomeLayout);
         recordOutcomeBtn = view.findViewById(R.id.btn_maternityFragmentProfileOverview_outcome);

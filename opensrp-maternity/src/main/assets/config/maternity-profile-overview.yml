@@ -24,16 +24,16 @@ fields:
     relevance: "onset_labour != ''"
 
   - template: "Have there been any complications in previous pregnancies?: {previous_complications}"
-    relevance: "previous_complications != ''"
+    relevance: "parity > 0"
 
   - template: "Specify: {previous_complications_other}"
     relevance: "previous_complications_other != ''"
 
-  - template: "Previous Delivery Mode: {previous_delivery_mode}"
-    relevance: "previous_delivery_mode != ''"
+  - template: "What modes of delivery were used in any of the previous pregnancies?: {previous_delivery_mode}"
+    relevance: "parity > 1"
 
-  - template: "Previous Pregnancy Outcomes: {previous_pregnancy_outcomes}"
-    relevance: "previous_pregnancy_outcomes != ''"
+  - template: "What were the outcomes of the previous pregnancies?: {previous_pregnancy_outcomes}"
+    relevance: "parity > 1"
 
   - template: "Family medical history: {family_history}"
     relevance: "family_history != ''"

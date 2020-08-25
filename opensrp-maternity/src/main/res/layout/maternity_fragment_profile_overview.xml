@@ -35,8 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textColor="@color/diagnose_treat_txt_color"
-            android:background="@drawable/diagnose_treat_bg"
+            android:textColor="@color/form_saved_btn_bg_color"
+            android:background="@drawable/maternity_outcome_bg"
             style="?android:attr/borderlessButtonStyle"
             android:textAppearance="?android:textAppearanceMedium"
             />

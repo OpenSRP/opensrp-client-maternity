@@ -1,24 +1,25 @@
 package org.smartregister.maternity.pojo;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-public class MaternityOutcomeForm {
+public class MaternityPartialForm {
     private int id;
     private String baseEntityId;
     private String form;
+    private String formType;
     private String createdAt;
 
-    public MaternityOutcomeForm() {
-    }
-
-    public MaternityOutcomeForm(String baseEntityId) {
+    public MaternityPartialForm(String baseEntityId, @Nullable String formType) {
         this.baseEntityId = baseEntityId;
+        this.formType = formType;
     }
 
-    public MaternityOutcomeForm(int id, @NonNull String baseEntityId, @NonNull String form, @NonNull String createdAt) {
+    public MaternityPartialForm(int id, @NonNull String baseEntityId, @NonNull String form, @NonNull String formType, @NonNull String createdAt) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.form = form;
+        this.formType = formType;
         this.createdAt = createdAt;
     }
 
@@ -44,6 +45,14 @@ public class MaternityOutcomeForm {
 
     public void setForm(String form) {
         this.form = form;
+    }
+
+    public String getFormType() {
+        return formType;
+    }
+
+    public void setFormType(String formType) {
+        this.formType = formType;
     }
 
     public String getCreatedAt() {

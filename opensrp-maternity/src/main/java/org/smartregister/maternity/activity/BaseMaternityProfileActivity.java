@@ -80,17 +80,25 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     protected ViewPager setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        MaternityProfileOverviewFragment profileOverviewFragment = MaternityProfileOverviewFragment.newInstance(this.getIntent().getExtras());
+        MaternityProfileOverviewFragment profileOverviewFragment = getMaternityProfileOverviewFragment();
         setSendActionListenerForProfileOverview(profileOverviewFragment);
+        adapter.addFragment(profileOverviewFragment, getString(R.string.overview));
 
-        MaternityProfileVisitsFragment profileVisitsFragment = MaternityProfileVisitsFragment.newInstance(this.getIntent().getExtras());
+        MaternityProfileVisitsFragment profileVisitsFragment = getMaternityProfileVisitsFragment();
         setSendActionListenerToVisitsFragment(profileVisitsFragment);
-
-        adapter.addFragment(profileOverviewFragment, this.getString(R.string.overview));
-        adapter.addFragment(profileVisitsFragment, this.getString(R.string.anc_history));
+        adapter.addFragment(profileVisitsFragment,
+                presenter().hasAncProfile() ? getString(R.string.anc_history) : String.format("%s%s", getString(R.string.anc_history), "*"));
 
         viewPager.setAdapter(adapter);
         return viewPager;
+    }
+
+    protected MaternityProfileOverviewFragment getMaternityProfileOverviewFragment() {
+        return MaternityProfileOverviewFragment.newInstance(this.getIntent().getExtras());
+    }
+
+    protected MaternityProfileVisitsFragment getMaternityProfileVisitsFragment() {
+        return MaternityProfileVisitsFragment.newInstance(this.getIntent().getExtras());
     }
 
     public void setSendActionListenerForProfileOverview(OnSendActionToFragment sendActionListenerForProfileOverview) {
@@ -219,6 +227,13 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     }
 
     @Override
+    public void openMaternityMedicInfoForm() {
+        if (commonPersonObjectClient != null) {
+            ((MaternityProfileActivityPresenter) presenter).startForm(MaternityConstants.Form.MATERNITY_MEDIC_INFO, commonPersonObjectClient);
+        }
+    }
+
+    @Override
     public void openMaternityCloseForm() {
         if (commonPersonObjectClient != null) {
             ((MaternityProfileActivityPresenter) presenter).startForm(MaternityConstants.Form.MATERNITY_CLOSE, commonPersonObjectClient);
@@ -256,6 +271,9 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
                 if (encounterType.equals(MaternityConstants.EventType.MATERNITY_OUTCOME)) {
                     showProgressDialog(R.string.saving_dialog_title);
                     ((MaternityProfileActivityPresenter) this.presenter).saveOutcomeForm(encounterType, data);
+                } else if (encounterType.equals(MaternityConstants.EventType.MATERNITY_MEDIC_INFO)) {
+                    showProgressDialog(R.string.saving_dialog_title);
+                    ((MaternityProfileActivityPresenter) this.presenter).saveMedicInfoForm(encounterType, data);
                 } else if (encounterType.equals(MaternityConstants.EventType.UPDATE_MATERNITY_REGISTRATION)) {
                     removeOngoingTask(ongoingTask);
                     showProgressDialog(R.string.saving_dialog_title);
@@ -336,5 +354,9 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     @Override
     public void closeView() {
         finish();
+    }
+
+    public MaternityProfileActivityPresenter presenter() {
+        return (MaternityProfileActivityPresenter) presenter;
     }
 }

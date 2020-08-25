@@ -22,7 +22,7 @@ import org.smartregister.maternity.domain.YamlConfigItem;
 import org.smartregister.maternity.helper.MaternityRulesEngineHelper;
 import org.smartregister.maternity.repository.MaternityChildRepository;
 import org.smartregister.maternity.repository.MaternityDetailsRepository;
-import org.smartregister.maternity.repository.MaternityOutcomeFormRepository;
+import org.smartregister.maternity.repository.MaternityPartialFormRepository;
 import org.smartregister.maternity.repository.MaternityRegistrationDetailsRepository;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.ConfigurationInstancesHelper;
@@ -30,6 +30,7 @@ import org.smartregister.maternity.utils.FilePath;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityJsonFormUtils;
 import org.smartregister.maternity.utils.MaternityUtils;
+import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.sync.ClientProcessorForJava;
@@ -66,8 +67,9 @@ public class MaternityLibrary {
     private UniqueIdRepository uniqueIdRepository;
     private MaternityRegistrationDetailsRepository maternityRegistrationDetailsRepository;
     private MaternityDetailsRepository maternityDetailsRepository;
-    private MaternityOutcomeFormRepository maternityOutcomeFormRepository;
+    private MaternityPartialFormRepository maternityPartialFormRepository;
     private MaternityChildRepository maternityChildRepository;
+    private EventClientRepository eventClientRepository;
     private AppExecutors appExecutors;
 
     private Compressor compressor;
@@ -153,11 +155,11 @@ public class MaternityLibrary {
     }
 
     @NonNull
-    public MaternityOutcomeFormRepository getMaternityOutcomeFormRepository() {
-        if (maternityOutcomeFormRepository == null) {
-            maternityOutcomeFormRepository = new MaternityOutcomeFormRepository();
+    public MaternityPartialFormRepository getMaternityPartialFormRepository() {
+        if (maternityPartialFormRepository == null) {
+            maternityPartialFormRepository = new MaternityPartialFormRepository();
         }
-        return maternityOutcomeFormRepository;
+        return maternityPartialFormRepository;
     }
 
     @NonNull
@@ -233,6 +235,12 @@ public class MaternityLibrary {
     }
 
     @NonNull
+    public List<Event> processMaternityMedicInfoForm(@NonNull String eventType, String jsonString, @Nullable Intent data) throws JSONException {
+        MaternityFormProcessingTask<List<Event>> maternityFormProcessingTask = ConfigurationInstancesHelper.newInstance(getMaternityConfiguration().getMaternityFormProcessingTasks(eventType));
+        return maternityFormProcessingTask.processMaternityForm(jsonString, data);
+    }
+
+    @NonNull
     public List<Event> processMaternityCloseForm(@NonNull String eventType, String jsonString, @Nullable Intent data) throws JSONException {
         ArrayList<Event> eventList = new ArrayList<>();
         JSONObject jsonFormObject = new JSONObject(jsonString);
@@ -300,5 +308,12 @@ public class MaternityLibrary {
             appExecutors = new AppExecutors();
         }
         return appExecutors;
+    }
+
+    public EventClientRepository eventClientRepository() {
+        if (eventClientRepository == null) {
+            eventClientRepository = new EventClientRepository();
+        }
+        return eventClientRepository;
     }
 }

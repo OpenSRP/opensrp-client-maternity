@@ -2,26 +2,33 @@ package org.smartregister.maternity.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.jeasy.rules.api.Facts;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.pojo.MaternityEventClient;
@@ -372,4 +379,47 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         }
     }
 
+    public static void setActionButtonStatus(Button dueButton, CommonPersonObjectClient commonPersonObjectClient) {
+        dueButton.setTypeface(null, Typeface.NORMAL);
+        dueButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, dueButton.getResources().getDimension(R.dimen.text_size));
+        if (commonPersonObjectClient.getColumnmaps().get("mpf_id") != null) {
+            String formType = commonPersonObjectClient.getColumnmaps().get("mpf_form_type");
+            if (MaternityConstants.EventType.MATERNITY_MEDIC_INFO.equals(formType)) {
+                dueButton.setText(R.string.complete_registration);
+                dueButton.setTag(R.id.BUTTON_TYPE, R.string.complete_registration);
+                dueButton.setBackgroundResource(R.drawable.form_saved_btn_bg);
+                dueButton.setTextColor(dueButton.getContext().getResources().getColor(R.color.dark_grey_text));
+            } else if (MaternityConstants.EventType.MATERNITY_OUTCOME.equals(formType)) {
+                dueButton.setText(R.string.outcome);
+                dueButton.setTag(R.id.BUTTON_TYPE, R.string.outcome);
+                dueButton.setBackgroundResource(R.drawable.form_saved_btn_bg);
+                dueButton.setTextColor(dueButton.getContext().getResources().getColor(R.color.dark_grey_text));
+            }
+        } else if (commonPersonObjectClient.getColumnmaps().get(MaternityConstants.JSON_FORM_KEY.MMI_BASE_ENTITY_ID) == null) {
+            dueButton.setText(R.string.complete_registration);
+            dueButton.setTag(R.id.BUTTON_TYPE, R.string.complete_registration);
+            dueButton.setBackgroundResource(R.drawable.maternity_outcome_bg);
+            dueButton.setTextColor(dueButton.getContext().getResources().getColor(R.color.dark_grey_text));
+        } else {
+            dueButton.setText(R.string.outcome);
+            dueButton.setTag(R.id.BUTTON_TYPE, R.string.outcome);
+            dueButton.setTextColor(ContextCompat.getColor(dueButton.getContext(), R.color.dark_grey_text));
+            dueButton.setBackground(ContextCompat.getDrawable(dueButton.getContext(), R.drawable.maternity_outcome_bg));
+        }
+    }
+
+    public static String getTodaysDate() {
+        return convertDateFormat(DateTime.now());
+    }
+
+    public static String reverseHyphenSeparatedValues(@Nullable String rawString, @NonNull String outputSeparator) {
+        if (StringUtils.isNotBlank(rawString)) {
+            String resultString = rawString;
+            String[] tokenArray = resultString.trim().split("-");
+            ArrayUtils.reverse(tokenArray);
+            resultString = StringUtils.join(tokenArray, outputSeparator);
+            return resultString;
+        }
+        return "";
+    }
 }

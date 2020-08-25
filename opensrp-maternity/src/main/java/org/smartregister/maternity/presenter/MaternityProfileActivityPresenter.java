@@ -16,6 +16,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
+import org.smartregister.maternity.configuration.MaternityFormProcessingTask;
 import org.smartregister.maternity.contract.MaternityProfileActivityContract;
 import org.smartregister.maternity.interactor.MaternityProfileInteractor;
 import org.smartregister.maternity.listener.MaternityEventActionCallBack;
@@ -23,10 +24,11 @@ import org.smartregister.maternity.listener.OngoingTaskCompleteListener;
 import org.smartregister.maternity.model.MaternityProfileActivityModel;
 import org.smartregister.maternity.pojo.MaternityEventClient;
 import org.smartregister.maternity.pojo.MaternityMetadata;
-import org.smartregister.maternity.pojo.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.maternity.pojo.OngoingTask;
 import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.maternity.tasks.FetchRegistrationDataTask;
+import org.smartregister.maternity.utils.ConfigurationInstancesHelper;
 import org.smartregister.maternity.utils.MaternityConstants;
 import org.smartregister.maternity.utils.MaternityDbConstants;
 import org.smartregister.maternity.utils.MaternityEventUtils;
@@ -107,10 +109,10 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     }
 
     @Override
-    public void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityOutcomeForm diagnosisAndTreatmentForm, @NonNull String caseId, @NonNull String entityTable) {
+    public void onFetchedSavedPartialForm(@Nullable MaternityPartialForm savedPartialForm, @NonNull String caseId, @NonNull String entityTable) {
         try {
-            if (diagnosisAndTreatmentForm != null) {
-                form = new JSONObject(diagnosisAndTreatmentForm.getForm());
+            if (savedPartialForm != null) {
+                form = new JSONObject(savedPartialForm.getForm());
             }
 
             startFormActivity(form, caseId, entityTable);
@@ -171,8 +173,8 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
                 form = model.getFormAsJson(formName, caseId, locationId, injectedValues);
 
                 // Fetch saved form & continue editing
-                if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME)) {
-                    mProfileInteractor.fetchSavedDiagnosisAndTreatmentForm(caseId, entityTable);
+                if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME) || formName.equals(MaternityConstants.Form.MATERNITY_MEDIC_INFO)) {
+                    mProfileInteractor.fetchSavedPartialForm(form.optString(JsonFormConstants.ENCOUNTER_TYPE), caseId, entityTable);
                 } else {
                     startFormActivity(form, caseId, entityTable);
                 }
@@ -198,6 +200,30 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
             try {
                 List<Event> maternityOutcomeAndCloseEvents = MaternityLibrary.getInstance().processMaternityOutcomeForm(eventType, jsonString, data);
                 maternityEventUtils.saveEvents(maternityOutcomeAndCloseEvents, this);
+                MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityLibrary.getInstance().getMaternityPartialFormRepository().delete(new MaternityPartialForm(MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID), eventType)));
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
+        }
+    }
+
+    @Override
+    public void saveMedicInfoForm(@NonNull String eventType, @Nullable Intent data) {
+        String jsonString = null;
+        MaternityEventUtils maternityEventUtils = new MaternityEventUtils();
+        if (data != null) {
+            jsonString = data.getStringExtra(MaternityConstants.JSON_FORM_EXTRA.JSON);
+        }
+
+        if (jsonString == null) {
+            return;
+        }
+
+        if (eventType.equals(MaternityConstants.EventType.MATERNITY_MEDIC_INFO)) {
+            try {
+                List<Event> maternityMedicInfoEvents = MaternityLibrary.getInstance().processMaternityMedicInfoForm(eventType, jsonString, data);
+                maternityEventUtils.saveEvents(maternityMedicInfoEvents, this);
+                MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityLibrary.getInstance().getMaternityPartialFormRepository().delete(new MaternityPartialForm(MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID), eventType)));
             } catch (JSONException e) {
                 Timber.e(e);
             }
@@ -219,7 +245,8 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
 
         if (eventType.equals(MaternityConstants.EventType.MATERNITY_CLOSE)) {
             try {
-                List<Event> maternityCloseEvents = MaternityLibrary.getInstance().processMaternityCloseForm(eventType, jsonString, data);
+                MaternityFormProcessingTask<List<Event>> maternityFormProcessingTask = ConfigurationInstancesHelper.newInstance(MaternityLibrary.getInstance().getMaternityConfiguration().getMaternityFormProcessingTasks(eventType));
+                List<Event> maternityCloseEvents = maternityFormProcessingTask.processMaternityForm(jsonString, data);
                 maternityEventUtils.saveEvents(maternityCloseEvents, this);
             } catch (JSONException e) {
                 Timber.e(e);
@@ -339,5 +366,10 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     @Override
     public boolean removeOngoingTaskCompleteListener(@NonNull OngoingTaskCompleteListener ongoingTaskCompleteListener) {
         return ongoingTaskCompleteListeners.remove(ongoingTaskCompleteListener);
+    }
+
+    @Override
+    public boolean hasAncProfile() {
+        return false;
     }
 }

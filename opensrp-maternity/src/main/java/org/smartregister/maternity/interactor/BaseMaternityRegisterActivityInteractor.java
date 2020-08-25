@@ -13,7 +13,7 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.pojo.MaternityEventClient;
-import org.smartregister.maternity.pojo.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.maternity.pojo.RegisterParams;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.repository.AllSharedPreferences;
@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
+
+import static org.smartregister.util.Utils.getAllSharedPreferences;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
@@ -47,19 +49,19 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
     }
 
     @Override
-    public void fetchSavedMaternityOutcomeForm(final @NonNull String baseEntityId, final @Nullable String entityTable, @NonNull final MaternityRegisterActivityContract.InteractorCallBack interactorCallBack) {
+    public void fetchSavedPartialForm(final @Nullable String formType, final @NonNull String baseEntityId, final @Nullable String entityTable, @NonNull final MaternityRegisterActivityContract.InteractorCallBack interactorCallBack) {
         appExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                final MaternityOutcomeForm diagnosisAndTreatmentForm = MaternityLibrary
+                final MaternityPartialForm diagnosisAndTreatmentForm = MaternityLibrary
                         .getInstance()
-                        .getMaternityOutcomeFormRepository()
-                        .findOne(new MaternityOutcomeForm(baseEntityId));
+                        .getMaternityPartialFormRepository()
+                        .findOne(new MaternityPartialForm(baseEntityId, formType));
 
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-                        interactorCallBack.onFetchedSavedDiagnosisAndTreatmentForm(diagnosisAndTreatmentForm, baseEntityId, entityTable);
+                        interactorCallBack.onFetchSavedPartialForm(diagnosisAndTreatmentForm, baseEntityId, entityTable);
                     }
                 });
             }
@@ -98,7 +100,7 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-                        callBack.onEventSaved();
+                        callBack.onEventSaved(events);
                     }
                 });
             }
@@ -123,8 +125,10 @@ public class BaseMaternityRegisterActivityInteractor implements MaternityRegiste
     private void processLatestUnprocessedEvents(List<String> formSubmissionIds) {
         // Process this event
         try {
+            long lastSyncTimeStamp = getAllSharedPreferences().fetchLastUpdatedAtDate(0);
+            Date lastSyncDate = new Date(lastSyncTimeStamp);
             getClientProcessorForJava().processClient(getSyncHelper().getEvents(formSubmissionIds));
-            getAllSharedPreferences().saveLastUpdatedAtDate(new Date().getTime());
+            getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
         } catch (Exception e) {
             Timber.e(e);
         }

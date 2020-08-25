@@ -2,13 +2,17 @@ package org.smartregister.maternity.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
+import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.jeasy.rules.api.Facts;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,8 +34,12 @@ import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.mock;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
@@ -55,6 +63,14 @@ public class MaternityUtilsTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
+        when(MaternityLibrary.getInstance().context()).thenReturn(mock(org.smartregister.Context.class));
+    }
+
+    @After
+    public void tearDown() {
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", null);
     }
 
     @Test
@@ -153,4 +169,47 @@ public class MaternityUtilsTest {
         assertEquals(baseEntityId, actualResult.getStringExtra(MaternityConstants.IntentKey.BASE_ENTITY_ID));
     }
 
+    @Test
+    public void setTextAsHtmlShouldVerifyNougatAndOnwards() {
+
+        TextView textView = mock(TextView.class);
+        String html = "";
+
+        MaternityUtils.setTextAsHtml(textView, html);
+
+        verify(textView, Mockito.times(1)).setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
+    }
+
+    @Test
+    public void contextShouldNotNull() {
+
+        org.smartregister.Context context = MaternityUtils.context();
+        assertNotNull(context);
+    }
+
+    @Test
+    public void getJsonFormToJsonObjectShouldNotNull() {
+
+        String formName = "";
+        JSONObject jsonObject = MaternityUtils.getJsonFormToJsonObject(formName);
+        assertNull(jsonObject);
+    }
+
+    @Test
+    public void generateFieldsFromJsonFormShouldVerify() throws Exception {
+        String jsonString = "{\"step1\":{\"fields\":[{\"key\":\"gravidity\"}]}}";
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONArray jsonArray = MaternityUtils.generateFieldsFromJsonForm(jsonObject);
+        assertEquals("{\"key\":\"gravidity\"}", jsonArray.get(0).toString());
+    }
+
+    @Test
+    public void buildRepeatingGroupValuesShouldVerify() throws Exception {
+
+        String stepJsonString = "{\"title\":\"Child's Status\",\"fields\":[{\"key\":\"child_status\",\"value\":[{\"key\":\"baby_age_3s3w323442\",\"value\":\"2\"}]}]}";
+        JSONObject stepJsonObject = new JSONObject(stepJsonString);
+        String fieldName = "child_status";
+        HashMap<String, HashMap<String, String>> groups = MaternityUtils.buildRepeatingGroupValues(stepJsonObject, fieldName);
+        assertEquals(0, groups.size());
+    }
 }

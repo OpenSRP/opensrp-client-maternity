@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONException;
@@ -14,8 +16,9 @@ import org.smartregister.domain.FetchStatus;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.interactor.BaseMaternityRegisterActivityInteractor;
-import org.smartregister.maternity.pojo.MaternityOutcomeForm;
+import org.smartregister.maternity.pojo.MaternityPartialForm;
 import org.smartregister.maternity.utils.MaternityConstants;
+import org.smartregister.maternity.utils.MaternityUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -109,6 +112,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
             try {
                 List<Event> maternityOutcomeAndCloseEvent = MaternityLibrary.getInstance().processMaternityOutcomeForm(eventType, jsonString, data);
                 interactor.saveEvents(maternityOutcomeAndCloseEvent, this);
+                MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityLibrary.getInstance().getMaternityPartialFormRepository().delete(new MaternityPartialForm(MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID), eventType)));
             } catch (JSONException e) {
                 Timber.e(e);
             }
@@ -116,7 +120,29 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
     }
 
     @Override
-    public void onEventSaved() {
+    public void saveMedicInfoForm(@NonNull String eventType, @Nullable Intent data) {
+        String jsonString = null;
+        if (data != null) {
+            jsonString = data.getStringExtra(MaternityConstants.JSON_FORM_EXTRA.JSON);
+        }
+
+        if (jsonString == null) {
+            return;
+        }
+
+        if (eventType.equals(MaternityConstants.EventType.MATERNITY_MEDIC_INFO)) {
+            try {
+                List<Event> maternityMedicInfoEvent = MaternityLibrary.getInstance().processMaternityMedicInfoForm(eventType, jsonString, data);
+                interactor.saveEvents(maternityMedicInfoEvent, this);
+                MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityLibrary.getInstance().getMaternityPartialFormRepository().delete(new MaternityPartialForm(MaternityUtils.getIntentValue(data, MaternityConstants.IntentKey.BASE_ENTITY_ID), eventType)));
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
+        }
+    }
+
+    @Override
+    public void onEventSaved(List<Event> events) {
         if (getView() != null) {
             getView().refreshList(FetchStatus.fetched);
             getView().hideProgressDialog();
@@ -140,8 +166,8 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
         try {
             form = model.getFormAsJson(formName, entityId, locationId, injectedFieldValues);
             // Todo: Enquire if we have to save a session of the outcome form to be continued later
-            if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME)) {
-                interactor.fetchSavedMaternityOutcomeForm(entityId, entityTable, this);
+            if (formName.equals(MaternityConstants.Form.MATERNITY_OUTCOME) || formName.equals(MaternityConstants.Form.MATERNITY_MEDIC_INFO)) {
+                interactor.fetchSavedPartialForm(form.optString(JsonFormConstants.ENCOUNTER_TYPE), entityId, entityTable, this);
                 return;
             }
 
@@ -154,7 +180,7 @@ public abstract class BaseMaternityRegisterActivityPresenter implements Maternit
     }
 
     @Override
-    public void onFetchedSavedDiagnosisAndTreatmentForm(@Nullable MaternityOutcomeForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable) {
+    public void onFetchSavedPartialForm(@Nullable MaternityPartialForm diagnosisAndTreatmentForm, @NonNull String caseId, @Nullable String entityTable) {
         try {
             if (diagnosisAndTreatmentForm != null) {
                 form = new JSONObject(diagnosisAndTreatmentForm.getForm());
