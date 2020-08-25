@@ -80,17 +80,25 @@ public class BaseMaternityProfileActivity extends BaseProfileActivity implements
     protected ViewPager setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        MaternityProfileOverviewFragment profileOverviewFragment = MaternityProfileOverviewFragment.newInstance(this.getIntent().getExtras());
+        MaternityProfileOverviewFragment profileOverviewFragment = getMaternityProfileOverviewFragment();
         setSendActionListenerForProfileOverview(profileOverviewFragment);
         adapter.addFragment(profileOverviewFragment, getString(R.string.overview));
 
-        MaternityProfileVisitsFragment profileVisitsFragment = MaternityProfileVisitsFragment.newInstance(this.getIntent().getExtras());
+        MaternityProfileVisitsFragment profileVisitsFragment = getMaternityProfileVisitsFragment();
         setSendActionListenerToVisitsFragment(profileVisitsFragment);
         adapter.addFragment(profileVisitsFragment,
                 presenter().hasAncProfile() ? getString(R.string.anc_history) : String.format("%s%s", getString(R.string.anc_history), "*"));
 
         viewPager.setAdapter(adapter);
         return viewPager;
+    }
+
+    protected MaternityProfileOverviewFragment getMaternityProfileOverviewFragment() {
+        return MaternityProfileOverviewFragment.newInstance(this.getIntent().getExtras());
+    }
+
+    protected MaternityProfileVisitsFragment getMaternityProfileVisitsFragment() {
+        return MaternityProfileVisitsFragment.newInstance(this.getIntent().getExtras());
     }
 
     public void setSendActionListenerForProfileOverview(OnSendActionToFragment sendActionListenerForProfileOverview) {

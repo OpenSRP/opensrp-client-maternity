@@ -104,7 +104,7 @@ public class MaternityMiniClientProcessorForJava extends ClientProcessorForJava 
         HashMap<String, String> keyValues = new HashMap<>();
         generateKeyValuesFromEvent(event, keyValues, true);
 
-        String encounterDateField = keyValues.get("date_of_death");
+        String encounterDateField = keyValues.get(MaternityConstants.JSON_FORM_KEY.DATE_OF_DEATH);
 
         ContentValues values = new ContentValues();
         values.put(MaternityConstants.KEY.DOD, encounterDateField);

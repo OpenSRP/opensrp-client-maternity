@@ -53,7 +53,7 @@ public class MaternityCloseFormProcessing implements MaternityFormProcessingTask
 
 
     protected void processWomanDiedEvent(JSONArray fieldsArray, Event event) throws JSONException {
-        if ("woman_died".equals(getFieldValue(fieldsArray, "maternity_close_reason"))) {
+        if (MaternityConstants.JSON_FORM_EXTRA.WOMAN_DIED.equals(getFieldValue(fieldsArray,  MaternityConstants.JSON_FORM_KEY.MATERNITY_CLOSE_REASON))) {
             event.setEventType(MaternityConstants.EventType.DEATH);
             createDeathEventObject(event, fieldsArray);
         }
@@ -65,17 +65,15 @@ public class MaternityCloseFormProcessing implements MaternityFormProcessingTask
         EventClientRepository db = MaternityLibrary.getInstance().eventClientRepository();
 
         JSONObject client = db.getClientByBaseEntityId(eventJson.getString(ClientProcessor.baseEntityIdJSONKey));
+
         JSONObject attributes = client.getJSONObject(MaternityConstants.JSON_FORM_KEY.ATTRIBUTES);
         attributes.put(MaternityConstants.KEY.DATE_REMOVED, MaternityUtils.getTodaysDate());
         client.put(MaternityConstants.JSON_FORM_KEY.ATTRIBUTES, attributes);
-        String dateOfDeath = JsonFormUtils.getFieldValue(fieldsArray, "date_of_death");
+
+        String dateOfDeath = JsonFormUtils.getFieldValue(fieldsArray, MaternityConstants.JSON_FORM_KEY.DATE_OF_DEATH);
         client.put(MaternityConstants.JSON_FORM_KEY.DEATH_DATE, StringUtils.isNotBlank(dateOfDeath) ? MaternityUtils.reverseHyphenSeparatedValues(dateOfDeath, "-") : MaternityUtils.getTodaysDate());
         client.put(FormEntityConstants.Person.deathdate_estimated.name(), false);
         client.put(MaternityConstants.JSON_FORM_KEY.DEATH_DATE_APPROX, false);
-
-        JSONObject attributes = client.getJSONObject(MaternityConstants.JSON_FORM_KEY.ATTRIBUTES);
-        attributes.put(MaternityConstants.JSON_FORM_KEY.DATE_REMOVED, MaternityUtils.getTodaysDate());
-        client.put(MaternityConstants.JSON_FORM_KEY.ATTRIBUTES, attributes);
 
         db.addorUpdateClient(event.getBaseEntityId(), client);
 

@@ -107,12 +107,14 @@ public class MaternityConstants extends AllConstants {
         public static final String DEATH_DATE = "deathdate";
         public static final String ATTRIBUTES = "attributes";
         public static final String DATE_REMOVED = "date_removed";
+        public static final String MATERNITY_CLOSE_REASON = "maternity_close_reason";
     }
 
     public static class JSON_FORM_EXTRA {
         public static final String NEXT = "next";
         public static final String JSON = "json";
         public static final String ID = "id";
+        public static final String WOMAN_DIED = "woman_died";
     }
 
     public static class JSON_FORM_STEP_NAME {
