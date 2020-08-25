@@ -196,8 +196,7 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
                         if (buttonType != null) {
                             if (buttonType.equals(R.string.outcome)) {
                                 performPatientAction((CommonPersonObjectClient) viewClient, MaternityConstants.Form.MATERNITY_OUTCOME);
-                            }
-                            else if (buttonType.equals(R.string.complete_registration)){
+                            } else if (buttonType.equals(R.string.complete_registration)) {
                                 performPatientAction((CommonPersonObjectClient) viewClient, MaternityConstants.Form.MATERNITY_MEDIC_INFO);
                             }
                         }
@@ -211,7 +210,7 @@ public abstract class BaseMaternityRegisterFragment extends BaseRegisterFragment
         }
     }
 
-    abstract protected void performPatientAction(@NonNull CommonPersonObjectClient commonPersonObjectClient, String formName);
+    abstract protected void performPatientAction(@NonNull CommonPersonObjectClient commonPersonObjectClient, @NonNull String formName);
 
     @Override
     public void onSyncInProgress(FetchStatus fetchStatus) {

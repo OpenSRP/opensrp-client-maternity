@@ -369,11 +369,6 @@ public class MaternityProfileActivityPresenter implements MaternityProfileActivi
     }
 
     @Override
-    public void openAncProfile() {
-
-    }
-
-    @Override
     public boolean hasAncProfile() {
         return false;
     }

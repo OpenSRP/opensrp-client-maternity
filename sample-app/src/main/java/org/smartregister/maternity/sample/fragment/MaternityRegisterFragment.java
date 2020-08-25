@@ -74,7 +74,7 @@ public class MaternityRegisterFragment extends BaseMaternityRegisterFragment {
     }
 
     @Override
-    protected void performPatientAction(@NonNull CommonPersonObjectClient commonPersonObjectClient, String formName) {
+    protected void performPatientAction(@NonNull CommonPersonObjectClient commonPersonObjectClient, @NonNull String formName) {
         Map<String, String> clientColumnMaps = commonPersonObjectClient.getColumnmaps();
 
         MaternityRegisterActivity maternityRegisterActivity = (MaternityRegisterActivity) getActivity();

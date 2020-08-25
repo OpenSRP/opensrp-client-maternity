@@ -63,8 +63,6 @@ public interface MaternityProfileActivityContract {
 
         boolean removeOngoingTaskCompleteListener(@NonNull OngoingTaskCompleteListener ongoingTaskCompleteListener);
 
-        void openAncProfile();
-
         boolean hasAncProfile();
     }
 
