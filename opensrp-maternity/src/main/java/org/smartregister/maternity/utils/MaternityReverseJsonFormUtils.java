@@ -32,13 +32,15 @@ import timber.log.Timber;
 
 public class MaternityReverseJsonFormUtils {
 
+    private static FormUtils formUtils;
+
     @Nullable
     public static String prepareJsonEditMaternityRegistrationForm(@NonNull Map<String, String> detailsMap, @NonNull List<String> nonEditableFields, @NonNull Context context) {
         try {
             MaternityMetadata maternityMetadata = MaternityUtils.metadata();
 
             if (maternityMetadata != null) {
-                JSONObject form = new FormUtils(context).getFormJson(maternityMetadata.getMaternityRegistrationFormName());
+                JSONObject form = getFormUtils(context).getFormJson(maternityMetadata.getMaternityRegistrationFormName());
                 Timber.d("Original Form %s", form);
                 if (form != null) {
                     MaternityJsonFormUtils.addRegLocHierarchyQuestions(form);
@@ -92,8 +94,6 @@ public class MaternityReverseJsonFormUtils {
         } else if (fieldsWithLocationHierarchy != null && !fieldsWithLocationHierarchy.isEmpty()
                 && fieldsWithLocationHierarchy.contains(jsonObject.getString(MaternityJsonFormUtils.KEY))) {
             reverseLocationField(jsonObject, maternityDetails.get(jsonObject.getString(MaternityJsonFormUtils.KEY)));
-        } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.REMINDERS)) {
-            reverseReminders(maternityDetails, jsonObject);
         } else {
             String value = getMappedValue(jsonObject.optString(MaternityJsonFormUtils.KEY), maternityDetails);
             if (StringUtils.isNotBlank(value)) {
@@ -117,12 +117,15 @@ public class MaternityReverseJsonFormUtils {
         jsonObject.put(MaternityJsonFormUtils.READ_ONLY, nonEditableFields.contains(jsonObject.getString(MaternityJsonFormUtils.KEY)));
     }
 
-    private static void reverseReminders(@NonNull Map<String, String> maternityDetails, @NonNull JSONObject jsonObject) throws JSONException {
-        if (Boolean.parseBoolean(maternityDetails.get(MaternityConstants.JSON_FORM_KEY.REMINDERS))) {
-            JSONArray jsonArray = new JSONArray();
-            jsonArray.put(MaternityConstants.FormValue.IS_ENROLLED_IN_MESSAGES);
-            jsonObject.put(MaternityJsonFormUtils.VALUE, jsonArray);
+    public static FormUtils getFormUtils(@NonNull Context context) {
+        if (formUtils == null) {
+            try {
+                formUtils = new FormUtils(context);
+            } catch (Exception e) {
+                Timber.e(e);
+            }
         }
+        return formUtils;
     }
 
     private static void reverseLocationField(@NonNull JSONObject jsonObject, @Nullable String entity) throws JSONException {
@@ -174,25 +177,6 @@ public class MaternityReverseJsonFormUtils {
         Date date = Utils.dobStringToDate(dateString);
         if (StringUtils.isNotBlank(dateString) && date != null) {
             jsonObject.put(MaternityJsonFormUtils.VALUE, com.vijay.jsonwizard.widgets.DatePickerFactory.DATE_FORMAT.format(date));
-        }
-    }
-
-    private static void reverseHomeAddress(@NonNull JSONObject jsonObject, @Nullable String entity) throws JSONException {
-        List<String> entityHierarchy = null;
-        if (entity != null) {
-            if (entity.equalsIgnoreCase(MaternityConstants.FormValue.OTHER)) {
-                entityHierarchy = new ArrayList<>();
-                entityHierarchy.add(entity);
-            } else {
-                String locationId = LocationHelper.getInstance().getOpenMrsLocationId(entity);
-                entityHierarchy = LocationHelper.getInstance().getOpenMrsLocationHierarchy(locationId, true);
-            }
-        }
-
-        String facilityHierarchyString = AssetHandler.javaToJsonString(entityHierarchy, new TypeToken<List<String>>() {
-        }.getType());
-        if (StringUtils.isNotBlank(facilityHierarchyString)) {
-            jsonObject.put(MaternityJsonFormUtils.VALUE, facilityHierarchyString);
         }
     }
 
