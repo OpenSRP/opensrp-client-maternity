@@ -1,5 +1,6 @@
 package org.smartregister.maternity.utils;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
@@ -7,6 +8,8 @@ import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
+
+import net.sqlcipher.database.SQLiteDatabase;
 
 import org.jeasy.rules.api.Facts;
 import org.json.JSONArray;
@@ -24,10 +27,13 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.util.ReflectionHelpers;
+import org.smartregister.commonregistry.CommonFtsObject;
+import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.activity.BaseMaternityFormActivity;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.pojo.MaternityMetadata;
+import org.smartregister.repository.Repository;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -211,5 +217,41 @@ public class MaternityUtilsTest {
         String fieldName = "child_status";
         HashMap<String, HashMap<String, String>> groups = MaternityUtils.buildRepeatingGroupValues(stepJsonObject, fieldName);
         assertEquals(0, groups.size());
+    }
+
+
+    @Test
+    public void testUpdateLastInteractedWithShouldCallExpectedMethods() {
+        String baseEntityId = "2wds-dw3rwer";
+        String tableName = "ec_client";
+        Repository repository = Mockito.mock(Repository.class);
+        SQLiteDatabase sqLiteDatabase = Mockito.mock(SQLiteDatabase.class);
+        CommonRepository commonRepository = Mockito.mock(CommonRepository.class);
+        org.smartregister.Context context = Mockito.mock(org.smartregister.Context.class);
+
+        Mockito.doReturn(true).when(commonRepository).isFts();
+        Mockito.doReturn(commonRepository).when(context).commonrepository(tableName);
+        Mockito.doReturn(context).when(maternityLibrary).context();
+        Mockito.doReturn(sqLiteDatabase).when(repository).getWritableDatabase();
+        Mockito.doReturn(repository).when(maternityLibrary).getRepository();
+        Mockito.doReturn(tableName).when(maternityMetadata).getTableName();
+        Mockito.doReturn(maternityMetadata).when(maternityConfiguration).getMaternityMetadata();
+        Mockito.doReturn(maternityConfiguration).when(maternityLibrary).getMaternityConfiguration();
+
+        ReflectionHelpers.setStaticField(MaternityLibrary.class, "instance", maternityLibrary);
+
+        MaternityUtils.updateLastInteractedWith(baseEntityId);
+
+        Mockito.verify(sqLiteDatabase, Mockito.times(1))
+                .update(Mockito.eq(tableName),
+                        Mockito.any(ContentValues.class),
+                        Mockito.eq("base_entity_id = ?"),
+                        Mockito.eq(new String[]{baseEntityId}));
+
+        Mockito.verify(sqLiteDatabase, Mockito.times(1))
+                .update(Mockito.eq(CommonFtsObject.searchTableName(tableName)),
+                        Mockito.any(ContentValues.class),
+                        Mockito.eq(CommonFtsObject.idColumn + " = ?"),
+                        Mockito.eq(new String[]{baseEntityId}));
     }
 }
