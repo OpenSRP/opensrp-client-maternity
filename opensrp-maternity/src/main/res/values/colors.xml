@@ -26,7 +26,7 @@
 
     <color name="maternity_check_in_bg_grey">#f4f4f4</color>
 
-    <color name="btn_due_button_txt_color">#4390CF</color>
+    <color name="maternity_due_button_txt_color">#4390CF</color>
 
 
 </resources>
