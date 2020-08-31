@@ -110,6 +110,7 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
                         .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                updateLastInteractedTime();
                                 saveFormFillSession(eventType);
                                 BaseMaternityFormActivity.this.finish();
                             }
@@ -134,6 +135,10 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
         } else {
             BaseMaternityFormActivity.this.finish();
         }
+    }
+
+    protected void updateLastInteractedTime() {
+        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityUtils.updateLastInteractedWith(MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID)));
     }
 
     private void saveFormFillSession(@NonNull String eventType) {

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,6 +110,7 @@ public class MaternityProfileOverviewFragment extends BaseProfileFragment implem
 
     protected void updateActionButtonStatus(Button recordOutcomeBtn, CommonPersonObjectClient commonPersonObjectClient) {
         MaternityUtils.setActionButtonStatus(recordOutcomeBtn, commonPersonObjectClient);
+        recordOutcomeBtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, recordOutcomeBtn.getResources().getDimension(R.dimen.maternity_profile_action_button_text_size));
     }
 
     @Override
