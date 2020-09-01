@@ -81,7 +81,7 @@ public class MaternityReverseJsonFormUtils {
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.DOB_UNKNOWN)) {
             reverseDobUnknown(maternityDetails, jsonObject);
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.AGE_ENTERED)) {
-            reverseAge(Utils.getValue(maternityDetails, MaternityConstants.JSON_FORM_KEY.AGE, false), jsonObject);
+            reverseAge(maternityDetails, jsonObject);
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.DOB_ENTERED)) {
             reverseDobEntered(maternityDetails, jsonObject);
         } else if (jsonObject.getString(MaternityJsonFormUtils.OPENMRS_ENTITY).equalsIgnoreCase(MaternityJsonFormUtils.PERSON_IDENTIFIER)) {
@@ -185,7 +185,10 @@ public class MaternityReverseJsonFormUtils {
         return !TextUtils.isEmpty(value) ? value : Utils.getValue(maternityDetails, key.toLowerCase(), false);
     }
 
-    private static void reverseAge(@NonNull String value, @NonNull JSONObject jsonObject) throws JSONException {
-        jsonObject.put(MaternityJsonFormUtils.VALUE, value);
+    private static void reverseAge(@NonNull Map<String, String> maternityDetails, @NonNull JSONObject jsonObject) throws JSONException {
+        String value = Utils.getValue(maternityDetails, MaternityConstants.JSON_FORM_KEY.DOB, false);
+        if (StringUtils.isNotBlank(value)) {
+            jsonObject.put(MaternityJsonFormUtils.VALUE, Utils.getAgeFromDate(value));
+        }
     }
 }
