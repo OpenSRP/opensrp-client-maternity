@@ -1,6 +1,5 @@
 package org.smartregister.maternity.utils;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -17,8 +16,6 @@ import android.widget.TextView;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
-import net.sqlcipher.SQLException;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -31,9 +28,7 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
-import org.smartregister.commonregistry.CommonFtsObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
-import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.R;
 import org.smartregister.maternity.pojo.MaternityEventClient;
@@ -430,35 +425,4 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         return "";
     }
 
-    public static void updateLastInteractedWith(@Nullable String baseEntityId) {
-        try {
-            if (StringUtils.isNotBlank(baseEntityId)) {
-                String tableName = metadata().getTableName();
-
-                String lastInteractedWithDate = String.valueOf(new Date().getTime());
-
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(MaternityConstants.JSON_FORM_KEY.LAST_INTERACTED_WITH, lastInteractedWithDate);
-
-                MaternityLibrary.getInstance().getRepository().getWritableDatabase()
-                        .update(tableName, contentValues,
-                                String.format("%s = ?", MaternityConstants.KEY.BASE_ENTITY_ID),
-                                new String[]{baseEntityId});
-
-                // Update FTS
-                CommonRepository commonrepository = MaternityLibrary
-                        .getInstance()
-                        .context()
-                        .commonrepository(tableName);
-
-                if (commonrepository.isFts()) {
-                    MaternityLibrary.getInstance().getRepository().getWritableDatabase()
-                            .update(CommonFtsObject.searchTableName(tableName), contentValues,
-                                    CommonFtsObject.idColumn + " = ?", new String[]{baseEntityId});
-                }
-            }
-        } catch (SQLException | IllegalArgumentException e) {
-            Timber.e(e);
-        }
-    }
 }

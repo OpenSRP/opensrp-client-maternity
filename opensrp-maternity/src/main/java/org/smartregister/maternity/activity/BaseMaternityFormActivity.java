@@ -138,7 +138,9 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
     }
 
     protected void updateLastInteractedTime() {
-        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityUtils.updateLastInteractedWith(MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID)));
+        MaternityLibrary.getInstance().getAppExecutors().diskIO().execute(() -> MaternityLibrary.getInstance()
+                .getMaternityRepository()
+                .updateLastInteractedWith(MaternityUtils.getIntentValue(getIntent(), MaternityConstants.IntentKey.BASE_ENTITY_ID)));
     }
 
     private void saveFormFillSession(@NonNull String eventType) {
