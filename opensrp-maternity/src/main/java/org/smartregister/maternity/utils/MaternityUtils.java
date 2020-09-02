@@ -381,9 +381,11 @@ public class MaternityUtils extends org.smartregister.util.Utils {
 
     public static void setActionButtonStatus(Button dueButton, CommonPersonObjectClient commonPersonObjectClient) {
         dueButton.setTypeface(null, Typeface.NORMAL);
-        dueButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, dueButton.getResources().getDimension(R.dimen.text_size));
-        if (commonPersonObjectClient.getColumnmaps().get("mpf_id") != null) {
-            String formType = commonPersonObjectClient.getColumnmaps().get("mpf_form_type");
+        dueButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, dueButton.getResources().getDimension(R.dimen.maternity_register_due_button_size));
+        if (commonPersonObjectClient.getColumnmaps()
+                .get(MaternityConstants.KEY.MATERNITY_PARTIAL_FORM_ID) != null) {
+            String formType = commonPersonObjectClient.getColumnmaps()
+                    .get(MaternityConstants.KEY.MATERNITY_FORM_TYPE);
             if (MaternityConstants.EventType.MATERNITY_MEDIC_INFO.equals(formType)) {
                 dueButton.setText(R.string.complete_registration);
                 dueButton.setTag(R.id.BUTTON_TYPE, R.string.complete_registration);
@@ -403,8 +405,8 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         } else {
             dueButton.setText(R.string.outcome);
             dueButton.setTag(R.id.BUTTON_TYPE, R.string.outcome);
-            dueButton.setTextColor(ContextCompat.getColor(dueButton.getContext(), R.color.dark_grey_text));
-            dueButton.setBackground(ContextCompat.getDrawable(dueButton.getContext(), R.drawable.maternity_outcome_bg));
+            dueButton.setTextColor(ContextCompat.getColor(dueButton.getContext(), R.color.maternity_due_button_txt_color));
+            dueButton.setBackground(ContextCompat.getDrawable(dueButton.getContext(), R.drawable.maternity_outcome_btn_overview_bg));
         }
     }
 
@@ -422,4 +424,5 @@ public class MaternityUtils extends org.smartregister.util.Utils {
         }
         return "";
     }
+
 }

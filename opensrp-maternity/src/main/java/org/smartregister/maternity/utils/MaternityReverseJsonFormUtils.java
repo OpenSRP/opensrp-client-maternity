@@ -32,13 +32,15 @@ import timber.log.Timber;
 
 public class MaternityReverseJsonFormUtils {
 
+    private static FormUtils formUtils;
+
     @Nullable
     public static String prepareJsonEditMaternityRegistrationForm(@NonNull Map<String, String> detailsMap, @NonNull List<String> nonEditableFields, @NonNull Context context) {
         try {
             MaternityMetadata maternityMetadata = MaternityUtils.metadata();
 
             if (maternityMetadata != null) {
-                JSONObject form = new FormUtils(context).getFormJson(maternityMetadata.getMaternityRegistrationFormName());
+                JSONObject form = getFormUtils(context).getFormJson(maternityMetadata.getMaternityRegistrationFormName());
                 Timber.d("Original Form %s", form);
                 if (form != null) {
                     MaternityJsonFormUtils.addRegLocHierarchyQuestions(form);
@@ -79,7 +81,7 @@ public class MaternityReverseJsonFormUtils {
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.DOB_UNKNOWN)) {
             reverseDobUnknown(maternityDetails, jsonObject);
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.AGE_ENTERED)) {
-            reverseAge(Utils.getValue(maternityDetails, MaternityConstants.JSON_FORM_KEY.AGE, false), jsonObject);
+            reverseAge(maternityDetails, jsonObject);
         } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.DOB_ENTERED)) {
             reverseDobEntered(maternityDetails, jsonObject);
         } else if (jsonObject.getString(MaternityJsonFormUtils.OPENMRS_ENTITY).equalsIgnoreCase(MaternityJsonFormUtils.PERSON_IDENTIFIER)) {
@@ -92,8 +94,6 @@ public class MaternityReverseJsonFormUtils {
         } else if (fieldsWithLocationHierarchy != null && !fieldsWithLocationHierarchy.isEmpty()
                 && fieldsWithLocationHierarchy.contains(jsonObject.getString(MaternityJsonFormUtils.KEY))) {
             reverseLocationField(jsonObject, maternityDetails.get(jsonObject.getString(MaternityJsonFormUtils.KEY)));
-        } else if (jsonObject.getString(MaternityJsonFormUtils.KEY).equalsIgnoreCase(MaternityConstants.JSON_FORM_KEY.REMINDERS)) {
-            reverseReminders(maternityDetails, jsonObject);
         } else {
             String value = getMappedValue(jsonObject.optString(MaternityJsonFormUtils.KEY), maternityDetails);
             if (StringUtils.isNotBlank(value)) {
@@ -117,12 +117,15 @@ public class MaternityReverseJsonFormUtils {
         jsonObject.put(MaternityJsonFormUtils.READ_ONLY, nonEditableFields.contains(jsonObject.getString(MaternityJsonFormUtils.KEY)));
     }
 
-    private static void reverseReminders(@NonNull Map<String, String> maternityDetails, @NonNull JSONObject jsonObject) throws JSONException {
-        if (Boolean.parseBoolean(maternityDetails.get(MaternityConstants.JSON_FORM_KEY.REMINDERS))) {
-            JSONArray jsonArray = new JSONArray();
-            jsonArray.put(MaternityConstants.FormValue.IS_ENROLLED_IN_MESSAGES);
-            jsonObject.put(MaternityJsonFormUtils.VALUE, jsonArray);
+    public static FormUtils getFormUtils(@NonNull Context context) {
+        if (formUtils == null) {
+            try {
+                formUtils = new FormUtils(context);
+            } catch (Exception e) {
+                Timber.e(e);
+            }
         }
+        return formUtils;
     }
 
     private static void reverseLocationField(@NonNull JSONObject jsonObject, @Nullable String entity) throws JSONException {
@@ -177,31 +180,15 @@ public class MaternityReverseJsonFormUtils {
         }
     }
 
-    private static void reverseHomeAddress(@NonNull JSONObject jsonObject, @Nullable String entity) throws JSONException {
-        List<String> entityHierarchy = null;
-        if (entity != null) {
-            if (entity.equalsIgnoreCase(MaternityConstants.FormValue.OTHER)) {
-                entityHierarchy = new ArrayList<>();
-                entityHierarchy.add(entity);
-            } else {
-                String locationId = LocationHelper.getInstance().getOpenMrsLocationId(entity);
-                entityHierarchy = LocationHelper.getInstance().getOpenMrsLocationHierarchy(locationId, true);
-            }
-        }
-
-        String facilityHierarchyString = AssetHandler.javaToJsonString(entityHierarchy, new TypeToken<List<String>>() {
-        }.getType());
-        if (StringUtils.isNotBlank(facilityHierarchyString)) {
-            jsonObject.put(MaternityJsonFormUtils.VALUE, facilityHierarchyString);
-        }
-    }
-
     protected static String getMappedValue(@NonNull String key, @NonNull Map<String, String> maternityDetails) {
         String value = Utils.getValue(maternityDetails, key, false);
         return !TextUtils.isEmpty(value) ? value : Utils.getValue(maternityDetails, key.toLowerCase(), false);
     }
 
-    private static void reverseAge(@NonNull String value, @NonNull JSONObject jsonObject) throws JSONException {
-        jsonObject.put(MaternityJsonFormUtils.VALUE, value);
+    private static void reverseAge(@NonNull Map<String, String> maternityDetails, @NonNull JSONObject jsonObject) throws JSONException {
+        String value = Utils.getValue(maternityDetails, MaternityConstants.JSON_FORM_KEY.DOB, false);
+        if (StringUtils.isNotBlank(value)) {
+            jsonObject.put(MaternityJsonFormUtils.VALUE, Utils.getAgeFromDate(value));
+        }
     }
 }

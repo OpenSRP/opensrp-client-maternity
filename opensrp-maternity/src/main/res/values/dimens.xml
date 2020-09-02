@@ -35,6 +35,8 @@
 
 
     <dimen name="contact_default_padding">20dp</dimen>
-    <dimen name="text_size">12sp</dimen>
+
+    <dimen name="maternity_register_due_button_size">12sp</dimen>
+    <dimen name="maternity_profile_action_button_text_size">15sp</dimen>
 
 </resources>

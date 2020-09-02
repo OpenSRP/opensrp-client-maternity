@@ -142,6 +142,8 @@ public class MaternityConstants extends AllConstants {
         public static final String GENDER = "gender";
         public static final String DOD = "dod";
         public static final String DATE_REMOVED = "date_removed";
+        public static final String MATERNITY_PARTIAL_FORM_ID = "mpf_id";
+        public static final String MATERNITY_FORM_TYPE = "mpf_form_type";
     }
 
     public static class ENTITY {

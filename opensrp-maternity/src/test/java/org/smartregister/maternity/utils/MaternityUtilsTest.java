@@ -212,4 +212,5 @@ public class MaternityUtilsTest {
         HashMap<String, HashMap<String, String>> groups = MaternityUtils.buildRepeatingGroupValues(stepJsonObject, fieldName);
         assertEquals(0, groups.size());
     }
+
 }

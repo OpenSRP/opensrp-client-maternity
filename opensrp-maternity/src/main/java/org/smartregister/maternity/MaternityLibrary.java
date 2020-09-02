@@ -24,6 +24,7 @@ import org.smartregister.maternity.repository.MaternityChildRepository;
 import org.smartregister.maternity.repository.MaternityDetailsRepository;
 import org.smartregister.maternity.repository.MaternityPartialFormRepository;
 import org.smartregister.maternity.repository.MaternityRegistrationDetailsRepository;
+import org.smartregister.maternity.repository.MaternityRepository;
 import org.smartregister.maternity.utils.AppExecutors;
 import org.smartregister.maternity.utils.ConfigurationInstancesHelper;
 import org.smartregister.maternity.utils.FilePath;
@@ -70,6 +71,7 @@ public class MaternityLibrary {
     private MaternityPartialFormRepository maternityPartialFormRepository;
     private MaternityChildRepository maternityChildRepository;
     private EventClientRepository eventClientRepository;
+    private MaternityRepository maternityRepository;
     private AppExecutors appExecutors;
 
     private Compressor compressor;
@@ -160,6 +162,14 @@ public class MaternityLibrary {
             maternityPartialFormRepository = new MaternityPartialFormRepository();
         }
         return maternityPartialFormRepository;
+    }
+
+    @NonNull
+    public MaternityRepository getMaternityRepository() {
+        if (maternityRepository == null) {
+            maternityRepository = new MaternityRepository();
+        }
+        return maternityRepository;
     }
 
     @NonNull
