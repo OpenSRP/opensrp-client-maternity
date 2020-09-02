@@ -17,10 +17,6 @@ import org.smartregister.maternity.BaseTest;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.configuration.MaternityConfiguration;
 import org.smartregister.maternity.pojo.MaternityMetadata;
-import org.smartregister.maternity.utils.MaternityUtils;
-import org.smartregister.repository.Repository;
-
-import static org.junit.Assert.*;
 
 public class MaternityRepositoryTest extends BaseTest {
 
