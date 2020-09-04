@@ -463,7 +463,8 @@ public class MaternityJsonFormUtils extends JsonFormUtils {
             Client baseClient = JsonFormUtils.createBaseClient(fields, formTag, entityId);
 
             Event baseEvent = JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, METADATA),
-                    formTag, entityId, MaternityUtils.metadata().getRegisterEventType(), MaternityUtils.metadata().getTableName());
+                    formTag, entityId, jsonForm.optString(MaternityJsonFormUtils.ENCOUNTER_TYPE),
+                    MaternityUtils.metadata().getTableName());
 
             tagSyncMetadata(baseEvent);
 
