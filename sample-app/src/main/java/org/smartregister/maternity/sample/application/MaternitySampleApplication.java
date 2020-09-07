@@ -122,8 +122,8 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
 
         //Auto login by default
         context.session().start(context.session().lengthInMilliseconds());
-        context.configuration().getDrishtiApplication().setPassword(SampleRepository.PASSWORD);
-        context.session().setPassword(SampleRepository.PASSWORD);
+        context.configuration().getDrishtiApplication().setPassword(SampleRepository.PASSWORD.getBytes());
+        context.session().setPassword(SampleRepository.PASSWORD.getBytes());
 
         SyncStatusBroadcastReceiver.init(this);
         LocationHelper.init(Utils.ALLOWED_LEVELS, Utils.DEFAULT_LOCATION_LEVEL);
@@ -189,10 +189,5 @@ public class MaternitySampleApplication extends org.smartregister.view.activity.
 
     public Context context() {
         return context;
-    }
-
-    @Override
-    public String getPassword() {
-        return SampleRepository.PASSWORD;
     }
 }

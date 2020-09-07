@@ -50,7 +50,7 @@ public class FetchRegistrationDataTaskTest extends BaseTest {
     public void testDoInBackgroundReturnsCorrectValue() {
         org.smartregister.Context opensrpContext = Mockito.mock(org.smartregister.Context.class);
         SQLiteDatabase sqLiteDatabase = Mockito.mock(SQLiteDatabase.class);
-        EventClientRepository eventClientRepository = Mockito.mock(EventClientRepository.class);
+        EventClientRepository eventClientRepository = Mockito.spy(new EventClientRepository());
         MaternityDetailsRepository maternityDetailsRepository = new MaternityDetailsRepository();
         Mockito.doReturn(sqLiteDatabase).when(eventClientRepository).getReadableDatabase();
         Mockito.doReturn(eventClientRepository).when(opensrpContext).getEventClientRepository();

@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "org.smartregister.maternity.sample"
@@ -58,6 +58,11 @@ android {
     }
 
     lintOptions.abortOnError false
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/NOTICE.md'
+    }
 
     compileOptions {
         sourceCompatibility 1.8

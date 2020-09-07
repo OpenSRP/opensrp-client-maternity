@@ -69,7 +69,7 @@ public class MaternityRegisterFragment extends BaseMaternityRegisterFragment {
         if (maternityMetadata != null && maternityRegisterActivity != null) {
             maternityRegisterActivity.startFormActivity(maternityMetadata.getMaternityRegistrationFormName()
                     , null
-                    , null);
+                    , "");
         }
     }
 
