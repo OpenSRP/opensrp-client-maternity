@@ -1,6 +1,6 @@
 package org.smartregister.maternity.pojo;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.Date;
 import java.util.HashMap;

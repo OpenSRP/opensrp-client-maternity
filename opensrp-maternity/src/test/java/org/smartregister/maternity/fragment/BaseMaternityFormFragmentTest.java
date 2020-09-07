@@ -2,11 +2,11 @@ package org.smartregister.maternity.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentHostCallback;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentHostCallback;
+import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 
 import org.junit.After;

@@ -1,6 +1,6 @@
 package org.smartregister.maternity.presenter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;
 import org.smartregister.maternity.pojo.RegisterParams;

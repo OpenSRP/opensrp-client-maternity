@@ -1,7 +1,7 @@
 package org.smartregister.maternity.sample.processor;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.smartregister.domain.db.Event;
 import org.smartregister.domain.db.EventClient;

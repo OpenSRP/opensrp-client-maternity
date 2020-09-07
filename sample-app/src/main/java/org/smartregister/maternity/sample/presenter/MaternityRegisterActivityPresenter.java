@@ -1,6 +1,6 @@
 package org.smartregister.maternity.sample.presenter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.maternity.contract.MaternityRegisterActivityContract;

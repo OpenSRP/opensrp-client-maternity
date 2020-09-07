@@ -1,6 +1,6 @@
 package org.smartregister.maternity.exception;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
