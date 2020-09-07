@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.smartregister.gradle.jarjar'
 
 android {
     compileSdkVersion 29
@@ -16,6 +17,32 @@ android {
                 includeCompileClasspath = true
             }
         }
+
+        if (project.rootProject.file("local.properties").exists()) {
+
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+            if (properties != null && properties.containsKey("oauth.client.id")) {
+
+                buildConfigField "String", "OAUTH_CLIENT_ID", properties["oauth.client.id"]
+
+            } else {
+                project.logger.error("oauth.client.id variable is not set in your local.properties")
+                buildConfigField "String", "OAUTH_CLIENT_ID", "\"sample_client_id\""
+            }
+
+
+            if (properties != null && properties.containsKey("oauth.client.secret")) {
+
+                buildConfigField "String", "OAUTH_CLIENT_SECRET", properties["oauth.client.secret"]
+
+            } else {
+                project.logger.error("oauth.client.secret variable is not set in your local.properties")
+                buildConfigField "String", "OAUTH_CLIENT_SECRET", "\"sample_client_secret\""
+            }
+        }
+
     }
 
     buildTypes {
@@ -72,6 +99,10 @@ android {
 
 dependencies {
     implementation project(":opensrp-maternity")
+
+    jarJar 'com.ibm.fhir:fhir-model:4.2.3'
+
+    implementation fileTree(dir: "./build/libs", include: ['*.jar'])
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.0'

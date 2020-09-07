@@ -6,11 +6,12 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.util.ReflectionHelpers;
-import org.smartregister.maternity.BaseTest;
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.activity.BaseMaternityFormActivity;
 import org.smartregister.maternity.activity.BaseMaternityProfileActivity;
@@ -26,7 +27,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FetchRegistrationDataTaskTest extends BaseTest {
+@RunWith(RobolectricTestRunner.class)
+public class FetchRegistrationDataTaskTest {
 
     private FetchRegistrationDataTask fetchRegistrationDataTask;
 
@@ -39,6 +41,9 @@ public class FetchRegistrationDataTaskTest extends BaseTest {
     @Mock
     private MaternityLibrary maternityLibrary;
 
+    @Mock
+    private EventClientRepository eventClientRepository;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -50,7 +55,6 @@ public class FetchRegistrationDataTaskTest extends BaseTest {
     public void testDoInBackgroundReturnsCorrectValue() {
         org.smartregister.Context opensrpContext = Mockito.mock(org.smartregister.Context.class);
         SQLiteDatabase sqLiteDatabase = Mockito.mock(SQLiteDatabase.class);
-        EventClientRepository eventClientRepository = Mockito.spy(new EventClientRepository());
         MaternityDetailsRepository maternityDetailsRepository = new MaternityDetailsRepository();
         Mockito.doReturn(sqLiteDatabase).when(eventClientRepository).getReadableDatabase();
         Mockito.doReturn(eventClientRepository).when(opensrpContext).getEventClientRepository();
