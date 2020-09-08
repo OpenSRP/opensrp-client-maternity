@@ -123,7 +123,7 @@ dependencies {
 
     implementation 'org.smartregister:opensrp-client-materialedittext:2.1.6-SNAPSHOT'
 
-    api('org.smartregister:opensrp-client-native-form:1.7.30-SNAPSHOT@aar') {
+    api('org.smartregister:opensrp-client-native-form:2.0.0-PREVIEW-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'com.android.support', module: 'recyclerview-v7'
         exclude group: 'com.android.support', module: 'appcompat-v7'

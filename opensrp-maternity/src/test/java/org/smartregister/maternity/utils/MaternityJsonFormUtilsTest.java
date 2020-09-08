@@ -322,7 +322,7 @@ public class MaternityJsonFormUtilsTest {
         jsonObject.put(MaternityConstants.KEY.KEY, MaternityConstants.SEX);
         jsonArray.put(jsonObject);
         MaternityJsonFormUtils.processGender(jsonArray);
-        Assert.assertEquals(jsonArray.getJSONObject(0).length(), 1);
+        Assert.assertEquals(1, jsonArray.getJSONObject(0).length());
     }
 
     @Test
