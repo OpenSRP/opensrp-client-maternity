@@ -1,7 +1,7 @@
 package org.smartregister.maternity.repository;
 
 import android.content.ContentValues;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import net.sqlcipher.SQLException;
 

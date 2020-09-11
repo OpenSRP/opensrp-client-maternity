@@ -2,10 +2,10 @@ package org.smartregister.maternity.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;

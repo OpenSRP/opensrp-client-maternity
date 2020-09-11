@@ -1,9 +1,9 @@
 package org.smartregister.maternity;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import org.joda.time.LocalDate;
 import org.joda.time.Weeks;

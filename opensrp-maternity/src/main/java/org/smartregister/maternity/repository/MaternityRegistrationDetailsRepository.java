@@ -1,6 +1,6 @@
 package org.smartregister.maternity.repository;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.maternity.utils.MaternityDbConstants;

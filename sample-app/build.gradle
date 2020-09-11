@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.smartregister.gradle.jarjar'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "org.smartregister.maternity.sample"
@@ -10,12 +11,38 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         javaCompileOptions {
             annotationProcessorOptions {
                 includeCompileClasspath = true
             }
         }
+
+        if (project.rootProject.file("local.properties").exists()) {
+
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+            if (properties != null && properties.containsKey("oauth.client.id")) {
+
+                buildConfigField "String", "OAUTH_CLIENT_ID", properties["oauth.client.id"]
+
+            } else {
+                project.logger.error("oauth.client.id variable is not set in your local.properties")
+                buildConfigField "String", "OAUTH_CLIENT_ID", "\"sample_client_id\""
+            }
+
+
+            if (properties != null && properties.containsKey("oauth.client.secret")) {
+
+                buildConfigField "String", "OAUTH_CLIENT_SECRET", properties["oauth.client.secret"]
+
+            } else {
+                project.logger.error("oauth.client.secret variable is not set in your local.properties")
+                buildConfigField "String", "OAUTH_CLIENT_SECRET", "\"sample_client_secret\""
+            }
+        }
+
     }
 
     buildTypes {
@@ -59,6 +86,11 @@ android {
 
     lintOptions.abortOnError false
 
+    packagingOptions {
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/NOTICE.md'
+    }
+
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
@@ -68,11 +100,15 @@ android {
 dependencies {
     implementation project(":opensrp-maternity")
 
+    jarJar 'com.ibm.fhir:fhir-model:4.2.3'
+
+    implementation fileTree(dir: "./build/libs", include: ['*.jar'])
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
 }

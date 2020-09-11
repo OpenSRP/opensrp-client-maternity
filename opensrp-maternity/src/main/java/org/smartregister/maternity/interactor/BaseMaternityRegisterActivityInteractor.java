@@ -1,9 +1,9 @@
 package org.smartregister.maternity.interactor;
 
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONException;
@@ -28,8 +28,6 @@ import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
-
-import static org.smartregister.util.Utils.getAllSharedPreferences;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29

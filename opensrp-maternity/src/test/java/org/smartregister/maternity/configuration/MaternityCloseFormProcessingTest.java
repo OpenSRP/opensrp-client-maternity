@@ -56,7 +56,6 @@ public class MaternityCloseFormProcessingTest {
         String jsonString = "{\"encounter_type\":\"Maternity Close\",\"entity_id\":\"\",\"metadata\":{\"encounter_location\":\"\"},\"step1\":{\"title\":\"Maternity Close\",\"fields\":[{\"key\":\"maternity_close_reason\",\"value\":\"woman_died\"},{\"key\":\"date_of_death\",\"value\":\"09-08-2020\"},{\"key\":\"place_of death\",\"value\":\"Community\"},{\"key\":\"death_cause\",\"value\":\"Unknown\"}]}}";
 
         JSONObject clientObject = new JSONObject();
-        JSONObject attributes = new JSONObject();
         clientObject.put(MaternityConstants.JSON_FORM_KEY.ATTRIBUTES, clientObject);
 
         Context context = mock(Context.class);

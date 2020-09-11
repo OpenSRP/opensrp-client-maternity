@@ -1,8 +1,8 @@
 package org.smartregister.maternity.sample.activity;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -26,6 +26,8 @@ import org.smartregister.maternity.utils.MaternityJsonFormUtils;
 import org.smartregister.maternity.utils.MaternityUtils;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
+import java.util.Map;
+
 import timber.log.Timber;
 
 /**
@@ -47,6 +49,11 @@ public class MaternityRegisterActivity extends BaseMaternityRegisterActivity {
     @Override
     protected BaseRegisterFragment getRegisterFragment() {
         return new MaternityRegisterFragment();
+    }
+
+    @Override
+    public void startFormActivity(String s, String s1, Map<String, String> map) {
+
     }
 
     @Override

@@ -1,13 +1,12 @@
-language: android
-# sudo set to required because of an issue with how TravisCI handles builds in Docker containers https://github.com/travis-ci/travis-ci/issues/3695.
-# Setting sudo to required prevents Travis from testing the project in a Docker container.
+language: minimal
+os: linux
+dist: xenial
+group: edge
 sudo: required
-jdk: oraclejdk8
-dist: precise
 
 before_cache:
-  -rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-  -rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
   directories:
@@ -16,36 +15,45 @@ cache:
 
 env:
   global:
-    # wait up to 10 minutes for adb to connect to emulator
-    - MALLOC_ARENA_MAX=2
-    - ADB_INSTALL_TIMEOUT=10 #increment timeout to 20 mins
+    # for updates check developer.android.com/studio#downloads (current 26.1.1)
+    - ANDROID_SDK_TOOLS=sdk-tools-linux-4333796.zip
 
-android:
-  components:
-    # tools required
-    - tools
-    # The BuildTools version used by your project
-    - build-tools-28.0.3
-    # The SDK version used to compile your projects
-    - android-22
-    - android-28
+addons:
+  apt_packages:
+    - pandoc
 
-script:
-  #- cd ..
-  #- git clone https://github.com/OpenSRP/opensrp-client-native-form.git
-  #- cd opensrp-client-native-form
-  #- git checkout fix-repeating-group-feature
-  #- cd ../opensrp-client-maternity
+before_install:
+  # set JAVA_HOME path
+  - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+  # download and unzip Android SDK command line tools
+  - wget -nv https://dl.google.com/android/repository/$ANDROID_SDK_TOOLS
+  - unzip -q $ANDROID_SDK_TOOLS -d $HOME/sdk
+  # set SDK tools path variable and ANDROID_HOME
+  - export PATH=$PATH:$HOME/sdk/tools/bin
+  - export ANDROID_HOME=$HOME/sdk
+  # create empty cfg file to prevent sdkmanager warning message
+  - mkdir -p $HOME/.android && touch $HOME/.android/repositories.cfg
+install:
+  # accept licenses for all available packages that have not already been accepted
+  - yes | sdkmanager "platforms;android-29"
+  - yes | sdkmanager --licenses >/dev/null
+  - yes | sdkmanager "platforms;android-29"
+before_script:
   - echo "Travis branch is $TRAVIS_BRANCH"
   - echo "Travis branch is in pull request $TRAVIS_PULL+REQUEST"
-  - chmod 755 gradlew
   - ls -la
-  # jacocoTestReport is supposed to run both local and instrumented tests on all the modules
-  # Gradle issue running composite tasks in order https://github.com/gradle/gradle/issues/3300
-  - travis_wait ./gradlew clean --stacktrace
-  - travis_wait ./gradlew build --stacktrace
+  - java -version
+  - sudo apt-get install openjdk-8-jdk
+  - java -version
+  # set executable flag for gradle wrapper
+  - chmod +x gradlew
+
+script:
   - travis_wait ./gradlew :opensrp-maternity:jacocoTestReport --stacktrace
-  - travis_wait ./gradlew :opensrp-maternity:coveralls
+  - travis_wait ./gradlew :opensrp-maternity:coveralls --stacktrace
+
+after_failure:
+  - pandoc opensrp-maternity/build/reports/tests/index.html -t plain
 
 notifications:
   slack:

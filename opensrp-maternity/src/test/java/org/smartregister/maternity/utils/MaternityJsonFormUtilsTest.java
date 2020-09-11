@@ -21,6 +21,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import org.powermock.reflect.internal.WhiteboxImpl;
 import org.robolectric.util.ReflectionHelpers;
+import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
 import org.smartregister.SyncConfiguration;
@@ -262,7 +263,7 @@ public class MaternityJsonFormUtilsTest {
         PowerMockito.when(allSharedPreferences, "fetchCurrentLocality").thenReturn("Place");
         Assert.assertNotNull(LocationHelper.getInstance());
         String result = MaternityJsonFormUtils.getLocationId("Country", allSharedPreferences);
-        Assert.assertEquals("Place", result);
+        Assert.assertEquals(AllConstants.ADVANCED_DATA_CAPTURE_STRATEGY_PREFIX + "place", result);
     }
 
     @Test
@@ -321,7 +322,7 @@ public class MaternityJsonFormUtilsTest {
         jsonObject.put(MaternityConstants.KEY.KEY, MaternityConstants.SEX);
         jsonArray.put(jsonObject);
         MaternityJsonFormUtils.processGender(jsonArray);
-        Assert.assertEquals(jsonArray.getJSONObject(0).length(), 1);
+        Assert.assertEquals(1, jsonArray.getJSONObject(0).length());
     }
 
     @Test
@@ -339,7 +340,8 @@ public class MaternityJsonFormUtilsTest {
         LocationHelper.init(defaultLocations,
                 "Country");
         MaternityJsonFormUtils.processLocationFields(jsonArray);
-        Assert.assertEquals("test", jsonArray.optJSONObject(0).optString(JsonFormConstants.VALUE));
+        Assert.assertEquals(AllConstants.ADVANCED_DATA_CAPTURE_STRATEGY_PREFIX + "test",
+                jsonArray.optJSONObject(0).optString(JsonFormConstants.VALUE));
     }
 
     @Test

@@ -1,6 +1,6 @@
 package org.smartregister.maternity.model;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.smartregister.maternity.MaternityLibrary;
 import org.smartregister.maternity.contract.MaternityProfileOverviewFragmentContract;

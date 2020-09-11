@@ -2,7 +2,7 @@ package org.smartregister.maternity.widgets;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 
 import com.google.android.gms.vision.barcode.Barcode;
