@@ -36,13 +36,6 @@ public class BaseMaternityFormActivity extends JsonWizardFormActivity {
     private HashMap<String, String> parcelableData = new HashMap<>();
 
     @Override
-    protected void attachBaseContext(android.content.Context base) {
-
-        String language = LangUtils.getLanguage(base);
-        super.attachBaseContext(LangUtils.setAppLocale(base, language));
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableOnCloseDialog = getIntent().getBooleanExtra(MaternityConstants.FormActivity.EnableOnCloseDialog, true);

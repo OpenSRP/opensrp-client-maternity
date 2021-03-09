@@ -44,10 +44,11 @@ public class MaternityBarcodeFactory extends BarcodeFactory {
 
     @Override
     public List<View> getViewsFromJson(@NonNull String stepName, @NonNull Context context, @NonNull JsonFormFragment formFragment, @NonNull JSONObject jsonObject,
-                                       @NonNull CommonListener listener, boolean popup) {
-        List<View> viewList = super.getViewsFromJson(stepName, context, formFragment, jsonObject, listener, popup);
+                                       @NonNull CommonListener listener, boolean popup) throws Exception {
+        List<View> viewList = null;
         this.jsonFormFragment = formFragment;
         try {
+            viewList = super.getViewsFromJson(stepName, context, formFragment, jsonObject, listener, popup);
             this.forLookUp = jsonObject.has(MaternityConstants.KEY.LOOK_UP) &&
                     jsonObject.get(MaternityConstants.KEY.LOOK_UP).toString().equalsIgnoreCase(Boolean.TRUE.toString());
         } catch (JSONException e) {
