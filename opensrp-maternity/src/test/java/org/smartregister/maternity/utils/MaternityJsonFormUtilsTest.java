@@ -21,10 +21,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import org.powermock.reflect.internal.WhiteboxImpl;
 import org.robolectric.util.ReflectionHelpers;
-import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
-import org.smartregister.SyncConfiguration;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.form.FormLocation;
 import org.smartregister.domain.tag.FormTag;
@@ -47,7 +45,8 @@ import java.util.List;
 @PrepareForTest(MaternityUtils.class)
 @RunWith(PowerMockRunner.class)
 public class MaternityJsonFormUtilsTest {
-
+    @Mock
+    private CoreLibrary coreLibrary;
 
     @Mock
     private LocationHelper locationHelper;
@@ -228,9 +227,15 @@ public class MaternityJsonFormUtilsTest {
                 .build();
         MaternityLibrary.init(PowerMockito.mock(Context.class), PowerMockito.mock(Repository.class), maternityConfiguration,
                 BuildConfig.VERSION_CODE, 1);
-        CoreLibrary.init(PowerMockito.mock(Context.class), PowerMockito.mock(SyncConfiguration.class));
 
-        PowerMockito.when(MaternityUtils.class, "getAllSharedPreferences").thenReturn(PowerMockito.mock(AllSharedPreferences.class));
+
+        ReflectionHelpers.setStaticField(CoreLibrary.class, "instance", coreLibrary);
+
+        Context mockContext = PowerMockito.mock(Context.class);
+
+        PowerMockito.doReturn(mockContext).when(coreLibrary).context();
+
+        PowerMockito.doReturn(PowerMockito.mock(AllSharedPreferences.class)).when(mockContext).allSharedPreferences();
 
         Event event = MaternityJsonFormUtils.tagSyncMetadata(new Event());
         Assert.assertNotNull(event);
@@ -253,8 +258,10 @@ public class MaternityJsonFormUtilsTest {
                 .build();
         MaternityLibrary.init(PowerMockito.mock(Context.class), PowerMockito.mock(Repository.class), maternityConfiguration,
                 BuildConfig.VERSION_CODE, 1);
-        CoreLibrary.init(PowerMockito.mock(Context.class), PowerMockito.mock(SyncConfiguration.class));
-
+        ReflectionHelpers.setStaticField(CoreLibrary.class, "instance", coreLibrary);
+        Context mockContext = PowerMockito.mock(Context.class);
+        PowerMockito.doReturn(mockContext).when(coreLibrary).context();
+        PowerMockito.doReturn(PowerMockito.mock(AllSharedPreferences.class)).when(mockContext).allSharedPreferences();
         ArrayList<String> defaultLocations = new ArrayList<>();
         defaultLocations.add("Country");
         LocationHelper.init(defaultLocations,
@@ -263,7 +270,7 @@ public class MaternityJsonFormUtilsTest {
         PowerMockito.when(allSharedPreferences, "fetchCurrentLocality").thenReturn("Place");
         Assert.assertNotNull(LocationHelper.getInstance());
         String result = MaternityJsonFormUtils.getLocationId("Country", allSharedPreferences);
-        Assert.assertEquals(AllConstants.ADVANCED_DATA_CAPTURE_STRATEGY_PREFIX + "place", result);
+        Assert.assertEquals("Place", result);
     }
 
     @Test
@@ -336,11 +343,15 @@ public class MaternityJsonFormUtilsTest {
         jsonArray.put(jsonObject);
         ArrayList<String> defaultLocations = new ArrayList<>();
         defaultLocations.add("Country");
-        CoreLibrary.init(PowerMockito.mock(Context.class), PowerMockito.mock(SyncConfiguration.class));
+
+        ReflectionHelpers.setStaticField(CoreLibrary.class, "instance", coreLibrary);
+        Context mockContext = PowerMockito.mock(Context.class);
+        PowerMockito.doReturn(mockContext).when(coreLibrary).context();
+        PowerMockito.doReturn(PowerMockito.mock(AllSharedPreferences.class)).when(mockContext).allSharedPreferences();
         LocationHelper.init(defaultLocations,
                 "Country");
         MaternityJsonFormUtils.processLocationFields(jsonArray);
-        Assert.assertEquals(AllConstants.ADVANCED_DATA_CAPTURE_STRATEGY_PREFIX + "test",
+        Assert.assertEquals("test",
                 jsonArray.optJSONObject(0).optString(JsonFormConstants.VALUE));
     }
 
@@ -376,9 +387,7 @@ public class MaternityJsonFormUtilsTest {
         jsonArrayFields.put(jsonObjectAgeEntered);
         jsonArrayFields.put(jsonObjectDob);
 
-        String expected = "[{\"options\":[{\"value\":\"true\"}],\"key\":\"dob_unknown\"},{\"value\":\"34\",\"key\":\"age_entered\"}," +
-                "{\"value\":\"01-01-1986\",\"key\":\"dob_entered\"},{\"openmrs_entity\":\"person\"," +
-                "\"openmrs_entity_id\":\"birthdate_estimated\",\"value\":1,\"key\":\"birthdate_estimated\"}]";
+        String expected = "[{\"options\":[{\"value\":\"true\"}],\"key\":\"dob_unknown\"},{\"value\":\"34\",\"key\":\"age_entered\"},{\"value\":\"01-01-1987\",\"key\":\"dob_entered\"},{\"openmrs_entity\":\"person\",\"openmrs_entity_id\":\"birthdate_estimated\",\"value\":1,\"key\":\"birthdate_estimated\"}]";
 
         MaternityJsonFormUtils.dobUnknownUpdateFromAge(jsonArrayFields);
 
